@@ -155,6 +155,8 @@ def dinoRequest(message):
 	if ("tommorow" in message):
 		today_AEST += datetime.timedelta(hours=24)
 
+	print("Date is: {}".format(today_AEST.strftime('%Y-%m-%d'))
+
 	try:
 		dino = models.Meal.select().where(models.Meal.date == today_AEST).where(models.Meal.type == meal).get()
 	except:
