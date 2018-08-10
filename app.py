@@ -147,7 +147,7 @@ def dinoRequest(message):
 	today = datetime.date.today()
 	#print(today.isoformat())
 	#dino = models.Meal.select().where(models.Meal.type == meal and models.Meal.date == today).get()
-	dino = models.Meal.select().where(models.Meal.date == today).get()
+	dino = models.Meal.select().where(models.Meal.date == today).where(models.Meal.type == meal).get()
 
 	return "{} at dino is:\n{}".format(meal, dino.description)
 
