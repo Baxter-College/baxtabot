@@ -26,6 +26,7 @@ def after_request(response):
 def webhook():
 
 	if request.method == 'POST':
+		print("SOMEONE SENT MESSAGE!")
 		body = request.json
 		print(body)
 
@@ -52,7 +53,7 @@ def webhook():
 			pass
 
 	elif request.method == 'GET':
-
+		print("SOMEONE IS REQUESTING TOKEN")
 		mode = request.args.get('hub.mode')
 		token = request.args.get('hub.verify_token')
 		challenge = request.args.get('hub.challenge')
@@ -75,12 +76,12 @@ def webhook():
 # ==== message handling ==== #
 
 def handleMessage(sender_psid, received_message):
-
+	print("HANDLING MESSAGE!")
 	response = {}
 
 	if (received_message):
 		response = {"text": "You sent: {}".format(received_message)}
-		print("got to handle message")
+
 	callSendAPI(sender_psid, response)
 
 	return 'OK'
