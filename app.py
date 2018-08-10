@@ -42,8 +42,8 @@ def webhook():
 				sender_psid = webhook_event['sender']['id']
 				print("Sender ID: {}".format(sender_psid))
 
-				if (webhook_event['message']):
-					return handleMessage(sender_psid, webhook_event['message'])
+				if (webhook_event['message']['text']):
+					return handleMessage(sender_psid, webhook_event['message']['text'])
 				elif (webhook_event['postback']):
 					return handlePostback(sender_psid, webhook_event['postback'])
 
