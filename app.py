@@ -102,7 +102,7 @@ def handleMessage(sender_psid, received_message):
 	elif ("date" in received_message):
 		response = {"text": "The date is: {}".format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M'))}
 	else:
-		response = {"text": "You sent: {}".format(received_message)}
+		response = {"text": "???\nI don't know what you're saying."}
 
 	print("Sending back: ")
 	print(response)
