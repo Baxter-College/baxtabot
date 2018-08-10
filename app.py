@@ -21,10 +21,10 @@ import models
 
 app = Flask(__name__)
 
-DEBUG = int(os.environ.get('DEBUG'))
-PORT = int(os.environ.get('PORT'))
-# DEBUG = 1
-# PORT = 8000
+#DEBUG = int(os.environ.get('DEBUG'))
+#PORT = int(os.environ.get('PORT'))
+DEBUG = 1
+PORT = 8000
 
 PAGE_ACCESS_TOKEN = os.environ.get('PAGE_ACCESS_TOKEN')
 VERIFY_TOKEN = "GoodLordyThomasJHillLooksFineTonight"
@@ -155,7 +155,7 @@ def dinoRequest(message):
 	if ("tommorow" in message):
 		today_AEST += datetime.timedelta(hours=24)
 
-	print("Date is: {}".format(today_AEST.date().strftime('%Y-%m-%d'))
+	print("Date is: {}".format(today_AEST.date().strftime('%Y-%m-%d')))
 
 	try:
 		dino = models.Meal.select().where(models.Meal.date == today_AEST.date()).where(models.Meal.type == meal).get()
