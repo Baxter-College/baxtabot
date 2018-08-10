@@ -100,7 +100,7 @@ def handleMessage(sender_psid, received_message):
 	if ("dinner" in received_message or "lunch" in received_message or "breakfast" in received_message):
 		response = {"text": dinoRequest(received_message)}
 	elif ("date" in received_message):
-		response = {"text": "The date is: {}".format(datetime.date.today().strftime('%Y-%m-%d'))}
+		response = {"text": "The date is: {}".format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M'))}
 	else:
 		response = {"text": "You sent: {}".format(received_message)}
 
@@ -154,6 +154,11 @@ def dinoRequest(message):
 		return "Honestly.... I don't know"
 
 	return "{} at dino is:\n{}".format(meal, dino.description)
+
+def checkAESTDate():
+	print(current hou)
+	if (datetime.now().hour >
+
 
 # ====== Add a meal ====== #
 
