@@ -94,19 +94,15 @@ def handlePostback(sender_psid, received_postback):
 
 def callSendAPI(sender_psid, response):
 
-	request_body = {
-		"messaging_type": "RESPONSE", # alternatively MESSAGE_TAG
-		"recipient": {
-			"id": sender_psid
-		},
-		"message": response
-	}
-
 	r = requests.post(
 		"https://graph.facebook.com/v2.6/me/messages",
 		params = { "access_token": PAGE_ACCESS_TOKEN },
 		data = {
-			"json": json.dumps(request_body)
+			"messaging_type": "RESPONSE", # alternatively MESSAGE_TAG
+			"recipient": {
+				"id": sender_psid
+			},
+			"message": response
 		}
 	)
 
