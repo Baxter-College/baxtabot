@@ -95,6 +95,7 @@ def handlePostback(sender_psid, received_postback):
 def callSendAPI(sender_psid, response):
 
 	request_body = {
+		"messaging_type": "RESPONSE", # alternatively MESSAGE_TAG
 		"recipient": {
 			"id": sender_psid
 		},
@@ -110,7 +111,6 @@ def callSendAPI(sender_psid, response):
 	)
 
 	print(r.url)
-	print(r.text)
 
 	print("sent message to meatbag!")
 
