@@ -11,6 +11,7 @@ psycopg2==2.7.5
 pymessenger==0.0.7.0
 requests==2.19.1
 requests-toolbelt==0.8.0
+rivescript==1.14.9
 six==1.11.0
 urllib3==1.23
 Werkzeug==0.14.1

@@ -4,7 +4,13 @@ import json
 import requests
 import datetime
 
+from rivescript import RiveScript
+
 import models
+
+bot = RiveScript()
+bot.load_directory("./brain")
+bot.sort_replies()
 
 # vv for when it all goes to shit vv
 
@@ -102,7 +108,8 @@ def handleMessage(sender_psid, received_message):
 	elif ("date" in received_message):
 		response = {"text": "The date is: {}".format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M'))}
 	else:
-		response = {"text": "???\nI don't know what you're saying."}
+		reply = bot.reply("localuser", received_message)
+		response = {"text": "{}".format(reply)}
 
 	print("Sending back: ")
 	print(response)
