@@ -162,7 +162,7 @@ def dinoRequest(message):
 	except Exception as e:
 		print("---> ", e)
 		print('Meal: ', meal)
-		print('Date: {}'.format(today_AEST.date().strfdate('%Y-%m-%d')))
+		print('Date: ', today_AEST.date())
 		return "Honestly.... I don't know"
 
 	return "{} at dino is:\n{}".format(meal, dino.description)
