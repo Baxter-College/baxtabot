@@ -81,6 +81,8 @@ def handleMessage(sender_psid, received_message):
 
 	if (received_message):
 		response = {"text": "You sent: {}".format(received_message)}
+		print("Sending back: ")
+		print(response)
 
 	callSendAPI(sender_psid, response)
 
@@ -106,6 +108,8 @@ def callSendAPI(sender_psid, response):
 			"json": json.dumps(request_body)
 		}
 	)
+
+	print(r)
 
 	print("sent message to meatbag!")
 
