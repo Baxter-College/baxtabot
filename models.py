@@ -1,7 +1,7 @@
 import datetime
 import psycopg2
 import os
-import urlparse
+from urllib.parse import urlparse
 
 from peewee import *
 
