@@ -145,9 +145,11 @@ def dinoRequest(message):
 		meal = "breakfast"
 
 	today = datetime.date.today()
-	#print(today.isoformat())
-	#dino = models.Meal.select().where(models.Meal.type == meal and models.Meal.date == today).get()
-	dino = models.Meal.select().where(models.Meal.date == today).where(models.Meal.type == meal).get()
+
+	try:
+		dino = models.Meal.select().where(models.Meal.date == today).where(models.Meal.type == meal).get()
+	except:
+		return "Honestly.... I don't know"
 
 	return "{} at dino is:\n{}".format(meal, dino.description)
 
