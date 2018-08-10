@@ -5,9 +5,9 @@ import requests
 
 app = Flask(__name__)
 
-DEBUG = True
+DEBUG = os.environ.get('DEBUG')
 HOST = '0.0.0.0'
-PORT = 8000
+PORT = os.environ.get('PORT')
 
 PAGE_ACCESS_TOKEN = os.environ.get('PAGE_ACCESS_TOKEN')
 VERIFY_TOKEN = "GoodLordyThomasJHillLooksFineTonight"
