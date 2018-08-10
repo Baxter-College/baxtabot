@@ -120,13 +120,12 @@ def callSendAPI(sender_psid, response):
 		}
 	)
 
-	if (r.status_code == 200) {
+	if (r.status_code == 200):
 		print("sent message to meatbag!")
 		return "Sent message to meatbag!"
-	} else {
+	else:
 		print("It's all gone to shit!")
 		return "It's all gone to shit", r.status_code
-	}
 
 
 if __name__ == '__main__':
