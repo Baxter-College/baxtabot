@@ -144,7 +144,7 @@ def dinoRequest(message):
 	elif ("breakfast" in message):
 		meal = "breakfast"
 
-	today = datetime.date()
+	today = datetime.date
 
 	dino = models.Meal.select().where(models.Meal.type == meal and models.Meal.date == today).get()
 
