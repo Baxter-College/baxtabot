@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8">
+		<title>🤖 | dino</title>
+		<style media="screen">
+			h1,h2,h3,h4,h5,h6,p,a {
+				font-family: monospace;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>🤖</h1>
+		<h2>DINO</h2>
+		<hr>
+		<h3>Add a Meal</h3>
+		<form action="/dino/add" method="post">
+			<input name="date" type="date"><br/>
+			<select name="type">
+			  	<option value="breakfast">Breakfast</option>
+			  	<option value="lunch">Lunch</option>
+			  	<option value="dinner">Dinner</option>
+			</select><br>
+			<textarea name="description" rows="8" cols="80" placeholder="what are you eating?"></textarea><br>
+			<input type="submit" value="Add Meal">
+		</form>
+		<hr>
+		<h3>All Meals</h3>
+
+		{% for meal in meals %}
+
+			<div class="meal">
+				<h4>{{ meal.date }} - {{ meal.type }}</h4>
+				<p>{{ meal.description }}</p>
+				<p><b>Likes:</b> {{ meal.likes }} | <b>Dislikes:</b> {{ meal.dislikes }}</p>
+				<a href="{{url_for('deleteMeal', meal_id=meal.id)}}">Delete</a>
+			</div>
+
+		{% endfor %}
+
+		<hr>
+	</body>
+</html>
