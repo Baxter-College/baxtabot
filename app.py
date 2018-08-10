@@ -21,10 +21,10 @@ import models
 
 app = Flask(__name__)
 
-DEBUG = int(os.environ.get('DEBUG'))
-PORT = int(os.environ.get('PORT'))
-# DEBUG = 1
-# PORT = 8000
+# DEBUG = int(os.environ.get('DEBUG'))
+# PORT = int(os.environ.get('PORT'))
+DEBUG = 1
+PORT = 8000
 
 PAGE_ACCESS_TOKEN = os.environ.get('PAGE_ACCESS_TOKEN')
 VERIFY_TOKEN = "GoodLordyThomasJHillLooksFineTonight"
@@ -144,9 +144,10 @@ def dinoRequest(message):
 	elif ("breakfast" in message):
 		meal = "breakfast"
 
-	today = datetime.date
-
-	dino = models.Meal.select().where(models.Meal.type == meal and models.Meal.date == today).get()
+	today = datetime.date.today()
+	#print(today.isoformat())
+	#dino = models.Meal.select().where(models.Meal.type == meal and models.Meal.date == today).get()
+	dino = models.Meal.select().where(models.Meal.date == today).get()
 
 	return "{} at dino is:\n{}".format(meal, dino.description)
 
