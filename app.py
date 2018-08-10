@@ -146,18 +146,21 @@ def dinoRequest(message):
 	elif ("breakfast" in message):
 		meal = "breakfast"
 
+	ten_hours = datetime.timedelta(hours=10)
+
 	today = datetime.date.today()
 
+	today_AEST = today + ten_hours
+
+	if ("tommorow" in message):
+		today_AEST += datetime.timedelta(hours=24)
+
 	try:
-		dino = models.Meal.select().where(models.Meal.date == today).where(models.Meal.type == meal).get()
+		dino = models.Meal.select().where(models.Meal.date == today_AEST).where(models.Meal.type == meal).get()
 	except:
 		return "Honestly.... I don't know"
 
 	return "{} at dino is:\n{}".format(meal, dino.description)
-
-def checkAESTDate():
-	print(current hou)
-	if (datetime.now().hour >
 
 
 # ====== Add a meal ====== #
