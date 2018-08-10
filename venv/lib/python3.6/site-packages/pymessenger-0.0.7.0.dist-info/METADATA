@@ -1,0 +1,18 @@
+Metadata-Version: 2.1
+Name: pymessenger
+Version: 0.0.7.0
+Summary: Python Wrapper for FB Messenger Bot
+Home-page: https://github.com/davidchua/pymessenger
+Author: David Chua
+Author-email: zhchua@gmail.com
+License: UNKNOWN
+Download-URL: https://github.com/davidchua/pymessenger/tarball/0.0.7
+Keywords: facebook messenger,python,wrapper,bot,messenger bot
+Platform: UNKNOWN
+Requires-Dist: requests
+Requires-Dist: requests-toolbelt
+Requires-Dist: six
+
+UNKNOWN
+
+
