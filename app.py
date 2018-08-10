@@ -109,8 +109,8 @@ def callSendAPI(sender_psid, response):
 	r = requests.post(
 		"https://graph.facebook.com/v2.6/me/messages",
 		params = { "access_token": PAGE_ACCESS_TOKEN },
-		data = {
-			"messaging_type": "RESPONSE", # alternatively MESSAGE_TAG
+		json = {
+			#"messaging_type": "RESPONSE", # alternatively MESSAGE_TAG
 			"recipient": {
 				"id": sender_psid
 			},
