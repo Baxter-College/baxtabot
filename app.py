@@ -6,7 +6,7 @@ import requests
 app = Flask(__name__)
 
 DEBUG = int(os.environ.get('DEBUG'))
-HOST = os.environ.get('HOST')
+#HOST = os.environ.get('HOST')
 PORT = int(os.environ.get('PORT'))
 
 PAGE_ACCESS_TOKEN = os.environ.get('PAGE_ACCESS_TOKEN')
@@ -111,4 +111,4 @@ def callSendAPI(sender_psid, response):
 	return "OK"
 
 if __name__ == '__main__':
-	app.run(debug=DEBUG, port=PORT, host=HOST)
+	app.run(debug=DEBUG, port=PORT, host='0.0.0.0')
