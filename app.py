@@ -109,7 +109,8 @@ def callSendAPI(sender_psid, response):
 		}
 	)
 
-	print(r)
+	print(r.url)
+	print(r.data)
 
 	print("sent message to meatbag!")
 
