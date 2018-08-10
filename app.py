@@ -159,7 +159,8 @@ def dinoRequest(message):
 
 	try:
 		dino = models.Meal.select().where(models.Meal.date == today_AEST.date()).where(models.Meal.type == meal).get()
-	except:
+	except Exception as e:
+		print("---> ", e)
 		return "Honestly.... I don't know"
 
 	return "{} at dino is:\n{}".format(meal, dino.description)
