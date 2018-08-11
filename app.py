@@ -70,12 +70,13 @@ def webhook():
 				sender_psid = webhook_event['sender']['id']
 				print("Sender ID: {}".format(sender_psid))
 
-				if (webhook_event['message']['quick_reply']):
+				if (webhook_event['message']['text']):
+					return handleMessage(sender_psid, webhook_event['message']['text'])
+				elif (webhook_event['message']['quick_reply']):
 					return handlePostback(sender_psid, webhook_event['message']['quick_reply']['payload'])
 				elif (webhook_event['postback']):
 					return handlePostback(sender_psid, webhook_event['postback'])
-				elif (webhook_event['message']['text']):
-					return handleMessage(sender_psid, webhook_event['message']['text'])
+
 
 
 
