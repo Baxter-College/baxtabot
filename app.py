@@ -201,7 +201,7 @@ def addMeal():
 	return redirect(url_for('dino'))
 
 @app.route('/dino/batch/add', methods=['POST'])
-def addMeal():
+def batchAddMeal():
 	form = request.form
 	for meal in ["breakfast", "lunch", "dinner"]:
 		models.Meal.create(
