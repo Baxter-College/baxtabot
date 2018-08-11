@@ -130,7 +130,7 @@ def handleMessage(sender_psid, received_message):
 
 def handlePostback(sender_psid, received_postback):
 
-	print('RECEIVED POSTBACK: ' received_postback)
+	print('RECEIVED POSTBACK: ', received_postback)
 	response = {"text": "Worked!"}
 
 	callSendAPI(sender_psid, response)
