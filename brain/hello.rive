@@ -8,7 +8,11 @@
 - 🤷‍♂️
 - Pardon me???
 - are you trying to be incomprehensible?
-- It's not my fault i can't understand you.
+- It's not my fault I can't understand you.
+- Is that a hint of gibberish I'm picking up on?
+- I wouldn't have a clue what you're trying to say.
+- spit it out! I can't understand you.
+- try saying something that makes sense for once in your life.
 
 // - I would have a better chance of understanding the alphabet soup i shat out this morning then whatever you're trying to say right now.
 
@@ -22,14 +26,15 @@
 - Why would I care what your name is, <star>?
 
 + (what|who) are you
-- I am BaxtaBot: Baxter's offical sentient AI.
+- I am BaxtaBot: Baxter's offical sentient AI. 🤖
 - I am BaxtaBot. I don't really care who you are.
+- 🤖
 
 + how old are you
 - old enough.
 
 + are you [*]
-- No. I am BaxtaBot.
+- No. I am BaxtaBot. 🤖
 
 + how (has your day been|are you|have you)[*]
 - I'm stuck in your phone. How do you think??
@@ -70,9 +75,10 @@
 + *
 % * who
 - I would laugh. I'm not going to.
+- is that funny?
 
 + who (made|programmed|built|developed|created) you
-- A very handsome dude.
+- A very handsome dude. 😻
 
 + say *
 - Umm... "<person>"
@@ -82,9 +88,11 @@
 - Must I explain myself
 - You wouldn't understand
 
-+ (thankyou|thank you|thanks)[*]
++ (thankyou|thank you|thanks|ta|ty|thx)[*]
 - no problemo!
 - you're most welcome!
+- anything for you 😘
+- glad i could help 😉
 
 + can i *
 - yes.
