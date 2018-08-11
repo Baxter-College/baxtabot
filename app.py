@@ -111,7 +111,7 @@ def handleMessage(sender_psid, received_message):
 		response = {"text": dinoRequest(received_message)}
 	elif ("date" in received_message):
 		response = {"text": "The date is: {}".format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M'))}
-	elif ("dino is shit" in message or "dino is good" in message):
+	elif ("dino is shit" in received_message or "dino is good" in received_message):
 		dinoVote()
 	else:
 		reply = bot.reply("localuser", received_message)
