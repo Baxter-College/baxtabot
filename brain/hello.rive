@@ -8,6 +8,7 @@
 - 🤷‍♂️
 - Pardon me???
 - are you trying to be incomprehensible?
+- It's not my fault i can't understand you.
 
 // - I would have a better chance of understanding the alphabet soup i shat out this morning then whatever you're trying to say right now.
 
@@ -26,8 +27,8 @@
 + are you [*]
 - No. I am BaxtaBot.
 
-+ how (has your day been|are you going)[*]
-- I'm stuck in your phone. how do you think??
++ how (has your day been|are you|have you)[*]
+- I'm stuck in your phone. How do you think??
 
 + what (do|can) you do
 - hang around in your phone.
@@ -46,7 +47,11 @@
 - No one likes Alexa.
 
 + [*] google home [*]
-- Say "Okay Google" 3 times. you'll sound real smooth then.
+- Say "Okay Google" 3 times. You'll sound real smooth then.
+
++ [*] (test|testing) [*]
+- Why do you need to test me?
+- I'm a little offended that you think i'm not going to work...
 
 + knock knock
 - Who's there?
