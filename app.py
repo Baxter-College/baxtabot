@@ -115,8 +115,8 @@ def handleMessage(sender_psid, received_message):
 		response = {"text": dinoRequest(received_message)}
 	elif ("date" in received_message):
 		response = {"text": "The date is: {}".format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M'))}
-	elif ("dino is shit" in received_message or "dino is good" in received_message):
-		dinoVote()
+	elif ("dino is shit" in received_message or "dino is good" in received_message or "dinovote" in received_message):
+		response = dinoVote()
 	else:
 		reply = bot.reply(str(sender_psid), received_message)
 		response = {"text": "{}".format(reply)}
@@ -129,6 +129,9 @@ def handleMessage(sender_psid, received_message):
 	return 'OK'
 
 def handlePostback(sender_psid, received_postback):
+
+	print('RECEIVED POSTBACK: ' received_postback)
+	response = {"text": "Worked!"}
 
 	callSendAPI(sender_psid, response)
 
@@ -185,7 +188,27 @@ def dinoRequest(message):
 	return "{} at dino is:\n{}".format(meal, dino.description)
 
 def dinoVote():
-	pass
+	return {
+		"text": "What dino meal was it?",
+		"quick_replies": [
+			{
+				"content_type":"text",
+        		"title":"Breakfast",
+        		"payload":"breakfast"
+			},
+			{
+				"content_type":"text",
+        		"title":"Lunch",
+        		"payload":"lunch"
+			},
+			{
+				"content_type":"text",
+        		"title":"Dinner",
+        		"payload":"dinner"
+			}
+
+		]
+	}
 
 # ====== Add a meal ====== #
 
