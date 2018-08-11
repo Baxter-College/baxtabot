@@ -44,6 +44,10 @@ def after_request(response):
 	models.db.close()
 	return response
 
+@app.route('/')
+def index():
+	return render_template('index.html')
+
 @app.route('/webhook', methods=['POST', 'GET'])
 def webhook():
 
@@ -107,6 +111,8 @@ def handleMessage(sender_psid, received_message):
 		response = {"text": dinoRequest(received_message)}
 	elif ("date" in received_message):
 		response = {"text": "The date is: {}".format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M'))}
+	elif ("dino is shit" in message or "dino is good" in message):
+		dinoVote()
 	else:
 		reply = bot.reply("localuser", received_message)
 		response = {"text": "{}".format(reply)}
@@ -159,7 +165,7 @@ def dinoRequest(message):
 
 	today_AEST = today + ten_hours
 
-	if ("tommorow" in message):
+	if ("tommorow" in message or "tomorrow" in message):
 		today_AEST += datetime.timedelta(hours=24)
 
 	print("Date is: {}".format(today_AEST.date().strftime('%Y-%m-%d')))
@@ -174,6 +180,8 @@ def dinoRequest(message):
 
 	return "{} at dino is:\n{}".format(meal, dino.description)
 
+def dinoVote():
+	pass
 
 # ====== Add a meal ====== #
 
@@ -190,6 +198,17 @@ def addMeal():
 		description = form["description"],
 		type = form["type"]
 	)
+	return redirect(url_for('dino'))
+
+@app.route('/dino/batch/add', methods=['POST'])
+def addMeal():
+	form = request.form
+	for meal in ["breakfast", "lunch", "dinner"]:
+		models.Meal.create(
+			date = form['date'],
+			description = form[meal + "_description"],
+			type = meal
+		)
 	return redirect(url_for('dino'))
 
 @app.route('/dino/delete/<int:meal_id>', methods=['GET'])
