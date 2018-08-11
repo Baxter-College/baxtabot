@@ -77,9 +77,6 @@ def webhook():
 				elif (webhook_event['postback']):
 					return handlePostback(sender_psid, webhook_event['postback'])
 
-
-
-
 		else:
 			# send error
 			print("Something went shit")
@@ -121,7 +118,7 @@ def handleMessage(sender_psid, received_message):
 		response = {"text": "The date is: {}".format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M'))}
 	elif ("dino is shit" in received_message or "dino is good" in received_message or "dinovote" in received_message):
 		response = dinoVote()
-	elif ("duty tutor" in received_message):
+	elif ("duty tutor" in received_message or "locked out" in received_message):
 		response = {
 			"attachment":{
 				"type":"template",
