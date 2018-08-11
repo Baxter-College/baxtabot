@@ -8,6 +8,8 @@ from rivescript import RiveScript
 
 import models
 
+# TO add a test user - go to: https://developers.facebook.com/requests/
+
 bot = RiveScript()
 bot.load_directory("./brain")
 bot.sort_replies()
@@ -116,7 +118,7 @@ def handleMessage(sender_psid, received_message):
 	elif ("dino is shit" in received_message or "dino is good" in received_message):
 		dinoVote()
 	else:
-		reply = bot.reply("localuser", received_message)
+		reply = bot.reply(str(sender_psid), received_message)
 		response = {"text": "{}".format(reply)}
 
 	print("Sending back: ")
