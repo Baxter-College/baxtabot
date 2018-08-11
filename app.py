@@ -76,7 +76,8 @@ def webhook():
 
 		else:
 			# send error
-			pass
+			print("Something went shit")
+			return 'Not Okay'
 
 	elif request.method == 'GET':
 		print("SOMEONE IS REQUESTING TOKEN")
@@ -93,7 +94,8 @@ def webhook():
 				return challenge
 
 			else:
-				pass
+				print('403 WEBHOOK NOT VERIFIED')
+				return '403'
 				# send 403 error
 
 	else:
