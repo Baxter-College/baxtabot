@@ -70,10 +70,13 @@ def webhook():
 				sender_psid = webhook_event['sender']['id']
 				print("Sender ID: {}".format(sender_psid))
 
-				if (webhook_event['message']['text']):
-					return handleMessage(sender_psid, webhook_event['message']['text'])
+				if (webhook_event['message']['quick_reply']):
+					return handlePostback(sender_psid, webhook_event['message']['quick_reply']['payload'])
 				elif (webhook_event['postback']):
 					return handlePostback(sender_psid, webhook_event['postback'])
+				elif (webhook_event['message']['text']):
+					return handleMessage(sender_psid, webhook_event['message']['text'])
+
 
 
 		else:
@@ -194,17 +197,17 @@ def dinoVote():
 			{
 				"content_type":"text",
         		"title":"Breakfast",
-        		"payload":"breakfast"
+        		"payload":"dinovote breakfast"
 			},
 			{
 				"content_type":"text",
         		"title":"Lunch",
-        		"payload":"lunch"
+        		"payload":"dinovote lunch"
 			},
 			{
 				"content_type":"text",
         		"title":"Dinner",
-        		"payload":"dinner"
+        		"payload":"dinovote dinner"
 			}
 
 		]
