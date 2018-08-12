@@ -15,7 +15,7 @@ def handleMessage(sender_psid, received_message):
 	print("HANDLING MESSAGE!")
 	response = {}
 
-	humanisePSID(sender_psid)
+	#humanisePSID(sender_psid)
 
 	received_message = received_message.lower()
 
