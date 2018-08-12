@@ -1,5 +1,6 @@
 import datetime
 
+from environment import *
 
 # ====== Specific functions ===== #
 def dinoRequest(message):

@@ -6,6 +6,8 @@ import datetime
 
 from rivescript import RiveScript
 
+from environment import *
+
 import models
 import message
 
@@ -29,14 +31,6 @@ bot.sort_replies()
 # requests_log.propagate = True
 
 app = Flask(__name__)
-
-DEBUG = int(os.environ.get('DEBUG'))
-PORT = int(os.environ.get('PORT'))
-# DEBUG = 1
-# PORT = 8000
-
-PAGE_ACCESS_TOKEN = os.environ.get('PAGE_ACCESS_TOKEN')
-VERIFY_TOKEN = "GoodLordyThomasJHillLooksFineTonight"
 
 @app.before_request
 def before_request():

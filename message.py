@@ -4,6 +4,8 @@ import datetime
 
 from rivescript import RiveScript
 
+from environment import *
+
 import functions
 import models
 
