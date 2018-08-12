@@ -1,5 +1,5 @@
-- [ ] dino menus
+- [x] dino menus
 - [ ] dino polls
 - [ ] j and d on
 - [ ] other events
-- [ ] let xanthe know I can't come to coffee night 
+- [ ] let xanthe know I can't come to coffee night
