@@ -1,8 +1,11 @@
 - [x] dino menus
 - [ ] dino polls
+- [x] duty tutor
 - [ ] j and d on
 - [ ] other events
 - [ ] let xanthe know I can't come to coffee night
 - [ ] coffee night bullshit excuse generator (markov chains)
 - [ ] Edit meals in backend
 - [ ] Ability to ask for day of the week's dinner (i.e what is for dinner on wednesday)
+- [ ] maintain database of users / PSID / last use
+	- [ ] send blast notifications to active users

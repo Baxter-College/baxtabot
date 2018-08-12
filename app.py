@@ -114,6 +114,8 @@ def handleMessage(sender_psid, received_message):
 	print("HANDLING MESSAGE!")
 	response = {}
 
+	humanisePSID(sender_psid)
+
 	received_message = received_message.lower()
 
 	if ("dinner" in received_message or "lunch" in received_message or "breakfast" in received_message):
@@ -177,6 +179,21 @@ def callSendAPI(sender_psid, response):
 	else:
 		print("It's all gone to shit!")
 		return "It's all gone to shit", r.status_code
+
+# ====== User functionality ===== #
+
+def humanisePSID(PSID):
+	url = "https://graph.facebook.com/" + PSID
+
+	r = requests.get(
+		url,
+		params = {
+			"fields" : "first_name,last_name,profile_pic",
+			"access_token" : PAGE_ACCESS_TOKEN
+		}
+	)
+
+	print(r)
 
 # ====== Specific functions ===== #
 def dinoRequest(message):
