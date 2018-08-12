@@ -193,7 +193,9 @@ def humanisePSID(PSID):
 		}
 	)
 
-	print(r)
+	if r.status_code == 200:
+		print(r.json())
+
 
 # ====== Specific functions ===== #
 def dinoRequest(message):
