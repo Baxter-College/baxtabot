@@ -7,6 +7,7 @@ import datetime
 from rivescript import RiveScript
 
 import models
+import message
 
 # TO add a test user - go to: https://developers.facebook.com/requests/
 
@@ -75,11 +76,11 @@ def webhook():
 				print("Sender ID: {}".format(sender_psid))
 
 				if (webhook_event['message']['text']):
-					return handleMessage(sender_psid, webhook_event['message']['text'])
+					return message.handleMessage(sender_psid, webhook_event['message']['text'])
 				elif (webhook_event['message']['quick_reply']):
-					return handlePostback(sender_psid, webhook_event['message']['quick_reply']['payload'])
+					return message.handlePostback(sender_psid, webhook_event['message']['quick_reply']['payload'])
 				elif (webhook_event['postback']):
-					return handlePostback(sender_psid, webhook_event['postback'])
+					return message.handlePostback(sender_psid, webhook_event['postback'])
 
 		else:
 			# send error
@@ -107,149 +108,6 @@ def webhook():
 
 	else:
 		print("Someone decided to be an idiot.")
-
-# ==== message handling ==== #
-
-def handleMessage(sender_psid, received_message):
-	print("HANDLING MESSAGE!")
-	response = {}
-
-	humanisePSID(sender_psid)
-
-	received_message = received_message.lower()
-
-	if ("dinner" in received_message or "lunch" in received_message or "breakfast" in received_message):
-		response = {"text": dinoRequest(received_message)}
-	elif ("date" in received_message):
-		response = {"text": "The date is: {}".format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M'))}
-	elif ("dino is shit" in received_message or "dino is good" in received_message or "dinovote" in received_message):
-		response = dinoVote()
-	elif ("duty tutor" in received_message or "locked out" in received_message):
-		response = {
-			"attachment":{
-				"type":"template",
-				"payload":{
-					"template_type":"button",
-					"text":"Locked out again?! 🤦‍♂️",
-					"buttons":[
-						  {
-						    "type":"phone_number",
-						    "title":"Call the Duty Tutor",
-						    "payload":"9385 9786"
-						  }
-					]
-				}
-			}
-		}
-	else:
-		reply = bot.reply(str(sender_psid), received_message)
-		response = {"text": "{}".format(reply)}
-
-	print("Sending back: ")
-	print(response)
-
-	callSendAPI(sender_psid, response)
-
-	return 'OK'
-
-def handlePostback(sender_psid, received_postback):
-
-	print('RECEIVED POSTBACK: ', received_postback)
-	response = {"text": "Worked!"}
-
-	callSendAPI(sender_psid, response)
-
-def callSendAPI(sender_psid, response):
-
-	r = requests.post(
-		"https://graph.facebook.com/v2.6/me/messages",
-		params = { "access_token": PAGE_ACCESS_TOKEN },
-		json = {
-			#"messaging_type": "RESPONSE", # alternatively MESSAGE_TAG
-			"recipient": {
-				"id": sender_psid
-			},
-			"message": response
-		}
-	)
-
-	if (r.status_code == 200):
-		print("sent message to meatbag!")
-		return "Sent message to meatbag!"
-	else:
-		print("It's all gone to shit!")
-		return "It's all gone to shit", r.status_code
-
-# ====== User functionality ===== #
-
-def humanisePSID(PSID):
-	url = "https://graph.facebook.com/" + PSID
-
-	r = requests.get(
-		url,
-		params = {
-			"fields" : "first_name,last_name,profile_pic",
-			"access_token" : PAGE_ACCESS_TOKEN
-		}
-	)
-
-	if r.status_code == 200:
-		print(r.json())
-
-
-# ====== Specific functions ===== #
-def dinoRequest(message):
-
-	if ("dinner" in message):
-		meal = "dinner"
-	elif ("lunch" in message):
-		meal = "lunch"
-	elif ("breakfast" in message):
-		meal = "breakfast"
-
-	ten_hours = datetime.timedelta(hours=10)
-
-	today = datetime.datetime.now()
-
-	today_AEST = today + ten_hours
-
-	if ("tommorow" in message or "tomorrow" in message):
-		today_AEST += datetime.timedelta(hours=24)
-
-	print("Date is: {}".format(today_AEST.date().strftime('%Y-%m-%d')))
-
-	try:
-		dino = models.Meal.select().where(models.Meal.date == today_AEST.date()).where(models.Meal.type == meal).get()
-	except Exception as e:
-		print("---> ", e)
-		print('Meal: ', meal)
-		print('Date: ', today_AEST.date())
-		return "Honestly.... I don't know"
-
-	return "{} at dino is:\n{}".format(meal, dino.description)
-
-def dinoVote():
-	return {
-		"text": "What dino meal was it?",
-		"quick_replies": [
-			{
-				"content_type":"text",
-        		"title":"Breakfast",
-        		"payload":"dinovote breakfast"
-			},
-			{
-				"content_type":"text",
-        		"title":"Lunch",
-        		"payload":"dinovote lunch"
-			},
-			{
-				"content_type":"text",
-        		"title":"Dinner",
-        		"payload":"dinovote dinner"
-			}
-
-		]
-	}
 
 # ====== Add a meal ====== #
 
