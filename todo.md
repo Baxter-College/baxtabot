@@ -3,3 +3,6 @@
 - [ ] j and d on
 - [ ] other events
 - [ ] let xanthe know I can't come to coffee night
+- [ ] coffee night bullshit excuse generator (markov chains)
+- [ ] Edit meals in backend
+- [ ] Ability to ask for day of the week's dinner (i.e what is for dinner on wednesday)

@@ -50,6 +50,10 @@ def after_request(response):
 def index():
 	return render_template('index.html')
 
+@app.route('/privacy')
+def privacy():
+	return render_template('privacy.html')
+
 @app.route('/webhook', methods=['POST', 'GET'])
 def webhook():
 
