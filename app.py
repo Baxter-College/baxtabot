@@ -4,18 +4,12 @@ import json
 import requests
 import datetime
 
-from rivescript import RiveScript
-
 from environment import *
 
 import models
 import message
 
 # TO add a test user - go to: https://developers.facebook.com/requests/
-
-bot = RiveScript()
-bot.load_directory("./brain")
-bot.sort_replies()
 
 # vv for when it all goes to shit vv
 

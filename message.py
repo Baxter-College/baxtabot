@@ -9,6 +9,12 @@ from environment import *
 import functions
 import models
 
+# ==== rivescript bot setup ==== #
+
+bot = RiveScript()
+bot.load_directory("./brain")
+bot.sort_replies()
+
 # ==== message handling ==== #
 
 def handleMessage(sender_psid, received_message):
