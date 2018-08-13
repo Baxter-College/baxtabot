@@ -1,7 +1,7 @@
 - [x] dino menus
 - [ ] dino polls
 - [x] duty tutor
-- [ ] j and d on
+- [x] j and d on
 - [ ] other events
 	- [ ] show calendar image?
 - [ ] let xanthe know I can't come to coffee night
