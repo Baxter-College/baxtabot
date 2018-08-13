@@ -22,7 +22,7 @@ class Meal(Model):
 		database = db
 
 class Sender(Model):
-	psid = IntegerField()
+	psid = BigIntegerField()
 	first_name = CharField()
 	last_name = CharField()
 	profile_url = CharField()
