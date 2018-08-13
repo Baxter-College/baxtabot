@@ -122,5 +122,5 @@ def humanisePSID(PSID):
 	)
 
 	if r.status_code == 200:
-		data = json.loads(r.json())
+		data = r.json()
 		return data
