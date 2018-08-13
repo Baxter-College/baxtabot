@@ -47,7 +47,7 @@ def privacy():
 def update():
 	if request.method == 'POST':
 
-		response = request.form['message']
+		response = {"text" : request.form['message']}
 
 		for user in models.Sender.select():
 			message.callSendAPI(user.psid, response)
