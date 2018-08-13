@@ -90,7 +90,7 @@ def callSendAPI(sender_psid, response):
 		print("sent message to meatbag!")
 		return "Sent message to meatbag!"
 	else:
-		print("It's all gone to shit!")
+		print("It's all gone to shit! -> ", r.status_code)
 		return "It's all gone to shit", r.status_code
 
 # ====== User functionality ===== #
