@@ -118,7 +118,8 @@ def check_user_exists(sender_psid):
 		bot.set_uservars(str(sender_psid), {"first_name": data['first_name'], "last_name": data['first_name']})
 
 	else:
-		# just to make sure the server doesn't restart
+		# just to make sure the server doesn't restart and shit up the vars
+		sender = sender.get()
 		bot.set_uservars(str(sender_psid), {"first_name": sender.first_name, "last_name": sender.last_name})
 		sender.last_message = datetime.datetime.now()
 		sender.save()
