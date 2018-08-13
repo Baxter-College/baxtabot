@@ -103,12 +103,14 @@ def check_user_exists(sender_psid):
 	if not sender.exists():
 		data = humanisePSID(sender_psid)
 
-		models.Sender.create(
-			psid = sender_psid,
-			first_name = data['first_name'],
-			last_name = data['last_name'],
-			profile_url = data['profile_pic']
-		)
+		print("I SHOULD CREATE A MODEL:\npsid: {}\nfirst: {}\nlast: {}\nprofile: {}".format(sender_psid, data['first_name'], data['last_name'], data['profile_pic']))
+
+		# models.Sender.create(
+		# 	psid = sender_psid,
+		# 	first_name = data['first_name'],
+		# 	last_name = data['last_name'],
+		# 	profile_url = data['profile_pic']
+		# )
 
 def humanisePSID(PSID):
 	url = "https://graph.facebook.com/" + PSID
