@@ -1,0 +1,7 @@
+// User specific interactions
+
++ (what is my name|who am i)
+- Your name is <get first_name>, idiot!
+
++ (i am # years old)
+- <set age=<star>>Why would I care how old you are???

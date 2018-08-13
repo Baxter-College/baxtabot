@@ -99,7 +99,7 @@ def check_user_exists(sender_psid):
 
 	sender = models.Sender.select().where(models.Sender.psid == sender_psid)
 
-	# if user does not exist, create the user
+	# if user does not exist, create the user and set bot variables
 	if not sender.exists():
 		data = humanisePSID(sender_psid)
 
@@ -111,6 +111,8 @@ def check_user_exists(sender_psid):
 			last_name = data['last_name'],
 			profile_url = data['profile_pic']
 		)
+
+		message.bot.set(sender_psid, {"first_name": data['first_name'], "last_name": data['first_name']})
 
 def humanisePSID(PSID):
 	url = "https://graph.facebook.com/" + PSID
