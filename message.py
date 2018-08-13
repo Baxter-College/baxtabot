@@ -112,7 +112,7 @@ def check_user_exists(sender_psid):
 			profile_url = data['profile_pic']
 		)
 
-		message.bot.set(sender_psid, {"first_name": data['first_name'], "last_name": data['first_name']})
+		message.bot.set(str(sender_psid), {"first_name": data['first_name'], "last_name": data['first_name']})
 
 def humanisePSID(PSID):
 	url = "https://graph.facebook.com/" + PSID
