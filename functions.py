@@ -1,4 +1,5 @@
 import datetime
+import random
 
 from environment import *
 
@@ -95,3 +96,76 @@ def get_jd(rs, args):
 		return "J&D is ON" + jd_desc
 	else:
 		return "J&D is OFF 😭 😭 😭"
+
+# ===== Coffee Night Excuse Generator ===== #
+
+class MarkovGenerator():
+
+	def __init__(self, n, max):
+		self.n = n # length of each ngram
+		self.max = max # maximum amount to generate
+		self.ngrams = {}
+		self.beginnings = []
+
+	def feed(self, text):
+
+		if (len(text) < self.n):
+			return False # discard line if it's too short
+
+		beginning = text[0:self.n] # store the first ngram of the line
+		self.beginnings.append(beginning)
+
+		for i in range(len(text) - self.n):
+			gram = text[i:i+self.n]
+			next = text[i + self.n]
+
+			# if the ngram does not already exist
+			if (gram not in self.ngrams):
+				self.ngrams[gram] = []
+
+			# add to list
+			self.ngrams[gram].append(next)
+
+	def generate(self):
+
+		# get random beginning
+		current = random.choice(self.beginnings)
+		output = current
+
+		# generate new token max number of times
+		for i in range(self.max):
+			if current in self.ngrams:
+				# all possible next tokens
+				possible_next = self.ngrams[current]
+
+				# pick one randomly
+				next = random.choice(possible_next)
+
+				output += next
+
+				current = output[len(output) - self.n : len(output)]
+			else:
+				break
+
+		# here's what we got!
+		return output
+
+def generate_excuse(rs, args):
+	lines = [
+		"dearest xanthe please accept my sincerest apologies",
+		"please excuse me for my inability to make it to coffee night",
+		"dear xanthe I am unable to attend coffee night as I am at dinner with my family",
+		"I am unable to make it to coffee night as I am currently with my Nan in my hometown",
+		"Dear Xanthe...I have grown very unwell thus far and hence will not be coming to coffee night #sorrynotsorry",
+		"I CAN'T MAKE IT",
+		"UNABLE TO BE THERE!",
+		"Soz Xath. There ain't no way I'm making to to coff night baby."
+		"Unfortunately, I have lectures and tutorials and am extremely busy and as such can not make it to coffee night sorry!"
+	]
+
+	markov = MarkovGenerator(3, 1500)
+
+	for line in lines:
+		markov.feed(line)
+
+	return markov.generate()

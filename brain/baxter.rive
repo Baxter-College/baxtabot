@@ -88,3 +88,6 @@ USE set_subroutine to do functions rather than in code here!!!!!!!!!!
 
 + [*] (jd|jandd|j and d) [*]
 - <call>get_jd</call>
+
++ [*] excuse [*]
+- Here's your bullshit excuse you lazy sod:\n<call>generate_excuse</call>

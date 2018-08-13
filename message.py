@@ -19,6 +19,7 @@ bot.sort_replies()
 
 bot.set_subroutine("set_jd", functions.set_jd)
 bot.set_subroutine("get_jd", functions.get_jd)
+bot.set_subroutine("generate_excuse", functions.generate_excuse)
 
 # ==== message handling ==== #
 
