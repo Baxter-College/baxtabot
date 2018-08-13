@@ -26,6 +26,7 @@ class Sender(Model):
 	first_name = CharField()
 	last_name = CharField()
 	profile_url = CharField()
+	last_message = DateTimeField()
 
 	class Meta:
 		database = db

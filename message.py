@@ -111,7 +111,8 @@ def check_user_exists(sender_psid):
 			psid = sender_psid,
 			first_name = data['first_name'],
 			last_name = data['last_name'],
-			profile_url = data['profile_pic']
+			profile_url = data['profile_pic'],
+			last_message = datetime.datetime.now()
 		)
 
 		bot.set_uservars(str(sender_psid), {"first_name": data['first_name'], "last_name": data['first_name']})
