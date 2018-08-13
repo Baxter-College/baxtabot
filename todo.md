@@ -3,6 +3,7 @@
 - [x] duty tutor
 - [ ] j and d on
 - [ ] other events
+	- [ ] show calendar image?
 - [ ] let xanthe know I can't come to coffee night
 - [ ] coffee night bullshit excuse generator (markov chains)
 - [ ] Edit meals in backend

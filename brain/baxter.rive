@@ -54,3 +54,9 @@ http://rivescript.readthedocs.io/en/latest/rivescript.html#rivescript.rivescript
 USE set_subroutine to do functions rather than in code here!!!!!!!!!!
 
 */
+
++ setjd *
+- <call>set_jd <star1></call>
+
++ [*] (jd|jandd|j and d) [*]
+- <call>get_jd</call>

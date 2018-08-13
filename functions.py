@@ -57,3 +57,40 @@ def dinoVote():
 
 		]
 	}
+
+# ======== J&D ========== #
+
+def set_jd(rs, switch):
+
+	jd_desc = ""
+
+	try:
+		if switch[1]:
+			bot.set_variable('jd_loc', switch[1])
+			jd_desc = " in the {}".format(switch[1])
+	except:
+		bot.set_variable('jd_loc', None)
+
+	if switch[0].lower() == 'on':
+		bot.set_variable('jd', True)
+		# jd = True
+		return "COFFEE TIME!!! ☕️\nJ&D is ON" + jd_desc
+	else:
+		bot.set_variable('jd', False)
+		bot.set_variable('jd_loc', None)
+		return "No more coff! 😭"
+
+def get_jd(rs, args):
+
+	jd = bot.get_variable('jd')
+	jd_loc = bot.get_variable('jd_loc')
+
+	jd_desc = ""
+
+	if jd_loc:
+		jd_desc = " in the {}".format(jd_loc)
+
+	if jd:
+		return "J&D is ON" + jd_desc
+	else:
+		return "J&D is OFF 😭 😭 😭"

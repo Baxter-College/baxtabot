@@ -15,6 +15,11 @@ bot = RiveScript()
 bot.load_directory("./brain")
 bot.sort_replies()
 
+# ==== rivescript subroutines ==== #
+
+bot.set_subroutine("set_jd", functions.set_jd)
+bot.set_subroutine("get_jd", functions.get_jd)
+
 # ==== message handling ==== #
 
 def handleMessage(sender_psid, received_message):
