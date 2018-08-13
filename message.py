@@ -97,7 +97,7 @@ def callSendAPI(sender_psid, response):
 
 def check_user_exists(sender_psid):
 
-	sender = models.Sender.select().where(models.User.psid == sender_psid)
+	sender = models.Sender.select().where(models.Sender.psid == sender_psid)
 
 	# if user does not exist, create the user
 	if not sender.exists():
