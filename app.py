@@ -50,7 +50,7 @@ def update():
 		response = request.form['message']
 
 		for user in models.Sender.select():
-			callSendAPI(user.psid, response)
+			message.callSendAPI(user.psid, response)
 
 		return render_template('update.html')
 	else:
