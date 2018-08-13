@@ -74,7 +74,7 @@ def handlePostback(sender_psid, received_postback):
 
 def callSendAPI(sender_psid, response):
 
-	print(bot.get_any(str(sender_psid)))
+	print(bot.get_uservars(str(sender_psid)))
 
 	r = requests.post(
 		"https://graph.facebook.com/v2.6/me/messages",
@@ -114,7 +114,7 @@ def check_user_exists(sender_psid):
 			profile_url = data['profile_pic']
 		)
 
-		bot.set(str(sender_psid), {"first_name": data['first_name'], "last_name": data['first_name']})
+		bot.set_uservars(str(sender_psid), {"first_name": data['first_name'], "last_name": data['first_name']})
 
 def humanisePSID(PSID):
 	url = "https://graph.facebook.com/" + PSID
