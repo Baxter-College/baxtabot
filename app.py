@@ -43,6 +43,19 @@ def index():
 def privacy():
 	return render_template('privacy.html')
 
+@app.route('/update', methods=['POST', 'GET'])
+def update():
+	if request.method == 'POST':
+
+		response = request.form['message']
+
+		for user in models.Sender.select():
+			callSendAPI(user.psid, response)
+
+		return render_template('update.html')
+	else:
+		return render_template('update.html')
+
 @app.route('/webhook', methods=['POST', 'GET'])
 def webhook():
 
@@ -62,6 +75,8 @@ def webhook():
 				# get the sender PSID
 				sender_psid = webhook_event['sender']['id']
 				print("Sender ID: {}".format(sender_psid))
+
+				message.check_user_exists(sender_psid)
 
 				if (webhook_event['message']['text']):
 					return message.handleMessage(sender_psid, webhook_event['message']['text'])

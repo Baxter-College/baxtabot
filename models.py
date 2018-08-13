@@ -21,7 +21,16 @@ class Meal(Model):
 	class Meta:
 		database = db
 
+class Sender(Model):
+	psid = IntegerField()
+	first_name = CharField()
+	last_name = CharField()
+	profile_url = CharField()
+
+	class Meta:
+		database = db
+
 def goGoPowerRangers():
 	db.connect()
-	db.create_tables([Meal], safe=True)
+	db.create_tables([Meal, Sender], safe=True)
 	db.close()

@@ -95,6 +95,21 @@ def callSendAPI(sender_psid, response):
 
 # ====== User functionality ===== #
 
+def check_user_exists(sender_psid):
+
+	sender = models.Sender.select().where(models.User.psid == sender_psid)
+
+	# if user does not exist, create the user
+	if not sender.exists():
+		data = humanisePSID(sender_psid)
+
+		models.Sender.create(
+			psid = sender_psid,
+			first_name = data['first_name'],
+			last_name = data['last_name'],
+			profile_url = data['profile_pic']
+		)
+
 def humanisePSID(PSID):
 	url = "https://graph.facebook.com/" + PSID
 
@@ -108,4 +123,4 @@ def humanisePSID(PSID):
 
 	if r.status_code == 200:
 		data = json.loads(r.json())
-		print("Name: {} {}\nPicture: {}".format(data['first_name'], data['last_name'], data['profile_pic']))
+		return data
