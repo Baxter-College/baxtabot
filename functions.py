@@ -77,13 +77,18 @@ def makeDinoVote(vote):
 
 	if (time < breakfast):
 		# for today's breakfast
+		print("---> breakfast vote @ ", time)
 		meal = models.Meal.select().where(models.Meal.type == "breakfast" and models.Meal.date == today.date()).get()
 	elif (time < lunch):
 		# for today's lunch
+		print("---> lunch vote @ ", time)
 		meal = models.Meal.select().where(models.Meal.type == "lunch" and models.Meal.date == today.date()).get()
 	elif (time < dinner):
 		# for today's dinner
+		print("---> dinner vote @ ", time)
 		meal = models.Meal.select().where(models.Meal.type == "dinner" and models.Meal.date == today.date()).get()
+	else:
+		print("They chose to vote after dinner???")
 
 	if vote == "goodvote":
 		meal.likes += 1
