@@ -55,6 +55,8 @@ def handlePostback(sender_psid, received_postback):
 
 	callSendAPI(sender_psid, response)
 
+	return 'OK'
+
 def callSendAPI(sender_psid, response):
 
 	print(bot.get_uservars(str(sender_psid)))
