@@ -13,14 +13,18 @@ def resetBot():
 	message.bot.set_variable('jd_loc', None)
 
 # ====== Specific functions ===== #
-def dinoRequest(message):
-
+def findMeal(message):
 	if ("dinner" in message):
 		meal = "dinner"
 	elif ("lunch" in message):
 		meal = "lunch"
 	elif ("breakfast" in message):
 		meal = "breakfast"
+
+	return meal
+
+def dinoRequest(meal):
+	# meal is "dinner", "lunch" or "breakfast"
 
 	ten_hours = datetime.timedelta(hours=10)
 

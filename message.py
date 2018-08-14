@@ -31,14 +31,24 @@ def handleMessage(sender_psid, received_message):
 
 	received_message = received_message.lower()
 
+	# Note: should really come up with a better method to do all of this!
 	if ("dinner" in received_message or "lunch" in received_message or "breakfast" in received_message):
-		response = {"text": functions.dinoRequest(received_message)}
+		meal = functions.findMeal(received_message)
+		response = {"text": functions.dinoRequest(meal)}
+
+	elif ("what's dino" in received_message or "what is dino" in received_message):
+		meal = functions.getCurrentDino()
+		response = {"text": functions.dinoRequest(meal.type)}
+
 	elif ("date" in received_message):
 		response = {"text": "The date is: {}".format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M'))}
+
 	elif ("dino is shit" in received_message or "dino is good" in received_message or "dinovote" in received_message):
 		response = functions.dinoVote()
+
 	elif ("dinopoll" in received_message or "dino like" in received_message or "dino good" in received_message):
 		response = functions.dinoPoll()
+
 	else:
 		reply = bot.reply(str(sender_psid), received_message)
 		response = {"text": "{}".format(reply)}
