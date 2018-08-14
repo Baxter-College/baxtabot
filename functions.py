@@ -78,24 +78,26 @@ def makeDinoVote(vote):
 	if (time < breakfast):
 		# for today's breakfast
 		print("---> breakfast vote @ ", time)
-		meal = models.Meal.select().where(models.Meal.type == "breakfast" and models.Meal.date == today.date()).get()
+		dino = models.Meal.select().where(models.Meal.type == "breakfast").where(models.Meal.date == today.date()).get()
 	elif (time < lunch):
 		# for today's lunch
 		print("---> lunch vote @ ", time)
-		meal = models.Meal.select().where(models.Meal.type == "lunch" and models.Meal.date == today.date()).get()
+		dino = models.Meal.select().where(models.Meal.type == "lunch").where(models.Meal.date == today.date()).get()
 	elif (time < dinner):
 		# for today's dinner
 		print("---> dinner vote @ ", time)
-		meal = models.Meal.select().where(models.Meal.type == "dinner").where(models.Meal.date == today.date()).get()
+		dino = models.Meal.select().where(models.Meal.type == "dinner").where(models.Meal.date == today.date()).get()
 	else:
 		print("They chose to vote after dinner???q")
 
 	if vote == "goodvote":
-		meal.likes += 1
+		print("the meal has: {} likes".format(dino.likes))
+		dino.likes = dino.likes + 1
 	elif vote == "badvote":
-		meal.dislikes += 1
+		print("the meal has: {} likes".format(dino.dislikes))
+		dino.dislikes = dino.likes + 1
 
-	meal.save()
+	dino.save()
 
 
 # ======== J&D ========== #
