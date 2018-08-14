@@ -68,27 +68,7 @@ def dinoVote():
 
 def makeDinoVote(vote):
 
-	time = datetime.datetime.now() + datetime.timedelta(hours=10) # to make it aest
-
-	today = datetime.datetime.today() + datetime.timedelta(hours=10)
-	breakfast = today.replace(hour=10, minute=0)
-	lunch = today.replace(hour=14, minute=0)
-	dinner = today.replace(hour=20, minute=0)
-
-	if (time < breakfast):
-		# for today's breakfast
-		print("---> breakfast vote @ ", time)
-		dino = models.Meal.select().where(models.Meal.type == "breakfast").where(models.Meal.date == today.date()).get()
-	elif (time < lunch):
-		# for today's lunch
-		print("---> lunch vote @ ", time)
-		dino = models.Meal.select().where(models.Meal.type == "lunch").where(models.Meal.date == today.date()).get()
-	elif (time < dinner):
-		# for today's dinner
-		print("---> dinner vote @ ", time)
-		dino = models.Meal.select().where(models.Meal.type == "dinner").where(models.Meal.date == today.date()).get()
-	else:
-		print("They chose to vote after dinner???q")
+	dino = getCurrentDino()
 
 	if vote == "goodvote":
 		print("the meal has: {} likes".format(dino.likes))
@@ -98,6 +78,47 @@ def makeDinoVote(vote):
 		dino.dislikes = dino.likes + 1
 
 	dino.save()
+
+def dinoPoll():
+
+	dino = getCurrentDino()
+
+	if (dino.likes == 0 and dino.dislikes == 0):
+		message = "No one has voted! 😢\nYou can be the first to vote with 'dinovote'"
+
+	elif (dino.likes < dino.dislikes):
+		perc = (dino.dislikes / (dino.dislikes + dino.likes)) * 100
+		message = "{}%% of people disliked dino."
+
+	elif (dino.likes > dino.dislikes):
+		perc = (dino.likes / (dino.dislikes + dino.likes)) * 100
+		message = "{}%% of people enjoyed dino!!!"
+
+	else:
+		message = "The crowd is split! Dino is a polarising meal.\nLet me know your thoughts with 'dinovote'"
+
+	return {"text": message}
+
+def getCurrentDino():
+
+	time = datetime.datetime.now() + datetime.timedelta(hours=10) # to make it aest
+
+	today = datetime.datetime.today() + datetime.timedelta(hours=10)
+	breakfast = today.replace(hour=10, minute=0)
+	lunch = today.replace(hour=14, minute=0)
+	dinner = today.replace(hour=23, minute=59) # just to make sure
+
+	if (time < breakfast):
+		# for today's breakfast
+		dino = models.Meal.select().where(models.Meal.type == "breakfast").where(models.Meal.date == today.date()).get()
+	elif (time < lunch):
+		# for today's lunch
+		dino = models.Meal.select().where(models.Meal.type == "lunch").where(models.Meal.date == today.date()).get()
+	elif (time < dinner):
+		# for today's dinner
+		dino = models.Meal.select().where(models.Meal.type == "dinner").where(models.Meal.date == today.date()).get()
+
+	return dino
 
 
 # ======== J&D ========== #
