@@ -3,9 +3,8 @@
 
 ## 1.0.0 (Release)
 - [x] dino menus
-- [ ] dino polls
-	- [ ] Facebook quick replies
-	- [ ] Change up text for every request
+- [x] dino polls
+	- [x] Facebook quick replies
 - [x] duty tutor
 - [x] j and d on
 	- [x] J&D location system
