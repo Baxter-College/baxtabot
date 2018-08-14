@@ -34,11 +34,13 @@ def handleMessage(sender_psid, received_message):
 	# Note: should really come up with a better method to do all of this!
 	if ("dinner" in received_message or "lunch" in received_message or "breakfast" in received_message):
 		meal = functions.findMeal(received_message)
-		response = {"text": functions.dinoRequest(meal)}
+		addTime = functions.findTime(received_message)
+		response = {"text": functions.dinoRequest(meal, addTime)}
 
 	elif ("what's dino" in received_message or "what is dino" in received_message):
 		meal = functions.getCurrentDino()
-		response = {"text": functions.dinoRequest(meal.type)}
+		addTime = functions.findTime(received_message)
+		response = {"text": functions.dinoRequest(meal.type, addTime)}
 
 	elif ("date" in received_message):
 		response = {"text": "The date is: {}".format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M'))}

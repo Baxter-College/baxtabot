@@ -23,7 +23,29 @@ def findMeal(message):
 
 	return meal
 
-def dinoRequest(meal):
+def findTime(message):
+
+	addTime = None
+
+	today = datetime.datetime.today() + datetime.timedelta(hours=10)
+	days = {"monday": 0, "tuesday": 1, "wednesday": 2, "thursday": 3, "friday": 4, "saturday": 5, "sunday": 6}
+
+	if ("tomorrow" in message or "tommorow" in message):
+		addTime = datetime.timedelta(hours=24)
+
+	for day in days:
+		if day in message: # if the day is mentioned
+			dayDiff = days[day] - today.weekday() # get difference between days
+			if dayDiff < 0: # if the day is "behind" current day, make day next week
+				dayDiff += 7
+
+			addTime = datetime.timedelta(hours=24*dayDiff)
+
+
+	return addTime
+
+
+def dinoRequest(meal, addTime):
 	# meal is "dinner", "lunch" or "breakfast"
 
 	ten_hours = datetime.timedelta(hours=10)
@@ -32,8 +54,8 @@ def dinoRequest(meal):
 
 	today_AEST = today + ten_hours
 
-	#if ("tommorow" in message or "tomorrow" in message):
-	#	today_AEST += datetime.timedelta(hours=24)
+	if (addTime):
+		today_AEST += addTime
 
 	print("Date is: {}".format(today_AEST.date().strftime('%Y-%m-%d')))
 
