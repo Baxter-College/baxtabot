@@ -8,6 +8,7 @@ from environment import *
 
 import models
 import message
+import functions
 
 # TO add a test user - go to: https://developers.facebook.com/requests/
 
