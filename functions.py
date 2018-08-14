@@ -32,8 +32,8 @@ def dinoRequest(meal):
 
 	today_AEST = today + ten_hours
 
-	if ("tommorow" in message or "tomorrow" in message):
-		today_AEST += datetime.timedelta(hours=24)
+	#if ("tommorow" in message or "tomorrow" in message):
+	#	today_AEST += datetime.timedelta(hours=24)
 
 	print("Date is: {}".format(today_AEST.date().strftime('%Y-%m-%d')))
 
