@@ -88,11 +88,11 @@ def dinoPoll():
 
 	elif (dino.likes < dino.dislikes):
 		perc = (dino.dislikes / (dino.dislikes + dino.likes)) * 100
-		message = "{}%% of people disliked dino.".format(perc)
+		message = "{}% of people disliked dino.".format(perc)
 
 	elif (dino.likes > dino.dislikes):
 		perc = (dino.likes / (dino.dislikes + dino.likes)) * 100
-		message = "{}%% of people enjoyed dino!!!".format(perc)
+		message = "{}% of people enjoyed dino!!!".format(perc)
 
 	else:
 		message = "The crowd is split! Dino is a polarising meal.\nLet me know your thoughts with 'dinovote'"
