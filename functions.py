@@ -66,6 +66,33 @@ def dinoVote():
     }
 	}
 
+def makeDinoVote(vote):
+
+	time = datetime.datetime.now() + datetime.timedelta(hours=10) # to make it aest
+
+	today = datetime.datetime.today() + datetime.timedelta(hours=10)
+	breakfast = today.replace(hour=10, minute=0)
+	lunch = today.replace(hour=14, minute=0)
+	dinner = today.replace(hour=20, minute=0)
+
+	if (time < breakfast):
+		# for today's breakfast
+		meal = models.Meal.select().where(models.Meal.type == "breakfast" and models.Meal.date == today.date()).get()
+	elif (time < lunch):
+		# for today's lunch
+		meal = models.Meal.select().where(models.Meal.type == "lunch" and models.Meal.date == today.date()).get()
+	elif (time < dinner):
+		# for today's dinner
+		meal = models.Meal.select().where(models.Meal.type == "dinner" and models.Meal.date == today.date()).get()
+
+	if vote == "goodvote":
+		meal.likes += 1
+	elif vote == "badvote":
+		meal.dislikes += 1
+
+	meal.save()
+
+
 # ======== J&D ========== #
 
 def set_jd(rs, switch):

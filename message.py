@@ -51,7 +51,17 @@ def handleMessage(sender_psid, received_message):
 def handlePostback(sender_psid, received_postback):
 
 	print('RECEIVED POSTBACK: ', received_postback)
-	response = {"text": "Worked!"}
+
+	if (received_postback['payload'] == 'goodvote'):
+		response = {"text": "Sounds like a nice meal!"}
+		functions.makeDinoVote("good")
+
+	elif (received_postback['payload'] == 'badvote'):
+		response = {"text": "Too bad it was gross :("}
+		functions.makeDinoVote("bad")
+
+	else:
+		response = {"text": "[DEBUG] Received postback for some reason..."}
 
 	callSendAPI(sender_psid, response)
 
