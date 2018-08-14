@@ -83,7 +83,10 @@ def webhook():
 					return message.handlePostback(sender_psid, webhook_event['postback'])
 				elif ('message' in webhook_event):
 					# handle the message
-					return message.handleMessage(sender_psid, webhook_event['message']['text'])
+					if ('text' in webhook_event['message']):
+						return message.handleMessage(sender_psid, webhook_event['message']['text'])
+					else:
+						return {"text": "I can't deal with whatever shit you just sent me. Go complain to Tom about it"}
 				else:
 					return {"text": "I can't deal with whatever shit you just sent me. Go complain to Tom about it"}
 
