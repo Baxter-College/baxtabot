@@ -79,8 +79,6 @@ def webhook():
 
 				message.check_user_exists(sender_psid)
 
-				print(webhook_event)
-
 				if (webhook_event['message']['text']):
 					return message.handleMessage(sender_psid, webhook_event['message']['text'])
 				elif (webhook_event['message']['quick_reply']):
