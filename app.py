@@ -79,12 +79,20 @@ def webhook():
 
 				message.check_user_exists(sender_psid)
 
-				if (webhook_event['message']['text']):
-					return message.handleMessage(sender_psid, webhook_event['message']['text'])
-				elif (webhook_event['message']['quick_reply']):
-					return message.handlePostback(sender_psid, webhook_event['message']['quick_reply']['payload'])
-				elif (webhook_event['postback']):
+				if ('postback' in webhook_event):
+					# handle the postback
 					return message.handlePostback(sender_psid, webhook_event['postback'])
+				elif ('message' in webhook_event):
+					# handle the message
+					return message.handleMessage(sender_psid, webhook_event['message']['text'])
+
+
+				# if (webhook_event['message']['text']):
+				# 	return message.handleMessage(sender_psid, webhook_event['message']['text'])
+				# elif (webhook_event['message']['quick_reply']):
+				# 	return message.handlePostback(sender_psid, webhook_event['message']['quick_reply']['payload'])
+				# elif (webhook_event['postback']):
+				# 	return message.handlePostback(sender_psid, webhook_event['postback'])
 
 		else:
 			# send error
