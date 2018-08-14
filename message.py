@@ -54,11 +54,11 @@ def handlePostback(sender_psid, received_postback):
 
 	if (received_postback['payload'] == 'goodvote'):
 		response = {"text": "Sounds like a nice meal!"}
-		functions.makeDinoVote("good")
+		functions.makeDinoVote("goodvote")
 
 	elif (received_postback['payload'] == 'badvote'):
 		response = {"text": "Too bad it was gross :("}
-		functions.makeDinoVote("bad")
+		functions.makeDinoVote("badvote")
 
 	else:
 		response = {"text": "[DEBUG] Received postback for some reason..."}
