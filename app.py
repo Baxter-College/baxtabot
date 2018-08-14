@@ -63,7 +63,7 @@ def webhook():
 	if request.method == 'POST':
 		print("SOMEONE SENT MESSAGE!")
 		body = request.json
-		print(body)
+		print(json.dumps(body, indent=2, sort_keys=True))
 
 		if body['object'] == 'page': # check it is from a page subscription
 
@@ -71,7 +71,6 @@ def webhook():
 
 				# get the message
 				webhook_event = entry['messaging'][0]
-				print(webhook_event)
 
 				# get the sender PSID
 				sender_psid = webhook_event['sender']['id']
@@ -85,6 +84,8 @@ def webhook():
 				elif ('message' in webhook_event):
 					# handle the message
 					return message.handleMessage(sender_psid, webhook_event['message']['text'])
+				else:
+					return {"text": "I can't deal with whatever shit you just sent me. Go complain to Tom about it"}
 
 
 				# if (webhook_event['message']['text']):
