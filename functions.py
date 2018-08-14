@@ -45,25 +45,25 @@ def dinoRequest(message):
 
 def dinoVote():
 	return {
-		"text": "What dino meal was it?",
-		"quick_replies": [
-			{
-				"content_type":"text",
-        		"title":"Breakfast",
-        		"payload":"dinovote breakfast"
-			},
-			{
-				"content_type":"text",
-        		"title":"Lunch",
-        		"payload":"dinovote lunch"
-			},
-			{
-				"content_type":"text",
-        		"title":"Dinner",
-        		"payload":"dinovote dinner"
-			}
-
-		]
+		"attachment": {
+      		"type":"template",
+      		"payload":{
+        		"template_type":"button",
+        		"text": "What was dino like this time?",
+        		"buttons":[
+          			{
+            			"type":"postback",
+            			"title": "Dino was great! 😋",
+						"payload": "goodvote"
+          			},
+					{
+            			"type":"postback",
+            			"title": "Dino was awful! 🤢",
+						"payload": "badvote"
+          			}
+        ]
+      }
+    }
 	}
 
 # ======== J&D ========== #
