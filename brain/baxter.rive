@@ -17,6 +17,8 @@
 + [*] floor * [*]
 - IMHO, floor 6 is far better than floor <star1>
 
+// ==== HC ==== //
+
 + [*] dean joel [*]
 - LOVE DEAN JOEL!
 - What a great guy.
@@ -74,15 +76,7 @@
 + [*] (ghost|ghosting) [*]
 - Henry Ongerth is that you?
 
-// j & d
-
-/*
-http://rivescript.readthedocs.io/en/latest/rivescript.html#rivescript.rivescript.RiveScript.set_subroutine
-
-USE set_subroutine to do functions rather than in code here!!!!!!!!!!
-
-*/
-
+// ==== j & d ==== //
 + setjd *
 - <call>set_jd <star1></call>
 
@@ -91,3 +85,7 @@ USE set_subroutine to do functions rather than in code here!!!!!!!!!!
 
 + [*] excuse [*]
 - Here's your bullshit excuse you lazy sod:\n\n<call>generate_excuse</call>
+
+// Duty Tutor
++ [*] (duty tutor|locked out|can not get in) [*]
+- Locked out again?! The duty tutor's phone is: 9385 9786

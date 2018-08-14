@@ -6,6 +6,12 @@ from environment import *
 import models
 import message
 
+# ==== Reset Bot ==== #
+def resetBot():
+	# Ensure that we are not doing J&D
+	message.bot.set_variable('jd', None) # setting to none == delete the variable from bot
+	message.bot.set_variable('jd_loc', None)
+
 # ====== Specific functions ===== #
 def dinoRequest(message):
 
@@ -33,7 +39,7 @@ def dinoRequest(message):
 		print("---> ", e)
 		print('Meal: ', meal)
 		print('Date: ', today_AEST.date())
-		return "Honestly.... I don't know"
+		return "Honestly.... I don't know. Go yell at my creator."
 
 	return "{} at dino is:\n{}".format(meal, dino.description)
 
@@ -78,7 +84,7 @@ def set_jd(rs, switch):
 		# jd = True
 		return "COFFEE TIME!!! ☕️\nJ&D is ON" + jd_desc
 	else:
-		message.bot.set_variable('jd', False)
+		message.bot.set_variable('jd', None)
 		message.bot.set_variable('jd_loc', None)
 		return "No more coff! 😭"
 

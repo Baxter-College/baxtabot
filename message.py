@@ -37,23 +37,6 @@ def handleMessage(sender_psid, received_message):
 		response = {"text": "The date is: {}".format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M'))}
 	elif ("dino is shit" in received_message or "dino is good" in received_message or "dinovote" in received_message):
 		response = functions.dinoVote()
-	elif ("duty tutor" in received_message or "locked out" in received_message):
-		response = {
-			"attachment":{
-				"type":"template",
-				"payload":{
-					"template_type":"button",
-					"text":"Locked out again?! 🤦‍♂️",
-					"buttons":[
-						  {
-						    "type":"phone_number",
-						    "title":"Call the Duty Tutor",
-						    "payload":"9385 9786"
-						  }
-					]
-				}
-			}
-		}
 	else:
 		reply = bot.reply(str(sender_psid), received_message)
 		response = {"text": "{}".format(reply)}

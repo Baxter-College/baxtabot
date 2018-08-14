@@ -8,6 +8,7 @@
 - [x] coffee night bullshit excuse generator (markov chains)
 - [ ] Edit meals in backend
 - [ ] Ability to ask for day of the week's dinner (i.e what is for dinner on wednesday)
-- [ ] maintain database of users / PSID / last use
-	- [ ] send blast notifications to active users
+- [x] maintain database of users / PSID / last use
+	- [x] send blast notifications to active users
 - [x] split up code so it's less spaghetti 🍝
+- [ ] Add login / password system
