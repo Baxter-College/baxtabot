@@ -215,10 +215,11 @@ def uploadAsset(assetUrl):
 
 def getWeekEvents(sender_psid):
 
-	today = datetime.datetime.today()
-	week = today.date().isocalendar()[1] # get week number
+	today = datetime.date.today()
+	# Take todays date. Subtract the number of days which already passed this week (this gets you 'last' monday). Add one week.
+	week_monday = today + datetime.timedelta(days=-today.weekday(), weeks=1)
 
-	weekCal = models.WeekCal.select().where(models.WeekCal.week_start.isocalendar()[1] == week).get()
+	weekCal = models.WeekCal.select().where(models.WeekCal.week_start.isocalendar()[1] == week_monday).get()
 
 	message.sendAsset(sender_psid, weekCal.assetID, "image")
 
