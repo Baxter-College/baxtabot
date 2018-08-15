@@ -216,8 +216,10 @@ def uploadAsset(assetUrl):
 def getWeekEvents(sender_psid):
 
 	today = datetime.date.today()
-	# Take todays date. Subtract the number of days which already passed this week (this gets you 'last' monday). Add one week.
-	week_monday = today + datetime.timedelta(days=-today.weekday(), weeks=1)
+	# Take todays date. Subtract the number of days which already passed this week (this gets you 'last' monday).
+	week_monday = today + datetime.timedelta(days=-today.weekday(), weeks=0)
+
+
 
 	weekCal = models.WeekCal.select().where(models.WeekCal.week_start == week_monday).get()
 
