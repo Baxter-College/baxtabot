@@ -225,8 +225,8 @@ def getWeekEvents(sender_psid):
 
 		message.sendAsset(sender_psid, weekCal.assetID, "image")
 	except:
-		message = {"text": "yeah I don't know that shit. Go yell at Tom."}
-		message.callSendAPI(sender_psid, message)
+		send_message = {"text": "yeah I don't know that shit. Go yell at Tom."}
+		message.callSendAPI(sender_psid, send_message)
 
 
 # ===== Coffee Night Excuse Generator ===== #
