@@ -14,7 +14,7 @@
 
 #### Administrative
 
-- [ ] Submit for facebook review
+- [x] Submit for facebook review
 - [ ] Github -> heroku system so other people can work on it
 - [ ] Donate to Ops and Comms??
 
@@ -24,7 +24,9 @@
 - [ ] Welcome screen (personalised greeting)
 - [ ] Add login / password system for backend
 - [ ] Edit meals in backend
-- [ ] Ability to ask for day of the week's dinner (i.e what is for dinner on wednesday)
+- [ ] Order meals in backend
+- [ ] Auto delete meals after a particular date
+- [x] Ability to ask for day of the week's dinner (i.e what is for dinner on wednesday)
 - [ ] other events
 	- [ ] show calendar image?
 - [ ] let xanthe know I can't come to coffee night

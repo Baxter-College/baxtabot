@@ -104,6 +104,25 @@ def callSendAPI(sender_psid, response):
 		print("It's all gone to shit! -> ", r.status_code)
 		return "It's all gone to shit", r.status_code
 
+def sendBubbles(sender_psid):
+
+	r = requests.post(
+		"https://graph.facebook.com/v2.6/me/messages",
+		params = { "access_token": PAGE_ACCESS_TOKEN },
+		json = {
+			"recipient": {
+				"id": sender_psid
+			},
+			"sender_action":"typing_on"
+		}
+	)
+
+	if (r.status_code == 200):
+		return "OK"
+	else:
+		print("It's all gone to shit! -> ", r.status_code)
+		return "It's all gone to shit", r.status_code
+
 # ====== User functionality ===== #
 
 def check_user_exists(sender_psid):

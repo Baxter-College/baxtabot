@@ -74,6 +74,9 @@ def webhook():
 
 				# get the sender PSID
 				sender_psid = webhook_event['sender']['id']
+
+				# send bubbles ... formulating a response
+				message.sendBubbles(sender_psid)
 				print("Sender ID: {}".format(sender_psid))
 
 				message.check_user_exists(sender_psid)
