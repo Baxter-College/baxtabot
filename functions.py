@@ -220,10 +220,13 @@ def getWeekEvents(sender_psid):
 	week_monday = today + datetime.timedelta(days=-today.weekday(), weeks=0)
 
 
+	try:
+		weekCal = models.WeekCal.select().where(models.WeekCal.week_start == week_monday).get()
 
-	weekCal = models.WeekCal.select().where(models.WeekCal.week_start == week_monday).get()
-
-	message.sendAsset(sender_psid, weekCal.assetID, "image")
+		message.sendAsset(sender_psid, weekCal.assetID, "image")
+	except:
+		message = {"text": "yeah I don't know that shit. Go yell at Tom."}
+		message.callSendAPI(sender_psid, message)
 
 
 # ===== Coffee Night Excuse Generator ===== #
