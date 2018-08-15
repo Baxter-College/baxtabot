@@ -42,6 +42,10 @@ def handleMessage(sender_psid, received_message):
 		addTime = functions.findTime(received_message)
 		response = {"text": functions.dinoRequest(meal.type, addTime)}
 
+	elif ("what's on" in received_message or "what is on" in received_message):
+		functions.getWeekEvents(sender_psid) # bit weird, this one will send an asset. so break and return OK now.
+		return 'OK'
+
 	elif ("date" in received_message):
 		response = {"text": "The date is: {}".format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M'))}
 

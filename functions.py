@@ -213,6 +213,16 @@ def uploadAsset(assetUrl):
 		return None
 
 
+def getWeekEvents(sender_psid):
+
+	today = datetime.datetime.today()
+	week = today.date().isocalendar()[1] # get week number
+
+	weekCal = models.WeekCal.select().where(models.WeekCal.date.isocalendar()[1] == week).get()
+
+	message.sendAsset(sender_psid, weekCal.assetID, "image")
+
+
 # ===== Coffee Night Excuse Generator ===== #
 
 class MarkovGenerator():
