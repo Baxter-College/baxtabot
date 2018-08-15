@@ -24,11 +24,11 @@
 - [ ] Welcome screen (personalised greeting)
 - [ ] Add login / password system for backend
 - [ ] Edit meals in backend
-- [ ] Order meals in backend
+- [ ] Ordered meals in backend
 - [ ] Auto delete meals after a particular date
 - [x] Ability to ask for day of the week's dinner (i.e what is for dinner on wednesday)
-- [ ] other events
-	- [ ] show calendar image?
+- [x] other events
+	- [x] show calendar image?
 - [ ] let xanthe know I can't come to coffee night
 	- [ ] Send email to Xanthe with user created excuse
 	- [x] coffee night bullshit excuse generator (markov chains)
