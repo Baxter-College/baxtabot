@@ -35,6 +35,7 @@
 - [ ] Send feature request through BaxtaBot
 - [ ] setbus 16:00 <-- same as setjd on for bus times (then "Bus time?")
 - [ ] Use subscription messaging to be notified about bus times etc: https://developers.facebook.com/docs/messenger-platform/policy/policy-overview/#subscription_messaging
+- [ ] Semester Progress Bar
 
 ## The Future
 
