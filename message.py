@@ -45,11 +45,11 @@ def handleMessage(sender_psid, received_message):
 		addTime = functions.findTime(received_message)
 		response = {"text": functions.dinoRequest(meal.type, addTime)}
 
-	elif ("what's on" in received_message or "what is on" in received_message):
+	elif ("what's on" in received_message or "what is on" in received_message or "event" in received_message):
 		functions.getWeekEvents(sender_psid) # bit weird, this one will send an asset. so break and return OK now.
 		return 'OK'
 
-	elif ("date" in received_message):
+	elif ("date" in received_message or "time" in received_message):
 		response = {"text": "The date is: {}".format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M'))}
 
 	elif ("dino is shit" in received_message or "dino is bad" in received_message or "dino is good" in received_message or "dinovote" in received_message):
