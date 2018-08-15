@@ -1,5 +1,7 @@
 import datetime
 import random
+import json
+import requests
 
 from environment import *
 
@@ -183,6 +185,33 @@ def get_jd(rs, args):
 		return "J&D is ON" + jd_desc
 	else:
 		return "J&D is OFF 😭 😭 😭"
+
+# ===== Baxter Events ===== #
+
+def uploadAsset(assetUrl):
+
+	r = requests.post(
+		"ttps://graph.facebook.com/v2.6/me/message_attachments",
+		params = { "access_token": PAGE_ACCESS_TOKEN },
+		json = {
+			"message":{
+			    "attachment":{
+			     	"type":"image",
+			     	"payload":{
+			        	"is_reusable": true,
+			        	"url": assetUrl
+			      	}
+			    }
+			 }
+		}
+	)
+
+	if (r.status_code == 200):
+		return r.json()
+	else:
+		print("Asset Upload has gone to shit -> ", r.status_code)
+		return None
+
 
 # ===== Coffee Night Excuse Generator ===== #
 

@@ -31,7 +31,15 @@ class Sender(Model):
 	class Meta:
 		database = db
 
+class WeekCal(Model):
+	assetID = CharField()
+	week_start = DateField()
+
+	class Meta:
+		database = db
+
+
 def goGoPowerRangers():
 	db.connect()
-	db.create_tables([Meal, Sender], safe=True)
+	db.create_tables([Meal, Sender, WeekCal], safe=True)
 	db.close()

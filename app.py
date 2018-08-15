@@ -128,6 +128,26 @@ def webhook():
 	else:
 		print("Someone decided to be an idiot.")
 
+# ====== Upload Asset ====== #
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+
+	if request.method == 'POST':
+		# do image upload
+		url = request.form['assetURL']
+		response = functions.uploadAsset(url)
+
+		models.WeekCal.create(
+			assetID = response["attachment_id"],
+			week_start = request.form["date"]
+		)
+
+	assets = models.WebCal.select()
+
+	return render_template('upload.html', assets=assets)
+
+
 # ====== Add a meal ====== #
 
 @app.route('/dino')

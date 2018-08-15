@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8">
+		<title>🤖 | upload</title>
+		<style media="screen">
+			h1,h2,h3,h4,h5,h6,p,a {
+				font-family: monospace;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>🤖</h1>
+		<h2>Upload Weekly Calendar</h2>
+		<hr>
+		<form action="/upload" method="post">
+
+			<input type="text" name="assetURL"><br>
+			<input type="submit" value="SEND">
+		</form>
+
+		<hr>
+		<h3>All Calendars</h3>
+
+		{% for asset in assets %}
+
+			<div class="cal">
+				<p>Attatchment ID: {{asset.assetID}}</p>
+				<p>For Week Starting: {{asset.date}}</p>
+			</div>
+
+		{% endfor %}
+
+		<hr>
+	</body>
+</html>
