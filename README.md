@@ -2,7 +2,7 @@
 
 > Baxter's official sentient AI assistant!
 
-You can message it at: m.me/baxtabot (Note: currently only available to registered testers)
+You can message it at: [m.me/baxtabot](https://m.me/baxtabot) (Note: currently only available to registered testers)
 
 ## Setup
 
@@ -18,13 +18,14 @@ You may need to adjust some settings such as `HOST`, `PORT` and the postgres dat
 - baxter related simple discussions (via rivescript)
 - ask what is for dinner/lunch/breakfast at dino
 - ask to call the duty tutor
+- dino voting
+- is J&D on right now?
 
 ## Future
 
 - see todo.md
 - would like to implement a smarter dialog system (possibly actual machine learning rather than pattern matching?) (dialogflow??)
 - some other ideas:
-	- dino voting
-	- coffee night excuse generator (use markov chains)
-	- is J&D on right now?
+	- What floor is pre's on?
 	- integrate vac trac
+	- When is the bus leaving?
