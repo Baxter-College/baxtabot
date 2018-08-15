@@ -143,7 +143,7 @@ def upload():
 			week_start = request.form["date"]
 		)
 
-	assets = models.WebCal.select()
+	assets = models.WeekCal.select()
 
 	return render_template('upload.html', assets=assets)
 
