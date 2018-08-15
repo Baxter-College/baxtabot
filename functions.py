@@ -191,7 +191,7 @@ def get_jd(rs, args):
 def uploadAsset(assetUrl):
 
 	r = requests.post(
-		"ttps://graph.facebook.com/v2.6/me/message_attachments",
+		"https://graph.facebook.com/v2.6/me/message_attachments",
 		params = { "access_token": PAGE_ACCESS_TOKEN },
 		json = {
 			"message":{
