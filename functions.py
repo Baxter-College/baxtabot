@@ -198,7 +198,7 @@ def uploadAsset(assetUrl):
 			    "attachment":{
 			     	"type":"image",
 			     	"payload":{
-			        	"is_reusable": true,
+			        	"is_reusable": True,
 			        	"url": assetUrl
 			      	}
 			    }
