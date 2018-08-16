@@ -20,7 +20,7 @@
 - [ ] Donate to Ops and Comms??
 
 ## 1.1.0
-- [ ] convert to pipenv rather than requirements.txt
+- [x] convert to pipenv rather than requirements.txt
 - [ ] Dinovote: send poll 30 minutes after message sent
 - [ ] Ensure that blast notifications conform to 24 + 1 facebook rule
 - [ ] Send Typing bubbles
@@ -35,6 +35,10 @@
 	- [ ] Send email to Xanthe with user created excuse
 	- [x] coffee night bullshit excuse generator (markov chains)
 - [ ] Send feature request through BaxtaBot
+
+#### Meta:
+
+- [ ] create program to test on local machine by sending curl requests to webhook on server
 
 
 ## 1.2.0

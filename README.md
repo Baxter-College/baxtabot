@@ -6,9 +6,9 @@ You can message it at: [m.me/baxtabot](https://m.me/baxtabot) (Note: currently o
 
 ## Setup
 
-- Set up a [virtual environment](https://docs.python-guide.org/dev/virtualenvs/) and install the python3 packages in requirements.txt
+- Set up a [virtual environment](https://docs.python-guide.org/dev/virtualenvs/) **using pipenv** (see [pipenv docs](https://docs.pipenv.org/))
 
-- run `python3 app.py`
+- run `python app.py`
 
 You may need to adjust some settings such as `HOST`, `PORT` and the postgres database login details in `models.py` to run on your local machine
 
