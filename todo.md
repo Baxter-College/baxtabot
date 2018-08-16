@@ -15,13 +15,15 @@
 #### Administrative
 
 - [x] Submit for facebook review
+- [ ] Get business documentation from Joel
 - [ ] Github -> heroku system so other people can work on it
 - [ ] Donate to Ops and Comms??
 
 ## 1.1.0
+- [ ] convert to pipenv rather than requirements.txt
+- [ ] Dinovote: send poll 30 minutes after message sent
 - [ ] Ensure that blast notifications conform to 24 + 1 facebook rule
 - [ ] Send Typing bubbles
-- [ ] Welcome screen (personalised greeting)
 - [ ] Add login / password system for backend
 - [ ] Edit meals in backend
 - [ ] Ordered meals in backend
@@ -33,9 +35,18 @@
 	- [ ] Send email to Xanthe with user created excuse
 	- [x] coffee night bullshit excuse generator (markov chains)
 - [ ] Send feature request through BaxtaBot
+
+
+## 1.2.0
+- [ ] Calendars (.ics)
+	- [ ] Individual calendar upload (see https://stackoverflow.com/questions/3408097/parsing-files-ics-icalendar-using-python)
+	- [ ] Baxter Event calendars
+- [ ] Semester Progress Bar
+- [ ] prespoll -> what floor is pre's on?
 - [ ] setbus 16:00 <-- same as setjd on for bus times (then "Bus time?")
 - [ ] Use subscription messaging to be notified about bus times etc: https://developers.facebook.com/docs/messenger-platform/policy/policy-overview/#subscription_messaging
-- [ ] Semester Progress Bar
+- [ ] Welcome screen (personalised greeting)
+
 
 ## The Future
 

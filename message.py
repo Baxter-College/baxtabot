@@ -55,6 +55,9 @@ def handleMessage(sender_psid, received_message):
 	elif ("dino is shit" in received_message or "dino is bad" in received_message or "dino is good" in received_message or "dinovote" in received_message):
 		response = functions.dinoVote()
 
+	elif ("pres" in received_message or "pre's" in received_message):
+		response = {"text": "I will know this soon... this feature is being built into me."}
+
 	else:
 		reply = bot.reply(str(sender_psid), received_message)
 		response = {"text": "{}".format(reply)}
