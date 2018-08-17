@@ -14,11 +14,10 @@ import models
 import message
 import functions
 
-# TO add a test user - go to: https://developers.facebook.com/requests/
-
-# vv for when it all goes to shit vv
-
 if DEBUG:
+
+	print("\n\n\nTHIS IS A LOCAL VERSION\n-> Ensure you set ngrok webhook URL in fb\n-> Ensure PAGE_ACCESS_TOKEN is set\n\n\n")
+
 	import logging
 	import http.client as http_client
 

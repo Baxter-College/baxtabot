@@ -20,7 +20,9 @@ Then ensure that the correct webhook url (i.e. the one created by ngrok) is bein
 
 You may need to create `PAGE_ACCESS_TOKEN` as a temporary environment variable. You can get this also from the facebook apps dashboard under the dev bot.
 
-## Current Uses
+To add a test user, go to: developers.facebook.com/requests
+
+## Current Functions
 
 - simple discussions (via rivescript)
 - baxter related simple discussions (via rivescript)
