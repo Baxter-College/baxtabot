@@ -75,15 +75,18 @@ def handleMessage(sender_psid, received_message):
 			"quick_replies":[
 	      		{
 	        		"content_type":"text",
-	        		"title":"What's dino?"
+	        		"title":"What's dino?",
+					"payload":"What's dino?"
 				},
 				{
 	        		"content_type":"text",
-	        		"title":"What is dino like"
+	        		"title":"What is dino like",
+					"payload":"What is dino like"
 				},
 				{
 	        		"content_type":"text",
-	        		"title":"dinovote"
+	        		"title":"dinovote",
+					"payload":"dinovote"
 				}
 			]
 		}
