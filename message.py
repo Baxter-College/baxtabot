@@ -38,8 +38,6 @@ def handleMessage(sender_psid, received_message):
 	print("HANDLING MESSAGE!")
 	response = {}
 
-	#humanisePSID(sender_psid)
-
 	received_message = received_message.lower()
 
 	# Note: should really come up with a better method to do all of this!
@@ -227,7 +225,7 @@ def check_user_exists(sender_psid):
 		sender.save()
 
 def humanisePSID(PSID):
-	url = "https://graph.facebook.com/" + PSID
+	url = "https://graph.facebook.com/" + str(PSID)
 
 	r = requests.get(
 		url,
@@ -239,4 +237,7 @@ def humanisePSID(PSID):
 
 	if r.status_code == 200:
 		data = r.json()
+		print("Worked!")
 		return data
+	else:
+		print("FUCKED!")

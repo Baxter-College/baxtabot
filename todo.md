@@ -38,7 +38,7 @@
 
 #### Meta:
 
-- [ ] create program to test on local machine by sending curl requests to webhook on server
+- [x] create program to test on local machine by sending curl requests to webhook on server [see ngrok]
 
 
 ## 1.2.0

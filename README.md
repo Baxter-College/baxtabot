@@ -12,6 +12,14 @@ You can message it at: [m.me/baxtabot](https://m.me/baxtabot) (Note: currently o
 
 You may need to adjust some settings such as `HOST`, `PORT` and the postgres database login details in `models.py` to run on your local machine
 
+### Local Testing
+
+Use the **BaxtaBot - DEV** messenger bot. Install [ngrok](https://ngrok.com/) and forward the flask server created on `localhost:5000`
+
+Then ensure that the correct webhook url (i.e. the one created by ngrok) is being used in the facebook apps dashboard for **baxtabot - dev** (NOT PRODUCTION ONE!)
+
+You may need to create `PAGE_ACCESS_TOKEN` as a temporary environment variable. You can get this also from the facebook apps dashboard under the dev bot.
+
 ## Current Uses
 
 - simple discussions (via rivescript)
