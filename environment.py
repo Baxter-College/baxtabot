@@ -1,3 +1,7 @@
+# environment.py
+#
+# Get all environment variables
+
 import os
 
 if 'HEROKU' in os.environ:

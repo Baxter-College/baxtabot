@@ -1,3 +1,8 @@
+# functions.py
+#
+# Includes all non-messaging functionality of baxterbot
+# TODO: split this into a module
+
 import datetime
 import random
 import json
@@ -188,6 +193,8 @@ def get_jd(rs, args):
 
 # ===== Baxter Events ===== #
 
+
+# TODO: Move this into message module
 def uploadAsset(assetUrl):
 
 	r = requests.post(

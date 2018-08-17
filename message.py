@@ -1,3 +1,8 @@
+# Message.py
+#
+# Functionality that involves connecting and sending messages to
+# the facebook Send API
+
 import json
 import requests
 import datetime
@@ -17,6 +22,7 @@ bot.sort_replies()
 
 # ==== rivescript subroutines ==== #
 
+# These functions can be used in the rivescript documents
 bot.set_subroutine("set_jd", functions.set_jd)
 bot.set_subroutine("get_jd", functions.get_jd)
 bot.set_subroutine("generate_excuse", functions.generate_excuse)
@@ -24,6 +30,11 @@ bot.set_subroutine("generate_excuse", functions.generate_excuse)
 # ==== message handling ==== #
 
 def handleMessage(sender_psid, received_message):
+	"""
+	Handles a plain message request and determines what to do with it
+	By word matching the content and sender_psid
+	"""
+
 	print("HANDLING MESSAGE!")
 	response = {}
 
@@ -40,7 +51,7 @@ def handleMessage(sender_psid, received_message):
 	elif ("dinopoll" in received_message or "dino like" in received_message or "dino good" in received_message):
 		response = functions.dinoPoll()
 
-	elif ("what's dino" in received_message or "what is dino" in received_message):
+	elif ("what's dino" in received_message or "what is dino" in received_message or "what's for dino" in received_message ):
 		meal = functions.getCurrentDino()
 		addTime = functions.findTime(received_message)
 		response = {"text": functions.dinoRequest(meal.type, addTime)}
@@ -58,6 +69,25 @@ def handleMessage(sender_psid, received_message):
 	elif ("pres" in received_message or "pre's" in received_message):
 		response = {"text": "I will know this soon... this feature is being built into me."}
 
+	elif ("dino" in received_message):
+		response = {
+			"text": "You can ask me things about dino.\nLike 'What's for dinner?'\nor 'What is dino like'\nor 'dinovote' to give your opinion on dino",
+			"quick_replies":[
+	      		{
+	        		"content_type":"text",
+	        		"title":"What's dino?"
+				},
+				{
+	        		"content_type":"text",
+	        		"title":"What is dino like"
+				},
+				{
+	        		"content_type":"text",
+	        		"title":"dinovote"
+				}
+			]
+		}
+
 	else:
 		reply = bot.reply(str(sender_psid), received_message)
 		response = {"text": "{}".format(reply)}
@@ -70,6 +100,10 @@ def handleMessage(sender_psid, received_message):
 	return 'OK'
 
 def handlePostback(sender_psid, received_postback):
+	"""
+	Handles a postback request to the webhook and determines what
+	functionality / response to call
+	"""
 
 	print('RECEIVED POSTBACK: ', received_postback)
 
@@ -89,6 +123,9 @@ def handlePostback(sender_psid, received_postback):
 	return 'OK'
 
 def callSendAPI(sender_psid, response):
+	"""
+	Sends the response to sender via facebook Send API
+	"""
 
 	print(bot.get_uservars(str(sender_psid)))
 
@@ -112,6 +149,10 @@ def callSendAPI(sender_psid, response):
 		return "It's all gone to shit", r.status_code
 
 def sendBubbles(sender_psid):
+	"""
+	Sends bubbles to sender
+	TODO: Include timing so bubbles don't hang around for ages
+	"""
 
 	r = requests.post(
 		"https://graph.facebook.com/v2.6/me/messages",
@@ -131,6 +172,14 @@ def sendBubbles(sender_psid):
 		return "It's all gone to shit", r.status_code
 
 def sendAsset(sender_psid, assetID, type):
+	"""
+	Sends an asset to sender
+
+	Args:
+		sender_psid (str): the psid of the target sender
+		assetID (str): the facebook assetID obtained from uploadAsset()
+		type (str): <"image"|"audio">
+	"""
 
 	message = {
 		"attachment":{
@@ -144,6 +193,8 @@ def sendAsset(sender_psid, assetID, type):
 	callSendAPI(sender_psid, message)
 
 # ====== User functionality ===== #
+
+# TODO: move these into functions module
 
 def check_user_exists(sender_psid):
 

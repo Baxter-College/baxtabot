@@ -1,3 +1,7 @@
+# app.py
+#
+# Runs and handles all connections to the web server
+
 from flask import Flask, request, render_template, redirect, url_for
 import os
 import json

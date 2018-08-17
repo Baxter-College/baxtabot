@@ -1,3 +1,7 @@
+# Models.py
+#
+# Defines all database models that are used elsewhere
+
 import datetime
 import psycopg2
 import os
