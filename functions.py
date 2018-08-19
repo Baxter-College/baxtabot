@@ -223,7 +223,7 @@ def uploadAsset(assetUrl):
 
 def getWeekEvents(sender_psid):
 
-	today = datetime.date.today()
+	today = datetime.datetime.today() + datetime.timedelta(hours=10) # to make it aest
 	# Take todays date. Subtract the number of days which already passed this week (this gets you 'last' monday).
 	week_monday = today + datetime.timedelta(days=-today.weekday(), weeks=0)
 
