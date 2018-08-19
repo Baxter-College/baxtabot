@@ -229,7 +229,7 @@ def getWeekEvents(sender_psid):
 
 
 	try:
-		weekCal = models.WeekCal.select().where(models.WeekCal.week_start == week_monday).get()
+		weekCal = models.WeekCal.select().where(models.WeekCal.week_start == week_monday.date()).get()
 
 		message.sendAsset(sender_psid, weekCal.assetID, "image")
 	except:
