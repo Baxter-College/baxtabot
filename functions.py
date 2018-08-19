@@ -290,6 +290,10 @@ class MarkovGenerator():
 		# here's what we got!
 		return output
 
+# add to a rive file
+# + [*] excuse [*]
+# - Here's your bullshit excuse you lazy sod:\n\n<call>generate_excuse</call>
+
 def generate_excuse(rs, args):
 	lines = [
 		"dearest xanthe please accept my sincerest apologies",
