@@ -2,6 +2,8 @@
 #
 # Get all environment variables
 
+# TODO: could probs do this entire file better...
+
 import os
 
 if 'HEROKU' in os.environ:
@@ -9,8 +11,11 @@ if 'HEROKU' in os.environ:
 	PORT = int(os.environ.get('PORT'))
 	PAGE_ACCESS_TOKEN = os.environ.get('PAGE_ACCESS_TOKEN')
 else:
-	DEBUG = 1
-	PORT = 5000
+	from dotenv import load_dotenv
+	load_dotenv()
+
+	DEBUG = os.environ['DEBUG']
+	PORT = os.environ['PORT']
 	PAGE_ACCESS_TOKEN = os.environ['PAGE_ACCESS_TOKEN']
 
 

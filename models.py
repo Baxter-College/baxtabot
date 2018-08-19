@@ -13,7 +13,7 @@ if 'HEROKU' in os.environ:
 	url = urlparse(os.environ["DATABASE_URL"])
 	db = PostgresqlDatabase(database=url.path[1:], user=url.username, password=url.password, host=url.hostname, port=url.port)
 else:
-	db = PostgresqlDatabase('baxtabot', user='tomhill', password='angular')
+	db = PostgresqlDatabase(os.environ["DB_NAME"], user=os.environ["DB_USER"], password=os.environ["DB_PASSWORD"])
 
 class Meal(Model):
 	date = DateField()

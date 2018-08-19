@@ -21,7 +21,9 @@
 
 ## 1.1.0
 - [x] convert to pipenv rather than requirements.txt
-- [ ] Dinovote: send poll 30 minutes after message sent
+- [ ] Dinovote
+	- [ ] send poll 30 minutes after message sent
+	- [ ] If someone has voted, put it in the "what's dino" message after menu
 - [ ] Ensure that blast notifications conform to 24 + 1 facebook rule
 - [ ] Send Typing bubbles
 - [ ] Add login / password system for backend
@@ -39,6 +41,7 @@
 #### Meta:
 
 - [x] create program to test on local machine by sending curl requests to webhook on server [see ngrok]
+- [ ] create way to autogen next week's meals for testing
 
 
 ## 1.2.0
@@ -50,6 +53,7 @@
 - [ ] setbus 16:00 <-- same as setjd on for bus times (then "Bus time?")
 - [ ] Use subscription messaging to be notified about bus times etc: https://developers.facebook.com/docs/messenger-platform/policy/policy-overview/#subscription_messaging
 - [ ] Welcome screen (personalised greeting)
+- [ ] Better error handling
 
 
 ## The Future

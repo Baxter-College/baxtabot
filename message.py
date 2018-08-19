@@ -9,7 +9,7 @@ import datetime
 
 from rivescript import RiveScript
 
-from environment import *
+from settings import *
 
 import functions
 import models

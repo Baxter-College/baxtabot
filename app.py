@@ -8,7 +8,7 @@ import json
 import requests
 import datetime
 
-from environment import *
+from settings import *
 
 import models
 import message

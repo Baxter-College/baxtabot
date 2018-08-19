@@ -8,7 +8,7 @@ import random
 import json
 import requests
 
-from environment import *
+from settings import *
 
 import models
 import message
@@ -32,21 +32,23 @@ def findMeal(message):
 
 def findTime(message):
 
-	addTime = None
+	addTime = datetime.timedelta(hours=0)
 
 	today = datetime.datetime.today() + datetime.timedelta(hours=10)
 	days = {"monday": 0, "tuesday": 1, "wednesday": 2, "thursday": 3, "friday": 4, "saturday": 5, "sunday": 6}
 
 	if ("tomorrow" in message or "tommorow" in message):
-		addTime = datetime.timedelta(hours=24)
+		addTime += datetime.timedelta(hours=24)
 
 	for day in days:
 		if day in message: # if the day is mentioned
 			dayDiff = days[day] - today.weekday() # get difference between days
 			if dayDiff < 0: # if the day is "behind" current day, make day next week
 				dayDiff += 7
+			elif ("next" in message):
+				addTime += datetime.timedelta(hours=24*7) # add this day next week
 
-			addTime = datetime.timedelta(hours=24*dayDiff)
+			addTime += datetime.timedelta(hours=24*dayDiff)
 
 
 	return addTime
@@ -61,8 +63,7 @@ def dinoRequest(meal, addTime):
 
 	today_AEST = today + ten_hours
 
-	if (addTime):
-		today_AEST += addTime
+	today_AEST += addTime # if no add time, timedelta will be 0 hours so no effect
 
 	print("Date is: {}".format(today_AEST.date().strftime('%Y-%m-%d')))
 
