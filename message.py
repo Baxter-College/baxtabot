@@ -44,7 +44,22 @@ def handleMessage(sender_psid, received_message):
 	if ("dinner" in received_message or "lunch" in received_message or "breakfast" in received_message):
 		meal = functions.findMeal(received_message)
 		addTime = functions.findTime(received_message)
-		response = {"text": functions.dinoRequest(meal, addTime)}
+		response = {
+			"text": functions.dinoRequest(meal, addTime),
+			"quick_replies":[
+				{
+	        		"content_type":"text",
+	        		"title":"What's dino like?",
+					"payload":"What's dino like?"
+				},
+				{
+	        		"content_type":"text",
+	        		"title":"dinovote",
+					"payload":"dinovote"
+				}
+			]
+
+		}
 
 	elif ("dinopoll" in received_message or "dino like" in received_message or "dino good" in received_message):
 		response = functions.dinoPoll()
