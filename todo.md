@@ -36,6 +36,7 @@
 - [ ] let xanthe know I can't come to coffee night
 	- [ ] Send email to Xanthe with user created excuse
 - [ ] Send feature request through BaxtaBot
+- [ ] Show "no one has voted for *dinner* at dino" to be clear
 
 #### Meta:
 
