@@ -52,7 +52,21 @@ def handleMessage(sender_psid, received_message):
 	elif ("what's dino" in received_message or "what is dino" in received_message or "what's for dino" in received_message ):
 		meal = functions.getCurrentDino()
 		addTime = functions.findTime(received_message)
-		response = {"text": functions.dinoRequest(meal.type, addTime)}
+		response = {
+			"text": functions.dinoRequest(meal.type, addTime),
+			"quick_replies":[
+				{
+	        		"content_type":"text",
+	        		"title":"What's dino like?",
+					"payload":"What's dino like?"
+				},
+				{
+	        		"content_type":"text",
+	        		"title":"dinovote",
+					"payload":"dinovote"
+				}
+			]
+		}
 
 	elif ("what's on" in received_message or "what is on" in received_message or "event" in received_message):
 		functions.getWeekEvents(sender_psid) # bit weird, this one will send an asset. so break and return OK now.

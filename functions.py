@@ -131,7 +131,16 @@ def dinoPoll():
 	else:
 		message = "The crowd is split! Dino is a polarising meal.\nLet me know your thoughts with 'dinovote'"
 
-	return {"text": message}
+	return {
+		"text": message,
+		"quick_replies":[
+			{
+				"content_type":"text",
+				"title":"dinovote",
+				"payload":"dinovote"
+			}
+		]
+	}
 
 def getCurrentDino():
 
