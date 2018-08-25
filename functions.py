@@ -299,26 +299,5 @@ class MarkovGenerator():
 		# here's what we got!
 		return output
 
-# add to a rive file
-# + [*] excuse [*]
-# - Here's your bullshit excuse you lazy sod:\n\n<call>generate_excuse</call>
-
 def generate_excuse(rs, args):
-	lines = [
-		"dearest xanthe please accept my sincerest apologies",
-		"please excuse me for my inability to make it to coffee night",
-		"dear xanthe I am unable to attend coffee night as I am at dinner with my family",
-		"I am unable to make it to coffee night as I am currently with my Nan in my hometown",
-		"Dear Xanthe...I have grown very unwell thus far and hence will not be coming to coffee night #sorrynotsorry",
-		"I CAN'T MAKE IT",
-		"UNABLE TO BE THERE!",
-		"Soz Xath. There ain't no way I'm making to to coff night baby."
-		"Unfortunately, I have lectures and tutorials and am extremely busy and as such can not make it to coffee night sorry!"
-	]
-
-	markov = MarkovGenerator(3, 1500)
-
-	for line in lines:
-		markov.feed(line)
-
-	return markov.generate()
+	pass
