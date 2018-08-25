@@ -246,7 +246,7 @@ def getWeekEvents(sender_psid):
 		message.callSendAPI(sender_psid, send_message)
 
 
-# ===== Coffee Night Excuse Generator ===== #
+
 
 class MarkovGenerator():
 
