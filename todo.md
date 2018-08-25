@@ -45,6 +45,8 @@
 
 
 ## 1.2.0
+- [ ] Potentially an authentication system ... store if PSID knows the 
+password???
 - [ ] Calendars (.ics)
 	- [ ] Individual calendar upload (see https://stackoverflow.com/questions/3408097/parsing-files-ics-icalendar-using-python)
 	- [ ] Baxter Event calendars
