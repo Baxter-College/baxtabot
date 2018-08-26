@@ -73,7 +73,7 @@ def dinoRequest(meal, addTime):
 		print("---> ", e)
 		print('Meal: ', meal)
 		print('Date: ', today_AEST.date())
-		return "Honestly.... I don't know. Go yell at my creator."
+		return "Honestly.... I don't know. Go yell at Tom."
 
 	return "{} at dino is:\n{}".format(meal, dino.description)
 
