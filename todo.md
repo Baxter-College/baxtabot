@@ -43,7 +43,9 @@
 #### Meta:
 
 - [x] create program to test on local machine by sending curl requests to webhook on server [see ngrok]
+	- [ ] dev heroku app??
 - [ ] create way to autogen next week's meals for testing
+- [ ] put functions into modules to clean up code
 
 
 ## 1.2.0
