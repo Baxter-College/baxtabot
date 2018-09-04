@@ -15,9 +15,9 @@
 #### Administrative
 
 - [x] Submit for facebook review
-- [ ] Get business documentation from Joel
+- [x] Get business documentation from Joel
 - [ ] Github -> heroku system so other people can work on it
-- [ ] Donate to Ops and Comms??
+- [x] Donate to Ops and Comms??
 
 ## 1.1.0
 - [x] convert to pipenv rather than requirements.txt
@@ -27,6 +27,7 @@
 - [ ] Ensure that blast notifications conform to 24 + 1 facebook rule
 - [ ] Send Typing bubbles
 - [ ] Add login / password system for backend
+- [ ] Nice interface for backend
 - [ ] Edit meals in backend
 - [ ] Ordered meals in backend
 - [ ] Auto delete meals after a particular date
@@ -37,6 +38,7 @@
 	- [ ] Send email to Xanthe with user created excuse
 - [ ] Send feature request through BaxtaBot
 - [ ] Show "no one has voted for *dinner* at dino" to be clear
+- [ ] setshop on --> "shopen? / is shop open?"
 
 #### Meta:
 
@@ -45,13 +47,15 @@
 
 
 ## 1.2.0
-- [ ] Potentially an authentication system ... store if PSID knows the 
-password???
+- [ ] Socials
+	- [ ] When / Where is bus leaving?
+	- [ ] setbus 16:00 <-- same as setjd on for bus times (then "Bus time?")
+	- [ ] Group distribution automation in backend (for date nights etc)
+- [ ] Potentially an authentication system ... store if PSID knows the password???
 - [ ] Calendars (.ics)
 	- [ ] Individual calendar upload (see https://stackoverflow.com/questions/3408097/parsing-files-ics-icalendar-using-python)
 	- [ ] Baxter Event calendars
 - [ ] Semester Progress Bar
-- [ ] setbus 16:00 <-- same as setjd on for bus times (then "Bus time?")
 - [ ] Use subscription messaging to be notified about bus times etc: https://developers.facebook.com/docs/messenger-platform/policy/policy-overview/#subscription_messaging
 - [ ] Welcome screen (personalised greeting)
 - [ ] Better error handling
@@ -63,3 +67,7 @@ password???
 - [ ] Knowledge graphs (cc Zac Moran)
 - [ ] Actual NLP
 - [ ] Shaqquotes ("Change is the only constant")
+- [ ] Buy tickets to things through baxtabot
+	- see https://developers.facebook.com/docs/messenger-platform/send-messages/template/receipt
+- [ ] Object recognition in shop -> gives price
+- [ ] Rig up raspberry pi to ping baxtabot.herokuapp.com every 30 minutes to ensure heroku does not fall asleep
