@@ -7,6 +7,7 @@ import datetime
 import random
 import json
 import requests
+import math
 
 from settings import *
 
@@ -229,6 +230,56 @@ def uploadAsset(assetUrl):
 		print("Asset Upload has gone to shit -> ", r.status_code)
 		return None
 
+# ======= Semester In Progress ======= #
+
+def semesterResponse():
+
+	# is this hardcoded? yes.
+	# do i give a shit? no. fuck you for judging me.
+	semStart = datetime.date(2018, 7, 23)
+	semEnd = datetime.date(2018, 11, 20)
+
+	response = "{}\n\nThere are {} days left until the semester ends".format(
+		progressBar(timeProgress(semStart, semEnd)),
+		daysLeft(semEnd)
+	)
+
+	return response
+
+def yearProgress():
+	today = datetime.datetime.today() + datetime.timedelta(hours=10) # to make it aest
+
+	percentage = math.floor((today.timetuple().tm_yday / 365) * 100)
+
+	return percentage
+
+def timeProgress(start, end):
+	today = datetime.datetime.today() + datetime.timedelta(hours=10) # to make it aest
+
+	totalDays = (end - start).days
+	elapsedDays = (today.date() - start).days
+
+	percentage = math.floor((elapsedDays / totalDays) * 100)
+
+	return percentage
+
+def daysLeft(end):
+	today = datetime.datetime.today() + datetime.timedelta(hours=10) # to make it aest
+
+	return (end - today.date()).days
+
+def progressBar(percentage):
+
+	percBar = "0% "
+
+	for i in range(5, 100, 5):
+		percBar += "▓" if (i < percentage) else "░"
+
+	percBar += " {}%".format(percentage)
+
+	return percBar
+
+# ===== Week Events ===== #
 
 def getWeekEvents(sender_psid):
 
@@ -245,8 +296,7 @@ def getWeekEvents(sender_psid):
 		send_message = {"text": "yeah I don't know that shit. Go yell at Tom."}
 		message.callSendAPI(sender_psid, send_message)
 
-
-
+# ===== ===== #
 
 class MarkovGenerator():
 

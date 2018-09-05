@@ -93,9 +93,6 @@ def handleMessage(sender_psid, received_message):
 	elif ("dino is shit" in received_message or "dino is bad" in received_message or "dino is good" in received_message or "dinovote" in received_message):
 		response = functions.dinoVote()
 
-	#elif ("pres" in received_message or "pre's" in received_message):
-	#	response = {"text": "I will know this soon... this feature is being built into me."}
-
 	elif ("dino" in received_message):
 		response = {
 			"text": "You can ask me things about dino.\nLike 'What's for dinner?'\nor 'What is dino like'\nor 'dinovote' to give your opinion on dino",
@@ -117,6 +114,9 @@ def handleMessage(sender_psid, received_message):
 				}
 			]
 		}
+
+	elif ("days left" in received_message or "semester" in received_message):
+		response = { "text": functions.semesterResponse()}
 
 	else:
 		reply = bot.reply(str(sender_psid), received_message)
