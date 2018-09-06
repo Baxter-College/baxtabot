@@ -272,7 +272,7 @@ def progressBar(percentage):
 
 	percBar = "0% "
 
-	for i in range(5, 100, 5):
+	for i in range(10, 100, 10):
 		percBar += "▓" if (i < percentage) else "░"
 
 	percBar += " {}%".format(percentage)
