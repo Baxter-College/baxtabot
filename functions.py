@@ -19,6 +19,7 @@ def resetBot():
 	# Ensure that we are not doing J&D
 	message.bot.set_variable('jd', None) # setting to none == delete the variable from bot
 	message.bot.set_variable('jd_loc', None)
+	message.bot.set_variable('shop', None)
 
 # ====== Specific functions ===== #
 def findMeal(message):
@@ -201,6 +202,25 @@ def get_jd(rs, args):
 		return "J&D is ON" + jd_desc
 	else:
 		return "J&D is OFF 😭 😭 😭"
+
+# ===== Shopen ===== #
+
+# TODO: integrate this toggle action into a function so we are not duplicating functionality
+
+def set_shop(rs, switch):
+
+	if switch[0].lower() == 'on':
+		message.bot.set_variable('shop', True)
+		return "Shopen!"
+	else:
+		message.bot.set_variable('shop', None)
+		return "Shclosed 😭"
+
+def get_shop(rs, args):
+
+	shop = message.bot.get_variable('shop')
+
+	return "Shopen!!!" if shop else "Shclosed 😭"
 
 # ===== Baxter Events ===== #
 

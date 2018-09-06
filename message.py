@@ -25,6 +25,8 @@ bot.sort_replies()
 # These functions can be used in the rivescript documents
 bot.set_subroutine("set_jd", functions.set_jd)
 bot.set_subroutine("get_jd", functions.get_jd)
+bot.set_subroutine("set_shop", functions.set_shop)
+bot.set_subroutine("get_shop", functions.get_shop)
 bot.set_subroutine("generate_excuse", functions.generate_excuse)
 
 # ==== message handling ==== #

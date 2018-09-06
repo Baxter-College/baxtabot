@@ -39,6 +39,7 @@
 - [ ] Send feature request through BaxtaBot
 - [ ] Show "no one has voted for *dinner* at dino" to be clear
 - [ ] setshop on --> "shopen? / is shop open?"
+- [x] Semester Progress Bar
 
 #### Meta:
 
@@ -57,7 +58,6 @@
 - [ ] Calendars (.ics)
 	- [ ] Individual calendar upload (see https://stackoverflow.com/questions/3408097/parsing-files-ics-icalendar-using-python)
 	- [ ] Baxter Event calendars
-- [ ] Semester Progress Bar
 - [ ] Use subscription messaging to be notified about bus times etc: https://developers.facebook.com/docs/messenger-platform/policy/policy-overview/#subscription_messaging
 - [ ] Welcome screen (personalised greeting)
 - [ ] Better error handling

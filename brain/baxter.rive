@@ -78,6 +78,13 @@
 + [*] (jd|jandd|j and d) [*]
 - <call>get_jd</call>
 
+// ==== shop ==== //
++ setshop *
+- <call>set_shop <star1></call>
+
++ [*] (shopen|shclosed|shop) [*]
+- <call>get_shop</call>
+
 // Duty Tutor
 + [*] (duty tutor|locked out|can not get in) [*]
 - Locked out again?! The duty tutor's phone is: 9385 9786
