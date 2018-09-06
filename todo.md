@@ -38,7 +38,7 @@
 	- [ ] Send email to Xanthe with user created excuse
 - [ ] Send feature request through BaxtaBot
 - [ ] Show "no one has voted for *dinner* at dino" to be clear
-- [ ] setshop on --> "shopen? / is shop open?"
+- [x] setshop on --> "shopen? / is shop open?"
 - [x] Semester Progress Bar
 
 #### Meta:
