@@ -21,8 +21,10 @@
 
 ## 1.1.0
 - [x] convert to pipenv rather than requirements.txt
+- [ ] What can you do?
 - [ ] Dinovote
 	- [ ] send poll 30 minutes after message sent
+		- [ ] Option to unsubscribe
 	- [ ] If someone has voted, put it in the "what's dino" message after menu
 - [ ] Ensure that blast notifications conform to 24 + 1 facebook rule
 - [ ] Send Typing bubbles
