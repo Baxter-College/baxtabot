@@ -116,11 +116,15 @@
 
 // Understand complements
 + [*] (love you|like you) [*]
-+ [*] (you are|youre|your) (great|awesome|fantastic|excelent|brilliant|amazing) [*]
-+ [*] (you are|youre|your) [*] (great|awesome|fantastic|excelent|brilliant|amazing) [*]
 - Why thank you!
 - No need to complement me, I already know how great I am.
 - Very kind of you 💕
+
++ [*] (you are|youre|your) (great|awesome|fantastic|excelent|brilliant|amazing) [*]
+% love you
+
++ [*] (you are|youre|your) [*] (great|awesome|fantastic|excelent|brilliant|amazing) [*]
+% love you
 
 // understand insults
 
@@ -138,7 +142,6 @@
 - Gtfo.
 
 + (fuck you|fuck off|fuck your *)
-+ [*] (bitch|cunt|whore|skank|slut|hooker|your mom|idiot) [*]
 - Your teeth are brighter than you are.
 - Please, keep talking. I only yawn when I’m super fascinated.
 - 🖕
@@ -147,3 +150,6 @@
 - How many times do I have to flush before you go away?
 - Brains aren't everything. In your case they're nothing.
 - Do you kiss your mother with that mouth?
+
++ [*] (bitch|cunt|whore|skank|slut|hooker|your mom|idiot) [*]
+@ fuck you
