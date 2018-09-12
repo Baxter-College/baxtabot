@@ -66,7 +66,7 @@ def handleMessage(sender_psid, received_message):
 	elif ("dinopoll" in received_message or "dino like" in received_message or "dino good" in received_message):
 		response = functions.dinoPoll()
 
-	elif ("what's dino" in received_message or "what’s dino" in received_message or "what is dino" in received_message or "what's for dino" in received_message or "whats dino" in received_message ):
+	elif ("what's dino" in received_message or "what’s dino" in received_message or "what is dino" in received_message or "what's for dino" in received_message or "for dino" in received_message or "whats dino" in received_message ):
 		meal = functions.getCurrentDino()
 		addTime = functions.findTime(received_message)
 		response = {
