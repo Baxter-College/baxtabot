@@ -21,7 +21,7 @@
 
 ## 1.1.0
 - [x] convert to pipenv rather than requirements.txt
-- [ ] What can you do?
+- [x] What can you do?
 - [ ] Dinovote
 	- [ ] send poll 30 minutes after message sent
 		- [ ] Option to unsubscribe

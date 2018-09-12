@@ -85,7 +85,7 @@ def handleMessage(sender_psid, received_message):
 			]
 		}
 
-	elif ("what's on" in received_message or "what is on" in received_message or "event" in received_message):
+	elif ("what's on" in received_message or "what’s on" in received_message or "what is on" in received_message or "event" in received_message):
 		functions.getWeekEvents(sender_psid) # bit weird, this one will send an asset. so break and return OK now.
 		return 'OK'
 
