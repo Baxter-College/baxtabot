@@ -116,7 +116,34 @@
 
 // Understand complements
 + [*] (love you|like you) [*]
-+ [*] (you are|youre|your) (great|awesome|fantastic|excelent|brilliant) [*]
++ [*] (you are|youre|your) (great|awesome|fantastic|excelent|brilliant|amazing) [*]
++ [*] (you are|youre|your) [*] (great|awesome|fantastic|excelent|brilliant|amazing) [*]
 - Why thank you!
 - No need to complement me, I already know how great I am.
 - Very kind of you 💕
+
+// understand insults
+
+// Dear Joel ... if they say it, they deserve it:
+
++ you are a idiot
+- At least I know the difference between "a" and "an."
+
++ you suck
+- ...and you swallow
+
++ shut up
+- You shut up.
+- Stfu.
+- Gtfo.
+
++ (fuck you|fuck off|fuck your *)
++ [*] (bitch|cunt|whore|skank|slut|hooker|your mom|idiot) [*]
+- Your teeth are brighter than you are.
+- Please, keep talking. I only yawn when I’m super fascinated.
+- 🖕
+- 😡
+- Rude.
+- How many times do I have to flush before you go away?
+- Brains aren't everything. In your case they're nothing.
+- Do you kiss your mother with that mouth?
