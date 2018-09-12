@@ -116,7 +116,7 @@
 
 // Understand complements
 + [*] (love you|like you) [*]
-+ [*] (you are|you're|your) (great|awesome|fantastic|excelent|brilliant) [*]
++ [*] (you are|youre|your) (great|awesome|fantastic|excelent|brilliant) [*]
 - Why thank you!
 - No need to complement me, I already know how great I am.
 - Very kind of you 💕
