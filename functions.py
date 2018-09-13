@@ -120,15 +120,15 @@ def dinoPoll():
 	dino = getCurrentDino()
 
 	if (dino.likes == 0 and dino.dislikes == 0):
-		message = "No one has voted! 😢\nYou can be the first to vote with 'dinovote'"
+		message = "No one has voted for {}! 😢\nYou can be the first to vote with 'dinovote'".format(dino.type)
 
 	elif (dino.likes < dino.dislikes):
 		perc = (dino.dislikes / (dino.dislikes + dino.likes)) * 100
-		message = "{}% of people disliked dino.".format(perc)
+		message = "{}% of people disliked {}.".format(perc, dino.type)
 
 	elif (dino.likes > dino.dislikes):
 		perc = (dino.likes / (dino.dislikes + dino.likes)) * 100
-		message = "{}% of people enjoyed dino!!!".format(perc)
+		message = "{}% of people enjoyed {}!!!".format(perc, dino.type)
 
 	else:
 		message = "The crowd is split! Dino is a polarising meal.\nLet me know your thoughts with 'dinovote'"
