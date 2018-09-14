@@ -149,17 +149,17 @@ def getCurrentDino():
 	time = datetime.datetime.now() + datetime.timedelta(hours=10) # to make it aest
 
 	today = datetime.datetime.today() + datetime.timedelta(hours=10)
-	breakfast = today.replace(hour=10, minute=0)
-	lunch = today.replace(hour=14, minute=0)
-	dinner = today.replace(hour=23, minute=59) # just to make sure
+	breakfast = today.replace(hour=7, minute=0)
+	lunch = today.replace(hour=12, minute=0)
+	dinner = today.replace(hour=17, minute=0) # just to make sure
 
-	if (time < breakfast):
+	if (time >= breakfast && time < lunch):
 		# for today's breakfast
 		dino = models.Meal.select().where(models.Meal.type == "breakfast").where(models.Meal.date == today.date()).get()
-	elif (time < lunch):
+	elif (time >= lunch && time < dinner):
 		# for today's lunch
 		dino = models.Meal.select().where(models.Meal.type == "lunch").where(models.Meal.date == today.date()).get()
-	elif (time < dinner):
+	elif (time >= dinner):
 		# for today's dinner
 		dino = models.Meal.select().where(models.Meal.type == "dinner").where(models.Meal.date == today.date()).get()
 
