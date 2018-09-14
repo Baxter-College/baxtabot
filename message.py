@@ -92,7 +92,7 @@ def handleMessage(sender_psid, received_message):
 	elif ("date" in received_message or "time" in received_message):
 		response = {"text": "The date is: {}".format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M'))}
 
-	elif ("dino is shit" in received_message or "dino is bad" in received_message or "dino is good" in received_message or "dinovote" in received_message):
+	elif ("dino is shit" in received_message or "dino is bad" in received_message or "dino is good" in received_message or "dinovote" in received_message or "vote" in received_message):
 		response = functions.dinoVote()
 
 	elif ("dino" in received_message):
