@@ -7,7 +7,7 @@
 		<h2>DINO</h2>
 		<hr>
 		<h3>Add a Meal 🌮</h3>
-		<form action="/dino/add" method="post">
+		<form action="/dino/add" method="post" class="pure-form pure-form-stacked">
 			<input name="date" type="date"><br/>
 			<select name="type">
 			  	<option value="breakfast">Breakfast</option>
@@ -15,11 +15,11 @@
 			  	<option value="dinner">Dinner</option>
 			</select><br>
 			<textarea name="description" rows="8" cols="80" placeholder="what are you eating?"></textarea><br>
-			<input type="submit" value="Add Meal">
+			<input type="submit" value="Add Meal" class="pure-button pure-button-primary">
 		</form>
 		<hr>
 		<h3>Batch Upload 🎂</h3>
-		<form action="/dino/batch/add" method="post">
+		<form action="/dino/batch/add" method="post" class="pure-form pure-form-stacked">
 			<input name="date" type="date"><br/>
 			<h4>Breakfast:</h4>
 			<textarea name="breakfast_description" rows="8" cols="80" placeholder="what are you eating?"></textarea><br>
@@ -27,21 +27,33 @@
 			<textarea name="lunch_description" rows="8" cols="80" placeholder="what are you eating?"></textarea><br>
 			<h4>Dinner:</h4>
 			<textarea name="dinner_description" rows="8" cols="80" placeholder="what are you eating?"></textarea><br>
-			<input type="submit" value="Add Meals">
+			<input type="submit" value="Add Meals" class="pure-button pure-button-primary">
 		</form>
 		<hr>
 		<h3>All Meals</h3>
 
-		{% for meal in meals %}
-
-			<div class="meal">
-				<h4>{{ meal.date }} - {{ meal.type }}</h4>
-				<p>{{ meal.description }}</p>
-				<p><b>Likes:</b> {{ meal.likes }} | <b>Dislikes:</b> {{ meal.dislikes }}</p>
-				<a href="{{url_for('deleteMeal', meal_id=meal.id)}}">Delete</a>
-			</div>
-
-		{% endfor %}
+		<table class="pure-table">
+			<thead>
+				<th>Date</th>
+				<th>Ty</th>
+				<th>Description</th>
+				<th>Likes</th>
+				<th>Dislikes</th>
+				<th>Delete</th>
+			</thead>
+			<tbody>
+				{% for meal in meals %}
+				<tr>
+					<td>{{ meal.date }}</td>
+					<td>{{ meal.type }}</td>
+					<td>{{ meal.description }}</td>
+					<td>{{ meal.likes }}</td>
+					<td>{{ meal.dislikes }}</td>
+					<td><a href="{{url_for('deleteMeal', meal_id=meal.id)}}">Delete</a></td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 
 		<hr>
 
