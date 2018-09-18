@@ -1,16 +1,9 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-	<head>
-		<meta charset="utf-8">
-		<title>🤖 | update</title>
-		<style media="screen">
-			h1,h2,h3,h4,h5,h6,p,a {
-				font-family: monospace;
-			}
-		</style>
-	</head>
-	<body>
-		<h1>🤖</h1>
+{% extends "layout.html" %}
+
+{% block title %}Update{% endblock %}
+
+{% block content %}
+
 		<h2>SEND UPDATE</h2>
 		<hr>
 		<h3>☢️ This will send a message TO ALL USERS ☢️</h3>
@@ -20,5 +13,4 @@
 		</form>
 
 		<hr>
-	</body>
-</html>
+{% endblock %}

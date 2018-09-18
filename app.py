@@ -186,6 +186,30 @@ def deleteMeal(meal_id):
 	meal.delete_instance()
 	return redirect(url_for('dino'))
 
+# ======= Resident Information ======= #
+@app.route('/ressie', methods=['POST', 'GET'])
+def resident():
+
+	if request.method == 'POST':
+		# do resident creation
+
+		models.Ressie.create(
+			first_name = request.form["first_name"],
+			last_name = request.form["last_name"],
+			room_number = request.form["room_number"],
+			floor = int(str(request.form["room_number"])[:1]), # get the first digit of the room number and set that as floor
+		)
+
+	ressies = models.Ressie.select()
+
+	return render_template('ressie.html', ressies=ressies)
+
+@app.route('/ressie/delete/<int:ressie_id>', methods=['GET'])
+def deleteRessie(ressie_id):
+	ressie = models.Ressie.select().where(models.Ressie.id == ressie_id).get()
+	ressie.delete_instance()
+	return redirect(url_for('resident'))
+
 if __name__ == '__main__':
 	models.goGoPowerRangers()
 	functions.resetBot()

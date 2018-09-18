@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block title %}Ressies{% endblock %}
+
+{% block content %}
+		<h2>Ressies</h2>
+		<hr>
+		<h3>Add a Resident</h3>
+		<form action="/ressie" method="post" class="pure-form pure-form-stacked">
+			<label for="first_name">First Name:</label><input name="first_name" type="text"><br/>
+			<label for="last_name">Last Name:</label><input name="last_name" type="text"><br/>
+			<label for="room_number">Room Number:</label><input name="room_number" type="number"><br/>
+			<input type="submit" value="New Resident" class="pure-button pure-button-primary">
+		</form>
+		<hr>
+		<h3>All Ressies</h3>
+
+			<table class="pure-table">
+				<thead>
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th>Room Number</th>
+					<th>Floor</th>
+					<th>Delete</th>
+				</thead>
+				<tbody>
+					{% for ressie in ressies %}
+					<tr>
+						<td>{{ ressie.first_name }}</td>
+						<td>{{ ressie.last_name }}</td>
+						<td>{{ ressie.room_number }}</td>
+						<td>{{ ressie.floor }}</td>
+						<td><a href="{{url_for('deleteRessie', ressie_id=ressie.id)}}">Delete</a></td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		<hr>
+{% endblock %}

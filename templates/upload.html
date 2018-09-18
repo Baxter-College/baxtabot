@@ -1,16 +1,8 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-	<head>
-		<meta charset="utf-8">
-		<title>🤖 | upload</title>
-		<style media="screen">
-			h1,h2,h3,h4,h5,h6,p,a {
-				font-family: monospace;
-			}
-		</style>
-	</head>
-	<body>
-		<h1>🤖</h1>
+{% extends "layout.html" %}
+
+{% block title %}Upload Calendar{% endblock %}
+
+{% block content %}
 		<h2>Upload Weekly Calendar</h2>
 		<hr>
 		<form action="/upload" method="post">
@@ -34,5 +26,4 @@
 		{% endfor %}
 
 		<hr>
-	</body>
-</html>
+{% endblock %}

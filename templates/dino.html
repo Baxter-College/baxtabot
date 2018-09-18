@@ -1,16 +1,9 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-	<head>
-		<meta charset="utf-8">
-		<title>🤖 | dino</title>
-		<style media="screen">
-			h1,h2,h3,h4,h5,h6,p,a {
-				font-family: monospace;
-			}
-		</style>
-	</head>
-	<body>
-		<h1>🤖</h1>
+{% extends "layout.html" %}
+
+{% block title %}Dino{% endblock %}
+
+{% block content %}
+
 		<h2>DINO</h2>
 		<hr>
 		<h3>Add a Meal 🌮</h3>
@@ -51,5 +44,5 @@
 		{% endfor %}
 
 		<hr>
-	</body>
-</html>
+
+{% endblock %}

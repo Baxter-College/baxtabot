@@ -120,6 +120,10 @@ def handleMessage(sender_psid, received_message):
 	elif ("days left" in received_message or "semester" in received_message):
 		response = { "text": functions.semesterResponse()}
 
+	elif ("room is" in received_message):
+		name = functions.extractName(received_message)
+		response = { "text": functions.getRoomNumber(name) }
+
 	else:
 		reply = bot.reply(str(sender_psid), received_message)
 		response = {"text": "{}".format(reply)}

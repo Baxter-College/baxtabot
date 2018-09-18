@@ -14,6 +14,8 @@ else:
 	from dotenv import load_dotenv
 	load_dotenv()
 
+	print("In a local environment!")
+
 	DEBUG = os.environ['DEBUG']
 	PORT = os.environ['PORT']
 	PAGE_ACCESS_TOKEN = os.environ['PAGE_ACCESS_TOKEN']

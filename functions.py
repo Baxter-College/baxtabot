@@ -151,7 +151,7 @@ def getCurrentDino():
 	today = datetime.datetime.today() + datetime.timedelta(hours=10)
 	breakfast = today.replace(hour=7, minute=0)
 	lunch = today.replace(hour=12, minute=0)
-	dinner = today.replace(hour=17, minute=0) # just to make sure
+	dinner = today.replace(hour=16, minute=0) # just to make sure (starting at 4 so people can ask what's dino earlier for dinner)
 
 	if (time >= breakfast and time < lunch):
 		# for today's breakfast
@@ -316,7 +316,22 @@ def getWeekEvents(sender_psid):
 		send_message = {"text": "yeah I don't know that shit. Go yell at Tom."}
 		message.callSendAPI(sender_psid, send_message)
 
-# ===== ===== #
+# ===== Get Room Number ===== #
+def extractName(msg):
+	half = msg.split("is",1)[1].split()
+	first_name = half[0]
+	last_name = half[1]
+
+	return [first_name, last_name]
+
+def getRoomNumber(name):
+
+	try:
+		ressie = models.Ressie.select().where(models.Ressie.first_name == name[0].title(), models.Ressie.last_name == name[1].title()).get()
+		return "{} is in room {}".format(name[0].title(), ressie.room_number)
+	except:
+		return """I could not find a room number for '{} {}' ... are you sure they go to Baxter?
+				  \nPlease make sure you spell their full name correctly.\n\n (Fun fact: Some people use names that are not in fact their names. Nicknames won't work)""".format(name[0].title(), name[1].title())
 
 class MarkovGenerator():
 

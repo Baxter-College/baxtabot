@@ -42,8 +42,17 @@ class WeekCal(Model):
 	class Meta:
 		database = db
 
+class Ressie(Model):
+	first_name = CharField()
+	last_name = CharField()
+	room_number = IntegerField()
+	floor = IntegerField()
+	college = CharField(default="baxter") # Incase we use for the rest of TKC
+
+	class Meta:
+		database = db
 
 def goGoPowerRangers():
 	db.connect()
-	db.create_tables([Meal, Sender, WeekCal], safe=True)
+	db.create_tables([Meal, Sender, WeekCal, Ressie], safe=True)
 	db.close()
