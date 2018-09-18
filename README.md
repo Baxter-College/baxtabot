@@ -2,7 +2,7 @@
 
 > Baxter's official sentient AI assistant!
 
-You can message it at: [m.me/baxtabot](https://m.me/baxtabot) (Note: currently only available to registered testers)
+You can message it at: [m.me/baxtabot](https://m.me/baxtabot)
 
 ## Setup
 
