@@ -22,24 +22,22 @@
 ## 1.1.0
 - [x] convert to pipenv rather than requirements.txt
 - [x] What can you do?
-- [ ] Dinovote
+- [x] Dinovote
+	- [x] Basic functionality
 	- [ ] send poll 30 minutes after message sent
 		- [ ] Option to unsubscribe
 	- [ ] If someone has voted, put it in the "what's dino" message after menu
 - [ ] Ensure that blast notifications conform to 24 + 1 facebook rule
-- [ ] Send Typing bubbles
 - [ ] Add login / password system for backend
 - [ ] Nice interface for backend
 - [ ] Edit meals in backend
 - [ ] Ordered meals in backend
 - [ ] Auto delete meals after a particular date
+- [ ] Room number database
 - [x] Ability to ask for day of the week's dinner (i.e what is for dinner on wednesday)
 - [x] other events
 	- [x] show calendar image?
-- [ ] let xanthe know I can't come to coffee night
-	- [ ] Send email to Xanthe with user created excuse
-- [ ] Send feature request through BaxtaBot
-- [ ] Show "no one has voted for *dinner* at dino" to be clear
+- [x] Show "no one has voted for *dinner* at dino" to be clear
 - [x] setshop on --> "shopen? / is shop open?"
 - [x] Semester Progress Bar
 
@@ -56,13 +54,13 @@
 	- [ ] When / Where is bus leaving?
 	- [ ] setbus 16:00 <-- same as setjd on for bus times (then "Bus time?")
 	- [ ] Group distribution automation in backend (for date nights etc)
-- [ ] Potentially an authentication system ... store if PSID knows the password???
-- [ ] Calendars (.ics)
-	- [ ] Individual calendar upload (see https://stackoverflow.com/questions/3408097/parsing-files-ics-icalendar-using-python)
-	- [ ] Baxter Event calendars
-- [ ] Use subscription messaging to be notified about bus times etc: https://developers.facebook.com/docs/messenger-platform/policy/policy-overview/#subscription_messaging
+	- [ ] Use subscription messaging to be notified about bus times etc: https://developers.facebook.com/docs/messenger-platform/policy/policy-overview/#subscription_messaging
 - [ ] Welcome screen (personalised greeting)
 - [ ] Better error handling
+- [ ] let xanthe know I can't come to coffee night
+	- [ ] Send email to Xanthe with user created excuse
+- [ ] Send feature request through BaxtaBot
+- [ ] Send Typing bubbles
 
 
 ## The Future
@@ -75,3 +73,4 @@
 	- see https://developers.facebook.com/docs/messenger-platform/send-messages/template/receipt
 - [ ] Object recognition in shop -> gives price
 - [ ] Rig up raspberry pi to ping baxtabot.herokuapp.com every 30 minutes to ensure heroku does not fall asleep
+- [ ] Potentially an authentication system ... store if PSID knows the password???
