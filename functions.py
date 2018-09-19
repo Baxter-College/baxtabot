@@ -319,8 +319,11 @@ def getWeekEvents(sender_psid):
 # ===== Get Room Number ===== #
 def extractName(msg):
 	half = msg.split("is",1)[1].split()
-	first_name = half[0]
-	last_name = half[1]
+	try:
+		first_name = half[0]
+		last_name = half[1]
+	except:
+		print("Someone did not enter a last name :(")
 
 	return [first_name, last_name]
 

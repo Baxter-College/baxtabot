@@ -3,17 +3,42 @@
 	<head>
 		<meta charset="utf-8">
 		<title>🤖 | {% block title %}{% endblock %}</title>
-		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,700" rel="stylesheet">
-		<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+
+		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+		<link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+		<link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+
+		<!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,700" rel="stylesheet">
+		<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous"> -->
 
 		<style media="screen">
-			h1,h2,h3,h4,h5,h6,p,a {
+			/* h1,h2,h3,h4,h5,h6,p,a {
 				font-family: "Open Sans";
-			}
+			} */
 
 			body {
 				padding: 20px;
 			}
+
+			.button-black {
+			  background-color: black;
+			  border-color: black;
+			}
+
+			.button-error {
+				background-color: rgb(202, 60, 60);
+				border-color: rgb(202, 60, 60);
+			}
+
+			.button-black.button-clear,
+			.button-black.button-outline {
+			  background-color: transparent;
+			  color: black;
+			}
+			.button-black.button-clear {
+			  border-color: transparent;
+			}
+
 		</style>
 	</head>
 	<body>
