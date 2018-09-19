@@ -322,10 +322,11 @@ def extractName(msg):
 	try:
 		first_name = half[0]
 		last_name = half[1]
+		return [first_name, last_name]
 	except:
 		print("Someone did not enter a last name :(")
 
-	return [first_name, last_name]
+	return ["Did not", "Work"]
 
 def getRoomNumber(name):
 
