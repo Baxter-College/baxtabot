@@ -133,13 +133,16 @@
 + [*] (you are|youre|your) [*] (great|awesome|fantastic|excelent|brilliant|amazing) [*]
 @ love you
 
-+ crashed you
++ [*] crashed you [*]
 - # ===== #\n
 ^ The BaxtaBot Crashers Hall of Fame\n
 ^ # ===== #\n
 ^ These people have managed to crash baxtabot:\n
 - - Lily Kutena\n
 - - Aspen Jackson\n
+
++ [*] (crashers hall of fame) [*]
+@ crashed you
 
 // understand insults
 
