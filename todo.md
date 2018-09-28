@@ -33,7 +33,8 @@
 - [ ] Edit meals in backend
 - [ ] Ordered meals in backend
 - [ ] Auto delete meals after a particular date
-- [ ] Room number database
+- [ ] General Knowledge base (https://github.com/jajoosam/wikibot/blob/master/server.js)
+- [x] Room number database
 - [x] Ability to ask for day of the week's dinner (i.e what is for dinner on wednesday)
 - [x] other events
 	- [x] show calendar image?

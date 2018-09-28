@@ -85,9 +85,13 @@ def handleMessage(sender_psid, received_message):
 			]
 		}
 
-	elif ("what's on" in received_message or "what’s on" in received_message or "what is on" in received_message or "event" in received_message):
+	elif ("what's on" in received_message or "what’s on" in received_message or "what is on" in received_message or "event" in received_message or "calendar" in received_message):
 		functions.getWeekEvents(sender_psid) # bit weird, this one will send an asset. so break and return OK now.
 		return 'OK'
+
+	elif ("nudes" in received_message or "noods" in received_message):
+		functions.nudes(sender_psid)
+		return "OK"
 
 	elif ("date" in received_message or "time" in received_message):
 		response = {"text": "The date is: {}".format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M'))}

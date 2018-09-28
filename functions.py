@@ -316,6 +316,9 @@ def getWeekEvents(sender_psid):
 		send_message = {"text": "yeah I don't know that shit. Go yell at Tom."}
 		message.callSendAPI(sender_psid, send_message)
 
+def nudes(sender_psid):
+	message.sendAsset(sender_psid, "621253454936970", "image") # asset ID came from making cURL request to fb api
+
 # ===== Get Room Number ===== #
 def extractName(msg):
 	half = msg.split("is",1)[1].split()

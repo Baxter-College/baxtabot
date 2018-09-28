@@ -20,6 +20,4 @@ else:
 	PORT = os.environ['PORT']
 	PAGE_ACCESS_TOKEN = os.environ['PAGE_ACCESS_TOKEN']
 
-
-print("access token is: ", PAGE_ACCESS_TOKEN)
 VERIFY_TOKEN = "GoodLordyThomasJHillLooksFineTonight"
