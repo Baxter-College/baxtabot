@@ -317,7 +317,10 @@ def getWeekEvents(sender_psid):
 		message.callSendAPI(sender_psid, send_message)
 
 def nudes(sender_psid):
-	message.sendAsset(sender_psid, "621253454936970", "image") # asset ID came from making cURL request to fb api
+	message.sendAsset(sender_psid, "270145943837548", "image") 
+	# asset ID came from making cURL request to fb api
+	# NOTE: you need to use the production Page Access Token to generate the asset for the nudes
+	# i.e. ... won't work in DEV
 
 # ===== Get Room Number ===== #
 def extractName(msg):
