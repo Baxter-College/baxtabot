@@ -36,7 +36,7 @@ def findTime(message):
 
 	addTime = datetime.timedelta(hours=0)
 
-	today = datetime.datetime.today() + datetime.timedelta(hours=10)
+	today = datetime.datetime.today() + datetime.timedelta(hours=9)
 	days = {"monday": 0, "tuesday": 1, "wednesday": 2, "thursday": 3, "friday": 4, "saturday": 5, "sunday": 6}
 
 	if ("tomorrow" in message or "tommorow" in message):
@@ -59,7 +59,7 @@ def findTime(message):
 def dinoRequest(meal, addTime):
 	# meal is "dinner", "lunch" or "breakfast"
 
-	ten_hours = datetime.timedelta(hours=10)
+	ten_hours = datetime.timedelta(hours=9)
 
 	today = datetime.datetime.now()
 
@@ -146,9 +146,9 @@ def dinoPoll():
 
 def getCurrentDino():
 
-	time = datetime.datetime.now() + datetime.timedelta(hours=10) # to make it aest
+	time = datetime.datetime.now() + datetime.timedelta(hours=9) # to make it aest
 
-	today = datetime.datetime.today() + datetime.timedelta(hours=10)
+	today = datetime.datetime.today() + datetime.timedelta(hours=9)
 	breakfast = today.replace(hour=7, minute=0)
 	lunch = today.replace(hour=12, minute=0)
 	dinner = today.replace(hour=16, minute=0) # just to make sure (starting at 4 so people can ask what's dino earlier for dinner)
@@ -267,14 +267,14 @@ def semesterResponse():
 	return response
 
 def yearProgress():
-	today = datetime.datetime.today() + datetime.timedelta(hours=10) # to make it aest
+	today = datetime.datetime.today() + datetime.timedelta(hours=9) # to make it aest
 
 	percentage = math.floor((today.timetuple().tm_yday / 365) * 100)
 
 	return percentage
 
 def timeProgress(start, end):
-	today = datetime.datetime.today() + datetime.timedelta(hours=10) # to make it aest
+	today = datetime.datetime.today() + datetime.timedelta(hours=9) # to make it aest
 
 	totalDays = (end - start).days
 	elapsedDays = (today.date() - start).days
