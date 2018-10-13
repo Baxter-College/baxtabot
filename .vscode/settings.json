@@ -1,3 +1,4 @@
 {
-  "python.pythonPath": "/Users/tomhill/.local/share/virtualenvs/baxtabot-mlV8fGOQ/bin/python"
+  "python.pythonPath": "/Users/tomhill/.local/share/virtualenvs/baxtabot-mlV8fGOQ/bin/python",
+  "python.linting.enabled": false
 }

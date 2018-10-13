@@ -125,9 +125,9 @@ def handleMessage(sender_psid, received_message):
 		response = { "text": functions.semesterResponse()}
 
 	elif ("room is" in received_message):
-		#name = functions.extractName(received_message)
-		#response = { "text": functions.getRoomNumber(name) }
-		response = {"text": "I can't assist a murder!!! My room number function has been disabled for assassin's week. Watch your back."}
+		name = functions.extractName(received_message)
+		response = { "text": functions.getRoomNumber(name) }
+		#response = {"text": "I can't assist a murder!!! My room number function has been disabled for assassin's week. Watch your back."}
 
 	else:
 		reply = bot.reply(str(sender_psid), received_message)
