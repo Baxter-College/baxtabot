@@ -103,19 +103,19 @@ def handleMessage(sender_psid, received_message):
 		response = {
 			"text": "You can ask me things about dino.\nLike 'What's for dinner?'\nor 'What is dino like'\nor 'dinovote' to give your opinion on dino",
 			"quick_replies":[
-	      		{
-	        		"content_type":"text",
-	        		"title":"What's dino?",
+				{
+					"content_type":"text",
+					"title":"What's dino?",
 					"payload":"What's dino?"
 				},
 				{
-	        		"content_type":"text",
-	        		"title":"What is dino like",
+					"content_type":"text",
+					"title":"What is dino like",
 					"payload":"What is dino like"
 				},
 				{
-	        		"content_type":"text",
-	        		"title":"dinovote",
+					"content_type":"text",
+					"title":"dinovote",
 					"payload":"dinovote"
 				}
 			]
@@ -280,4 +280,4 @@ def humanisePSID(PSID):
 		print("Worked!")
 		return data
 	else:
-		print("FUCKED!")
+		print("FUCKED! PSID was: {}".format(str(PSID)))
