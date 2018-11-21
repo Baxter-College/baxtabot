@@ -2,8 +2,6 @@
 #
 # Get all environment variables
 
-# TODO: could probs do this entire file better...
-
 import os
 
 if 'HEROKU' in os.environ:
