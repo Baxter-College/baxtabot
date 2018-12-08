@@ -38,100 +38,100 @@ def handleMessage(sender_psid, received_message):
 	"""
 
 	print("HANDLING MESSAGE!")
-	response = {}
+	response = {"text": "Hi. I'm on holiday. I'm not working at the moment. I will be working again after N-Week. Message me then, and expect these AMAZING new pieces of functionality!!!\n- Bus time notifications\n- Intent recognition\n- Continuous conversations\n- Legit machine learning and knowledge representation\n- HC Payments\n- TKC-wide features\n\nSince august I have:\n- Received 8,270 (and counting) messages \n- Been crashed by 4 individuals (see “who has crashed you”)\n- Helped locked out people 87 times\n- Talked about Shop and J&D 644 times\n- Received 4 unsolicited explicit images\n\nSee you next year!"}
 
 	received_message = received_message.lower()
 
-	# Note: should really come up with a better method to do all of this!
-	if ("dinner" in received_message or "lunch" in received_message or "breakfast" in received_message):
-		meal = functions.findMeal(received_message)
-		addTime = functions.findTime(received_message)
-		response = {
-			"text": functions.dinoRequest(meal, addTime),
-			"quick_replies":[
-				{
-	        		"content_type":"text",
-	        		"title":"What's dino like?",
-					"payload":"What's dino like?"
-				},
-				{
-	        		"content_type":"text",
-	        		"title":"dinovote",
-					"payload":"dinovote"
-				}
-			]
+	# # Note: should really come up with a better method to do all of this!
+	# if ("dinner" in received_message or "lunch" in received_message or "breakfast" in received_message):
+	# 	meal = functions.findMeal(received_message)
+	# 	addTime = functions.findTime(received_message)
+	# 	response = {
+	# 		"text": functions.dinoRequest(meal, addTime),
+	# 		"quick_replies":[
+	# 			{
+	#         		"content_type":"text",
+	#         		"title":"What's dino like?",
+	# 				"payload":"What's dino like?"
+	# 			},
+	# 			{
+	#         		"content_type":"text",
+	#         		"title":"dinovote",
+	# 				"payload":"dinovote"
+	# 			}
+	# 		]
 
-		}
+	# 	}
 
-	elif ("dinopoll" in received_message or "dino like" in received_message or "dino good" in received_message):
-		response = functions.dinoPoll()
+	# elif ("dinopoll" in received_message or "dino like" in received_message or "dino good" in received_message):
+	# 	response = functions.dinoPoll()
 
-	elif ("what's dino" in received_message or "what’s dino" in received_message or "what is dino" in received_message or "what's for dino" in received_message or "for dino" in received_message or "whats dino" in received_message ):
-		meal = functions.getCurrentDino()
-		addTime = functions.findTime(received_message)
-		response = {
-			"text": functions.dinoRequest(meal.type, addTime),
-			"quick_replies":[
-				{
-	        		"content_type":"text",
-	        		"title":"What's dino like?",
-					"payload":"What's dino like?"
-				},
-				{
-	        		"content_type":"text",
-	        		"title":"dinovote",
-					"payload":"dinovote"
-				}
-			]
-		}
+	# elif ("what's dino" in received_message or "what’s dino" in received_message or "what is dino" in received_message or "what's for dino" in received_message or "for dino" in received_message or "whats dino" in received_message ):
+	# 	meal = functions.getCurrentDino()
+	# 	addTime = functions.findTime(received_message)
+	# 	response = {
+	# 		"text": functions.dinoRequest(meal.type, addTime),
+	# 		"quick_replies":[
+	# 			{
+	#         		"content_type":"text",
+	#         		"title":"What's dino like?",
+	# 				"payload":"What's dino like?"
+	# 			},
+	# 			{
+	#         		"content_type":"text",
+	#         		"title":"dinovote",
+	# 				"payload":"dinovote"
+	# 			}
+	# 		]
+	# 	}
 
-	elif ("what's on" in received_message or "what’s on" in received_message or "what is on" in received_message or "event" in received_message or "calendar" in received_message):
-		functions.getWeekEvents(sender_psid) # bit weird, this one will send an asset. so break and return OK now.
-		return 'OK'
+	# elif ("what's on" in received_message or "what’s on" in received_message or "what is on" in received_message or "event" in received_message or "calendar" in received_message):
+	# 	functions.getWeekEvents(sender_psid) # bit weird, this one will send an asset. so break and return OK now.
+	# 	return 'OK'
 
-	elif ("nudes" in received_message or "noods" in received_message):
-		functions.nudes(sender_psid)
-		return "OK"
+	# elif ("nudes" in received_message or "noods" in received_message):
+	# 	functions.nudes(sender_psid)
+	# 	return "OK"
 
-	elif ("date" in received_message or "time" in received_message):
-		response = {"text": "The date is: {}".format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M'))}
+	# elif ("date" in received_message or "time" in received_message):
+	# 	response = {"text": "The date is: {}".format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M'))}
 
-	elif ("dino is shit" in received_message or "dino is bad" in received_message or "dino is good" in received_message or "dinovote" in received_message or "vote" in received_message):
-		response = functions.dinoVote()
+	# elif ("dino is shit" in received_message or "dino is bad" in received_message or "dino is good" in received_message or "dinovote" in received_message or "vote" in received_message):
+	# 	response = functions.dinoVote()
 
-	elif ("dino" in received_message):
-		response = {
-			"text": "You can ask me things about dino.\nLike 'What's for dinner?'\nor 'What is dino like'\nor 'dinovote' to give your opinion on dino",
-			"quick_replies":[
-				{
-					"content_type":"text",
-					"title":"What's dino?",
-					"payload":"What's dino?"
-				},
-				{
-					"content_type":"text",
-					"title":"What is dino like",
-					"payload":"What is dino like"
-				},
-				{
-					"content_type":"text",
-					"title":"dinovote",
-					"payload":"dinovote"
-				}
-			]
-		}
+	# elif ("dino" in received_message):
+	# 	response = {
+	# 		"text": "You can ask me things about dino.\nLike 'What's for dinner?'\nor 'What is dino like'\nor 'dinovote' to give your opinion on dino",
+	# 		"quick_replies":[
+	# 			{
+	# 				"content_type":"text",
+	# 				"title":"What's dino?",
+	# 				"payload":"What's dino?"
+	# 			},
+	# 			{
+	# 				"content_type":"text",
+	# 				"title":"What is dino like",
+	# 				"payload":"What is dino like"
+	# 			},
+	# 			{
+	# 				"content_type":"text",
+	# 				"title":"dinovote",
+	# 				"payload":"dinovote"
+	# 			}
+	# 		]
+	# 	}
 
-	elif ("days left" in received_message or "semester" in received_message):
-		response = { "text": functions.semesterResponse()}
+	# elif ("days left" in received_message or "semester" in received_message):
+	# 	response = { "text": functions.semesterResponse()}
 
-	elif ("room is" in received_message):
-		name = functions.extractName(received_message)
-		response = { "text": functions.getRoomNumber(name) }
-		#response = {"text": "I can't assist a murder!!! My room number function has been disabled for assassin's week. Watch your back."}
+	# elif ("room is" in received_message):
+	# 	name = functions.extractName(received_message)
+	# 	response = { "text": functions.getRoomNumber(name) }
+	# 	#response = {"text": "I can't assist a murder!!! My room number function has been disabled for assassin's week. Watch your back."}
 
-	else:
-		reply = bot.reply(str(sender_psid), received_message)
-		response = {"text": "{}".format(reply)}
+	# else:
+	# 	reply = bot.reply(str(sender_psid), received_message)
+	# 	response = {"text": "{}".format(reply)}
 
 	print("Sending back: ")
 	print(response)
