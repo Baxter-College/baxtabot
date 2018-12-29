@@ -38,7 +38,7 @@ def handleMessage(sender_psid, received_message):
 	"""
 
 	print("HANDLING MESSAGE!")
-	response = {"text": "Hi. I'm on holiday. I'm not working at the moment. I will be working again after N-Week. Message me then, and expect these AMAZING new pieces of functionality!!!\n- Bus time notifications\n- Intent recognition\n- Continuous conversations\n- Legit machine learning and knowledge representation\n- HC Payments\n- TKC-wide features\n\nSince august I have:\n- Received 8,270 messages \n- Been crashed by 4 individuals\n- Helped locked out people 87 times\n- Talked about Shop and J&D 644 times\n- Received 4 unsolicited explicit images\n\nSee you next year!"}
+	response = {"text": "Hi. I'm on holiday. I'm not working at the moment. I will be working again after N-Week. Message me then, and expect AMAZING new pieces of functionality!!!\n\nSee you next year!"}
 
 	received_message = received_message.lower()
 
