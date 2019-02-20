@@ -31,6 +31,8 @@ bot.set_subroutine("generate_excuse", functions.generate_excuse)
 
 # ==== message handling ==== #
 
+# here is some code
+
 def handleMessage(sender_psid, received_message):
 	"""
 	Handles a plain message request and determines what to do with it
