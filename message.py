@@ -35,6 +35,11 @@ bot.set_subroutine("generate_excuse", functions.generate_excuse)
 
 # added some more code to new feature
 
+#
+# A heap
+#
+# Of code
+
 def handleMessage(sender_psid, received_message):
 	"""
 	Handles a plain message request and determines what to do with it
