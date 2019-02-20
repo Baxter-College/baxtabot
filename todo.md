@@ -40,7 +40,7 @@
 - [x] Show "no one has voted for *dinner* at dino" to be clear
 - [x] setshop on --> "shopen? / is shop open?"
 - [x] Semester Progress Bar
-
+- [ ] Coffee night recap
 #### Meta:
 
 - [x] create program to test on local machine by sending curl requests to webhook on server [see ngrok]
@@ -74,3 +74,8 @@
 - [ ] Object recognition in shop -> gives price
 - [ ] Rig up raspberry pi to ping baxtabot.herokuapp.com every 30 minutes to ensure heroku does not fall asleep
 - [ ] Potentially an authentication system ... store if PSID knows the password???
+
+## Social Features
+- [ ] Pub crawls -> Down your drink random
+- [ ] TKC Dating "find me a lover"
+	- [ ] Allow floorcest?
