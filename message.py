@@ -38,8 +38,8 @@ def handleMessage(sender_psid, received_message):
 	"""
 
 	print("HANDLING MESSAGE!")
-	response = {"text": "Hi. I'm on holiday. I'm not working at the moment. I will be working again after N-Week. Message me then, and expect AMAZING new pieces of functionality!!!\n\nSee you next year!"}
-
+	# response = {"text": "Hi. I'm on holiday. I'm not working at the moment. I will be working again after N-Week. Message me then, and expect AMAZING new pieces of functionality!!!\n\nSee you next year!"}
+	response = {}
 	received_message = received_message.lower()
 
 	# Note: should really come up with a better method to do all of this!
