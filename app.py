@@ -1,6 +1,7 @@
 # app.py
 #
 # Runs and handles all connections to the web server
+# trying to fix probs
 
 from flask import Flask, request, render_template, redirect, url_for
 import os
