@@ -142,8 +142,8 @@ def handleMessage(sender_psid, received_message):
 
 	elif ("room is" in received_message):
 		name = functions.extractName(received_message)
-		# response = { "text": functions.getRoomNumber(name) }
-		response = {"text": "I don't know room numbers yet ... will be working shortly"}
+		response = { "text": functions.getRoomNumber(name) }
+		# response = {"text": "I don't know room numbers yet ... will be working shortly"}
 		#response = {"text": "I can't assist a murder!!! My room number function has been disabled for assassin's week. Watch your back."}
 
 	else:
