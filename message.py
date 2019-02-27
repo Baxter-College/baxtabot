@@ -89,13 +89,13 @@ def handleMessage(sender_psid, received_message):
 			"text": functions.dinoRequest(meal.type, addTime),
 			"quick_replies":[
 				{
-	        		"content_type":"text",
-	        		"title":"What's dino like?",
+	        "content_type":"text",
+	        "title":"What's dino like?",
 					"payload":"What's dino like?"
 				},
 				{
-	        		"content_type":"text",
-	        		"title":"dinovote",
+	        "content_type":"text",
+	        "title":"dinovote",
 					"payload":"dinovote"
 				}
 			]
@@ -282,19 +282,22 @@ def check_user_exists(sender_psid):
 		sender.save()
 
 def humanisePSID(PSID):
-	url = "https://graph.facebook.com/" + str(PSID)
+	# url = "https://graph.facebook.com/" + str(PSID)
 
-	r = requests.get(
-		url,
-		params = {
-			"fields" : "first_name,last_name,profile_pic",
-			"access_token" : PAGE_ACCESS_TOKEN
-		}
-	)
+	# r = requests.get(
+	# 	url,
+	# 	params = {
+	# 		"fields" : "first_name,last_name,profile_pic",
+	# 		"access_token" : PAGE_ACCESS_TOKEN
+	# 	}
+	# )
 
-	if r.status_code == 200:
-		data = r.json()
-		print("Worked!")
-		return data
-	else:
-		print("FUCKED! PSID was: {}".format(str(PSID)))
+	# if r.status_code == 200:
+	# 	data = r.json()
+	# 	print("Worked!")
+	# 	return data
+	# else:
+	# 	print("FUCKED! PSID was: {}".format(str(PSID)))
+
+	# I believe there is an issue using the live PAGE_ACCESS_TOKEN
+	return {"first_name":"Meatbag","last_name":"Issue","profile_pic":"https:\/\/platform-lookaside.fbsbx.com\/platform\/profilepic\/?psid=1821155224639424&width=1024&ext=1553834016&hash=AeQZgIdp0EFa4cSG"}

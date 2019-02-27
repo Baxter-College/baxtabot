@@ -77,6 +77,7 @@ def webhook():
 				webhook_event = entry['messaging'][0]
 
 				# get the sender PSID
+				sender_psid = None
 				sender_psid = webhook_event['sender']['id']
 
 				# send bubbles ... formulating a response
