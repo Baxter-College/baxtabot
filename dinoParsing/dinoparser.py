@@ -6,9 +6,29 @@
 #12/3/2019
 
 import re
+import mammoth
 
 #name of the html file to parse
-fileName = "testdino.htm"
+fileName = "dinoMenu.htm"
+newf = input("Enter filename? ")
+if newf != '':
+	fileName = newf
+
+##if the file is a word document, conveert the file to html for parsing
+##using the mammoth library
+#https://github.com/mwilliamson/python-mammoth.git
+if fileName.endswith('.docx'):
+	outHTML = fileName[:-5]+'.htm'
+	out = open(outHTML, 'w')
+
+
+	with open(fileName, "rb") as docx_file:
+	    result = mammoth.convert_to_html(docx_file)
+	    html = result.value # The generated HTML
+	    messages = result.messages # Any messages, such as warnings during conversion
+	    out.write(html)
+	out.close()
+	fileName = outHTML
 
 #read the entire file into one string
 lines =  open(fileName, "r").read()
@@ -132,9 +152,9 @@ for row in paras[2:]:
 		#add each meal into a new list which orders the individual meals by their day and then
 		#by which meal of the day
 		mealsByDay[day][curMeal].append(' '.join(ele))
-print ''
+print('')
 print("Menu for: " + startDate)
-print ''
+print('')
 
 
 ##below is purely for visual output of the parsed menu to test code 
@@ -142,15 +162,15 @@ print ''
 
 days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 for num, day in enumerate(mealsByDay):
-	print ''
+	print('')
 	print("################   " + days[num] + "   #################")
-	print ''
+	print('')
 	for ind, meal in enumerate(day[1:]):
-		print ">>>>>> " + mealIndex[ind] + " <<<<<<<"
+		print(">>>>>> " + mealIndex[ind] + " <<<<<<<")
 		for thing in meal:
 			if thing != '':
-				print thing
-		print ''
-print ''
-print ''
+				print(thing)
+		print('')
+print('')
+print('')
 print("Menu for: " + startDate)
