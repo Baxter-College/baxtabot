@@ -1,6 +1,7 @@
 # app.py
 #
 # Runs and handles all connections to the web server
+# trying to fix probs
 
 from flask import Flask, request, render_template, redirect, url_for, send_from_directory
 import os
@@ -20,16 +21,16 @@ import functions
 if DEBUG:
 	print("\n\n\nTHIS IS A LOCAL VERSION\n-> Ensure you set ngrok webhook URL in fb\n-> Ensure PAGE_ACCESS_TOKEN is set\n-> Make sure POSTGRES is Running!!!\n\n")
 
-	import logging
-	import http.client as http_client
+import logging
+import http.client as http_client
 
-	http_client.HTTPConnection.debuglevel = 1
+http_client.HTTPConnection.debuglevel = 1
 
-	logging.basicConfig()
-	logging.getLogger().setLevel(logging.DEBUG)
-	requests_log = logging.getLogger("requests.packages.urllib3")
-	requests_log.setLevel(logging.DEBUG)
-	requests_log.propagate = True
+logging.basicConfig()
+logging.getLogger().setLevel(logging.DEBUG)
+requests_log = logging.getLogger("requests.packages.urllib3")
+requests_log.setLevel(logging.DEBUG)
+requests_log.propagate = True
 
 app = Flask(__name__)
 
@@ -79,6 +80,7 @@ def webhook():
 				webhook_event = entry['messaging'][0]
 
 				# get the sender PSID
+				sender_psid = None
 				sender_psid = webhook_event['sender']['id']
 
 				# send bubbles ... formulating a response
