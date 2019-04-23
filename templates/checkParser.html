@@ -1,0 +1,99 @@
+{% extends "layout.html" %}
+
+{% block title %}Dino{% endblock %}
+
+{% block content %}
+	<h2>Confirm Dino Entries</h2>	
+	<script type="text/javascript">
+		function makeEditable(e) {
+		  var cell = e.target;
+		  if (cell.dataset.editing !== 'true') {
+		    cell.dataset.editing = true;
+		    var text = cell.innerHTML;
+		    cell.innerHTML = '';
+		    var input = document.createElement('input');
+		    input.addEventListener('blur', makeNonEditable);
+		    input.setAttribute("name", "test");
+		    input.type = "text";
+		    input.value = text;
+		    cell.appendChild(input);
+		  }
+		}
+
+		function makeNonEditable(e) {
+		  var input = e.target;
+		  var text = input.value;
+		  var cell = input.parentElement;
+		  if (cell.dataset.editing === 'true') {
+		    cell.dataset.editing = false;
+		    cell.innerHTML = text;
+		  }
+		}
+
+		var rows = 10;
+		var cols = 4;
+
+		var table = document.createElement('table');
+		table.classList.add('table');
+		table.setAttribute('name', 'table')
+
+		var thead = document.createElement('thead');
+		var headRow = document.createElement('tr');
+		var columnNames = ["Date", "Breakfast", "Lunch", "Dinner"];
+
+		for (var i = 0; i < 4; i++) {
+		  var th = document.createElement('th');
+		  th.appendChild(document.createTextNode(columnNames[i]));
+		  thead.appendChild(th);
+		}
+
+		thead.appendChild(headRow);
+
+		var tbody = document.createElement('tbody');
+		tbody.name = "data";
+		{% for day in mealsByDay[1] %}
+			var tr = document.createElement('tr');
+			tr.name = "{{loop.index}}";
+			var date = document.createElement('td');
+			date.width = "10%";
+			var dateval = document.createElement('input');
+			dateval.type = "date"
+			dateval.value = "{{mealsByDay[0][loop.index - 1]}}";
+			dateval.name = tr.name + "/" + "date";
+			date.appendChild(dateval)
+			tr.appendChild(date)
+			{% for meal in day[1:] %}
+				var td = document.createElement('td');
+				td.name = "{{loop.index}}"
+				td.width = "30%";
+				{%for ele in meal %}
+					{% if ele != "" %}
+						var p = document.createElement('textarea');
+						p.value = "{{ele}}";
+						p.name = tr.name + "/" + td.name;
+						td.appendChild(p);
+					{% endif %}
+				{% endfor %}
+				tr.appendChild(td)
+			{% endfor %}
+			tbody.appendChild(tr)
+		{% endfor %}
+
+		table.appendChild(thead);
+		table.appendChild(tbody);
+
+		var form = document.createElement('form');
+		form.setAttribute("action", "file/confirm");
+		form.setAttribute("method", "post");
+		form.setAttribute("class", "pure-form pure-form-stacked");
+		var submit = document.createElement('input');
+		submit.setAttribute("type", "submit");
+		submit.setAttribute("value", "confirm");
+		submit.setAttribute("class", "pure-button pure-button-primary");
+		form.appendChild(submit)
+		form.appendChild(table)
+		document.body.appendChild(form);
+	</script>
+
+
+{% endblock %}

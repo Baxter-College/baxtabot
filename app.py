@@ -2,11 +2,14 @@
 #
 # Runs and handles all connections to the web server
 
-from flask import Flask, request, render_template, redirect, url_for
+from flask import Flask, request, render_template, redirect, url_for, send_from_directory
 import os
 import json
 import requests
 import datetime
+import mammoth
+import re
+from werkzeug.utils import secure_filename
 
 from settings import *
 
@@ -184,6 +187,56 @@ def deleteMeal(meal_id):
 	meal = models.Meal.select().where(models.Meal.id == meal_id).get()
 	meal.delete_instance()
 	return redirect(url_for('dino'))
+
+
+@app.route('/dino/fileadd', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            print('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if file.filename == '':
+            print('No selected file')
+            return redirect(request.url)
+        if file.filename.endswith('.docx'):
+            result = mammoth.convert_to_html(file)
+            html = result.value # The generated HTML
+            messages = result.messages # Any messages, such as warnings during conversion
+
+            mealsByDay = functions.dinoparse(html)
+            return render_template('checkParser.html', mealsByDay=mealsByDay)
+        if file.filename.endswith('.html') or file.filename.endswith('.htm'):
+            mealsByDay = functions.dinoparse(file.readlines())
+            return render_template('checkParser.html', mealsByDay=mealsByDay)
+    else:
+        return redirect(url_for('dino'))
+
+@app.route('/dino/file/confirm', methods=['POST'])
+def confirm_file():
+    form = request.form
+    meals = ['breakfast', 'lunch', 'dinner']
+    for day in range(1,8):
+        date = form[str(day) + "/" + "date"]
+        for meal in range (1,4):
+            things = form.getlist(str(day) + '/' + str(meal))
+            description = '\n'.join(things)
+
+            subs = {"&amp;": "&", "\\x96":"-", "\\x92":"'"}
+
+            for sub, repl in subs.items():
+                description = re.sub(sub, repl, description)
+
+            models.Meal.create(
+                date = date,
+                description = description,
+                type = meals[meal - 1]
+            )
+    return redirect(url_for('dino'))
+
 
 # ======= Resident Information ======= #
 @app.route('/ressie', methods=['POST', 'GET'])

@@ -23,6 +23,9 @@ MarkupSafe = "==1.0"
 Werkzeug = "==0.14.1"
 rq = "*"
 python-dotenv = "*"
+app-py = "*"
+mammoth = "*"
+re = "*"
 
 [dev-packages]
 

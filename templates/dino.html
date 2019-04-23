@@ -6,6 +6,12 @@
 
 		<h2>DINO</h2>
 		<hr>
+		<h3>Upload dino File</h3>
+		<form action="/dino/fileadd" method=post enctype=multipart/form-data>
+		  <input type=file name=file>
+		  <input type=submit value=Upload>
+		</form>
+		<hr>
 		<h3>Add a Meal 🌮</h3>
 		<form action="/dino/add" method="post" class="pure-form pure-form-stacked">
 			<input name="date" type="date"><br/>

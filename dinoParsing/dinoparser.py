@@ -36,6 +36,7 @@ lines =  open(fileName, "r").read()
 #replace some encoded characters with what they should be
 #also remove all newline characters
 subs = {"&amp;": "&", "\\x96":"-", "\n|\r\n|\r|\xa0":"", "\\x92":"'"}
+
 for sub, repl in subs.items():
 	lines = re.sub(sub, repl, lines)
 
