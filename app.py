@@ -101,14 +101,6 @@ def webhook():
 				else:
 					return message.callSendAPI(sender_psid, {"text": "I can't deal with whatever shit you just sent me. Go complain to Tom about it"})
 
-
-				# if (webhook_event['message']['text']):
-				# 	return message.handleMessage(sender_psid, webhook_event['message']['text'])
-				# elif (webhook_event['message']['quick_reply']):
-				# 	return message.handlePostback(sender_psid, webhook_event['message']['quick_reply']['payload'])
-				# elif (webhook_event['postback']):
-				# 	return message.handlePostback(sender_psid, webhook_event['postback'])
-
 		else:
 			# send error
 			print("Something went shit")

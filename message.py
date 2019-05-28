@@ -31,22 +31,6 @@ bot.set_subroutine("generate_excuse", functions.generate_excuse)
 
 # ==== message handling ==== #
 
-# here is some code
-
-# added some more code to new feature
-
-# Some different code
-# with some different lines
-#
-#
-#
-#
-
-#
-# A heap
-#
-# Of code
-
 def handleMessage(sender_psid, received_message):
 	"""
 	Handles a plain message request and determines what to do with it
@@ -282,22 +266,22 @@ def check_user_exists(sender_psid):
 		sender.save()
 
 def humanisePSID(PSID):
-	# url = "https://graph.facebook.com/" + str(PSID)
+	url = "https://graph.facebook.com/" + str(PSID)
 
-	# r = requests.get(
-	# 	url,
-	# 	params = {
-	# 		"fields" : "first_name,last_name,profile_pic",
-	# 		"access_token" : PAGE_ACCESS_TOKEN
-	# 	}
-	# )
+	r = requests.get(
+		url,
+		params = {
+			"fields" : "first_name,last_name,profile_pic",
+			"access_token" : PAGE_ACCESS_TOKEN
+		}
+	)
 
-	# if r.status_code == 200:
-	# 	data = r.json()
-	# 	print("Worked!")
-	# 	return data
-	# else:
-	# 	print("FUCKED! PSID was: {}".format(str(PSID)))
+	if r.status_code == 200:
+		data = r.json()
+		print("Worked!")
+		return data
+	else:
+		print("FUCKED! PSID was: {}".format(str(PSID)))
 
 	# I believe there is an issue using the live PAGE_ACCESS_TOKEN
-	return {"first_name":"Meatbag","last_name":"Issue","profile_pic":"https:\/\/platform-lookaside.fbsbx.com\/platform\/profilepic\/?psid=1821155224639424&width=1024&ext=1553834016&hash=AeQZgIdp0EFa4cSG"}
+	# return {"first_name":"Meatbag","last_name":"Issue","profile_pic":"https:\/\/platform-lookaside.fbsbx.com\/platform\/profilepic\/?psid=1821155224639424&width=1024&ext=1553834016&hash=AeQZgIdp0EFa4cSG"}
