@@ -24,6 +24,7 @@ Werkzeug = "==0.14.1"
 rq = "*"
 python-dotenv = "*"
 mammoth = "*"
+fuzzywuzzy = "*"
 
 [dev-packages]
 

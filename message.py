@@ -282,6 +282,3 @@ def humanisePSID(PSID):
 		return data
 	else:
 		print("FUCKED! PSID was: {}".format(str(PSID)))
-
-	# I believe there is an issue using the live PAGE_ACCESS_TOKEN
-	# return {"first_name":"Meatbag","last_name":"Issue","profile_pic":"https:\/\/platform-lookaside.fbsbx.com\/platform\/profilepic\/?psid=1821155224639424&width=1024&ext=1553834016&hash=AeQZgIdp0EFa4cSG"}

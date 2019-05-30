@@ -8,6 +8,7 @@ import os
 from urllib.parse import urlparse
 
 from peewee import *
+from fuzzywuzzy import fuzz, process
 
 if 'HEROKU' in os.environ:
 	url = urlparse(os.environ["DATABASE_URL"])
@@ -35,6 +36,15 @@ class Sender(Model):
 	class Meta:
 		database = db
 
+	@property
+	def full_name(self):
+		return f'{self.first_name} {self.last_name}'
+
+	@staticmethod
+	def fuzzySearch(name):
+		""" Matches search by closest string, returns string match, confidence, record """
+		return process.extractOne(name, {sender: sender.full_name for sender in Sender.select()})
+
 class WeekCal(Model):
 	assetID = CharField()
 	week_start = DateField()
@@ -51,6 +61,15 @@ class Ressie(Model):
 
 	class Meta:
 		database = db
+
+	@property
+	def full_name(self):
+		return f'{self.first_name} {self.last_name}'
+
+	@staticmethod
+	def fuzzySearch(name):
+		""" Matches search by closest string, returns string match, confidence, record """
+		return process.extractOne(name, {ressie: ressie.full_name for ressie in Ressie.select()})
 
 def goGoPowerRangers():
 	db.connect()

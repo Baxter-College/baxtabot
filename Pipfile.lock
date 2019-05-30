@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "a558351fd4f78ba3ea0353b9114052226b97e375c39b56269d76dd57d6e7ce52"
+            "sha256": "c2e99850ffb99b3db3a9a25e2f8b049162708a807a192c2f43ef0fd6a54cf4f0"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -42,8 +42,7 @@
         },
         "cobble": {
             "hashes": [
-                "sha256:52e7f886adbe42ccc3675dd627c87f6db8f22f96b6e0754a9e642ac7dd94fa42",
-                "sha256:a58a0d3116df009133c06507129fcc12d4911999cbda4fb46fc081737837368b"
+                "sha256:52e7f886adbe42ccc3675dd627c87f6db8f22f96b6e0754a9e642ac7dd94fa42"
             ],
             "version": "==0.1.3"
         },
@@ -54,6 +53,14 @@
             ],
             "index": "pypi",
             "version": "==1.0.2"
+        },
+        "fuzzywuzzy": {
+            "hashes": [
+                "sha256:5ac7c0b3f4658d2743aa17da53a55598144edbc5bee3c6863840636e6926f254",
+                "sha256:6f49de47db00e1c71d40ad16da42284ac357936fa9b66bea1df63fed07122d62"
+            ],
+            "index": "pypi",
+            "version": "==0.17.0"
         },
         "idna": {
             "hashes": [
@@ -145,11 +152,11 @@
         },
         "python-dotenv": {
             "hashes": [
-                "sha256:a84569d0e00d178bc5b957f7ff208bf49287cbf61857c31c258c4a91f571527b",
-                "sha256:c9b1ddd3cdbe75c7d462cb84674d87130f4b948f090f02c7d7144779afb99ae0"
+                "sha256:156f218846bd90e0d537915545cde4a987947c2cecc628b50f9955fdde72534a",
+                "sha256:6640acd76e6cab84648e4fec16c9d19de6700971f9d91d045e7120622167bfda"
             ],
             "index": "pypi",
-            "version": "==0.10.1"
+            "version": "==0.10.2"
         },
         "redis": {
             "hashes": [
@@ -184,7 +191,6 @@
         },
         "rq": {
             "hashes": [
-                "sha256:0d28922da7287afc24f13e9e24ddafb4e737f27d55d91ad4f4e6de1134da85e5",
                 "sha256:22de332ed7e061634eb893dc8cc9ca96c8641480f46c403cabef8d43a2eca867"
             ],
             "index": "pypi",

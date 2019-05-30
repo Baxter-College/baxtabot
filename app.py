@@ -18,19 +18,21 @@ import models
 import message
 import functions
 
+from fuzzywuzzy import fuzz
+
 if DEBUG:
 	print("\n\n\nTHIS IS A LOCAL VERSION\n-> Ensure you set ngrok webhook URL in fb\n-> Ensure PAGE_ACCESS_TOKEN is set\n-> Make sure POSTGRES is Running!!!\n\n")
 
-import logging
-import http.client as http_client
+# import logging
+# import http.client as http_client
 
-http_client.HTTPConnection.debuglevel = 1
+# http_client.HTTPConnection.debuglevel = 1
 
-logging.basicConfig()
-logging.getLogger().setLevel(logging.DEBUG)
-requests_log = logging.getLogger("requests.packages.urllib3")
-requests_log.setLevel(logging.DEBUG)
-requests_log.propagate = True
+# logging.basicConfig()
+# logging.getLogger().setLevel(logging.DEBUG)
+# requests_log = logging.getLogger("requests.packages.urllib3")
+# requests_log.setLevel(logging.DEBUG)
+# requests_log.propagate = True
 
 app = Flask(__name__)
 
