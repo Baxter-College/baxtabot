@@ -8,17 +8,13 @@ You can message it at: [m.me/baxtabot](https://m.me/baxtabot)
 
 - Set up a [virtual environment](https://docs.python-guide.org/dev/virtualenvs/) **using pipenv** (see [pipenv docs](https://docs.pipenv.org/))
 
-- create a `.env` file including:
-	- `DB_NAME` (postgres database name)
-	- `DB_USER` (postgres username)
-	- `DB_PASSWORD` (postgres password)
-	- `PAGE_ACCESS_TOKEN` (find in facebook apps dashboard)
-	- `DEBUG` (int, 1 or 0)
-	- `PORT` (int, usually 5000)
+- create a `.env` file including: - `DB_NAME` (postgres database name) - `DB_USER` (postgres username) - `DB_PASSWORD` (postgres password) - `PAGE_ACCESS_TOKEN` (find in facebook apps dashboard) - `DEBUG` (int, 1 or 0) - `PORT` (int, usually 5000)
 
 - run `python app.py`
 
 ### Local Testing
+
+You can test in the terminal by adding the `--terminal` parameter (`python3 app.py -t`) - images obviously won't work.
 
 Use the **BaxtaBot - DEV** messenger bot. Install [ngrok](https://ngrok.com/) and forward the flask server created on `localhost:5000`
 
@@ -42,6 +38,4 @@ To add a test user, go to: developers.facebook.com/requests
 
 - see todo.md
 - would like to implement a smarter dialog system (possibly actual machine learning rather than pattern matching?) (dialogflow??)
-- some other ideas:
-	- integrate vac trac
-	- When is the bus leaving?
+- some other ideas: - integrate vac trac - When is the bus leaving?

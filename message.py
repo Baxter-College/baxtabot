@@ -40,7 +40,6 @@ def handleMessage(sender_psid, received_message):
     response = {}
     received_message = received_message.lower()
 
-    # Note: should really come up with a better method to do all of this!
     if (
         "dinner" in received_message
         or "lunch" in received_message
@@ -74,20 +73,30 @@ def handleMessage(sender_psid, received_message):
         or "what's for dino" in received_message
         or "for dino" in received_message
         or "whats dino" in received_message
+        or "dino" in received_message
     ):
         meal = functions.getCurrentDino()
-        addTime = functions.findTime(received_message)
-        response = {
-            "text": functions.dinoRequest(meal.type, addTime),
-            "quick_replies": [
-                {
-                    "content_type": "text",
-                    "title": "What's dino like?",
-                    "payload": "What's dino like?",
-                },
-                {"content_type": "text", "title": "dinovote", "payload": "dinovote"},
-            ],
-        }
+        if not meal:
+            response = {
+                "text": f"Someone hasn't updated the menu 🤦‍♀️... yell at {OFFICERS}"
+            }
+        else:
+            addTime = functions.findTime(received_message)
+            response = {
+                "text": functions.dinoRequest(meal.type, addTime),
+                "quick_replies": [
+                    {
+                        "content_type": "text",
+                        "title": "What's dino like?",
+                        "payload": "What's dino like?",
+                    },
+                    {
+                        "content_type": "text",
+                        "title": "dinovote",
+                        "payload": "dinovote",
+                    },
+                ],
+            }
 
     elif (
         "what's on" in received_message
@@ -145,8 +154,6 @@ def handleMessage(sender_psid, received_message):
     elif "room is" in received_message:
         name = functions.extractName(received_message)
         response = {"text": functions.getRoomNumber(name)}
-        # response = {"text": "I don't know room numbers yet ... will be working shortly"}
-        # response = {"text": "I can't assist a murder!!! My room number function has been disabled for assassin's week. Watch your back."}
 
     else:
         reply = bot.reply(str(sender_psid), received_message)

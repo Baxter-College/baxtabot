@@ -175,32 +175,34 @@ def getCurrentDino():
         hour=16, minute=0
     )  # just to make sure (starting at 4 so people can ask what's dino earlier for dinner)
 
-    if time >= breakfast and time < lunch:
-        # for today's breakfast
-        dino = (
-            models.Meal.select()
-            .where(models.Meal.type == "breakfast")
-            .where(models.Meal.date == today.date())
-            .get()
-        )
-    elif time >= lunch and time < dinner:
-        # for today's lunch
-        dino = (
-            models.Meal.select()
-            .where(models.Meal.type == "lunch")
-            .where(models.Meal.date == today.date())
-            .get()
-        )
-    elif time >= dinner:
-        # for today's dinner
-        dino = (
-            models.Meal.select()
-            .where(models.Meal.type == "dinner")
-            .where(models.Meal.date == today.date())
-            .get()
-        )
-
-    return dino
+    try:
+        if time >= breakfast and time < lunch:
+            # for today's breakfast
+            dino = (
+                models.Meal.select()
+                .where(models.Meal.type == "breakfast")
+                .where(models.Meal.date == today.date())
+                .get()
+            )
+        elif time >= lunch and time < dinner:
+            # for today's lunch
+            dino = (
+                models.Meal.select()
+                .where(models.Meal.type == "lunch")
+                .where(models.Meal.date == today.date())
+                .get()
+            )
+        elif time >= dinner:
+            # for today's dinner
+            dino = (
+                models.Meal.select()
+                .where(models.Meal.type == "dinner")
+                .where(models.Meal.date == today.date())
+                .get()
+            )
+        return dino
+    except:
+        return None
 
 
 # ======== J&D ========== #
