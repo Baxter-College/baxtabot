@@ -1,7 +1,6 @@
 # functions.py
 #
 # Includes all non-messaging functionality of baxterbot
-# TODO: split this into a module
 
 import datetime
 import random
@@ -93,33 +92,9 @@ def dinoRequest(meal, addTime):
         print("---> ", e)
         print("Meal: ", meal)
         print("Date: ", today_AEST.date())
-        return "Honestly.... I don't know. Go yell at Tom."
+        return "Honestly.... I don't know. Go yell at {}".format(OFFICERS)
 
     return "{} at dino is:\n{}".format(meal, dino.description)
-
-
-def dinoVote():
-    return {
-        "attachment": {
-            "type": "template",
-            "payload": {
-                "template_type": "button",
-                "text": "What was dino like this time?",
-                "buttons": [
-                    {
-                        "type": "postback",
-                        "title": "Dino was great! 😋",
-                        "payload": "goodvote",
-                    },
-                    {
-                        "type": "postback",
-                        "title": "Dino was awful! 🤢",
-                        "payload": "badvote",
-                    },
-                ],
-            },
-        }
-    }
 
 
 def makeDinoVote(vote):
@@ -263,8 +238,6 @@ def get_shop(rs, args):
 
 
 # ===== Baxter Events ===== #
-
-
 # TODO: Move this into message module
 def uploadAsset(assetUrl):
 
@@ -289,8 +262,6 @@ def uploadAsset(assetUrl):
 
 
 # ======= Semester In Progress ======= #
-
-
 def semesterResponse():
 
     # is this hardcoded? yes.
@@ -343,8 +314,6 @@ def progressBar(percentage):
 
 
 # ===== Week Events ===== #
-
-
 def getWeekEvents():
 
     today = datetime.datetime.today() + datetime.timedelta(hours=11)  # to make it aest

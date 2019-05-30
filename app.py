@@ -305,7 +305,6 @@ if __name__ == "__main__":
     functions.resetBot()
 
     if args.terminal:
-        # print(functions.getRoomNumber("Thomas Hill"))
         while True:
             msg = str(input("> "))
             print("BAXTABOT: ", message.handleMessage("cmd", msg)["text"])
