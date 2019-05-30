@@ -7,14 +7,4 @@
 
 import models
 
-def fuzzyMatch(name: str, model, colName) -> str:
-  """attempts to match a name with the closest user"""
-
-  # Get all names in database
-
-  # Fuzzy Match
-
-  # Return record
-  pass
-
-models.Sender.fuzzySearch('test')
+def crushes_parser(msg)

@@ -156,12 +156,7 @@ def dinoPoll():
     else:
         message = "The crowd is split! Dino is a polarising meal.\nLet me know your thoughts with 'dinovote'"
 
-    return {
-        "text": message,
-        "quick_replies": [
-            {"content_type": "text", "title": "dinovote", "payload": "dinovote"}
-        ],
-    }
+    return message
 
 
 def getCurrentDino():
@@ -350,7 +345,7 @@ def progressBar(percentage):
 # ===== Week Events ===== #
 
 
-def getWeekEvents(sender_psid):
+def getWeekEvents():
 
     today = datetime.datetime.today() + datetime.timedelta(hours=11)  # to make it aest
     # Take todays date. Subtract the number of days which already passed this week (this gets you 'last' monday).
@@ -363,17 +358,9 @@ def getWeekEvents(sender_psid):
             .get()
         )
 
-        message.sendAsset(sender_psid, weekCal.assetID, "image")
+        return weekCal.assetID
     except:
-        send_message = {"text": "yeah I don't know that shit. Go yell at Tom."}
-        message.callSendAPI(sender_psid, send_message)
-
-
-def nudes(sender_psid):
-    message.sendAsset(sender_psid, "270145943837548", "image")
-    # asset ID came from making cURL request to fb api
-    # NOTE: you need to use the production Page Access Token to generate the asset for the nudes
-    # i.e. ... won't work in DEV
+        return None
 
 
 # ===== Get Room Number ===== #

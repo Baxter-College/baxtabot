@@ -6,11 +6,20 @@
 import json
 import requests
 import datetime
+from pprint import pprint
 
 from rivescript import RiveScript
 
 from settings import *
 
+from Response import (
+    Response,
+    Button,
+    URLButton,
+    PostbackButton,
+    CallButton,
+    Message_Tag,
+)
 import functions
 import models
 
@@ -37,7 +46,7 @@ def handleMessage(sender_psid, received_message):
 	By word matching the content and sender_psid
 	"""
 
-    response = {}
+    response = Response(sender_psid)
     received_message = received_message.lower()
 
     if (
@@ -47,24 +56,69 @@ def handleMessage(sender_psid, received_message):
     ):
         meal = functions.findMeal(received_message)
         addTime = functions.findTime(received_message)
-        response = {
-            "text": functions.dinoRequest(meal, addTime),
-            "quick_replies": [
-                {
-                    "content_type": "text",
-                    "title": "What's dino like?",
-                    "payload": "What's dino like?",
-                },
-                {"content_type": "text", "title": "dinovote", "payload": "dinovote"},
-            ],
-        }
+
+        if not meal:
+            response.text = (
+                f"Someone hasn't updated the menu 🤦‍♀️... yell at {OFFICERS}"
+            )
+
+            # Send Message To Bot Officers
+            for psid in OFFICER_PSIDS:
+                Response(
+                    psid,
+                    text="The menu has not been updated. The people are crying.",
+                    msg_type=Message_Tag.COMMUNITY_ALERT,
+                ).send()
+
+        response.text = functions.dinoRequest(meal, addTime)
+        response.add_reply("What's dino like?")
+        response.add_reply("Dinovote")
 
     elif (
         "dinopoll" in received_message
         or "dino like" in received_message
         or "dino good" in received_message
     ):
-        response = functions.dinoPoll()
+
+        response.text = functions.dinoPoll()
+        response.add_reply("Dinovote")
+
+    elif (
+        "what's on" in received_message
+        or "what’s on" in received_message
+        or "what is on" in received_message
+        or "event" in received_message
+        or "calendar" in received_message
+    ):
+        eventAsset = functions.getWeekEvents()
+        if eventAsset:
+            response.asset = eventAsset
+        else:
+            response.text = "I can't find this week's calendar! Soz."
+
+            for psid in OFFICER_PSIDS:
+                Response(
+                    psid,
+                    text="I couldn't send the weekly calendar! Please update me!!",
+                    msg_type=Message_Tag.COMMUNITY_ALERT,
+                ).send()
+
+    elif "nudes" in received_message or "noods" in received_message:
+        response.asset = "270145943837548"
+        # asset ID came from making cURL request to fb api
+        # NOTE: you need to use the production Page Access Token to generate the asset for the nudes
+        # i.e. ... won't work in DEV
+
+    elif (
+        "dino is shit" in received_message
+        or "dino is bad" in received_message
+        or "dino is good" in received_message
+        or "dinovote" in received_message
+        or "vote" in received_message
+    ):
+        response.text = "What was dino like this time?"
+        response.add_button(PostbackButton("Dino was great! 😋", "goodvote"))
+        response.add_button(PostbackButton("Dino was awful! 🤢", "badvote"))
 
     elif (
         "what's dino" in received_message
@@ -77,94 +131,42 @@ def handleMessage(sender_psid, received_message):
     ):
         meal = functions.getCurrentDino()
         if not meal:
-            response = {
-                "text": f"Someone hasn't updated the menu 🤦‍♀️... yell at {OFFICERS}"
-            }
+            response.text = (
+                f"Someone hasn't updated the menu 🤦‍♀️... yell at {OFFICERS}"
+            )
+
+            # Send Message To Bot Officers
+            for psid in OFFICER_PSIDS:
+                Response(
+                    psid,
+                    text="The menu has not been updated. The people are crying.",
+                    msg_type=Message_Tag.COMMUNITY_ALERT,
+                ).send()
         else:
             addTime = functions.findTime(received_message)
-            response = {
-                "text": functions.dinoRequest(meal.type, addTime),
-                "quick_replies": [
-                    {
-                        "content_type": "text",
-                        "title": "What's dino like?",
-                        "payload": "What's dino like?",
-                    },
-                    {
-                        "content_type": "text",
-                        "title": "dinovote",
-                        "payload": "dinovote",
-                    },
-                ],
-            }
 
-    elif (
-        "what's on" in received_message
-        or "what’s on" in received_message
-        or "what is on" in received_message
-        or "event" in received_message
-        or "calendar" in received_message
-    ):
-        functions.getWeekEvents(
-            sender_psid
-        )  # bit weird, this one will send an asset. so break and return OK now.
-        return "OK"
-
-    elif "nudes" in received_message or "noods" in received_message:
-        functions.nudes(sender_psid)
-        return "OK"
-
-    elif "date" in received_message or "time" in received_message:
-        response = {
-            "text": "The date is: {}".format(
-                datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-            )
-        }
-
-    elif (
-        "dino is shit" in received_message
-        or "dino is bad" in received_message
-        or "dino is good" in received_message
-        or "dinovote" in received_message
-        or "vote" in received_message
-    ):
-        response = functions.dinoVote()
-
-    elif "dino" in received_message:
-        response = {
-            "text": "You can ask me things about dino.\nLike 'What's for dinner?'\nor 'What is dino like'\nor 'dinovote' to give your opinion on dino",
-            "quick_replies": [
-                {
-                    "content_type": "text",
-                    "title": "What's dino?",
-                    "payload": "What's dino?",
-                },
-                {
-                    "content_type": "text",
-                    "title": "What is dino like",
-                    "payload": "What is dino like",
-                },
-                {"content_type": "text", "title": "dinovote", "payload": "dinovote"},
-            ],
-        }
+            response.text = functions.dinoRequest(meal.type, addTime)
+            response.add_reply("What's dino like?")
+            response.add_reply("Dinovote")
 
     elif "days left" in received_message or "semester" in received_message:
-        response = {"text": functions.semesterResponse()}
+        response.text = functions.semesterResponse()
 
     elif "room is" in received_message:
         name = functions.extractName(received_message)
-        response = {"text": functions.getRoomNumber(name)}
+
+        response.text = functions.getRoomNumber(name)
 
     else:
         reply = bot.reply(str(sender_psid), received_message)
-        response = {"text": "{}".format(reply)}
+        response.text = str(reply)
 
     if sender_psid == "cmd":
-        return response
+        return response.payload
     else:
-        print("Sending back: ")
-        print(response)
-        callSendAPI(sender_psid, response)
+        print("sent back:")
+        pprint(response.payload)
+        response.send()
 
         return "OK"
 
@@ -174,48 +176,24 @@ def handlePostback(sender_psid, received_postback):
 	Handles a postback request to the webhook and determines what
 	functionality / response to call
 	"""
+    payload = received_postback["payload"]
 
     print("RECEIVED POSTBACK: ", received_postback)
+    response = Response(sender_psid)
 
-    if received_postback["payload"] == "goodvote":
-        response = {"text": "Sounds like a nice meal!"}
+    if payload == "goodvote":
+        response.text = "Sounds like a nice meal!"
         functions.makeDinoVote("goodvote")
 
-    elif received_postback["payload"] == "badvote":
-        response = {"text": "Too bad it was gross :("}
+    elif payload == "badvote":
+        response.text = "Too bad it was gross :("
         functions.makeDinoVote("badvote")
 
     else:
-        response = {"text": "[DEBUG] Received postback for some reason..."}
+        response.text = "[DEBUG] Received postback for some reason..."
 
-    callSendAPI(sender_psid, response)
-
+    response.send()
     return "OK"
-
-
-def callSendAPI(sender_psid, response):
-    """
-	Sends the response to sender via facebook Send API
-	"""
-
-    print(bot.get_uservars(str(sender_psid)))
-
-    r = requests.post(
-        "https://graph.facebook.com/v2.6/me/messages",
-        params={"access_token": PAGE_ACCESS_TOKEN},
-        json={
-            "messaging_type": "RESPONSE",  # alternatively MESSAGE_TAG
-            "recipient": {"id": sender_psid},
-            "message": response,
-        },
-    )
-
-    if r.status_code == 200:
-        print("sent message to meatbag!")
-        return "Sent message to meatbag!"
-    else:
-        print("It's all gone to shit! -> ", r.status_code)
-        return "It's all gone to shit", r.status_code
 
 
 def sendBubbles(sender_psid):

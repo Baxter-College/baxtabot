@@ -25,6 +25,7 @@ rq = "*"
 python-dotenv = "*"
 mammoth = "*"
 fuzzywuzzy = "*"
+python-levenshtein = "*"
 
 [dev-packages]
 
