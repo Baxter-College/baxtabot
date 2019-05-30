@@ -10,9 +10,9 @@ from pprint import pprint
 
 from rivescript import RiveScript
 
-from settings import *
+from bot.settings import *
 
-from Response import (
+from bot.Response import (
     Response,
     Button,
     URLButton,
@@ -20,13 +20,13 @@ from Response import (
     CallButton,
     Message_Tag,
 )
-import functions
-import models
+import bot.functions as functions
+import bot.models as models
 
 # ==== rivescript bot setup ==== #
 
 bot = RiveScript()
-bot.load_directory("./brain")
+bot.load_directory("./bot/brain")
 bot.sort_replies()
 
 # ==== rivescript subroutines ==== #
@@ -290,3 +290,11 @@ def humanisePSID(PSID):
         return data
     else:
         print("FUCKED! PSID was: {}".format(str(PSID)))
+
+
+# ==== Reset Bot ==== #
+def resetBot():
+    # Ensure that we are not doing J&D
+    bot.set_variable("jd", None)  # setting to none == delete the variable from bot
+    bot.set_variable("jd_loc", None)
+    bot.set_variable("shop", None)

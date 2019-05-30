@@ -1,4 +1,4 @@
-# environment.py
+# settings.py
 #
 # Get all environment variables
 

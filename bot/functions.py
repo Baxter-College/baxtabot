@@ -10,19 +10,9 @@ import math
 import mammoth
 import re
 
-from settings import *
+from bot.settings import *
 
-import models
-import message
-
-# ==== Reset Bot ==== #
-def resetBot():
-    # Ensure that we are not doing J&D
-    message.bot.set_variable(
-        "jd", None
-    )  # setting to none == delete the variable from bot
-    message.bot.set_variable("jd_loc", None)
-    message.bot.set_variable("shop", None)
+import bot.models as models
 
 
 # ====== Specific functions ===== #

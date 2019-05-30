@@ -21,11 +21,12 @@ from werkzeug.utils import secure_filename
 
 import argparse
 
-from settings import *
+from bot.settings import *
 
-import models
-import message
-import functions
+from bot.Response import Response
+import bot.models as models
+import bot.message as message
+import bot.functions as functions
 
 if DEBUG:
     print(
@@ -91,9 +92,8 @@ def webhook():
 
         if body["object"] == "page":  # check it is from a page subscription
 
-            for entry in body[
-                "entry"
-            ]:  # there may be multiple entries if it is batched
+            # there may be multiple entries if it is batched
+            for entry in body["entry"]:
 
                 # get the message
                 webhook_event = entry["messaging"][0]
@@ -101,10 +101,6 @@ def webhook():
                 # get the sender PSID
                 sender_psid = None
                 sender_psid = webhook_event["sender"]["id"]
-
-                # send bubbles ... formulating a response
-                # message.sendBubbles(sender_psid)
-                print("Sender ID: {}".format(sender_psid))
 
                 message.check_user_exists(sender_psid)
 
@@ -120,19 +116,15 @@ def webhook():
                             sender_psid, webhook_event["message"]["text"]
                         )
                     else:
-                        return message.callSendAPI(
+                        return Response(
                             sender_psid,
-                            {
-                                "text": "I can't deal with whatever shit you just sent me. Go complain to Tom about it"
-                            },
-                        )
+                            text=f"I can't deal with whatever shit you just sent me. Go complain to {OFFICERS} about it",
+                        ).send()
                 else:
-                    return message.callSendAPI(
+                    return Response(
                         sender_psid,
-                        {
-                            "text": "I can't deal with whatever shit you just sent me. Go complain to Tom about it"
-                        },
-                    )
+                        text=f"I can't deal with whatever shit you just sent me. Go complain to {OFFICERS} about it",
+                    ).send()
 
         else:
             # send error
@@ -302,7 +294,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     models.goGoPowerRangers()
-    functions.resetBot()
+    message.resetBot()
 
     if args.terminal:
         while True:

@@ -1,4 +1,4 @@
-from settings import *
+from bot.settings import *
 import requests
 
 from enum import Enum, auto
