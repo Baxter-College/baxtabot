@@ -28,3 +28,11 @@ else:
 VERIFY_TOKEN = "GoodLordyThomasJHillLooksFineTonight"
 OFFICERS = "James, Rohan or Tom"
 
+DATE_LOCATIONS = [
+    "22 Grams Coffee",
+    "Village Coffee",
+    "White House",
+    "Roundy",
+    "The Rege",
+]
+

@@ -44,6 +44,7 @@ class Sender(Model):
     last_name = CharField()
     profile_url = CharField()
     last_message = DateTimeField()
+    conversation = CharField(null=True, default=None)
 
     class Meta:
         database = db
@@ -52,12 +53,39 @@ class Sender(Model):
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
 
+    def add_crush(self, other):
+        Crush.create(crusher=self, crushee=other)
+
+    def remove_crush(self, other):
+        Crush.select.where(Crush.crusher == self and Crush.crushee == other)
+
+    @property
+    def crushes(self):
+        return Crush.select().where(Crush.crusher.id == self.id)
+
     @staticmethod
     def fuzzySearch(name):
         """ Matches search by closest string, returns string match, confidence, record """
         return process.extractOne(
             name, {sender: sender.full_name for sender in Sender.select()}
         )
+
+
+class MealImg(Model):
+    meal = ForeignKeyField(Meal, backref="images")
+    url = CharField()
+    sender = ForeignKeyField(Sender)
+
+    class Meta:
+        database = db
+
+
+class Crush(Model):
+    crushee = ForeignKeyField(Sender, backref="crushOf")
+    crusher = ForeignKeyField(Sender, backref="crushes")
+
+    class Meta:
+        database = db
 
 
 class WeekCal(Model):
@@ -92,5 +120,5 @@ class Ressie(Model):
 
 def goGoPowerRangers():
     db.connect()
-    db.create_tables([Meal, Sender, WeekCal, Ressie], safe=True)
+    db.create_tables([Meal, Sender, WeekCal, Ressie, Crush, MealImg], safe=True)
     db.close()

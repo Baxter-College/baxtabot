@@ -102,16 +102,33 @@ def webhook():
                 sender_psid = None
                 sender_psid = webhook_event["sender"]["id"]
 
-                message.check_user_exists(sender_psid)
+                sender = message.check_user_exists(sender_psid)
+
+                if sender.conversation and "message" in webhook_event:
+                    return message.handleConversation(
+                        sender_psid, webhook_event["message"], sender.conversation
+                    )
 
                 if "postback" in webhook_event:
                     # handle the postback
                     return message.handlePostback(
-                        sender_psid, webhook_event["postback"]
+                        sender_psid,
+                        webhook_event["postback"],
+                        webhook_event["message"]["text"],
                     )
                 elif "message" in webhook_event:
                     # handle the message
-                    if "text" in webhook_event["message"]:
+                    if (
+                        "quick_reply" in webhook_event["message"]
+                        and "payload" in webhook_event["message"]["quick_reply"]
+                    ):
+                        print("Got payload!")
+                        return message.handlePostback(
+                            sender_psid,
+                            webhook_event["message"]["quick_reply"],
+                            webhook_event["message"]["text"],
+                        )
+                    elif "text" in webhook_event["message"]:
                         return message.handleMessage(
                             sender_psid, webhook_event["message"]["text"]
                         )

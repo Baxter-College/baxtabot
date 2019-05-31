@@ -3,10 +3,12 @@
 # Functionality that involves connecting and sending messages to
 # the facebook Send API
 
+import random
 import json
 import requests
 import datetime
 from pprint import pprint
+
 
 from rivescript import RiveScript
 
@@ -19,6 +21,7 @@ from bot.Response import (
     PostbackButton,
     CallButton,
     Message_Tag,
+    Reply,
 )
 import bot.functions as functions
 import bot.models as models
@@ -69,10 +72,16 @@ def handleMessage(sender_psid, received_message):
                     text="The menu has not been updated. The people are crying.",
                     msg_type=Message_Tag.COMMUNITY_ALERT,
                 ).send()
+        else:
+            response.text = functions.dinoRequest(meal, addTime)
+            response.add_reply(Reply("Add Image", payload="DINOIMAGE"))
+            response.add_reply(Reply("Whats dino like?"))
+            response.add_reply(Reply("Dinovote"))
 
-        response.text = functions.dinoRequest(meal, addTime)
-        response.add_reply("What's dino like?")
-        response.add_reply("Dinovote")
+            if meal.images:
+                image = random.choice([image for image in meal.images])
+                Response(sender_psid, image=image.url).send()
+                Response(sender_psid, f"Photo by: {image.sender.full_name}").send()
 
     elif (
         "dinopoll" in received_message
@@ -146,8 +155,14 @@ def handleMessage(sender_psid, received_message):
             addTime = functions.findTime(received_message)
 
             response.text = functions.dinoRequest(meal.type, addTime)
-            response.add_reply("What's dino like?")
-            response.add_reply("Dinovote")
+            response.add_reply(Reply("What's dino like?"))
+            response.add_reply(Reply("Dinovote"))
+            response.add_reply(Reply("Add Image", payload="DINOIMAGE"))
+
+            if meal.images:
+                image = random.choice([image for image in meal.images])
+                Response(sender_psid, image=image.url).send()
+                Response(sender_psid, f"Photo by: {image.sender.full_name}").send()
 
     elif "days left" in received_message or "semester" in received_message:
         response.text = functions.semesterResponse()
@@ -156,6 +171,20 @@ def handleMessage(sender_psid, received_message):
         name = functions.extractName(received_message)
 
         response.text = functions.getRoomNumber(name)
+
+    elif "crush list" in received_message:
+        me = models.Sender.select().where(models.Sender.psid == sender_psid).get()
+
+        if not len(me.crushes):
+            response.text = "You have no crushes"
+        else:
+            crushList = "Your crush list:\n"
+            for crush in me.crushes:
+                crushList += crush.crushee.full_name + "\n"
+            response.text = crushList
+            response.add_reply(Reply("Remove Crush", payload="REMOVECRUSH"))
+
+        response.add_reply(Reply("Add Crush", payload="ADDCRUSH"))
 
     else:
         reply = bot.reply(str(sender_psid), received_message)
@@ -171,7 +200,7 @@ def handleMessage(sender_psid, received_message):
         return "OK"
 
 
-def handlePostback(sender_psid, received_postback):
+def handlePostback(sender_psid, received_postback, msg):
     """
 	Handles a postback request to the webhook and determines what
 	functionality / response to call
@@ -189,11 +218,87 @@ def handlePostback(sender_psid, received_postback):
         response.text = "Too bad it was gross :("
         functions.makeDinoVote("badvote")
 
+    elif payload == "ADDCRUSH":
+        start_conversation(sender_psid, "ADDCRUSH")
+        response.text = "Enter your crush name:"
+
+    elif payload == "REMOVECRUSH":
+        start_conversation(sender_psid, "REMOVECRUSH")
+        response.text = "Enter the crush name to remove:"
+
+    elif payload == "DINOIMAGE":
+        start_conversation(sender_psid, "DINOIMAGE")
+        response.text = "Send me a photo of dino!"
+
     else:
-        response.text = "[DEBUG] Received postback for some reason..."
+        # response.text = "[DEBUG] Received postback for some reason..."
+        handleMessage(sender_psid, msg)
+        return "OK"
 
     response.send()
     return "OK"
+
+
+def handleConversation(sender_psid, received_msg, conversation):
+
+    if "text" in received_msg:
+        msg_text = received_msg["text"]
+
+    me = models.Sender.select().where(models.Sender.psid == sender_psid).get()
+
+    if conversation == "ADDCRUSH":
+        _, confidence, myCrush = models.Sender.fuzzySearch(msg_text)
+
+        me.add_crush(myCrush)
+
+        r = Response(sender_psid, f"Added {myCrush.full_name} to crush list")
+        r.add_reply(Reply("Add another Crush", payload="ADDCRUSH"))
+        r.send()
+
+        if int(sender_psid) in [crush.crushee.psid for crush in myCrush.crushes]:
+            # You are the crush of your crush. It's a match!
+            msg = f"Congrats! {myCrush.full_name} is crushing on you! Matchmaker Baxtabot is here to match! You now have a date at {random.choice(DATE_LOCATIONS)} at {random.choice(range(6))}pm tomorrow. Clear you calendar - this is your chance 😉😘😜"
+            Response(sender_psid, msg).send()
+            Response(myCrush.psid, msg).send()
+
+    elif conversation == "REMOVECRUSH":
+        _, confidence, myCrush = models.Sender.fuzzySearch(msg_text)
+
+        for aCrush in me.crushes:
+            if aCrush.crushee.psid == myCrush.psid:
+                Response(
+                    sender_psid, f"Removed {aCrush.crushee.full_name} from crush list"
+                ).send()
+                aCrush.delete_instance()
+
+        Response(sender_psid, "Done!").send()
+
+    elif conversation == "DINOIMAGE":
+        if received_msg["attachments"][0]:
+            dino = functions.getCurrentDino()
+            sender = (
+                models.Sender.select().where(models.Sender.psid == sender_psid).get()
+            )
+            img = models.MealImg.create(
+                meal=dino.id,
+                url=received_msg["attachments"][0]["payload"]["url"],
+                sender=sender.id,
+            )
+            Response(sender_psid, image=img.url).send()
+            Response(sender_psid, "What a stunning shot!").send()
+        else:
+            Response(sender_psid, "You need to send me an image!").send()
+
+    # End the conversation
+    me.conversation = None
+    me.save()
+    return "OK"
+
+
+def start_conversation(sender_psid, conversation):
+    sender = models.Sender.select().where(models.Sender.psid == sender_psid).get()
+    sender.conversation = conversation
+    sender.save()
 
 
 def sendBubbles(sender_psid):
@@ -238,10 +343,10 @@ def sendAsset(sender_psid, assetID, type):
 def check_user_exists(sender_psid):
 
     sender = models.Sender.select().where(models.Sender.psid == sender_psid)
+    data = humanisePSID(sender_psid)
 
     # if user does not exist, create the user and set bot variables
     if not sender.exists():
-        data = humanisePSID(sender_psid)
 
         print(
             "I SHOULD CREATE A MODEL:\npsid: {}\nfirst: {}\nlast: {}\nprofile: {}".format(
@@ -249,7 +354,7 @@ def check_user_exists(sender_psid):
             )
         )
 
-        models.Sender.create(
+        sender = models.Sender.create(
             psid=sender_psid,
             first_name=data["first_name"],
             last_name=data["last_name"],
@@ -265,12 +370,25 @@ def check_user_exists(sender_psid):
     else:
         # just to make sure the server doesn't restart and shit up the vars
         sender = sender.get()
+
+        # update name incase they've changed...
+        sender.first_name = data["first_name"]
+        sender.last_name = data["last_name"]
+
         bot.set_uservars(
             str(sender_psid),
             {"first_name": sender.first_name, "last_name": sender.last_name},
         )
         sender.last_message = datetime.datetime.now()
         sender.save()
+
+    # if the sender did not reply to the conversation within 1 mins, delete the conversation.
+    if sender.conversation:
+        if (datetime.dateime.now() - sender.last_message).seconds > 60:
+            sender.conversation = None
+            sender.save()
+
+    return sender
 
 
 def humanisePSID(PSID):

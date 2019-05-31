@@ -82,7 +82,7 @@ def dinoRequest(meal, addTime):
         print("---> ", e)
         print("Meal: ", meal)
         print("Date: ", today_AEST.date())
-        return "Honestly.... I don't know. Go yell at {}".format(OFFICERS)
+        return "Honestly.... I don't know."
 
     return "{} at dino is:\n{}".format(meal, dino.description)
 
@@ -136,7 +136,7 @@ def getCurrentDino():
     )  # just to make sure (starting at 4 so people can ask what's dino earlier for dinner)
 
     try:
-        if time >= breakfast and time < lunch:
+        if time < lunch:
             # for today's breakfast
             dino = (
                 models.Meal.select()
@@ -256,8 +256,8 @@ def semesterResponse():
 
     # is this hardcoded? yes.
     # do i give a shit? no. fuck you for judging me.
-    semStart = datetime.date(2018, 7, 23)
-    semEnd = datetime.date(2018, 11, 20)
+    semStart = datetime.date(2019, 5, 31)
+    semEnd = datetime.date(2019, 9, 2)
 
     response = "{}\n\nThere are {} days left until the semester ends".format(
         progressBar(timeProgress(semStart, semEnd)), daysLeft(semEnd)

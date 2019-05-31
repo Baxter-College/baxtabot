@@ -51,9 +51,7 @@ class Response:
             self.tag = msg_type.name
 
     def add_reply(self, reply):
-        self.quick_replies.append(
-            {"content_type": "text", "title": reply, "payload": reply}
-        )
+        self.quick_replies.append(reply.rep)
 
     def add_button(self, button):
         self.buttons.append(button)
@@ -114,7 +112,25 @@ class Response:
             json=self.payload,
         )
 
-        return r.status_code
+        if r.status_code == 200:
+            return "OK"
+        else:
+            return "NOT OKAY"
+
+
+class Reply:
+    def __init__(self, text, payload=None):
+        self.text = text
+        self.payload = payload
+
+    @property
+    def rep(self):
+        res = {"content_type": "text", "title": self.text}
+        if self.payload:
+            res["payload"] = self.payload
+        else:
+            res["payload"] = self.text
+        return res
 
 
 class Button:
