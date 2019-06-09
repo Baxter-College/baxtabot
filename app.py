@@ -316,7 +316,7 @@ if __name__ == "__main__":
     if args.terminal:
         while True:
             msg = str(input("> "))
-            print("BAXTABOT: ", message.handleMessage("cmd", msg)["text"])
+            print("BAXTABOT: ", message.handleMessage("cmd", msg)["message"]["text"])
     else:
         app.run(debug=DEBUG, port=PORT, host="0.0.0.0")
 

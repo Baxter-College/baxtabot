@@ -384,7 +384,7 @@ def check_user_exists(sender_psid):
 
     # if the sender did not reply to the conversation within 1 mins, delete the conversation.
     if sender.conversation:
-        if (datetime.dateime.now() - sender.last_message).seconds > 60:
+        if (datetime.datetime.now() - sender.last_message).seconds > 60:
             sender.conversation = None
             sender.save()
 

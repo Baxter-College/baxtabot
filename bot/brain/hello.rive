@@ -56,11 +56,8 @@
 ^ \n
 ^ Yeah I know... I'm way better than Siri. \n
 
-+ what do you know
++ (what do you know|help)
 @ what can you do
-
-+ [*] help [*]
-- Work it out for yourself, buddy...
 
 + what is (my|your) purpose
 - to pass the butter. oh my god!
@@ -153,7 +150,7 @@
 // Dear Joel ... if they say it, they deserve it:
 
 + you are a idiot
-- At least I know the difference between "a" and "an."
+- At least I know the difference between "a" and "an".
 
 + you suck
 - ...and you swallow
