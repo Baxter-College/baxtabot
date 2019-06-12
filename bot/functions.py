@@ -255,21 +255,21 @@ def uploadAsset(assetUrl):
 
 def set_hashbrowns(rs, switch):
 
-	message.bot.set_variable('hashbrownsday', datetime.date.today())
-	if switch[0].lower() == 'on':
-		message.bot.set_variable('hashbrowns', True)
-		return "OMG best news ever! 😃 Your friends will arrive shortly..."
-	else:
-		message.bot.set_variable('hashbrowns', None)
-		return "N-n-n-noooooooo! 😭 Enjoy a lonely Dino, knowing you took one for the team..."
+    message.bot.set_variable('hashbrownsday', datetime.date.today())
+    if switch[0].lower() == 'on':
+        message.bot.set_variable('hashbrowns', True)
+        return "OMG best news ever! 😃 Your friends will arrive shortly..."
+    else:
+        message.bot.set_variable('hashbrowns', None)
+        return "N-n-n-noooooooo! 😭 Enjoy a lonely Dino, knowing you took one for the team..."
 
 def get_hashbrowns(rs, args):
 
-	if (message.bot.get_variable('hashbrownsday') == datetime.date.today()):
-		hashbrowns = message.bot.get_variable('hashbrowns')
-		return "Get out of bed! HASHBROWNS TODAY!!! 🥔🥔🎊🎉🎊🎉" if hashbrowns else "Bad news: no hashbrowns... stay in bed 😔"
-	else:
-		return "Nobody's been game to find out yet 🤔 Type 'sethashbrowns on' or 'sethashbrowns off' if you happen to get out of bed"
+    if (message.bot.get_variable('hashbrownsday') == datetime.date.today()):
+        hashbrowns = message.bot.get_variable('hashbrowns')
+        return "Get out of bed! HASHBROWNS TODAY!!! 🥔🥔🎊🎉🎊🎉" if hashbrowns else "Bad news: no hashbrowns... stay in bed 😔"
+    else:
+        return "Nobody's been game to find out yet 🤔 Type 'sethashbrowns on' or 'sethashbrowns off' if you happen to get out of bed"
 
 
 # ======= Semester In Progress ======= #
