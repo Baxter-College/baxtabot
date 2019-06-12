@@ -97,6 +97,13 @@
 + [*] (shopen|shclosed|shop) [*]
 - <call>get_shop</call>
 
+// ==== hashbrowns ==== //
++ sethashbrowns *
+- <call>set_hashbrowns <star1></call>
+
++ [*] (hashbrowns|hashbrown|hash brown|hash browns) [*]
+- <call>get_hashbrowns</call>
+
 // Duty Tutor
 + [*] (duty tutor|locked out|can not get in) [*]
 - Locked out again?! The duty tutor's phone is: 9385 9786
