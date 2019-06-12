@@ -247,6 +247,14 @@ def handleConversation(sender_psid, received_msg, conversation):
     me = models.Sender.select().where(models.Sender.psid == sender_psid).get()
 
     if conversation == "ADDCRUSH":
+        # Check if we have more than 5 crushes already
+        if len(me.crushes) >= 5:
+            Response(semder_psid, "You can't have more than 5 crushes!").send()
+            # End the conversation
+            me.conversation = None
+            me.save()
+            return "OK"
+
         _, confidence, myCrush = models.Sender.fuzzySearch(msg_text)
 
         me.add_crush(myCrush)
