@@ -39,6 +39,8 @@ bot.set_subroutine("set_jd", functions.set_jd)
 bot.set_subroutine("get_jd", functions.get_jd)
 bot.set_subroutine("set_shop", functions.set_shop)
 bot.set_subroutine("get_shop", functions.get_shop)
+bot.set_subroutine("set_hashbrowns", functions.set_hashbrowns)
+bot.set_subroutine("get_hashbrowns", functions.get_hashbrowns)
 
 # ==== message handling ==== #
 
