@@ -80,13 +80,10 @@ def handleMessage(sender_psid, received_message):
             response.add_reply(Reply("Whats dino like?"))
             response.add_reply(Reply("Dinovote"))
 
-            try:
-                if meal.images:
-                    image = random.choice([image for image in meal.images])
-                    Response(sender_psid, image=image.url).send()
-                    Response(sender_psid, f"Photo by: {image.sender.full_name}").send()
-            except:
-                print("did not find images")
+            if meal.images:
+                image = random.choice([image for image in meal.images])
+                Response(sender_psid, image=image.url).send()
+                Response(sender_psid, f"Photo by: {image.sender.full_name}").send()
 
     elif (
         "dinopoll" in received_message
