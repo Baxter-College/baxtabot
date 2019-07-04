@@ -95,7 +95,7 @@ def handleMessage(sender_psid, received_message):
     ):
 
         response.text = functions.dinoPoll()
-        response.add_reply("Dinovote")
+        response.add_reply(Reply("Dinovote"))
 
     elif (
         "what's on" in received_message
