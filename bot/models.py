@@ -73,7 +73,7 @@ class Sender(Model):
 
 class MealImg(Model):
     meal = ForeignKeyField(Meal, backref="images")
-    url = CharField()
+    url = TextField()
     sender = ForeignKeyField(Sender)
 
     class Meta:
