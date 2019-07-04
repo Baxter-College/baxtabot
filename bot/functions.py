@@ -86,6 +86,31 @@ def dinoRequest(meal, addTime):
 
     return "{} at dino is:\n{}".format(meal, dino.description)
 
+def dinoRequestObj(meal, addTime):
+    # meal is "dinner", "lunch" or "breakfast"
+
+    ten_hours = datetime.timedelta(hours=11)
+
+    today = datetime.datetime.now()
+
+    today_AEST = today + ten_hours
+
+    today_AEST += addTime  # if no add time, timedelta will be 0 hours so no effect
+
+    print("Date is: {}".format(today_AEST.date().strftime("%Y-%m-%d")))
+
+    try:
+        dino = (
+            models.Meal.select()
+            .where(models.Meal.date == today_AEST.date())
+            .where(models.Meal.type == meal)
+            .get()
+        )
+    except Exception as e:
+        return None
+
+    return dino
+
 
 def makeDinoVote(vote):
 
