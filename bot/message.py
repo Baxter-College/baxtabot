@@ -62,7 +62,9 @@ def handleMessage(sender_psid, received_message):
         meal = functions.findMeal(received_message)
         addTime = functions.findTime(received_message)
 
-        if not meal:
+        theMeal = functions.dinoRequest(meal, addTime)
+
+        if not theMeal:
             response.text = (
                 f"Someone hasn't updated the menu 🤦‍♀️... yell at {OFFICERS}"
             )
@@ -80,10 +82,10 @@ def handleMessage(sender_psid, received_message):
             response.add_reply(Reply("Whats dino like?"))
             response.add_reply(Reply("Dinovote"))
 
-            # if meal.images:
-            #     image = random.choice([image for image in meal.images])
-            #     Response(sender_psid, image=image.url).send()
-            #     Response(sender_psid, f"Photo by: {image.sender.full_name}").send()
+            if theMeal.images:
+                image = random.choice([image for image in meal.images])
+                Response(sender_psid, image=image.url).send()
+                Response(sender_psid, f"Photo by: {image.sender.full_name}").send()
 
     elif (
         "dinopoll" in received_message
