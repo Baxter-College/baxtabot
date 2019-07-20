@@ -80,7 +80,7 @@ def handleMessage(sender_psid, received_message):
         else:
             response.text = (
                 functions.dinoRequest(meal, addTime)
-                + f"\n\n💕==========💕\nThis dino update brought to you by my undying and eternal love for Jacinta Wright.\n Here is a generated love sonnet:\n {sonnetGen()}"
+                # + f"\n\n💕==========💕\nThis dino update brought to you by my undying and eternal love for Jacinta Wright.\n Here is a generated love sonnet:\n {sonnetGen()}"
             )
             response.add_reply(Reply("Add Image", payload="DINOIMAGE"))
             response.add_reply(Reply("Whats dino like?"))
@@ -164,7 +164,7 @@ def handleMessage(sender_psid, received_message):
 
             response.text = (
                 functions.dinoRequest(meal.type, addTime)
-                + f"\n\n💕==========💕\nThis dino update brought to you by my unending and eternal love for Jacinta Wright. Here is a generated love sonnet:\n {sonnetGen()}"
+                # + f"\n\n💕==========💕\nThis dino update brought to you by my unending and eternal love for Jacinta Wright. Here is a generated love sonnet:\n {sonnetGen()}"
             )
             response.add_reply(Reply("What's dino like?"))
             response.add_reply(Reply("Dinovote"))
