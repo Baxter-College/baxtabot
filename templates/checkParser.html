@@ -40,6 +40,10 @@
 		var thead = document.createElement('thead');
 		var headRow = document.createElement('tr');
 		var columnNames = ["Date", "Breakfast", "Lunch", "Dinner"];
+		var lunchHeadings = ["Main:\n", "Vegetarian:\n", "Salad:\n", ""]
+		var dinnerHeadings = ["Main:\n", "Vegetarian:\n", "Vegetables:\n", "Desert:\n"]
+		var headingList = [["", "", "", ""], lunchHeadings, dinnerHeadings]
+		
 
 		for (var i = 0; i < 4; i++) {
 		  var th = document.createElement('th');
@@ -66,10 +70,16 @@
 				var td = document.createElement('td');
 				td.name = "{{loop.index}}"
 				td.width = "30%";
+				var mealInd = {{ loop.index }} - 1
 				{%for ele in meal %}
 					{% if ele != "" %}
 						var p = document.createElement('textarea');
-						p.value = "{{ele}}";
+						var subInd = {{ loop.index }} - 1
+						var lbl = ""
+						if (mealInd < 3 && subInd < 4) {
+							lbl = headingList[mealInd][subInd]
+						}
+						p.value = lbl + "{{ele}}";
 						p.name = tr.name + "/" + td.name;
 						td.appendChild(p);
 					{% endif %}
