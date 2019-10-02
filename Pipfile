@@ -26,6 +26,8 @@ python-dotenv = "*"
 mammoth = "*"
 fuzzywuzzy = "*"
 python-levenshtein = "*"
+beautifulsoup4 = "==4.8.0"
+python-dateutil = "*"
 
 [dev-packages]
 

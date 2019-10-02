@@ -18,6 +18,7 @@ import datetime
 import mammoth
 import re
 from werkzeug.utils import secure_filename
+from bs4 import BeautifulSoup
 
 import argparse
 
@@ -225,6 +226,15 @@ def deleteMeal(meal_id):
     meal.delete_instance()
     return redirect(url_for("dino"))
 
+@app.route("/dino/batchdelete", methods=["POST"])
+def deleteBatchMeals():
+    form = request.form
+    for strId in form.getlist("delete"):
+        mealId = int(strId)
+        meal = models.Meal.select().where(models.Meal.id == mealId).get()
+        meal.delete_instance()
+    return redirect(url_for("dino"))
+
 
 @app.route("/dino/fileadd", methods=["GET", "POST"])
 def upload_file():
@@ -246,6 +256,13 @@ def upload_file():
                 result.messages
             )  # Any messages, such as warnings during conversion
 
+            soup = BeautifulSoup(html, features="html.parser")
+            pretty = soup.prettify()
+
+            htlmFile = open("out.html", "w")
+            htlmFile.write(pretty)
+            htlmFile.close()
+
             mealsByDay = functions.dinoparse(html)
             return render_template("checkParser.html", mealsByDay=mealsByDay)
         if file.filename.endswith(".html") or file.filename.endswith(".htm"):
@@ -263,7 +280,7 @@ def confirm_file():
         date = form[str(day) + "/" + "date"]
         for meal in range(1, 4):
             things = form.getlist(str(day) + "/" + str(meal))
-            description = "\n".join(things)
+            description = "\n\n".join(things)
 
             subs = {"&amp;": "&", "\\x96": "-", "\\x92": "'"}
 
