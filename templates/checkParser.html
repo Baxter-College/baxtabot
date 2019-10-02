@@ -30,6 +30,31 @@
 		  }
 		}
 
+		function updateDates(e) {
+			var firstDate = e.target;
+			if (!firstDate.value) {
+				return
+			}
+			console.log("first date " + firstDate)
+			console.log("first value " + firstDate.value)
+			console.log("e  " + e)
+			var date = new Date(firstDate.value);
+			for (var delta = 1; delta < 7; delta++) {
+				var id = (delta + 1).toString() + "/date"
+				changeDate = document.getElementById(id)
+				var newDate = new Date()
+				newDate.setTime(date.getTime() + delta * 86400000)
+				console.log("OG" + date)
+				console.log(newDate)
+				var dateString = newDate.toISOString().slice(0,10)
+				console.log(dateString)
+				changeDate.value = dateString
+			}
+		}
+		function printDate(e) {
+			console.log("jusprint " + e.target.value)
+		}
+
 		var rows = 10;
 		var cols = 4;
 
@@ -55,15 +80,24 @@
 
 		var tbody = document.createElement('tbody');
 		tbody.name = "data";
+		console.log("{{ mealsByDay[0] }}");
 		{% for day in mealsByDay[1] %}
 			var tr = document.createElement('tr');
 			tr.name = "{{loop.index}}";
 			var date = document.createElement('td');
 			date.width = "10%";
 			var dateval = document.createElement('input');
-			dateval.type = "date"
+			dateval.type = "date";
+			console.log("{{mealsByDay[0][loop.index - 1]}}");
 			dateval.value = "{{mealsByDay[0][loop.index - 1]}}";
-			dateval.name = tr.name + "/" + "date";
+			console.log(dateval.value);
+			dateval.name = tr.name + "/date";
+			dateval.id = dateval.name
+			if ( {{ loop.index }} == 1) {
+				dateval.addEventListener('input', updateDates)
+				console.log("ogggg value " + dateval.value)
+			}
+			dateval.addEventListener('input', printDate);
 			date.appendChild(dateval)
 			tr.appendChild(date)
 			{% for meal in day[1:] %}
@@ -71,7 +105,7 @@
 				td.name = "{{loop.index}}"
 				td.width = "30%";
 				var mealInd = {{ loop.index }} - 1
-				{%for ele in meal %}
+				{% for ele in meal %}
 					{% if ele != "" %}
 						var p = document.createElement('textarea');
 						var subInd = {{ loop.index }} - 1
@@ -79,7 +113,7 @@
 						if (mealInd < 3 && subInd < 4) {
 							lbl = headingList[mealInd][subInd]
 						}
-						p.value = lbl + "{{ele}}";
+						p.value = `{{ele}}`;
 						p.name = tr.name + "/" + td.name;
 						td.appendChild(p);
 					{% endif %}
