@@ -197,7 +197,7 @@ def upload():
 
 @app.route("/dino")
 def dino():
-    meals = models.Meal.select()
+    meals = models.Meal.select().order_by(models.Meal.date.desc())
     return render_template("dino.html", meals=meals)
 
 
