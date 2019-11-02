@@ -20,10 +20,13 @@ if "HEROKU" in os.environ:
         port=url.port,
     )
 else:
+    db_name = os.environ["DB_NAME"]
+    db_user = os.environ["DB_USER"]
+    db_pword = os.environ["DB_PASSWORD"]
     db = PostgresqlDatabase(
-        os.environ["DB_NAME"],
-        user=os.environ["DB_USER"],
-        password=os.environ["DB_PASSWORD"],
+        db_name,
+        user=db_user,
+        password=db_pword,
     )
 
 

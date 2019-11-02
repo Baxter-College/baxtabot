@@ -14,9 +14,9 @@ if "HEROKU" in os.environ:
         2054639917988805,
     ]  # tom, james, rohan
 else:
-    from dotenv import load_dotenv
+    from dotenv import load_dotenv, find_dotenv
 
-    load_dotenv()
+    load_dotenv(dotenv_path=find_dotenv(), override=True)
 
     print("In a local environment!")
 
