@@ -391,7 +391,6 @@ def getRoomNumber(name):
             " ".join(name).title()
         )
 
-
 def dinoparse(lines):
     lines = lines.lower()
     subs = {"&amp;": "&", "\\x96": "-", "\n|\r\n|\r|\xa0": "", "\\x92": "'",
@@ -419,13 +418,13 @@ def dinoparse(lines):
     tables = soup.find_all('table')
     curMeal = 0
     dateStr = ""
+    first_row = tables[0].find('tr')
+    dateCol = first_row.find('td')
+    dateStr = dateCol.get_text()
     for table in tables:
         tbody = table.find('tbody')
         #assert tbody != None
         rows = table.find_all('tr')
-
-        dateCol = rows[0].find('td')
-        dateStr = dateCol.get_text()
 
         rowSpans = {}
 
