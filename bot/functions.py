@@ -3,7 +3,7 @@
 # Includes all non-messaging functionality of baxterbot
 
 import datetime
-from dateutil.parser import *
+from dateutil.parser import parse
 import random
 import json
 import requests
@@ -464,9 +464,10 @@ def dinoparse(lines):
                 day = ind - 1
                 mealsByDay[day][curMeal].append(heading + ":\n" + string)
     dateStr = dateStr.split('-')[0]
-    date = parse(dateStr)
-    if date == None:
-        date = datetime.date.today()
+    try:
+        date = parse(dateStr)
+    except:
+        date = datetime.datetime.now()     
     dates = [(date + datetime.timedelta(days=i)).date() for i in range(7)]
     return [dates, mealsByDay]
 
