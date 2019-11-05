@@ -47,6 +47,9 @@ def get_date(soup):
     pass
 def guess_date():
     pass
+def get_rows(soup):
+    pass
+
 
 
 def get_meals(soup):

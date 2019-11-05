@@ -431,23 +431,25 @@ def dinoparse(lines):
         for rownum, row in enumerate(rows[1:]):
             cols = row.find_all('td')
             heading = ""
+            delta = 0
             for ind, col in enumerate(cols):
                 if str(rownum) in rowSpans and ind in rowSpans[str(rownum)]:
                     rowSpans[str(rownum)].remove(ind)
-                    continue
+                    delta += 1
+                colnum = ind + delta
                 if col.has_key('rowspan'):
                     rowspan = int(col['rowspan'])
                     for i in range(1, rowspan):
                         key = str(rownum + i)
                         if key in rowSpans:
-                            rowSpans[key].append(ind)
+                            rowSpans[key].append(colnum)
                         else:
-                            rowSpans[key] = [ind]
+                            rowSpans[key] = [colnum]
                     
                 string = col.get_text()
                 if string == "":
                     continue
-                if ind == 0:
+                if colnum == 0:
                     if curMeal < 3 and any([i in string for i in mealTitles[curMeal]]):
                         print("meal found:")
                         print(string)
@@ -460,7 +462,7 @@ def dinoparse(lines):
                     heading = string.strip().capitalize()
                     continue
                     
-                day = ind - 1
+                day = colnum - 1
                 mealsByDay[day][curMeal].append(heading + ":\n" + string)
     dateStr = dateStr.split('-')[0]
     date = parse(dateStr)
