@@ -391,7 +391,6 @@ def getRoomNumber(name):
             " ".join(name).title()
         )
 
-
 def dinoparse(lines):
     lines = lines.lower()
     subs = {"&amp;": "&", "\\x96": "-", "\n|\r\n|\r|\xa0": "", "\\x92": "'",
@@ -419,36 +418,38 @@ def dinoparse(lines):
     tables = soup.find_all('table')
     curMeal = 0
     dateStr = ""
+    first_row = tables[0].find('tr')
+    dateCol = first_row.find('td')
+    dateStr = dateCol.get_text()
     for table in tables:
         tbody = table.find('tbody')
         #assert tbody != None
         rows = table.find_all('tr')
-
-        dateCol = rows[0].find('td')
-        dateStr = dateCol.get_text()
 
         rowSpans = {}
 
         for rownum, row in enumerate(rows[1:]):
             cols = row.find_all('td')
             heading = ""
+            delta = 0
             for ind, col in enumerate(cols):
                 if str(rownum) in rowSpans and ind in rowSpans[str(rownum)]:
                     rowSpans[str(rownum)].remove(ind)
-                    continue
+                    delta += 1
+                colnum = ind + delta
                 if col.has_key('rowspan'):
                     rowspan = int(col['rowspan'])
                     for i in range(1, rowspan):
                         key = str(rownum + i)
                         if key in rowSpans:
-                            rowSpans[key].append(ind)
+                            rowSpans[key].append(colnum)
                         else:
-                            rowSpans[key] = [ind]
+                            rowSpans[key] = [colnum]
                     
                 string = col.get_text()
                 if string == "":
                     continue
-                if ind == 0:
+                if colnum == 0:
                     if curMeal < 3 and any([i in string for i in mealTitles[curMeal]]):
                         print("meal found:")
                         print(string)
@@ -461,7 +462,7 @@ def dinoparse(lines):
                     heading = string.strip().capitalize()
                     continue
                     
-                day = ind - 1
+                day = colnum - 1
                 mealsByDay[day][curMeal].append(heading + ":\n" + string)
     dateStr = dateStr.split('-')[0]
     try:

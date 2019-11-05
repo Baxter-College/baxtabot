@@ -23,7 +23,7 @@ else:
     DEBUG = os.environ["DEBUG"]
     PORT = os.environ["PORT"]
     PAGE_ACCESS_TOKEN = os.environ["PAGE_ACCESS_TOKEN"]
-    OFFICER_PSIDS = [1821155224639424]  # tom
+    OFFICER_PSIDS = [os.environ["DEBUG_PSID"]]  # current developer's psid
 
 VERIFY_TOKEN = "GoodLordyThomasJHillLooksFineTonight"
 OFFICERS = "James, Rohan or Tom"
