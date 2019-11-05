@@ -43,14 +43,21 @@ def next_meal(string, current_meal):
     return any([i in string for i in MEAL_TITLES[current_meal]])
 def ignore_row(string):
     return any([i in string for i in IGNORED_ROWS])
-def get_date(soup):
-    pass
+def get_date(first_row):
+    date_cell = first_row.find('td')
+    date_str = date_cell.get_text()
+    
 def guess_date():
     pass
 def get_rows(soup):
-    pass
+    tables = soup.find_all('table')
+    all_rows = []
+    for table in tables:
+        rows = table.find_all('tr')
+        all_rows += rows
+    return all_rows
 
 
 
-def get_meals(soup):
+def get_meals(rows):
     pass

@@ -15,6 +15,7 @@ from bs4 import BeautifulSoup
 from bot.settings import *
 
 import bot.models as models
+import bot.extract as extract
 
 
 # ====== Specific functions ===== #
@@ -392,24 +393,7 @@ def getRoomNumber(name):
         )
 
 def dinoparse(lines):
-    lines = lines.lower()
-    subs = {"&amp;": "&", "\\x96": "-", "\n|\r\n|\r|\xa0": "", "\\x92": "'",
-            r"\bsalad\b" : "salad 🥗", r"\bburger\b" : "burger 🍔", 
-            r"\bburgers\b" : "burgers 🍔", r"\begg\b" : "egg 🍳", r"\beggs" : "eggs 🍳",
-            r"\bpizza\b" : "pizza 🍕", r"\bbacon\b" : "bacon 🥓", r"\bcake\b" : "cake 🍰",
-            r"\bice-cream\b" : "ice-cream 🍨", r"\bicecream\b" : "icecream 🍨", r"\bice cream\b" : "ice cream 🍨",
-            r"\bchicken\b" : "chicken 🍗", r"\bsandwich\b" : "sandwich 🥪"}
-
-    for sub, repl in subs.items():
-        lines = re.sub(sub, repl, lines)
-
-    mealsByDay = [[[]] for i in range(7)]
-    mealTitles = [
-        ["breakfast", "brekfast", "brekkie", "beakfast"],
-        ["lunch", "luch", "launch", "lunc"],
-        ["dinner", "dinenr", "dins", "supper"]
-    ]
-    ignoredRows = ["special", "continental", "fruit"]
+    extract.text_replace(lines)
 
     soup = BeautifulSoup(lines, features="html.parser")
     assert soup != None
