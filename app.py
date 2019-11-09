@@ -263,8 +263,8 @@ def upload_file():
             htlmFile.write(pretty)
             htlmFile.close()
 
-            mealsByDay = functions.dinoparse(html)
-            return render_template("checkParser.html", mealsByDay=mealsByDay)
+            extracted = functions.dinoparse(html)
+            return render_template("checkParser.html", extracted=extracted)
         if file.filename.endswith(".html") or file.filename.endswith(".htm"):
             mealsByDay = functions.dinoparse(file.readlines())
             return render_template("checkParser.html", mealsByDay=mealsByDay)

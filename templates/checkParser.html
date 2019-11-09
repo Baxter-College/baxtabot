@@ -80,16 +80,16 @@
 
 		var tbody = document.createElement('tbody');
 		tbody.name = "data";
-		console.log("{{ mealsByDay[0] }}");
-		{% for day in mealsByDay[1] %}
+		console.log("{{ extracted[0] }}");
+		{% for day in extracted[2] %}
 			var tr = document.createElement('tr');
 			tr.name = "{{loop.index}}";
 			var date = document.createElement('td');
 			date.width = "10%";
 			var dateval = document.createElement('input');
 			dateval.type = "date";
-			console.log("{{mealsByDay[0][loop.index - 1]}}");
-			dateval.value = "{{mealsByDay[0][loop.index - 1]}}";
+			console.log("{{extracted[0][loop.index - 1]}}");
+			dateval.value = "{{extracted[0][loop.index - 1]}}";
 			console.log(dateval.value);
 			dateval.name = tr.name + "/date";
 			dateval.id = dateval.name
