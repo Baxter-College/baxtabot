@@ -405,49 +405,46 @@ def dinoparse(lines):
     first_row = tables[0].find('tr')
     dateCol = first_row.find('td')
     dateStr = dateCol.get_text()
-    for table in tables:
-        tbody = table.find('tbody')
-        #assert tbody != None
-        rows = table.find_all('tr')
+    rows = extract.get_rows(soup)
 
-        rowSpans = {}
+    rowSpans = {}
 
-        for rownum, row in enumerate(rows[1:]):
-            cols = row.find_all('td')
-            heading = ""
-            delta = 0
-            for ind, col in enumerate(cols):
-                if str(rownum) in rowSpans and ind in rowSpans[str(rownum)]:
-                    rowSpans[str(rownum)].remove(ind)
-                    delta += 1
-                colnum = ind + delta
-                if col.has_key('rowspan'):
-                    rowspan = int(col['rowspan'])
-                    for i in range(1, rowspan):
-                        key = str(rownum + i)
-                        if key in rowSpans:
-                            rowSpans[key].append(colnum)
-                        else:
-                            rowSpans[key] = [colnum]
-                    
-                string = col.get_text()
-                if string == "":
-                    continue
-                if colnum == 0:
-                    if curMeal < 3 and any([i in string for i in mealTitles[curMeal]]):
-                        print("meal found:")
-                        print(string)
-                        curMeal += 1
-                        for i in range(7):
-                            mealsByDay[i].append([])
-                        break
-                    if any([string.lower().startswith(i) for i in ignoredRows]):
-                        break
-                    heading = string.strip().capitalize()
-                    continue
-                    
-                day = colnum - 1
-                mealsByDay[day][curMeal].append(heading + ":\n" + string)
+    for rownum, row in enumerate(rows[1:]):
+        cols = row.find_all('td')
+        heading = ""
+        delta = 0
+        for ind, col in enumerate(cols):
+            if str(rownum) in rowSpans and ind in rowSpans[str(rownum)]:
+                rowSpans[str(rownum)].remove(ind)
+                delta += 1
+            colnum = ind + delta
+            if col.has_key('rowspan'):
+                rowspan = int(col['rowspan'])
+                for i in range(1, rowspan):
+                    key = str(rownum + i)
+                    if key in rowSpans:
+                        rowSpans[key].append(colnum)
+                    else:
+                        rowSpans[key] = [colnum]
+                
+            string = col.get_text()
+            if string == "":
+                continue
+            if colnum == 0:
+                if curMeal < 3 and any([i in string for i in mealTitles[curMeal]]):
+                    print("meal found:")
+                    print(string)
+                    curMeal += 1
+                    for i in range(7):
+                        mealsByDay[i].append([])
+                    break
+                if any([string.lower().startswith(i) for i in ignoredRows]):
+                    break
+                heading = string.strip().capitalize()
+                continue
+                
+            day = colnum - 1
+            mealsByDay[day][curMeal].append(heading + ":\n" + string)
     dateStr = dateStr.split('-')[0]
     try:
         date = parse(dateStr)
