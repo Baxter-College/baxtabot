@@ -19,7 +19,7 @@ def text_replace(lines):
 
     for sub, repl in subs.items():
         lines = re.sub(sub, repl, lines)
-    
+    return lines
 
 def spanned_on(rowspans, row, col):
     if str(row) in rowspans and col in rowspans[str(row)]:
@@ -38,11 +38,16 @@ def next_meal(string, current_meal):
         return False
     return any([i in string for i in MEAL_TITLES[current_meal]])
 def ignore_row(string):
-    return any([i in string for i in IGNORED_ROWS])
+    if any([i in string for i in IGNORED_ROWS]):
+        return True
+    if string[0].isdigit():
+        return True
+    return False
 def get_date(first_row):
     date_cell = first_row.find('td')
     date_str = date_cell.get_text()
-    return parse(date_str).date()
+    first_date = re.split("-|–|—|−", date_str)[0]
+    return parse(first_date, fuzzy=True).date()
 def guess_date():
     #finds the next monday
     today = datetime.date.today()
@@ -55,7 +60,8 @@ def extract_date(soup):
     sucess = True
     try:
         date = get_date(soup)
-    except:
+    except Exception as e:
+        print(e)
         sucess = False
         date = guess_date()
     return date, sucess
