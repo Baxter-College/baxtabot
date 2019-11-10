@@ -60,7 +60,7 @@ class Sender(Model):
         Crush.create(crusher=self, crushee=other)
 
     def remove_crush(self, other):
-        Crush.select.where(Crush.crusher == self and Crush.crushee == other)
+        Crush.select().where(Crush.crusher == self and Crush.crushee == other)
 
     @property
     def crushes(self):
