@@ -28,6 +28,7 @@ fuzzywuzzy = "*"
 python-levenshtein = "*"
 beautifulsoup4 = "==4.8.0"
 python-dateutil = "*"
+pytz = "*"
 
 [dev-packages]
 rope = "*"

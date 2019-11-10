@@ -4,6 +4,7 @@
 
 import datetime
 from dateutil.parser import parse
+from pytz import timezone
 import random
 import json
 import requests
@@ -63,12 +64,7 @@ def findTime(message):
 
 def dinoRequest(meal, addTime):
     # meal is "dinner", "lunch" or "breakfast"
-
-    ten_hours = datetime.timedelta(hours=11)
-
-    today = datetime.datetime.now()
-
-    today_AEST = today + ten_hours
+    today_AEST = datetime.datetime.now(timezone('Australia/Sydney'))
 
     today_AEST += addTime  # if no add time, timedelta will be 0 hours so no effect
 
@@ -91,12 +87,7 @@ def dinoRequest(meal, addTime):
 
 def dinoRequestObj(meal, addTime):
     # meal is "dinner", "lunch" or "breakfast"
-
-    ten_hours = datetime.timedelta(hours=11)
-
-    today = datetime.datetime.now()
-
-    today_AEST = today + ten_hours
+    today_AEST = datetime.datetime.now(timezone("Australia/Sydney"))
 
     today_AEST += addTime  # if no add time, timedelta will be 0 hours so no effect
 
