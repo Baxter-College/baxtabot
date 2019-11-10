@@ -393,7 +393,7 @@ def getRoomNumber(name):
         )
 
 def dinoparse(lines):
-    extract.text_replace(lines)
+    lines = extract.text_replace(lines)
 
     soup = BeautifulSoup(lines, features="html.parser")
     assert soup != None
@@ -403,6 +403,5 @@ def dinoparse(lines):
 
     mealsByDay = extract.get_meals(rows[1:])
     date, sucess = extract.extract_date(soup)    
-    dates = [(date + datetime.timedelta(days=i)) for i in range(7)]
-    return [dates, sucess, mealsByDay]
+    return [date, sucess, mealsByDay, pretty]
 
