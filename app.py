@@ -256,13 +256,6 @@ def upload_file():
                 result.messages
             )  # Any messages, such as warnings during conversion
 
-            soup = BeautifulSoup(html, features="html.parser")
-            pretty = soup.prettify()
-
-            htlmFile = open("out.html", "w")
-            htlmFile.write(pretty)
-            htlmFile.close()
-
             extracted = functions.dinoparse(html)
             return render_template("checkParser.html", extracted=extracted)
         if file.filename.endswith(".html") or file.filename.endswith(".htm"):
@@ -282,11 +275,11 @@ def confirm_file():
             things = form.getlist(str(day) + "/" + str(meal))
             description = "\n\n".join(things)
 
-            subs = {"&amp;": "&", "\\x96": "-", "\\x92": "'"}
+            subs = {"&amp;": "&", "\\x96": "-", "\\x92": "'", "\\u2019":"'", "\\u2018":"'", "\\u2013": "-"}
 
             for sub, repl in subs.items():
                 description = re.sub(sub, repl, description)
-
+            print("\n\n here we go:", date, "\n\ndescr: ", description, "\n\nmeal", meals[meal - 1])
             models.Meal.create(date=date, description=description, type=meals[meal - 1])
     return redirect(url_for("dino"))
 
