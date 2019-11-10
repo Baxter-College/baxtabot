@@ -29,10 +29,10 @@ def spanned_on(rowspans, row, col):
 def update_spans(rowspans, span, row, col):
     for i in range(1, span):
         later_row = span + i
-        if later_row in rowSpans:
-            rowSpans[later_row].append(col)
+        if later_row in rowspans:
+            rowspans[later_row].append(col)
         else:
-            rowSpans[later_row] = [col]
+            rowspans[later_row] = [col]
 def next_meal(string, current_meal):
     if current_meal >= 3:
         return False
@@ -98,13 +98,13 @@ def get_meals(rows):
                 if next_meal(string, cur_meal):
                     cur_meal += 1
                     for i in range(7):
-                        mealsByDay[i].appned([])
+                        mealsByDay[i].append([])
                     # test if this break is necessary
                     break
-                heading = string.strip().capitalize()
+                row_heading = string.strip().capitalize()
             else:
                 day = colnum - 1
-                text = heading + ":\n" + string
+                text = row_heading + ":\n" + string
                 mealsByDay[day][cur_meal].append(text)
     return mealsByDay
 
