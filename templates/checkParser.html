@@ -5,6 +5,18 @@
 {% block content %}
 	<h2>Confirm Dino Entries</h2>	
 	<script type="text/javascript">
+		(function() {
+			var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+			var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+			Date.prototype.getMonthName = function() {
+				return months[ this.getMonth() ];
+			};
+			Date.prototype.getDayName = function() {
+				return days[ this.getDay() ];
+			};
+		})();
 		function makeEditable(e) {
 		  var cell = e.target;
 		  if (cell.dataset.editing !== 'true') {
@@ -30,29 +42,30 @@
 		  }
 		}
 
+		function addDays(date, days) {
+			var newDate = new Date()
+			newDate.setTime(date.getTime() + days * 86400000)
+			return newDate
+		}
+
+		function date_str(date) {
+			return date.toISOString().slice(0,10)
+		}
+
 		function updateDates(e) {
 			var firstDate = e.target;
+			firstDate.className = "";
 			if (!firstDate.value) {
 				return
 			}
-			console.log("first date " + firstDate)
-			console.log("first value " + firstDate.value)
-			console.log("e  " + e)
 			var date = new Date(firstDate.value);
 			for (var delta = 1; delta < 7; delta++) {
 				var id = (delta + 1).toString() + "/date"
 				changeDate = document.getElementById(id)
-				var newDate = new Date()
-				newDate.setTime(date.getTime() + delta * 86400000)
-				console.log("OG" + date)
-				console.log(newDate)
-				var dateString = newDate.toISOString().slice(0,10)
-				console.log(dateString)
+				var newDate = addDays(date, delta)
+				var dateString = date_str(newDate)
 				changeDate.value = dateString
 			}
-		}
-		function printDate(e) {
-			console.log("jusprint " + e.target.value)
 		}
 
 		var rows = 10;
@@ -80,25 +93,29 @@
 
 		var tbody = document.createElement('tbody');
 		tbody.name = "data";
-		console.log("{{ extracted[0] }}");
+		var first_date = "{{ extracted[0] }}";
+		var date_obj = new Date(first_date)
 		{% for day in extracted[2] %}
 			var tr = document.createElement('tr');
 			tr.name = "{{loop.index}}";
 			var date = document.createElement('td');
 			date.width = "10%";
 			var dateval = document.createElement('input');
+			var weekday = document.createElement('p')
 			dateval.type = "date";
-			console.log("{{extracted[0][loop.index - 1]}}");
-			dateval.value = "{{extracted[0][loop.index - 1]}}";
-			console.log(dateval.value);
+			var this_date = addDays(date_obj, {{loop.index - 1}})
+			dateval.value = date_str(this_date);
+			weekday.innerHTML = this_date.getDayName();
 			dateval.name = tr.name + "/date";
 			dateval.id = dateval.name
 			if ( {{ loop.index }} == 1) {
+				if ( "{{ extracted[1] }}" == "False" ) {
+					dateval.className = "date_err"
+				}
 				dateval.addEventListener('input', updateDates)
-				console.log("ogggg value " + dateval.value)
 			}
-			dateval.addEventListener('input', printDate);
 			date.appendChild(dateval)
+			date.appendChild(weekday)
 			tr.appendChild(date)
 			{% for meal in day[1:] %}
 				var td = document.createElement('td');
@@ -138,6 +155,8 @@
 		form.appendChild(table)
 		document.body.appendChild(form);
 	</script>
+
+{{ extracted[3]|safe }}
 
 
 {% endblock %}
