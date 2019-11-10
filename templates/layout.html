@@ -6,11 +6,23 @@
 
 		<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
-		<link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
-		<link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
-
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize-css@2.3.1/normalize.css">
+		<!-- <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css"> -->
+		<!-- <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css"> -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/milligram@1.3.0/dist/milligram.min.css">
 		<!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,700" rel="stylesheet">
 		<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous"> -->
+	
+		<style>
+			input[type=date] {
+				box-sizing: border-box;
+				border-radius: .4rem;
+				border-width: .1rem;
+			}
+			input[type=date].date_err {
+				background-color:rgb(202, 100, 100)
+			}
+		</style>
 
 		<style media="screen">
 			/* h1,h2,h3,h4,h5,h6,p,a {
@@ -38,6 +50,14 @@
 			}
 			.button-black.button-clear {
 			  border-color: transparent;
+			}
+
+			input {
+				color: "red"
+			}
+
+			input[type=date].date_err {
+				border: "2px solid red"
 			}
 
 		</style>
