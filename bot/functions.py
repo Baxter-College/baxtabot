@@ -61,6 +61,17 @@ def findTime(message):
 
     return addTime
 
+def get_meal(meal, time):
+    try:
+        dino = (
+            models.Meal.select()
+            .where(models.Meal.date == time.date())
+            .where(models.Meal.type == meal)
+            .get()
+        )
+        return dino
+    except Exception:
+        return None
 
 def dinoRequest(meal, addTime):
     # meal is "dinner", "lunch" or "breakfast"
@@ -70,18 +81,10 @@ def dinoRequest(meal, addTime):
 
     print("Date is: {}".format(today_AEST.date().strftime("%Y-%m-%d")))
 
-    try:
-        dino = (
-            models.Meal.select()
-            .where(models.Meal.date == today_AEST.date())
-            .where(models.Meal.type == meal)
-            .get()
-        )
-    except Exception as e:
-        print("---> ", e)
-        print("Meal: ", meal)
-        print("Date: ", today_AEST.date())
-        return "Honestly.... I don't know."
+    dino = get_meal(meal, today_AEST)
+
+    if dino is None:
+        return None
 
     return "{} at dino is:\n{}".format(meal, dino.description)
 
@@ -93,15 +96,7 @@ def dinoRequestObj(meal, addTime):
 
     print("Date is: {}".format(today_AEST.date().strftime("%Y-%m-%d")))
 
-    try:
-        dino = (
-            models.Meal.select()
-            .where(models.Meal.date == today_AEST.date())
-            .where(models.Meal.type == meal)
-            .get()
-        )
-    except Exception as e:
-        return None
+    return get_meal(meal, today_AEST)
 
     return dino
 
@@ -145,105 +140,85 @@ def dinoPoll():
 
 def getCurrentDino():
 
-    time = datetime.datetime.now() + datetime.timedelta(hours=11)  # to make it aest
-
-    today = datetime.datetime.today() + datetime.timedelta(hours=11)
-    breakfast = today.replace(hour=7, minute=0)
-    lunch = today.replace(hour=12, minute=0)
+    today = datetime.datetime.now(timezone('Australia/Sydney'))
+    #breakfast = today.replace(hour=7, minute=0)
+    lunch = today.replace(hour=11, minute=0) #people asking for dino at 11 are probably talking about lunch
     dinner = today.replace(
         hour=16, minute=0
     )  # just to make sure (starting at 4 so people can ask what's dino earlier for dinner)
 
-    try:
-        if time < lunch:
-            # for today's breakfast
-            dino = (
-                models.Meal.select()
-                .where(models.Meal.type == "breakfast")
-                .where(models.Meal.date == today.date())
-                .get()
-            )
-        elif time >= lunch and time < dinner:
-            # for today's lunch
-            dino = (
-                models.Meal.select()
-                .where(models.Meal.type == "lunch")
-                .where(models.Meal.date == today.date())
-                .get()
-            )
-        elif time >= dinner:
-            # for today's dinner
-            dino = (
-                models.Meal.select()
-                .where(models.Meal.type == "dinner")
-                .where(models.Meal.date == today.date())
-                .get()
-            )
-        return dino
-    except:
-        return None
+    if time < lunch:
+        # for today's breakfast
+        return get_meal("breakfast", today)
+    elif time < dinner:
+        # for today's lunch
+        return get_meal("lunch", today)
+    else:
+        # for today's dinner
+        return get_meal("dinner", today)
+    return dino
 
 
 # ======== J&D ========== #
 
 
-def set_jd(rs, switch):
+# def set_jd(rs, switch):
 
-    jd_desc = ""
+#     jd_desc = ""
 
-    try:
-        if switch[1]:
-            message.bot.set_variable("jd_loc", switch[1])
-            jd_desc = " in the {}".format(switch[1])
-    except:
-        message.bot.set_variable("jd_loc", None)
+#     try:
+#         if switch[1]:
+#             message.bot.set_variable("jd_loc", switch[1])
+#             jd_desc = " in the {}".format(switch[1])
+#     except:
+#         message.bot.set_variable("jd_loc", None)
 
-    if switch[0].lower() == "on":
-        message.bot.set_variable("jd", True)
-        # jd = True
-        return "COFFEE TIME!!! ☕️\nJ&D is ON" + jd_desc
-    else:
-        message.bot.set_variable("jd", None)
-        message.bot.set_variable("jd_loc", None)
-        return "No more coff! 😭"
-
-
-def get_jd(rs, args):
-
-    jd = message.bot.get_variable("jd")
-    jd_loc = message.bot.get_variable("jd_loc")
-
-    jd_desc = ""
-
-    if jd_loc:
-        jd_desc = " in the {}".format(jd_loc)
-
-    if jd:
-        return "J&D is ON" + jd_desc
-    else:
-        return "J&D is OFF 😭 😭 😭"
+#     if switch[0].lower() == "on":
+#         message.bot.set_variable("jd", True)
+#         # jd = True
+#         return "COFFEE TIME!!! ☕️\nJ&D is ON" + jd_desc
+#     else:
+#         message.bot.set_variable("jd", None)
+#         message.bot.set_variable("jd_loc", None)
+#         return "No more coff! 😭"
 
 
-# ===== Shopen ===== #
+# def get_jd(rs, args):
 
-# TODO: integrate this toggle action into a function so we are not duplicating functionality
+#     jd = message.bot.get_variable("jd")
+#     jd_loc = message.bot.get_variable("jd_loc")
+
+#     jd_desc = ""
+
+#     if jd_loc:
+#         jd_desc = " in the {}".format(jd_loc)
+
+#     if jd:
+#         return "J&D is ON" + jd_desc
+#     else:
+#         return "J&D is OFF 😭 😭 😭"
 
 
-def set_shop(rs, switch):
+# # ===== Shopen ===== #
 
-    if switch[0].lower() == "on":
-        message.bot.set_variable("shop", True)
-        return "Shopen!"
-    else:
-        message.bot.set_variable("shop", None)
-        return "Shclosed 😭"
+# # TODO: integrate this toggle action into a function so we are not duplicating functionality
 
 
-def get_shop(rs, args):
+# def set_shop(rs, switch):
 
-    shop = message.bot.get_variable("shop")
+#     if switch[0].lower() == "on":
+#         message.bot.set_variable("shop", True)
+#         return "Shopen!"
+#     else:
+#         message.bot.set_variable("shop", None)
+#         return "Shclosed 😭"
 
-    return "Shopen!!!" if shop else "Shclosed 😭"
+
+# def get_shop(rs, args):
+
+#     shop = message.bot.get_variable("shop")
+
+#     return "Shopen!!!" if shop else "Shclosed 😭"
 
 
 # ===== Baxter Events ===== #
@@ -272,23 +247,23 @@ def uploadAsset(assetUrl):
 
 # ===== Hashbrowns ===== #
 
-def set_hashbrowns(rs, switch):
+# def set_hashbrowns(rs, switch):
 
-    message.bot.set_variable('hashbrownsday', datetime.date.today())
-    if switch[0].lower() == 'on':
-        message.bot.set_variable('hashbrowns', True)
-        return "OMG best news ever! 😃 Your friends will arrive shortly..."
-    else:
-        message.bot.set_variable('hashbrowns', None)
-        return "N-n-n-noooooooo! 😭 Enjoy a lonely Dino, knowing you took one for the team..."
+#     message.bot.set_variable('hashbrownsday', datetime.date.today())
+#     if switch[0].lower() == 'on':
+#         message.bot.set_variable('hashbrowns', True)
+#         return "OMG best news ever! 😃 Your friends will arrive shortly..."
+#     else:
+#         message.bot.set_variable('hashbrowns', None)
+#         return "N-n-n-noooooooo! 😭 Enjoy a lonely Dino, knowing you took one for the team..."
 
-def get_hashbrowns(rs, args):
+# def get_hashbrowns(rs, args):
 
-    if (message.bot.get_variable('hashbrownsday') == datetime.date.today()):
-        hashbrowns = message.bot.get_variable('hashbrowns')
-        return "Get out of bed! HASHBROWNS TODAY!!! 🥔🥔🎊🎉🎊🎉" if hashbrowns else "Bad news: no hashbrowns... stay in bed 😔"
-    else:
-        return "Nobody's been game to find out yet 🤔 Type 'sethashbrowns on' or 'sethashbrowns off' if you happen to get out of bed"
+#     if (message.bot.get_variable('hashbrownsday') == datetime.date.today()):
+#         hashbrowns = message.bot.get_variable('hashbrowns')
+#         return "Get out of bed! HASHBROWNS TODAY!!! 🥔🥔🎊🎉🎊🎉" if hashbrowns else "Bad news: no hashbrowns... stay in bed 😔"
+#     else:
+#         return "Nobody's been game to find out yet 🤔 Type 'sethashbrowns on' or 'sethashbrowns off' if you happen to get out of bed"
 
 
 # ======= Semester In Progress ======= #

@@ -293,7 +293,7 @@ def handleConversation(sender_psid, received_msg, conversation):
         Response(sender_psid, "Done!").send()
 
     elif conversation == "DINOIMAGE":
-        if received_msg["attachments"][0]:
+        if "attachments" in received_msg and received_msg["attachments"][0]:
             dino = functions.getCurrentDino()
             sender = (
                 models.Sender.select().where(models.Sender.psid == sender_psid).get()
