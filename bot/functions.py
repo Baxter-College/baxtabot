@@ -20,22 +20,29 @@ import bot.extract as extract
 
 
 # ====== Specific functions ===== #
+def find_dinner(message):
+    search = ["dinner", "diner", "supper", "tonight", "dinenr"]
+    return any([term in message for term in search])
+def find_breakfast(message):
+    search = ["breakfast", "brekfast", "brekkie", "beakfast", "this morning"]
+    return any([term in message for term in search])
+def find_lunch(message):
+    search = ["lunch", "lunc", "launch"]
+    return any([term in message for term in search])
 def findMeal(message):
-    if "dinner" in message:
-        meal = "dinner"
-    elif "lunch" in message:
-        meal = "lunch"
-    elif "breakfast" in message:
-        meal = "breakfast"
-
-    return meal
-
+    if find_dinner(message):
+        return "dinner"
+    if find_breakfast(message):
+        return "breakfast"
+    if find_lunch(message):
+        return "lunch"
+    return None
 
 def findTime(message):
 
     addTime = datetime.timedelta(hours=0)
 
-    today = datetime.datetime.today() + datetime.timedelta(hours=11)
+    today = datetime.datetime.now(timezone("Australia/Sydney"))
     days = {
         "monday": 0,
         "tuesday": 1,
@@ -97,9 +104,6 @@ def dinoRequestObj(meal, addTime):
     print("Date is: {}".format(today_AEST.date().strftime("%Y-%m-%d")))
 
     return get_meal(meal, today_AEST)
-
-    return dino
-
 
 def makeDinoVote(vote):
 

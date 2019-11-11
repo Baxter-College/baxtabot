@@ -14,6 +14,7 @@ from pprint import pprint
 from rivescript import RiveScript
 
 from bot.settings import *
+import bot.message_process as process
 
 from bot.Response import (
     Response,
@@ -260,7 +261,7 @@ def handleConversation(sender_psid, received_msg, conversation):
     if conversation == "ADDCRUSH":
         # Check if we have more than 5 crushes already
         if len(me.crushes) >= 5:
-            Response(semder_psid, "You can't have more than 5 crushes!").send()
+            Response(sender_psid, "You can't have more than 5 crushes!").send()
             # End the conversation
             me.conversation = None
             me.save()
