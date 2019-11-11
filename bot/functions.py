@@ -21,7 +21,7 @@ import bot.extract as extract
 
 # ====== Specific functions ===== #
 def find_dinner(message):
-    search = ["dinner", "diner", "supper", "tonight", "dinenr"]
+    search = ["dinner", "diner", "supper", "tonight", "dinenr", "night"]
     return any([term in message for term in search])
 def find_breakfast(message):
     search = ["breakfast", "brekfast", "brekkie", "beakfast", "this morning"]
@@ -80,15 +80,27 @@ def get_meal(meal, time):
     except Exception:
         return None
 
+def get_current_meal():
+
+    time = datetime.datetime.now(timezone('Australia/Sydney'))
+    #breakfast = today.replace(hour=7, minute=0)
+    lunch = time.replace(hour=11, minute=0) #people asking for dino at 11 are probably talking about lunch
+    dinner = time.replace(
+        hour=16, minute=0
+    )  # just to make sure (starting at 4 so people can ask what's dino earlier for dinner)
+    if time < lunch:
+        # for today's breakfast
+        return "breakfast"
+    elif time < dinner:
+        # for today's lunch
+        return "lunch"
+    else:
+        # for today's dinner
+        return "dinner"
+
 def dinoRequest(meal, addTime):
     # meal is "dinner", "lunch" or "breakfast"
-    today_AEST = datetime.datetime.now(timezone('Australia/Sydney'))
-
-    today_AEST += addTime  # if no add time, timedelta will be 0 hours so no effect
-
-    print("Date is: {}".format(today_AEST.date().strftime("%Y-%m-%d")))
-
-    dino = get_meal(meal, today_AEST)
+    dino = dinoRequestObj(meal, addTime)
 
     if dino is None:
         return None
@@ -104,6 +116,13 @@ def dinoRequestObj(meal, addTime):
     print("Date is: {}".format(today_AEST.date().strftime("%Y-%m-%d")))
 
     return get_meal(meal, today_AEST)
+
+def getCurrentDino():
+
+    time = datetime.datetime.now(timezone('Australia/Sydney'))
+
+    meal = get_current_meal()
+    return get_meal(meal, time)
 
 def makeDinoVote(vote):
 
@@ -140,27 +159,6 @@ def dinoPoll():
         message = "The crowd is split! Dino is a polarising meal.\nLet me know your thoughts with 'dinovote'"
 
     return message
-
-
-def getCurrentDino():
-
-    today = datetime.datetime.now(timezone('Australia/Sydney'))
-    #breakfast = today.replace(hour=7, minute=0)
-    lunch = today.replace(hour=11, minute=0) #people asking for dino at 11 are probably talking about lunch
-    dinner = today.replace(
-        hour=16, minute=0
-    )  # just to make sure (starting at 4 so people can ask what's dino earlier for dinner)
-
-    if time < lunch:
-        # for today's breakfast
-        return get_meal("breakfast", today)
-    elif time < dinner:
-        # for today's lunch
-        return get_meal("lunch", today)
-    else:
-        # for today's dinner
-        return get_meal("dinner", today)
-    return dino
 
 
 # ======== J&D ========== #
