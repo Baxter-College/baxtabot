@@ -340,19 +340,19 @@ def sendBubbles(sender_psid):
         return "It's all gone to shit", r.status_code
 
 
-def sendAsset(sender_psid, assetID, type):
-    """
-	Sends an asset to sender
+# def sendAsset(sender_psid, assetID, type):
+#     """
+# 	Sends an asset to sender
 
-	Args:
-		sender_psid (str): the psid of the target sender
-		assetID (str): the facebook assetID obtained from uploadAsset()
-		type (str): <"image"|"audio">
-	"""
+# 	Args:
+# 		sender_psid (str): the psid of the target sender
+# 		assetID (str): the facebook assetID obtained from uploadAsset()
+# 		type (str): <"image"|"audio">
+# 	"""
 
-    message = {"attachment": {"type": type, "payload": {"attachment_id": str(assetID)}}}
+#     message = {"attachment": {"type": type, "payload": {"attachment_id": str(assetID)}}}
 
-    callSendAPI(sender_psid, message)
+#     callSendAPI(sender_psid, message)
 
 
 # ====== User functionality ===== #

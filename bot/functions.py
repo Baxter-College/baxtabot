@@ -13,7 +13,7 @@ import mammoth
 import re
 from bs4 import BeautifulSoup
 
-from bot.settings import *
+from bot.settings import OFFICER_PSIDS, PAGE_ACCESS_TOKEN
 
 import bot.models as models
 import bot.extract as extract
@@ -68,7 +68,7 @@ def findTime(message):
 
     return addTime
 
-def get_meal(meal, time):
+def get_meal(meal, time) -> models.Meal:
     try:
         dino = (
             models.Meal.select()
@@ -107,7 +107,7 @@ def dinoRequest(meal, addTime):
 
     return "{} at dino is:\n{}".format(meal, dino.description)
 
-def dinoRequestObj(meal, addTime):
+def dinoRequestObj(meal, addTime) -> models.Meal:
     # meal is "dinner", "lunch" or "breakfast"
     today_AEST = datetime.datetime.now(timezone("Australia/Sydney"))
 
@@ -117,7 +117,7 @@ def dinoRequestObj(meal, addTime):
 
     return get_meal(meal, today_AEST)
 
-def getCurrentDino():
+def getCurrentDino() -> models.Meal:
 
     time = datetime.datetime.now(timezone('Australia/Sydney'))
 
