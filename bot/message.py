@@ -9,6 +9,7 @@ import requests
 import datetime
 from bot.sonnets import sonnetGen
 from pprint import pprint
+import re
 
 
 from rivescript import RiveScript
@@ -273,6 +274,36 @@ def handleAddCrush(sender: models.Sender, msg):
                 Response(crush.psid, msg).send()
     r.send()
 
+def get_email(text):
+    pattern = r'^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
+    match = re.match(pattern, text)
+    return match
+
+def handleLateMeal(sender: models.Sender, text):
+    #stored details - password, email
+    #temp details - date, meal, meat/veg,
+    if not sender.order:
+        sender.order = models.mealOrder.create()
+        today = datetime.date.today()
+        if "today" in text or "tonight" in text:
+            sender.order.date = today
+        elif functions.findTime(text) > 0:
+            sender.order.date = today + functions.findTime(text)
+        
+        if functions.findMeal(text):
+            sender.order.meal = functions.findMeal(text)
+    r = Response(sender.psid)
+    if not sender.email:
+        match = get_email(text)
+        if not match:
+            r.text = "I need your residential email you used to sign up to inLoop"
+            r.send()
+        else:
+            sender.email = match.group(0)
+    if not sender.inloop_password:
+        pass
+
+    pass
 
 def handleConversation(sender_psid, received_msg, conversation):
     me = models.Sender.select().where(models.Sender.psid == sender_psid).get()

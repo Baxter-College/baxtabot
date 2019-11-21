@@ -42,6 +42,9 @@ class Meal(Base):
     likes = IntegerField(default=0)
     dislikes = IntegerField(default=0)
 
+class mealOrder(Base):
+    date = DateField(null=True)
+    meal = CharField(null=True)
 
 class Sender(Base):
     psid = BigIntegerField()
@@ -50,6 +53,10 @@ class Sender(Base):
     profile_url = CharField()
     last_message = DateTimeField()
     conversation = CharField(null=True, default=None)
+
+    inloop_password = CharField(null=True, default=None)
+    email = CharField(null=True, default=None)
+    order = ForeignKeyField(mealOrder, backref="customer")
 
     @property
     def full_name(self):
