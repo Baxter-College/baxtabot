@@ -7,7 +7,9 @@ import psycopg2
 import os
 from urllib.parse import urlparse
 
-from peewee import *
+from peewee import Model, PostgresqlDatabase
+from peewee import DateField, CharField, BigIntegerField, DateTimeField, TextField
+from peewee import IntegerField, ForeignKeyField
 from fuzzywuzzy import fuzz, process
 
 if "HEROKU" in os.environ:
@@ -60,7 +62,7 @@ class Sender(Model):
         Crush.create(crusher=self, crushee=other)
 
     def remove_crush(self, other):
-        Crush.select.where(Crush.crusher == self and Crush.crushee == other)
+        Crush.select().where(Crush.crusher == self and Crush.crushee == other)
 
     @property
     def crushes(self):
