@@ -13,7 +13,7 @@ from pprint import pprint
 
 from rivescript import RiveScript
 
-from bot.settings import *
+from bot.settings import PAGE_ACCESS_TOKEN, OFFICER_PSIDS, OFFICERS, DATE_LOCATIONS
 import bot.message_process as process
 
 from bot.Response import (
@@ -45,7 +45,14 @@ bot.sort_replies()
 # bot.set_subroutine("get_hashbrowns", functions.get_hashbrowns)
 
 # ==== message handling ==== #
-
+def send_officers(text):
+    # Send Message To Bot Officers
+    for psid in OFFICER_PSIDS:
+        Response(
+            psid,
+            text=text,
+            msg_type=Message_Tag.COMMUNITY_ALERT,
+        ).send()
 
 def handleMessage(sender_psid, received_message):
     """
@@ -71,13 +78,7 @@ def handleMessage(sender_psid, received_message):
                 f"Someone hasn't updated the menu 🤦‍♀️... yell at {OFFICERS}"
             )
 
-            # Send Message To Bot Officers
-            for psid in OFFICER_PSIDS:
-                Response(
-                    psid,
-                    text="The menu has not been updated. The people are crying.",
-                    msg_type=Message_Tag.COMMUNITY_ALERT,
-                ).send()
+            send_officers("The menu has not been updated. The people are crying.")
         else:
             response.text = (
                 functions.dinoRequest(meal, addTime)
@@ -251,7 +252,30 @@ def handlePostback(sender_psid, received_postback, msg):
     return "OK"
 
 
+def handleAddCrush(sender: models.Sender, msg):
+    r = Response(sender.psid)
+    if len(sender.crushes) >= 5:
+        r.text = "You can't have more than 5 crsuhes!"
+    else:
+        _, _, crush = models.Sender.fuzzySearch(msg)
+        if not crush:
+            r.text = "I dunno who that is sorry¯\_(ツ)_/¯ "
+            end_conversation(sender)
+        else:
+            sender.add_crush(crush)
+            r.text = f"Added {crush.full_name} to crush list"
+            r.add_reply(Reply("Add another Crush", payload="ADDCRUSH"))
+            end_conversation(sender)
+
+            if crush.is_crushing(sender):
+                msg = f"Congrats! {crush.full_name} is crushing on you! Matchmaker Baxtabot is here to match! You now have a date at {random.choice(DATE_LOCATIONS)} at {random.choice(range(6))}pm tomorrow. Clear you calendar - this is your chance 😉😘😜"
+                Response(sender.psid, msg).send()
+                Response(crush.psid, msg).send()
+    r.send()
+
+
 def handleConversation(sender_psid, received_msg, conversation):
+    me = models.Sender.select().where(models.Sender.psid == sender_psid).get()
 
     if "text" in received_msg:
         msg_text = received_msg["text"]
@@ -259,27 +283,7 @@ def handleConversation(sender_psid, received_msg, conversation):
     me = models.Sender.select().where(models.Sender.psid == sender_psid).get()
 
     if conversation == "ADDCRUSH":
-        # Check if we have more than 5 crushes already
-        if len(me.crushes) >= 5:
-            Response(sender_psid, "You can't have more than 5 crushes!").send()
-            # End the conversation
-            me.conversation = None
-            me.save()
-            return "OK"
-
-        _, confidence, myCrush = models.Sender.fuzzySearch(msg_text)
-
-        me.add_crush(myCrush)
-
-        r = Response(sender_psid, f"Added {myCrush.full_name} to crush list")
-        r.add_reply(Reply("Add another Crush", payload="ADDCRUSH"))
-        r.send()
-
-        if int(sender_psid) in [crush.crushee.psid for crush in myCrush.crushes]:
-            # You are the crush of your crush. It's a match!
-            msg = f"Congrats! {myCrush.full_name} is crushing on you! Matchmaker Baxtabot is here to match! You now have a date at {random.choice(DATE_LOCATIONS)} at {random.choice(range(6))}pm tomorrow. Clear you calendar - this is your chance 😉😘😜"
-            Response(sender_psid, msg).send()
-            Response(myCrush.psid, msg).send()
+        handleAddCrush(me, msg_text)
 
     elif conversation == "REMOVECRUSH":
         _, confidence, myCrush = models.Sender.fuzzySearch(msg_text)
@@ -292,6 +296,7 @@ def handleConversation(sender_psid, received_msg, conversation):
                 aCrush.delete_instance()
 
         Response(sender_psid, "Done!").send()
+        end_conversation(me)
 
     elif conversation == "DINOIMAGE":
         if "attachments" in received_msg and received_msg["attachments"][0]:
@@ -306,14 +311,16 @@ def handleConversation(sender_psid, received_msg, conversation):
             )
             Response(sender_psid, image=img.url).send()
             Response(sender_psid, "What a stunning shot!").send()
+            end_conversation(me)
         else:
             Response(sender_psid, "You need to send me an image!").send()
 
-    # End the conversation
-    me.conversation = None
-    me.save()
     return "OK"
 
+def end_conversation(sender: models.Sender):
+    #end a conversation
+    sender.conversation = None
+    sender.save()
 
 def start_conversation(sender_psid, conversation):
     sender = models.Sender.select().where(models.Sender.psid == sender_psid).get()

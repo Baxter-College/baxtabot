@@ -31,28 +31,25 @@ else:
         password=db_pword,
     )
 
+class Base(Model):
+    class Meta:
+        database = db
 
-class Meal(Model):
+class Meal(Base):
     date = DateField()
     type = CharField()
     description = TextField()
     likes = IntegerField(default=0)
     dislikes = IntegerField(default=0)
 
-    class Meta:
-        database = db
 
-
-class Sender(Model):
+class Sender(Base):
     psid = BigIntegerField()
     first_name = CharField()
     last_name = CharField()
     profile_url = CharField()
     last_message = DateTimeField()
     conversation = CharField(null=True, default=None)
-
-    class Meta:
-        database = db
 
     @property
     def full_name(self):
@@ -63,6 +60,13 @@ class Sender(Model):
 
     def remove_crush(self, other):
         Crush.select().where(Crush.crusher == self and Crush.crushee == other)
+    
+    def is_crushing(self, other: Sender):
+        try:
+            Crush.select().where(Crush.crusher.id == self.id).where(Crush.crushee.id == other.id).get()
+            return True
+        except:
+            return False
 
     @property
     def crushes(self):
@@ -76,40 +80,28 @@ class Sender(Model):
         )
 
 
-class MealImg(Model):
+class MealImg(Base):
     meal = ForeignKeyField(Meal, backref="images")
     url = TextField()
     sender = ForeignKeyField(Sender)
 
-    class Meta:
-        database = db
 
-
-class Crush(Model):
+class Crush(Base):
     crushee = ForeignKeyField(Sender, backref="crushOf")
     crusher = ForeignKeyField(Sender, backref="crushes")
 
-    class Meta:
-        database = db
 
-
-class WeekCal(Model):
+class WeekCal(Base):
     assetID = CharField()
     week_start = DateField()
 
-    class Meta:
-        database = db
 
-
-class Ressie(Model):
+class Ressie(Base):
     first_name = CharField()
     last_name = CharField()
     room_number = IntegerField()
     floor = IntegerField()
     college = CharField(default="baxter")  # Incase we use for the rest of TKC
-
-    class Meta:
-        database = db
 
     @property
     def full_name(self):
