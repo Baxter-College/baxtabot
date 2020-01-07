@@ -9,7 +9,7 @@ from urllib.parse import urlparse
 
 from peewee import Model, PostgresqlDatabase
 from peewee import DateField, CharField, BigIntegerField, DateTimeField, TextField
-from peewee import IntegerField, ForeignKeyField
+from peewee import IntegerField, ForeignKeyField, BooleanField
 from fuzzywuzzy import fuzz, process
 
 if "HEROKU" in os.environ:
@@ -45,6 +45,7 @@ class Meal(Base):
 class mealOrder(Base):
     date = DateField(null=True)
     meal = CharField(null=True)
+    confirmation = BooleanField(default=False)
 
 class Sender(Base):
     psid = BigIntegerField()
@@ -57,6 +58,7 @@ class Sender(Base):
     inloop_password = CharField(null=True, default=None)
     email = CharField(null=True, default=None)
     order = ForeignKeyField(mealOrder, backref="customer")
+    askedForPassword = BooleanField(default=False)
 
     @property
     def full_name(self):
@@ -68,7 +70,7 @@ class Sender(Base):
     def remove_crush(self, other):
         Crush.select().where(Crush.crusher == self and Crush.crushee == other)
     
-    def is_crushing(self, other: Sender):
+    def is_crushing(self, other):
         try:
             Crush.select().where(Crush.crusher.id == self.id).where(Crush.crushee.id == other.id).get()
             return True

@@ -283,27 +283,64 @@ def handleLateMeal(sender: models.Sender, text):
     #stored details - password, email
     #temp details - date, meal, meat/veg,
     if not sender.order:
+        #first message in this conversation
         sender.order = models.mealOrder.create()
         today = datetime.date.today()
-        if "today" in text or "tonight" in text:
-            sender.order.date = today
-        elif functions.findTime(text) > 0:
-            sender.order.date = today + functions.findTime(text)
+        timeDiff = functions.findTime(text)
+        if "today" in text or "tonight" in text or timeDiff > 0:
+            sender.order.date = today + timeDiff
         
-        if functions.findMeal(text):
-            sender.order.meal = functions.findMeal(text)
+        meal = functions.findMeal(text)
+        if meal:
+            sender.order.meal = meal
     r = Response(sender.psid)
     if not sender.email:
         match = get_email(text)
         if not match:
-            r.text = "I need your residential email you used to sign up to inLoop"
+            r.text = "I don't know your email address, please enter it so I can use your account"
             r.send()
+            return
         else:
             sender.email = match.group(0)
     if not sender.inloop_password:
-        pass
+        if sender.askedForPassword:
+            sender.inloop_password = text
+        else:
+            r.text = "Please enter your inLoop password (please make sure you don't use this passwrod for anything else)"
+            r.send()
+            sender.askedForPassword = True
+            return
 
-    pass
+    order: models.mealOrder = sender.order
+    if order.meal is None:
+        meal = functions.findMeal(text)
+        time = functions.findTime(text)
+        today = datetime.date.today()
+        if "today" in text or "tonight" in text or timeDiff > 0:
+            order.date = today + timeDiff
+
+        if meal:
+            order.meal = meal
+        else:
+            if order.date is not None:
+                r.text = "Which meal is that for?"
+            else:
+                r.text = "When would you like to order for?"
+            r.send()
+            return
+    elif order.date is None:
+        # assume if they haven't entered a date but they have said "lunch" or something, they mean lunch today
+        order.date = datetime.date.today()
+    if not order.confirmation:
+        msg = "Are these details correct?\n"
+        msg += f"email : {sender.email}\npassword : {sender.password}\ndate : {order.date}\nfor : {order.meal}"
+        r.text = msg
+        r.send()
+        order.confirmation = True
+        return
+    if "yes" in text or "yeah" in text:
+        # actually order the late meal thingo
+        pass
 
 def handleConversation(sender_psid, received_msg, conversation):
     me = models.Sender.select().where(models.Sender.psid == sender_psid).get()
@@ -313,7 +350,6 @@ def handleConversation(sender_psid, received_msg, conversation):
         if (
             "cancel" in msg_text
             or "nevermind" in msg_text
-            or msg_text == "no"
             or "fuck off" in msg_text
         ):
             end_conversation(me)
