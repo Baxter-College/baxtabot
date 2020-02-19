@@ -36,21 +36,24 @@
 - I'm stuck in your phone. How do you think??
 
 + what (do|can) you do
-- Here's what you can ask me now: \n
+- You can ask me: \n
 ^ - "What's for dinner?" \n
-^ - "breakfast" / "lunch" / "dinner" \n
-^ - "dinner tomorrow" / "dinner Saturday" \n
+^ - "breakfast" \n
+^ - "lunch" \n
+^ - "dinner" \n
+^ - "dinner tomorrow" \n
+^ - "dinner Saturday" \n
 ^ - "Is dino good?" \n
 ^ - "What's on?" / "calendar" \n
-^ - and more
+^ - and more \n
 ^ \n
 ^ Coming and returning soon: \n
-^ - Resident room number search
-^ - J&D and Shop status
-^ - Vacuum tracker
-^ - Dino late meals easy ordering
+^ - Ressie room number search \n
+^ - J&D and Shop status \n
+^ - Vacuum tracker \n
+^ - Late meals fast ordering \n
 ^ \n
-^ Yeah I know... I'm way better than Siri. \n
+^ Yeah I know... I'm way better than Siri... and waaaaay better than Basserbot \n
 
 + (what do you know|help)
 @ what can you do
