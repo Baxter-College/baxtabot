@@ -36,24 +36,19 @@
 - I'm stuck in your phone. How do you think??
 
 + what (do|can) you do
-- Here's a list of stuff you can ask me at the moment: \n
+- Here's what you can ask me now: \n
 ^ - "What's for dinner?" \n
-^ - "What's for lunch tomorrow?" \n
-^ - "What's for breakfast on thursday??" \n
+^ - "breakfast" / "lunch" / "dinner" \n
+^ - "dinner tomorrow" / "dinner Saturday" \n
 ^ - "Is dino good?" \n
-^ - "dinovote" \n
-^ - "hashbrowns?" \n
+^ - "What's on?" / "calendar" \n
+^ - and more
 ^ \n
-^ - "What's on?" \n
-^ - "Is J&D on?" \n
-^ - "Shopen?" \n
-^ \n
-^ - "How many days left?" \n
-^ - "I'm locked out" \n
-^ - "What room is Shakeeb Ali in?"\n
-^ - "What's my name?" \n
-^ - "Who has crashed you?"\n
-^ - "Thoughts on Warrane" (and other responses) \n
+^ Coming or returning soon: \n
+^ - Resident room number search
+^ - J&D and Shop status
+^ - Vacuum traker
+^ - Dino late meals easy ordering
 ^ \n
 ^ Yeah I know... I'm way better than Siri. \n
 
