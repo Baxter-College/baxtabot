@@ -17,6 +17,7 @@ import requests
 import datetime
 import mammoth
 import re
+import traceback
 from werkzeug.utils import secure_filename
 from bs4 import BeautifulSoup
 
@@ -47,6 +48,19 @@ if DEBUG:
 
 app = Flask(__name__)
 
+@app.errorhandler(Exception)
+def handle_exception(e: Exception):
+    print("\n\nexception caughties\n")
+    print(e)
+    print("a", type(e).__name__, "b")
+    print(e.__dict__)
+    tb = traceback.format_exc().split("\n")
+    time = datetime.datetime.now()
+    etype = type(e).__name__
+    message = e.__str__()
+    models.Error.create(traceback=tb, time=time, type=etype, message=message)
+
+    return "exception caught"
 
 @app.before_request
 def before_request():
@@ -58,6 +72,12 @@ def after_request(response):
     models.db.close()
     return response
 
+@app.route("/errors")
+def show_errors():
+    errors = models.Error.select().order_by(models.Error.time.desc())
+    print("rendering errors")
+    print(errors)
+    return render_template("errors.html", errors=errors)
 
 @app.route("/")
 def index():
@@ -156,7 +176,6 @@ def webhook():
         challenge = request.args.get("hub.challenge")
 
         if mode and token:  # the mode and token are in the query string
-
             if mode == "subscribe" and token == VERIFY_TOKEN:
 
                 # respond with the challenge token from the request

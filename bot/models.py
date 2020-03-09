@@ -8,6 +8,7 @@ import os
 from urllib.parse import urlparse
 
 from peewee import *
+from peewee import DateTimeField
 from fuzzywuzzy import fuzz, process
 
 if "HEROKU" in os.environ:
@@ -28,6 +29,16 @@ else:
         user=db_user,
         password=db_pword,
     )
+
+
+class Error(Model):
+    message = TextField()
+    time = DateTimeField()
+    type = CharField()
+    traceback = TextField()
+
+    class Meta:
+        database = db
 
 
 class Meal(Model):
@@ -123,5 +134,5 @@ class Ressie(Model):
 
 def goGoPowerRangers():
     db.connect()
-    db.create_tables([Meal, Sender, WeekCal, Ressie, Crush, MealImg], safe=True)
+    db.create_tables([Error, Meal, Sender, WeekCal, Ressie, Crush, MealImg], safe=True)
     db.close()
