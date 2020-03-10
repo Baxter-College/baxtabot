@@ -177,10 +177,13 @@ def handleMessage(sender_psid, received_message):
 
     # Testing adding a new feature
     elif "snazzy pic" in received_message:
+        meal = functions.getCurrentDino()
         if meal.images:
             image = random.choice([image for image in meal.images])
             Response(sender_psid, image=image.url).send()
             Response(sender_psid, f"Photo by: {image.sender.full_name}").send()
+        else:
+            Response(sender_psid, "No snazzy pics :(").send()
 
     elif "days left" in received_message or "semester" in received_message:
         response.text = functions.semesterResponse()
