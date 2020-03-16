@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+
+{% block title %}Ressies{% endblock %}
+
+{% block content %}
+        {% for ressie in ressies %}
+        {url_for('deleteRessie', ressie_id=ressie.id)}
+        {% endfor %}
+{% endblock %}
