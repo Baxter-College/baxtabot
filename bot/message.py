@@ -178,7 +178,7 @@ def handleMessage(sender_psid, received_message):
     elif "days left" in received_message or "semester" in received_message:
         response.text = functions.semesterResponse()
 
-    elif 'am i a baxter ressie' in received_message:
+    elif 'am i a ressie' in received_message:
         ressie = models.Ressie.select().where(models.Ressie.facebook_psid == sender_psid).get()
         if ressie:
             response.text = f'Yes, we have you down as being {ressie.first_name} {ressie.last_name} in room {ressie.room_number}'
