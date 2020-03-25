@@ -73,7 +73,6 @@ class Sender(Model):
             name, {sender: sender.full_name for sender in Sender.select()}
         )
 
-
 class MealImg(Model):
     meal = ForeignKeyField(Meal, backref="images")
     url = TextField()
@@ -105,6 +104,7 @@ class Ressie(Model):
     room_number = IntegerField()
     floor = IntegerField()
     college = CharField(default="baxter")  # Incase we use for the rest of TKC
+    facebook_psid = BigIntegerField()
 
     class Meta:
         database = db

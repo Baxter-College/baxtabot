@@ -178,6 +178,13 @@ def handleMessage(sender_psid, received_message):
     elif "days left" in received_message or "semester" in received_message:
         response.text = functions.semesterResponse()
 
+    elif 'am i a baxter ressie' in received_message:
+        ressie = models.Ressie.select().where(models.Ressie.facebook_psid == sender_psid).get()
+        if ressie:
+            response.text = f'Yes, we have you down as being {ressie.first_name} {ressie.last_name} in room {ressie.room_number}'
+        else:
+            response.text = 'Nah, we don\'t have you down as being a ressie here. Soz'
+
     elif "room is" in received_message:
         name = functions.extractName(received_message)
 
@@ -381,6 +388,19 @@ def check_user_exists(sender_psid):
             last_message=datetime.datetime.now(),
         )
 
+        # Link them to the Ressie table if they are a Ressie
+        name = data['first_name'] + ' ' + data['last_name']
+        try:
+            _, confidence, ressie = models.Ressie.fuzzySearch(name)
+            if confidence <= 70:
+                raise Exception
+            if not ressie.facebook_psid:
+                ressie.facebook_psid = sender_psid
+                ressie.save()
+        except:
+            pass
+            # The FB user probably isn't from Baxter
+
         bot.set_uservars(
             str(sender_psid),
             {"first_name": data["first_name"], "last_name": data["first_name"]},
@@ -408,7 +428,6 @@ def check_user_exists(sender_psid):
             sender.save()
 
     return sender
-
 
 def humanisePSID(PSID):
     url = "https://graph.facebook.com/" + str(PSID)
