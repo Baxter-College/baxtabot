@@ -386,7 +386,8 @@ def getRoomNumber(name):
                 gotName, ressie.room_number, confidence
             )
         return "{} is in room {}".format(gotName, ressie.room_number)
-    except:
+    except Exception as e:
+        print(e)
         return """I could not find a room number for '{}' ... are you sure they go to Baxter?
           \nPlease make sure you spell their full name correctly.\n\n (Fun fact: Some people use names that are not in fact their names. Nicknames won't work)""".format(
             " ".join(name).title()

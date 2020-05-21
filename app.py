@@ -104,6 +104,9 @@ def webhook():
                 sender_psid = webhook_event["sender"]["id"]
 
                 sender = message.check_user_exists(sender_psid)
+                if not sender:
+                    ### error happened and we could not resolve the identity of the sender
+                    return ""
 
                 if sender.conversation and "message" in webhook_event:
                     return message.handleConversation(

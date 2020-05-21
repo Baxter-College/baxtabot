@@ -197,7 +197,7 @@ def handleMessage(sender_psid, received_message):
 
     elif "room is" in received_message:
         name = functions.extractName(received_message)
-
+        print("trying find room for", name)
         response.text = functions.getRoomNumber(name)
 
     elif "crush list" in received_message:
@@ -377,9 +377,13 @@ def sendAsset(sender_psid, assetID, type):
 
 
 def check_user_exists(sender_psid):
-
+    
     sender = models.Sender.select().where(models.Sender.psid == sender_psid)
     data = humanisePSID(sender_psid)
+
+    if not data:
+        print("received message from ghost!")
+        return
 
     # Link them to the Ressie table if they are a Ressie
     name = data['first_name'] + ' ' + data['last_name']
@@ -395,6 +399,8 @@ def check_user_exists(sender_psid):
         # The FB user probably isn't from Baxter
 
     # if user does not exist, create the user and set bot variables
+    with models.db.atomic() as trans:
+        trans.rollback()
     if not sender.exists():
 
         print(
@@ -441,7 +447,8 @@ def check_user_exists(sender_psid):
 
 def humanisePSID(PSID):
     url = "https://graph.facebook.com/" + str(PSID)
-
+    print("url\n", url)
+    print(PAGE_ACCESS_TOKEN)
     r = requests.get(
         url,
         params={
@@ -455,6 +462,9 @@ def humanisePSID(PSID):
         print("Worked!")
         return data
     else:
+        print("response")
+        print(r.content)
+        print(r.status_code)
         print("FUCKED! PSID was: {}".format(str(PSID)))
 
 
