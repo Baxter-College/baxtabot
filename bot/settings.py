@@ -11,7 +11,8 @@ if "HEROKU" in os.environ:
     OFFICER_PSIDS = [
         2066675683409458,
         2054639917988805,
-    ]  # james, rohan
+        2991096094285006,
+    ]  # james, rohan, josh
 else:
     from dotenv import load_dotenv, find_dotenv
 
