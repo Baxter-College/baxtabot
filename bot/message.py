@@ -399,8 +399,8 @@ def check_user_exists(sender_psid):
         # The FB user probably isn't from Baxter
 
     # if user does not exist, create the user and set bot variables
-    with models.db.atomic() as trans:
-        trans.rollback()
+    # with models.db.atomic() as trans:
+    #     trans.rollback()
     if not sender.exists():
 
         print(
