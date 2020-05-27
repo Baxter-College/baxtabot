@@ -2,6 +2,7 @@
 #
 # Functionality that involves connecting and sending messages to
 # the facebook Send API
+import traceback
 
 import random
 import json
@@ -394,7 +395,9 @@ def check_user_exists(sender_psid):
         if not ressie.facebook_psid:
             ressie.facebook_psid = sender_psid
             ressie.save()
-    except:
+    except Exception as e:
+        print(Exception, e)
+        traceback.print_exc()
         pass
         # The FB user probably isn't from Baxter
 

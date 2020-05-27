@@ -1,6 +1,7 @@
 # functions.py
 #
 # Includes all non-messaging functionality of baxterbot
+import traceback
 
 import datetime
 from dateutil.parser import parse
@@ -387,7 +388,8 @@ def getRoomNumber(name):
             )
         return "{} is in room {}".format(gotName, ressie.room_number)
     except Exception as e:
-        print(e)
+        print(Exception, e)
+        traceback.print_exc()
         return """I could not find a room number for '{}' ... are you sure they go to Baxter?
           \nPlease make sure you spell their full name correctly.\n\n (Fun fact: Some people use names that are not in fact their names. Nicknames won't work)""".format(
             " ".join(name).title()
