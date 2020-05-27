@@ -260,7 +260,7 @@ def handleAddCrush(sender: models.Sender, msg):
     else:
         _, _, crush = models.Sender.fuzzySearch(msg)
         if not crush:
-            r.text = "I dunno who that is sorry¯\\_(ツ)_/¯ "
+            r.text = "I dunno who that is sorry¯\_(ツ)_/¯ "
             end_conversation(sender)
         else:
             sender.add_crush(crush)
@@ -361,7 +361,7 @@ def handleConversation(sender_psid, received_msg, conversation):
         handleAddCrush(me, msg_text)
 
     elif conversation == "REMOVECRUSH":
-        _, _, myCrush = models.Sender.fuzzySearch(msg_text)
+        _, confidence, myCrush = models.Sender.fuzzySearch(msg_text)
 
         for aCrush in me.crushes:
             if aCrush.crushee.psid == myCrush.psid:
