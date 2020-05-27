@@ -2,6 +2,7 @@
 #
 # Functionality that involves connecting and sending messages to
 # the facebook Send API
+import traceback
 
 import random
 import json
@@ -178,12 +179,29 @@ def handleMessage(sender_psid, received_message):
                 Response(sender_psid, image=image.url).send()
                 Response(sender_psid, f"Photo by: {image.sender.full_name}").send()
 
+    # Testing adding a new feature
+    elif "snazzy pic" in received_message:
+        meal = functions.getCurrentDino()
+        if meal.images:
+            image = random.choice([image for image in meal.images])
+            Response(sender_psid, image=image.url).send()
+            Response(sender_psid, f"Photo by: {image.sender.full_name}").send()
+        else:
+            Response(sender_psid, "No snazzy pics :(").send()
+
     elif "days left" in received_message or "semester" in received_message:
         response.text = functions.semesterResponse()
 
+    elif 'am i a ressie' in received_message:
+        ressie = models.Ressie.select().where(models.Ressie.facebook_psid == sender_psid).get()
+        if ressie:
+            response.text = f'Yes, we have you down as being {ressie.first_name} {ressie.last_name} in room {ressie.room_number}'
+        else:
+            response.text = 'Nah, we don\'t have you down as being a ressie here. Soz'
+
     elif "room is" in received_message:
         name = functions.extractName(received_message)
-
+        print("trying find room for", name)
         response.text = functions.getRoomNumber(name)
 
     elif "crush list" in received_message:
@@ -443,11 +461,32 @@ def sendBubbles(sender_psid):
 
 
 def check_user_exists(sender_psid):
-
+    
     sender = models.Sender.select().where(models.Sender.psid == sender_psid)
     data = humanisePSID(sender_psid)
 
+    if not data:
+        print("received message from ghost!")
+        return
+
+    # Link them to the Ressie table if they are a Ressie
+    name = data['first_name'] + ' ' + data['last_name']
+    try:
+        _, confidence, ressie = models.Ressie.fuzzySearch(name)
+        if confidence <= 70:
+            raise Exception
+        if not ressie.facebook_psid:
+            ressie.facebook_psid = sender_psid
+            ressie.save()
+    except Exception as e:
+        print(Exception, e)
+        traceback.print_exc()
+        pass
+        # The FB user probably isn't from Baxter
+
     # if user does not exist, create the user and set bot variables
+    with models.db.atomic() as trans:
+        trans.rollback()
     if not sender.exists():
 
         print(
@@ -492,10 +531,10 @@ def check_user_exists(sender_psid):
 
     return sender
 
-
 def humanisePSID(PSID):
     url = "https://graph.facebook.com/" + str(PSID)
-
+    print("url\n", url)
+    print(PAGE_ACCESS_TOKEN)
     r = requests.get(
         url,
         params={
@@ -509,6 +548,9 @@ def humanisePSID(PSID):
         print("Worked!")
         return data
     else:
+        print("response")
+        print(r.content)
+        print(r.status_code)
         print("FUCKED! PSID was: {}".format(str(PSID)))
 
 

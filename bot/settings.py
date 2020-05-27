@@ -9,10 +9,10 @@ if "HEROKU" in os.environ:
     PORT = int(os.environ.get("PORT"))
     PAGE_ACCESS_TOKEN = os.environ.get("PAGE_ACCESS_TOKEN")
     OFFICER_PSIDS = [
-        2290632767645607,
         2066675683409458,
         2054639917988805,
-    ]  # tom, james, rohan
+        2991096094285006,
+    ]  # james, rohan, josh
 else:
     from dotenv import load_dotenv, find_dotenv
 

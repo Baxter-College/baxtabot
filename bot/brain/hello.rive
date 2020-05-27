@@ -29,6 +29,12 @@
 + how old are you
 - old enough.
 
++ best tv show
+- Since Game of Thrones died in S8, probably Sherlock.
+
++ [*] (coronavirus|corona virus|virus|covid|corona|covid19) [*]
+- In the words of Nicole Robinson, #fuckCOVID19. Join the Baxter minecraft server!
+
 + are you [*]
 - No. I am BaxtaBot. 🤖
 
@@ -36,26 +42,24 @@
 - I'm stuck in your phone. How do you think??
 
 + what (do|can) you do
-- Here's a list of stuff you can ask me at the moment: \n
+- You can ask me: \n
 ^ - "What's for dinner?" \n
-^ - "What's for lunch tomorrow?" \n
-^ - "What's for breakfast on thursday??" \n
+^ - "breakfast" \n
+^ - "lunch" \n
+^ - "dinner" \n
+^ - "dinner tomorrow" \n
+^ - "dinner Saturday" \n
 ^ - "Is dino good?" \n
-^ - "dinovote" \n
-^ - "hashbrowns?" \n
+^ - "What's on?" / "calendar" \n
+^ - and more \n
 ^ \n
-^ - "What's on?" \n
-^ - "Is J&D on?" \n
-^ - "Shopen?" \n
+^ Coming and returning soon: \n
+^ - Ressie room number search \n
+^ - J&D and Shop status \n
+^ - Vacuum tracker \n
+^ - Late meals fast ordering \n
 ^ \n
-^ - "How many days left?" \n
-^ - "I'm locked out" \n
-^ - "What room is Shakeeb Ali in?"\n
-^ - "What's my name?" \n
-^ - "Who has crashed you?"\n
-^ - "Thoughts on Warrane" (and other responses) \n
-^ \n
-^ Yeah I know... I'm way better than Siri. \n
+^ Yeah I know... I'm way better than Siri... and waaaaay better than Basserbot \n
 
 + (what do you know|help)
 @ what can you do
@@ -155,6 +159,9 @@
 
 + you suck
 - ...and you swallow
+
++ best tv show
+- That's not even a question, it's Sherlock. Game of Thrones died after Season 4.
 
 + shut up
 - You shut up.

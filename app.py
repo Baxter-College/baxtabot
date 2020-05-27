@@ -104,6 +104,9 @@ def webhook():
                 sender_psid = webhook_event["sender"]["id"]
 
                 sender = message.check_user_exists(sender_psid)
+                if not sender:
+                    ### error happened and we could not resolve the identity of the sender
+                    return ""
 
                 if sender.conversation and "message" in webhook_event:
                     return message.handleConversation(
@@ -112,11 +115,14 @@ def webhook():
 
                 if "postback" in webhook_event:
                     # handle the postback
-                    return message.handlePostback(
-                        sender_psid,
-                        webhook_event["postback"],
-                        webhook_event["message"]["text"],
-                    )
+                    try:
+                        return message.handlePostback(
+                            sender_psid,
+                            webhook_event["postback"],
+                            webhook_event["message"]["text"],
+                        )
+                    except KeyError:
+                        print('Can\'t send images')
                 elif "message" in webhook_event:
                     # handle the message
                     if (
@@ -329,4 +335,3 @@ if __name__ == "__main__":
             print("BAXTABOT: ", message.handleMessage("cmd", msg)["message"]["text"])
     else:
         app.run(debug=DEBUG, port=PORT, host="0.0.0.0")
-
