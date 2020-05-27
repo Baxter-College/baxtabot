@@ -479,8 +479,10 @@ def check_user_exists(sender_psid):
             ressie.facebook_psid = sender_psid
             ressie.save()
     except Exception as e:
+        print("################################################ dw this exception was caught")
         print(Exception, e)
         traceback.print_exc()
+        print("################################################")
         pass
         # The FB user probably isn't from Baxter
 
