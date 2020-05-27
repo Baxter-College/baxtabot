@@ -54,10 +54,10 @@ class Sender(Base):
     last_message = DateTimeField()
     conversation = CharField(null=True, default=None)
 
-    inloop_password = CharField(null=True, default=None)
-    email = CharField(null=True, default=None)
-    order = ForeignKeyField(mealOrder, backref="customer")
-    askedForPassword = BooleanField(default=False)
+    # inloop_password = CharField(null=True, default=None)
+    # email = CharField(null=True, default=None)
+    # order = ForeignKeyField(mealOrder, backref="customer")
+    # askedForPassword = BooleanField(default=False)
 
     @property
     def full_name(self):
