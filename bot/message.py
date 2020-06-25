@@ -78,6 +78,7 @@ def handleMessage(sender_psid, received_message):
     response = Response(sender_psid)
     received_message = received_message.lower()
     if "celtestxd" in received_message:
+        print(BROKER_URL)
         print("before celery")
         massMessage.delay("yew")
         print("after celery")
