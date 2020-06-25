@@ -49,8 +49,13 @@ bot.set_subroutine("get_hashbrowns", functions.get_hashbrowns)
 
 # ==== message handling ==== #
 def groupMessage(psids, text):
+    print("GROUP MESSAGE")
     for psid in psids:
-        Response(psid, text=text).send()
+        print("    psid:", psid)
+        try:
+            Response(psid, text=text, timeout=0.0000001).send()
+        except requests.exceptions.ReadTimeout:
+            pass
 
 @celery.task(bind=True)
 def celeryTest(self):
@@ -61,8 +66,8 @@ def celeryTest(self):
     print("end celery")
     return "hi"
 
-@celery.task(bind=True)
-def massMessage(self, text):
+# @celery.task(bind=True)
+def massMessage(text):
     import time
     time.sleep(5)
     senders = models.Sender.select()
@@ -77,13 +82,9 @@ def handleMessage(sender_psid, received_message):
 
     response = Response(sender_psid)
     received_message = received_message.lower()
-    if "celtestxd" in received_message:
-        print(BROKER_URL)
-        print("before celery")
-        massMessage.delay("yew")
-        print("after celery")
     if "psid" in received_message:
         Response(sender_psid, text=str(sender_psid)).send()
+        massMessage("yew")
     if (
         "dinner" in received_message
         or "lunch" in received_message
