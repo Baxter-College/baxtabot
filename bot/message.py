@@ -29,7 +29,7 @@ from bot.Response import (
 import bot.functions as functions
 import bot.models as models
 
-celery = Celery('example', broker=BROKER_URL)
+celery = Celery('app.py', broker=BROKER_URL)
 
 # ==== rivescript bot setup ==== #
 
@@ -55,6 +55,7 @@ def groupMessage(psids, text):
 @celery.task(bind=True)
 def celeryTest(self):
     import time
+    print(BROKER_URL)
     print("start celery")
     time.sleep(5)
     print("end celery")
