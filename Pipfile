@@ -28,6 +28,7 @@ python-levenshtein = "*"
 beautifulsoup4 = "==4.8.0"
 python-dateutil = "*"
 psycopg2 = "*"
+pycryptodome = "*"
 
 [dev-packages]
 rope = "*"

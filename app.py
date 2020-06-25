@@ -15,10 +15,21 @@ import os
 import json
 import requests
 import datetime
+import secrets
 import mammoth
 import re
 from werkzeug.utils import secure_filename
 from bs4 import BeautifulSoup
+
+from base64 import (
+    b64encode,
+    b64decode,
+)
+
+from Crypto.Hash import SHA256
+from Crypto.Signature import pkcs1_15
+from Crypto.PublicKey import RSA
+from binascii import hexlify, unhexlify
 
 import argparse
 
@@ -28,6 +39,8 @@ from bot.Response import Response
 import bot.models as models
 import bot.message as message
 import bot.functions as functions
+
+SIGN_TOKEN = secrets.token_hex(16)
 
 if DEBUG:
     print(
@@ -81,6 +94,9 @@ def update():
         return render_template("update.html")
     else:
         return render_template("update.html")
+
+
+
 
 
 @app.route("/webhook", methods=["POST", "GET"])
@@ -177,6 +193,29 @@ def webhook():
     else:
         print("Someone decided to be an idiot.")
 
+
+@app.route("/loveorla", methods=["GET","POST"])
+def love():
+    if request.method == "GET":
+        global SIGN_TOKEN
+        SIGN_TOKEN = secrets.token_hex(16)
+        return render_template("verify.html", token=SIGN_TOKEN  )
+    else:
+        signature = request.form["signature"]
+        content = request.form["content"]
+        print("sig", signature)
+        signature = unhexlify(signature.encode('utf-8'))
+        digest = SHA256.new()
+        digest.update(SIGN_TOKEN.encode('utf-8'))
+        pub_key = RSA.import_key(rohan_pub_key)
+        verifier = pkcs1_15.new(pub_key)
+        try:
+            verifier.verify(digest, signature)
+            message.massMessage(content)
+            return "Valid Signature"
+        except Exception as e:
+            print(e)
+            return "Invalid signature"
 
 # ====== Upload Asset ====== #
 

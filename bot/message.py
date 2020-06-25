@@ -45,7 +45,14 @@ bot.set_subroutine("set_hashbrowns", functions.set_hashbrowns)
 bot.set_subroutine("get_hashbrowns", functions.get_hashbrowns)
 
 # ==== message handling ==== #
+def groupMessage(psids, text):
+    for psid in psids:
+        Response(psid, text=text).send()
 
+def massMessage(text):
+    senders = models.Sender.select()
+    psids = [x.psid for x in senders]
+    groupMessage(psids, text)
 
 def handleMessage(sender_psid, received_message):
     """
@@ -55,7 +62,8 @@ def handleMessage(sender_psid, received_message):
 
     response = Response(sender_psid)
     received_message = received_message.lower()
-
+    if "psid" in received_message:
+        Response(sender_psid, text=str(sender_psid)).send()
     if (
         "dinner" in received_message
         or "lunch" in received_message
@@ -70,14 +78,10 @@ def handleMessage(sender_psid, received_message):
             response.text = (
                 f"Someone hasn't updated the menu 🤦‍♀️... yell at {OFFICERS}"
             )
-
+            text="The menu has not been updated. The people are crying."
+            groupMessage(OFFICER_PSIDS, text)
             # Send Message To Bot Officers
-            for psid in OFFICER_PSIDS:
-                Response(
-                    psid,
-                    text="The menu has not been updated. The people are crying.",
-                    msg_type=Message_Tag.COMMUNITY_ALERT,
-                ).send()
+
         else:
             response.text = (
                 functions.dinoRequest(meal, addTime)
@@ -114,12 +118,8 @@ def handleMessage(sender_psid, received_message):
         else:
             response.text = "I can't find this week's calendar! Soz."
 
-            for psid in OFFICER_PSIDS:
-                Response(
-                    psid,
-                    text="I couldn't send the weekly calendar! Please update me!!",
-                    msg_type=Message_Tag.COMMUNITY_ALERT,
-                ).send()
+            text="I couldn't send the weekly calendar! Please update me!!"
+            groupMessage(OFFICER_PSIDS, text)
 
     elif "nudes" in received_message or "noods" in received_message:
         response.asset = "270145943837548"
@@ -152,14 +152,10 @@ def handleMessage(sender_psid, received_message):
             response.text = (
                 f"Someone hasn't updated the menu 🤦‍♀️... yell at {OFFICERS}"
             )
-
+            text="The menu has not been updated. The people are crying."
+            groupMessage(OFFICER_PSIDS, text)
             # Send Message To Bot Officers
-            for psid in OFFICER_PSIDS:
-                Response(
-                    psid,
-                    text="The menu has not been updated. The people are crying.",
-                    msg_type=Message_Tag.COMMUNITY_ALERT,
-                ).send()
+
         else:
             addTime = functions.findTime(received_message)
 
@@ -189,7 +185,7 @@ def handleMessage(sender_psid, received_message):
     elif "days left" in received_message or "semester" in received_message:
         response.text = functions.semesterResponse()
 
-    elif 'am i a ressie' in received_message:
+    elif 'am i a ressiexd' in received_message:
         ressie = models.Ressie.select().where(models.Ressie.facebook_psid == sender_psid).get()
         if ressie:
             response.text = f'Yes, we have you down as being {ressie.first_name} {ressie.last_name} in room {ressie.room_number}'
@@ -378,7 +374,7 @@ def sendAsset(sender_psid, assetID, type):
 
 
 def check_user_exists(sender_psid):
-    
+    print("check_user_exists")
     sender = models.Sender.select().where(models.Sender.psid == sender_psid)
     data = humanisePSID(sender_psid)
 
