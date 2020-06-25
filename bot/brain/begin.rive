@@ -2,7 +2,7 @@
 
 // Bot variables
 ! var name = BaxtaBot
-! var age  = 1 month
+! var age  = 2 years
 
 // Substitutions
 ! sub &quot;    = "
