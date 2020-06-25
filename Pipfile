@@ -27,10 +27,11 @@ fuzzywuzzy = "*"
 python-levenshtein = "*"
 beautifulsoup4 = "==4.8.0"
 python-dateutil = "*"
+psycopg2 = "*"
 
 [dev-packages]
 rope = "*"
 pylint = "*"
 
 [requires]
-python_version = "3.6"
+python_version = "3.8"
