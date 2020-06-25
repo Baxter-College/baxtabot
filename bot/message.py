@@ -53,7 +53,7 @@ def groupMessage(psids, text):
     for psid in psids:
         print("    psid:", psid)
         try:
-            Response(psid, text=text, timeout=0.0000001).send()
+            Response(psid, text=text).send(timeout=0.0000001)
         except requests.exceptions.ReadTimeout:
             pass
 
