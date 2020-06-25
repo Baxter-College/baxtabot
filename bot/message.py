@@ -49,11 +49,11 @@ bot.set_subroutine("get_hashbrowns", functions.get_hashbrowns)
 
 # ==== message handling ==== #
 def groupMessage(psids, text):
-    print("GROUP MESSAGE")
+    print("GROUP MESSAGE", "'" + text + "'")
     for psid in psids:
         print("    psid:", psid)
         try:
-            Response(psid, text=text).send(timeout=0.0000001)
+            Response(psid, text=text).send(timeout=0.01)
         except requests.exceptions.ReadTimeout:
             pass
 
