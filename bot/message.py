@@ -62,6 +62,8 @@ def celeryTest(self):
 
 @celery.task(bind=True)
 def massMessage(self, text):
+    import time
+    time.sleep(5)
     senders = models.Sender.select()
     psids = [x.psid for x in senders]
     groupMessage(psids, text)
@@ -76,7 +78,7 @@ def handleMessage(sender_psid, received_message):
     received_message = received_message.lower()
     if "celtestxd" in received_message:
         print("before celery")
-        celeryTest.delay()
+        massMessage.delay("yew")
         print("after celery")
     if "psid" in received_message:
         Response(sender_psid, text=str(sender_psid)).send()
