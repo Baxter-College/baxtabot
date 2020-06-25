@@ -13,6 +13,7 @@ if "HEROKU" in os.environ:
         2054639917988805,
         2991096094285006,
     ]  # james, rohan, josh
+    BROKER_URL = os.environ.get("REDIS_URL")
 else:
     from dotenv import load_dotenv, find_dotenv
 
@@ -24,6 +25,8 @@ else:
     PORT = os.environ["PORT"]
     PAGE_ACCESS_TOKEN = os.environ["PAGE_ACCESS_TOKEN"]
     OFFICER_PSIDS = [os.environ["DEBUG_PSID"]]  # current developer's psid
+
+    BROKER_URL = "redis://"
 
 VERIFY_TOKEN = "GoodLordyThomasJHillLooksFineTonight"
 OFFICERS = "James, Rohan or Tom"

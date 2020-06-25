@@ -3,6 +3,7 @@
 # Functionality that involves connecting and sending messages to
 # the facebook Send API
 import traceback
+from celery import Celery
 
 import random
 import json
@@ -28,6 +29,8 @@ from bot.Response import (
 import bot.functions as functions
 import bot.models as models
 
+celery = Celery('example', broker=BROKER_URL)
+
 # ==== rivescript bot setup ==== #
 
 bot = RiveScript()
@@ -49,7 +52,16 @@ def groupMessage(psids, text):
     for psid in psids:
         Response(psid, text=text).send()
 
-def massMessage(text):
+@celery.task(bind=True)
+def celeryTest(self):
+    import time
+    print("start celery")
+    time.sleep(5)
+    print("end celery")
+    return "hi"
+
+@celery.task(bind=True)
+def massMessage(self, text):
     senders = models.Sender.select()
     psids = [x.psid for x in senders]
     groupMessage(psids, text)
@@ -62,6 +74,10 @@ def handleMessage(sender_psid, received_message):
 
     response = Response(sender_psid)
     received_message = received_message.lower()
+    if "celtestxd" in received_message:
+        print("before celery")
+        celeryTest.delay()
+        print("after celery")
     if "psid" in received_message:
         Response(sender_psid, text=str(sender_psid)).send()
     if (

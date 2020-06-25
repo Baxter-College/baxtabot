@@ -29,6 +29,8 @@ beautifulsoup4 = "==4.8.0"
 python-dateutil = "*"
 psycopg2 = "*"
 pycryptodome = "*"
+redis = "*"
+celery = "*"
 
 [dev-packages]
 rope = "*"
