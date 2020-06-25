@@ -29,7 +29,7 @@ from bot.Response import (
 import bot.functions as functions
 import bot.models as models
 
-celery = Celery('app.py', broker=BROKER_URL)
+celery = Celery('bot', broker=BROKER_URL)
 
 # ==== rivescript bot setup ==== #
 
