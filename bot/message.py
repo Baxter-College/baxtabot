@@ -84,7 +84,6 @@ def handleMessage(sender_psid, received_message):
     received_message = received_message.lower()
     if "psid" in received_message:
         Response(sender_psid, text=str(sender_psid)).send()
-        massMessage("yew")
     if (
         "dinner" in received_message
         or "lunch" in received_message
