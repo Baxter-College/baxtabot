@@ -12,6 +12,7 @@ if "HEROKU" in os.environ:
         2066675683409458,
         2054639917988805,
         2991096094285006,
+        223019795042891 # Nick
     ]  # james, rohan, josh
     BROKER_URL = os.environ.get("REDIS_URL")
 else:
@@ -29,7 +30,7 @@ else:
     BROKER_URL = "redis://"
 
 VERIFY_TOKEN = "GoodLordyThomasJHillLooksFineTonight"
-OFFICERS = "James, Rohan or Tom"
+OFFICERS = "Rohan or Nick"
 
 DATE_LOCATIONS = [
     "22 Grams Coffee",
