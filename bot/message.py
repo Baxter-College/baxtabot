@@ -168,7 +168,6 @@ def handleMessage(sender_psid, received_message):
         or "dino" in received_message
     ):
         meal = functions.getCurrentDino()
-        print('MEAL IS ' + meal)
 
         if not meal or meal is None:
             response.text = (
