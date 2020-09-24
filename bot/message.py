@@ -206,11 +206,14 @@ def handleMessage(sender_psid, received_message):
         response.text = functions.semesterResponse()
 
     elif 'am i a ressiexd' in received_message:
+        pass
+        '''
         ressie = models.Ressie.select().where(models.Ressie.facebook_psid == sender_psid).get()
         if ressie:
             response.text = f'Yes, we have you down as being {ressie.first_name} {ressie.last_name} in room {ressie.room_number}'
         else:
             response.text = 'Nah, we don\'t have you down as being a ressie here. Soz'
+        '''
 
     elif "room is" in received_message:
         name = functions.extractName(received_message)
