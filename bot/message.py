@@ -196,7 +196,7 @@ def handleMessage(sender_psid, received_message):
     # Testing adding a new feature
     elif "snazzy pic" in received_message:
         meal = functions.getCurrentDino()
-        if meal.images:
+        if meal is not None and meal.images:
             image = random.choice([image for image in meal.images])
             Response(sender_psid, image=image.url).send()
             Response(sender_psid, f"Photo by: {image.sender.full_name}").send()
