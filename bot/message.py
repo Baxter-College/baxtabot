@@ -412,9 +412,12 @@ def check_user_exists(sender_psid):
         _, confidence, ressie = models.Ressie.fuzzySearch(name)
         if confidence <= 70:
             raise Exception
+
+        '''
         if not ressie.facebook_psid:
             ressie.facebook_psid = sender_psid
             ressie.save()
+        '''
     except Exception as e:
         print(Exception, e)
         traceback.print_exc()
