@@ -229,8 +229,15 @@ def upload():
         response = functions.uploadAsset(url)
 
         models.WeekCal.create(
-            assetID=response["attachment_id"], week_start=request.form["date"]
+             assetID = url, week_start=request.form["date"]
         )
+
+        '''
+        models.WeekCal.create(
+            url = response['attachment_id'],
+            week_start = request.form['date']
+        )
+        '''
 
     assets = models.WeekCal.select()
 
