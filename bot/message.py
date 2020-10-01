@@ -135,9 +135,7 @@ def handleMessage(sender_psid, received_message):
         eventAsset = functions.getWeekEvents()
 
         if eventAsset:
-            # response.asset = eventAsset
-            # Response(sender_psid, image=eventAsset).send()
-            response.image = eventAsset
+            Response(sender_psid, image=eventAsset).send()
             response.text = "Here is this week's calendar!"
         else:
             response.text = "I can't find this week's calendar! Soz."
