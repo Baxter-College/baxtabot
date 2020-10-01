@@ -172,7 +172,9 @@ def handleMessage(sender_psid, received_message):
 
             if meal.images:
                 image = random.choice([image for image in meal.images])
-                Response(sender_psid, image=image.url).send()
+                r = Response(sender_psid, image=image.url).send()
+                print('sending image')
+                pprint(r.payload)
                 Response(sender_psid, f"Photo by: {image.sender.full_name}").send()
 
     elif "days left" in received_message or "semester" in received_message:
@@ -384,6 +386,7 @@ def check_user_exists(sender_psid):
         pass
         # The FB user probably isn't from Baxter
 
+    print(sender)
     # if user does not exist, create the user and set bot variables
     if not sender.exists():
 
