@@ -228,8 +228,12 @@ def upload():
         url = request.form["assetURL"]
         response = functions.uploadAsset(url)
 
+        # Delete any existing calendars for the same week
+        existingCal = models.WeekCal.select().where(models.WeekCal.week_start == request.form['date']).get()
+        existingCal.delete_instance()
+
         models.WeekCal.create(
-            assetID=response["attachment_id"], week_start=request.form["date"]
+            assetID=url, week_start=request.form["date"]
         )
 
     assets = models.WeekCal.select()
