@@ -190,9 +190,10 @@ def handleMessage(sender_psid, received_message):
 
             if meal.images:
                 image = random.choice([image for image in meal.images])
-                r = Response(sender_psid, image=image.url).send()
+                r = Response(sender_psid, image=image.url)
                 print('sending image')
                 pprint(r.payload)
+                r.send()
                 Response(sender_psid, f"Photo by: {image.sender.full_name}").send()
 
     # Testing adding a new feature
