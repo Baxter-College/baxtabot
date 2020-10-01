@@ -4,7 +4,7 @@ import urllib.parse
 import json
 import ssl
 
-with open('Baxter-Rooms-T1-2020.csv') as FILE:
+with open('T3 Baxter.csv') as FILE:
     reader = csv.reader(FILE)
     next(reader, None)
 
