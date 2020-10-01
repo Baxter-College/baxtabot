@@ -3,7 +3,6 @@
 # Defines all database models that are used elsewhere
 
 import datetime
-import psycopg2
 import os
 from urllib.parse import urlparse
 
@@ -116,9 +115,13 @@ class Ressie(Model):
     @staticmethod
     def fuzzySearch(name):
         """ Matches search by closest string, returns string match, confidence, record """
-        return process.extractOne(
-            name, {ressie: ressie.full_name for ressie in Ressie.select()}
+        dic = {ressie: ressie.full_name for ressie in Ressie.select()}
+        print("fuxxdic", dic)
+        outp = process.extractOne(
+            name, dic
         )
+        print("fuzzy output ", outp)
+        return outp
 
 
 def goGoPowerRangers():

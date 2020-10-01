@@ -2,6 +2,8 @@
 #
 # Functionality that involves connecting and sending messages to
 # the facebook Send API
+import traceback
+from celery import Celery
 
 import random
 import json
@@ -27,6 +29,8 @@ from bot.Response import (
 import bot.functions as functions
 import bot.models as models
 
+celery = Celery('bot', broker=BROKER_URL)
+
 # ==== rivescript bot setup ==== #
 
 bot = RiveScript()
@@ -44,7 +48,31 @@ bot.set_subroutine("set_hashbrowns", functions.set_hashbrowns)
 bot.set_subroutine("get_hashbrowns", functions.get_hashbrowns)
 
 # ==== message handling ==== #
+def groupMessage(psids, text):
+    print("GROUP MESSAGE", "'" + text + "'")
+    for psid in psids:
+        print("    psid:", psid)
+        try:
+            Response(psid, text=text).send(timeout=0.01)
+        except requests.exceptions.ReadTimeout:
+            pass
 
+@celery.task(bind=True)
+def celeryTest(self):
+    import time
+    print(BROKER_URL)
+    print("start celery")
+    time.sleep(5)
+    print("end celery")
+    return "hi"
+
+# @celery.task(bind=True)
+def massMessage(text):
+    import time
+    time.sleep(5)
+    senders = models.Sender.select()
+    psids = [x.psid for x in senders]
+    groupMessage(psids, text)
 
 def handleMessage(sender_psid, received_message):
     """
@@ -54,7 +82,9 @@ def handleMessage(sender_psid, received_message):
 
     response = Response(sender_psid)
     received_message = received_message.lower()
-
+    if "psid" in received_message:
+        Response(sender_psid, text=str(sender_psid)).send()
+        massMessage("yew")
     if (
         "dinner" in received_message
         or "lunch" in received_message
@@ -69,14 +99,10 @@ def handleMessage(sender_psid, received_message):
             response.text = (
                 f"Someone hasn't updated the menu 🤦‍♀️... yell at {OFFICERS}"
             )
-
+            text="The menu has not been updated. The people are crying."
+            groupMessage(OFFICER_PSIDS, text)
             # Send Message To Bot Officers
-            for psid in OFFICER_PSIDS:
-                Response(
-                    psid,
-                    text="The menu has not been updated. The people are crying.",
-                    msg_type=Message_Tag.COMMUNITY_ALERT,
-                ).send()
+
         else:
             response.text = (
                 functions.dinoRequest(meal, addTime)
@@ -113,12 +139,8 @@ def handleMessage(sender_psid, received_message):
         else:
             response.text = "I can't find this week's calendar! Soz."
 
-            for psid in OFFICER_PSIDS:
-                Response(
-                    psid,
-                    text="I couldn't send the weekly calendar! Please update me!!",
-                    msg_type=Message_Tag.COMMUNITY_ALERT,
-                ).send()
+            text="I couldn't send the weekly calendar! Please update me!!"
+            groupMessage(OFFICER_PSIDS, text)
 
     elif "nudes" in received_message or "noods" in received_message:
         response.asset = "270145943837548"
@@ -151,14 +173,10 @@ def handleMessage(sender_psid, received_message):
             response.text = (
                 f"Someone hasn't updated the menu 🤦‍♀️... yell at {OFFICERS}"
             )
-
+            text="The menu has not been updated. The people are crying."
+            groupMessage(OFFICER_PSIDS, text)
             # Send Message To Bot Officers
-            for psid in OFFICER_PSIDS:
-                Response(
-                    psid,
-                    text="The menu has not been updated. The people are crying.",
-                    msg_type=Message_Tag.COMMUNITY_ALERT,
-                ).send()
+
         else:
             addTime = functions.findTime(received_message)
 
@@ -177,10 +195,20 @@ def handleMessage(sender_psid, received_message):
                 pprint(r.payload)
                 Response(sender_psid, f"Photo by: {image.sender.full_name}").send()
 
+    # Testing adding a new feature
+    elif "snazzy pic" in received_message:
+        meal = functions.getCurrentDino()
+        if meal.images:
+            image = random.choice([image for image in meal.images])
+            Response(sender_psid, image=image.url).send()
+            Response(sender_psid, f"Photo by: {image.sender.full_name}").send()
+        else:
+            Response(sender_psid, "No snazzy pics :(").send()
+
     elif "days left" in received_message or "semester" in received_message:
         response.text = functions.semesterResponse()
 
-    elif 'am i a ressie' in received_message:
+    elif 'am i a ressiexd' in received_message:
         ressie = models.Ressie.select().where(models.Ressie.facebook_psid == sender_psid).get()
         if ressie:
             response.text = f'Yes, we have you down as being {ressie.first_name} {ressie.last_name} in room {ressie.room_number}'
@@ -189,7 +217,7 @@ def handleMessage(sender_psid, received_message):
 
     elif "room is" in received_message:
         name = functions.extractName(received_message)
-
+        print("trying find room for", name)
         response.text = functions.getRoomNumber(name)
 
     elif "crush list" in received_message:
@@ -369,9 +397,13 @@ def sendAsset(sender_psid, assetID, type):
 
 
 def check_user_exists(sender_psid):
-
+    print("check_user_exists")
     sender = models.Sender.select().where(models.Sender.psid == sender_psid)
     data = humanisePSID(sender_psid)
+
+    if not data:
+        print("received message from ghost!")
+        return
 
     # Link them to the Ressie table if they are a Ressie
     name = data['first_name'] + ' ' + data['last_name']
@@ -382,12 +414,16 @@ def check_user_exists(sender_psid):
         if not ressie.facebook_psid:
             ressie.facebook_psid = sender_psid
             ressie.save()
-    except:
+    except Exception as e:
+        print(Exception, e)
+        traceback.print_exc()
         pass
         # The FB user probably isn't from Baxter
 
     print(sender)
     # if user does not exist, create the user and set bot variables
+    with models.db.atomic() as trans:
+        trans.rollback()
     if not sender.exists():
 
         print(
@@ -434,7 +470,8 @@ def check_user_exists(sender_psid):
 
 def humanisePSID(PSID):
     url = "https://graph.facebook.com/" + str(PSID)
-
+    print("url\n", url)
+    print(PAGE_ACCESS_TOKEN)
     r = requests.get(
         url,
         params={
@@ -448,6 +485,9 @@ def humanisePSID(PSID):
         print("Worked!")
         return data
     else:
+        print("response")
+        print(r.content)
+        print(r.status_code)
         print("FUCKED! PSID was: {}".format(str(PSID)))
 
 

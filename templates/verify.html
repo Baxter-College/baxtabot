@@ -1,0 +1,7 @@
+{% extends "layout.html" %} {% block title %}Upload Calendar{% endblock %} {% block content %} please verify {{ token }}
+<form method="POST">
+    <input type="text" name="signature">
+    <textarea name="content"></textarea>
+    <input type="submit">
+</form>
+{% endblock %}
