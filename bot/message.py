@@ -144,7 +144,10 @@ def handleMessage(sender_psid, received_message):
             groupMessage(OFFICER_PSIDS, text)
 
     elif "nudes" in received_message or "noods" in received_message:
-        response.asset = "270145943837548"
+        # response.asset = "270145943837548"
+        url = 'https://indomie.com.au/wp-content/uploads/2020/03/migorengjumbo-new.png'
+        Response(sender_psid, image=url).send()
+        
         # asset ID came from making cURL request to fb api
         # NOTE: you need to use the production Page Access Token to generate the asset for the nudes
         # i.e. ... won't work in DEV
