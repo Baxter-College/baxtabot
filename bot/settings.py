@@ -9,11 +9,11 @@ if "HEROKU" in os.environ:
     PORT = int(os.environ.get("PORT"))
     PAGE_ACCESS_TOKEN = os.environ.get("PAGE_ACCESS_TOKEN")
     OFFICER_PSIDS = [
-        2066675683409458,
-        2054639917988805,
-        2991096094285006,
-        223019795042891 # Nick
-    ]  # james, rohan, josh
+        2066675683409458, # James
+        2054639917988805, # Rohan
+        2991096094285006, # Josh
+        3973058702707960 # Nick
+    ]  
     BROKER_URL = os.environ.get("REDIS_URL")
 else:
     from dotenv import load_dotenv, find_dotenv
