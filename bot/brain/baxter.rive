@@ -145,3 +145,11 @@
 // Duty Tutor
 + [*] (duty tutor|locked out|can not get in) [*]
 - Locked out again?! The duty tutor's phone is: 9385 9786
+
+// Security
++ [*] (security|unsw security|call security) [*]
+- In case of emergency call UNSW Security on 9385 6666
+
+// Lifeline
++ [*] (lifeline) [*]
+- If you need help or someone to talk to, call Lifeline 13 11 14
