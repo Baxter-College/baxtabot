@@ -21,6 +21,7 @@ import mammoth
 import re
 from werkzeug.utils import secure_filename
 from bs4 import BeautifulSoup
+from io import StringIO
 
 from base64 import (
     b64encode,
@@ -366,7 +367,8 @@ def upload_residents():
             print('No selected file')
             return redirect(request.url)
 
-        reader = csv.reader(file)
+        FILE = StringIO(file.read().decode('utf-8'))
+        reader = csv.reader(FILE)
         next(reader, None)
 
         for row in reader:
