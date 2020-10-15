@@ -401,10 +401,30 @@ def dinoparse(lines):
     soup = BeautifulSoup(lines, features="html.parser")
     assert soup != None
     pretty = soup.prettify()
-    
+
     rows = extract.get_rows(soup)
 
     mealsByDay = extract.get_meals(rows[1:])
-    date, sucess = extract.extract_date(soup)    
+    date, sucess = extract.extract_date(soup)
     return [date, sucess, mealsByDay, pretty]
 
+def extractRessieFromCSV(row):
+    first_name, last_name, room_number = row
+    last_name = last_name.capitalize()
+    last_name_edited = ''
+    for char in last_name:
+        if char == '(' or char == ' ':
+            break
+        else:
+            last_name_edited += char
+
+    return first_name, last_name, room_number[:3]
+
+def createRessie(first_name, last_name, room_number):
+    models.Ressie.create(
+        first_name = first_name,
+        last_name = last_name,
+        room_number = room_number,
+        floor = int(str(room_number)[:1])
+        ),  # get the first digit of the room number and set that as floor
+    )
