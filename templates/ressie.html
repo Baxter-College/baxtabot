@@ -5,6 +5,12 @@
 {% block content %}
 		<h2>Ressies</h2>
 		<hr>
+		<h3>Upload Resident File</h3>
+		<form action="/ressie/fileadd" method=post enctype=multipart/form-data>
+		  <input type=file name=file>
+		  <input type=submit value=Upload>
+		</form>
+		<hr>
 		<h3>Add a Resident</h3>
 		<form action="/ressie" method="post" class="pure-form pure-form-stacked">
 			<label for="first_name">First Name:</label><input name="first_name" type="text"><br/>
