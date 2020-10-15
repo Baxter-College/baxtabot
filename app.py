@@ -341,19 +341,40 @@ def resident():
 
     if request.method == "POST":
         # do resident creation
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        room_number = request.form['room_number']
 
-        models.Ressie.create(
-            first_name=request.form["first_name"],
-            last_name=request.form["last_name"],
-            room_number=request.form["room_number"],
-            floor=int(
-                str(request.form["room_number"])[:1]
-            ),  # get the first digit of the room number and set that as floor
-        )
+        functions.createRessie(first_name, last_name, room_number)
 
     ressies = models.Ressie.select()
 
     return render_template("ressie.html", ressies=ressies)
+
+@app.route('/ressie/fileadd', methods=['GET', 'POST'])
+def upload_residents():
+
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            print('No file given.')
+            return redirect(request.url)
+
+        file = request.files['file']
+
+        if file.filename == '':
+            print('No selected file')
+            return redirect(request.url)
+
+        reader = csv.reader(file)
+        next(reader, None)
+
+        for row in reader:
+            first_name, last_name, room_number = functions.extractRessieFromCSV(row)
+            functions.createRessie(first_name, last_name, room_number)
+
+    ressies = models.Ressie.select()
+    return render_template("ressie.html", ressies=ressies)
+
 
 
 @app.route("/ressie/delete/<int:ressie_id>", methods=["GET"])
