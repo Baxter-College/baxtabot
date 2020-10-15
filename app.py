@@ -78,6 +78,9 @@ def after_request(response):
 def index():
     return render_template("index.html")
 
+@app.route('/admin')
+def admin():
+    return render_template('homepage.html')
 
 @app.route("/privacy")
 def privacy():
