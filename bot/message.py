@@ -147,7 +147,7 @@ def handleMessage(sender_psid, received_message):
         # response.asset = "270145943837548"
         url = 'https://indomie.com.au/wp-content/uploads/2020/03/migorengjumbo-new.png'
         Response(sender_psid, image=url).send()
-        
+
         # asset ID came from making cURL request to fb api
         # NOTE: you need to use the production Page Access Token to generate the asset for the nudes
         # i.e. ... won't work in DEV
@@ -306,7 +306,7 @@ def handleConversation(sender_psid, received_msg, conversation):
     if conversation == "ADDCRUSH":
         # Check if we have more than 5 crushes already
         if len(me.crushes) >= 5:
-            Response(semder_psid, "You can't have more than 5 crushes!").send()
+            Response(sender_psid, "You can't have more than 5 crushes!").send()
             # End the conversation
             me.conversation = None
             me.save()
