@@ -39,14 +39,6 @@ class Meal(Model):
     class Meta:
         database = db
 
-class LateMeal(Model):
-    meal = ForeignKeyField(Meal)
-    ressie = ForeignKeyField(Ressie)
-    notes = TextField()
-
-    class Meta:
-        database = db
-
 class Sender(Model):
     psid = BigIntegerField()
     first_name = CharField()
@@ -130,6 +122,14 @@ class Ressie(Model):
         print("fuzzy output ", outp)
         return outp
 
+
+class LateMeal(Model):
+    meal = ForeignKeyField(Meal)
+    ressie = ForeignKeyField(Ressie)
+    notes = TextField()
+
+    class Meta:
+        database = db
 
 def goGoPowerRangers():
     db.connect()
