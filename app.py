@@ -85,7 +85,6 @@ def update():
 
 @app.route("/webhook", methods=["POST", "GET"])
 def webhook():
-
     if request.method == "POST":
         print("SOMEONE SENT MESSAGE!")
         body = request.json

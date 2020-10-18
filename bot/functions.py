@@ -373,6 +373,6 @@ def dinoparse(lines):
     rows = extract.get_rows(soup)
 
     mealsByDay = extract.get_meals(rows[1:])
-    date, sucess = extract.extract_date(soup)    
+    date, sucess = extract.extract_date(soup)
     return [date, sucess, mealsByDay, pretty]
 
