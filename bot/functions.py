@@ -202,7 +202,7 @@ def orderLateMeal(message, sender_psid):
         raise Exception('Meal does not exist - dino menu needs updating')
     meal = meal.id
 
-    ressie = getRessieBySender(message.sender_psid).id
+    ressie = getRessieBySender(sender_psid).id
     notes = 'no notes at the moment, #TODO'
 
     models.LateMeal.create(meal=meal, ressie=ressie, notes=notes)
