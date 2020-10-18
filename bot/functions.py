@@ -211,12 +211,12 @@ def getRessieBySender(sender_psid):
 
     name = data['first_name'] + ' ' + data['last_name']
 
-    try:
-        _, confidence, ressie = models.Ressie.fuzzySearch(name)
-        if confidence <= 70:
-            raise Exception('Ressie not found')
-        else:
-            return ressie
+    _, confidence, ressie = models.Ressie.fuzzySearch(name)
+    if confidence <= 70:
+        raise Exception('Ressie not found')
+    else:
+        return ressie
+
 
 # ======== J&D ========== #
 
