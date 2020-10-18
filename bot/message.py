@@ -229,7 +229,7 @@ def handleMessage(sender_psid, received_message):
             functions.orderLateMeal(received_message, sender_psid)
             response.text = 'Late meal ordered!'
         except Exception as e:
-            response.text = 'Uh oh! Something went wrong: ' + e
+            response.text = 'Uh oh! Something went wrong: ' + str(e)
 
     elif "room is" in received_message:
         name = functions.extractName(received_message)
