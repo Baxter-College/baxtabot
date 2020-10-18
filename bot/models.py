@@ -103,7 +103,7 @@ class Ressie(Model):
     room_number = IntegerField()
     floor = IntegerField()
     college = CharField(default="baxter")  # Incase we use for the rest of TKC
-    facebook_psid = BigIntegerField()
+    # facebook_psid = BigIntegerField()
 
     class Meta:
         database = db

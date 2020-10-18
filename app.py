@@ -13,12 +13,25 @@ from flask import (
 )
 import os
 import json
+import csv
 import requests
 import datetime
+import secrets
 import mammoth
 import re
 from werkzeug.utils import secure_filename
 from bs4 import BeautifulSoup
+from io import StringIO
+
+from base64 import (
+    b64encode,
+    b64decode,
+)
+
+from Crypto.Hash import SHA256
+from Crypto.Signature import pkcs1_15
+from Crypto.PublicKey import RSA
+from binascii import hexlify, unhexlify
 
 import argparse
 
@@ -28,6 +41,8 @@ from bot.Response import Response
 import bot.models as models
 import bot.message as message
 import bot.functions as functions
+
+SIGN_TOKEN = secrets.token_hex(16)
 
 if DEBUG:
     print(
@@ -81,6 +96,9 @@ def update():
         return render_template("update.html")
     else:
         return render_template("update.html")
+
+
+
 
 
 @app.route("/webhook", methods=["POST", "GET"])
@@ -178,6 +196,29 @@ def webhook():
         print("Someone decided to be an idiot.")
 
 
+@app.route("/loveorla", methods=["GET","POST"])
+def love():
+    if request.method == "GET":
+        global SIGN_TOKEN
+        SIGN_TOKEN = secrets.token_hex(16)
+        return render_template("verify.html", token=SIGN_TOKEN  )
+    else:
+        signature = request.form["signature"]
+        content = request.form["content"]
+        print("sig", signature)
+        signature = unhexlify(signature.encode('utf-8'))
+        digest = SHA256.new()
+        digest.update(SIGN_TOKEN.encode('utf-8'))
+        pub_key = RSA.import_key(rohan_pub_key)
+        verifier = pkcs1_15.new(pub_key)
+        try:
+            verifier.verify(digest, signature)
+            message.massMessage(content)
+            return "Valid Signature"
+        except Exception as e:
+            print(e)
+            return "Invalid signature"
+
 # ====== Upload Asset ====== #
 
 
@@ -189,8 +230,14 @@ def upload():
         url = request.form["assetURL"]
         response = functions.uploadAsset(url)
 
+        # Delete any existing calendars for the same week
+        existingCal = models.WeekCal.select().where(models.WeekCal.week_start == request.form['date'])
+        if existingCal:
+            cal = existingCal.get()
+            cal.delete_instance()
+
         models.WeekCal.create(
-            assetID=response["attachment_id"], week_start=request.form["date"]
+            assetID=url, week_start=request.form["date"]
         )
 
     assets = models.WeekCal.select()
@@ -296,19 +343,47 @@ def resident():
 
     if request.method == "POST":
         # do resident creation
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        room_number = request.form['room_number']
 
-        models.Ressie.create(
-            first_name=request.form["first_name"],
-            last_name=request.form["last_name"],
-            room_number=request.form["room_number"],
-            floor=int(
-                str(request.form["room_number"])[:1]
-            ),  # get the first digit of the room number and set that as floor
-        )
+        functions.createRessie(first_name, last_name, room_number)
 
     ressies = models.Ressie.select()
 
     return render_template("ressie.html", ressies=ressies)
+
+@app.route('/ressie/fileadd', methods=['GET', 'POST'])
+def upload_residents():
+
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            print('No file given.')
+            return redirect(request.url)
+
+        file = request.files['file']
+
+        if file.filename == '':
+            print('No selected file')
+            return redirect(request.url)
+
+        # Delete all ressie currently in the DB
+        ressies = models.Ressie.select()
+        for ressie in ressies:
+            ressie.delete_instance()
+
+        # Read through the CSV and create new Ressie entries
+        FILE = StringIO(file.read().decode('utf-8'))
+        reader = csv.reader(FILE)
+        next(reader, None)
+
+        for row in reader:
+            first_name, last_name, room_number = functions.extractRessieFromCSV(row)
+            functions.createRessie(first_name, last_name, room_number)
+
+    ressies = models.Ressie.select()
+    return render_template("ressie.html", ressies=ressies)
+
 
 
 @app.route("/ressie/delete/<int:ressie_id>", methods=["GET"])
