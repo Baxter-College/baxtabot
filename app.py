@@ -78,6 +78,9 @@ def after_request(response):
 def index():
     return render_template("index.html")
 
+@app.route('/admin')
+def admin():
+    return render_template('homepage.html')
 
 @app.route("/privacy")
 def privacy():
@@ -367,6 +370,12 @@ def upload_residents():
             print('No selected file')
             return redirect(request.url)
 
+        # Delete all ressie currently in the DB
+        ressies = models.Ressie.select()
+        for ressie in ressies:
+            ressie.delete_instance()
+
+        # Read through the CSV and create new Ressie entries
         FILE = StringIO(file.read().decode('utf-8'))
         reader = csv.reader(FILE)
         next(reader, None)
