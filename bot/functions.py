@@ -195,7 +195,7 @@ def getCurrentDino():
 
 # ======== Late Meals ======= #
 
-def orderLateMeal(message):
+def orderLateMeal(message, sender_psid):
     meal = getCurrentDino().id
     ressie = getRessieBySender(message.sender_psid).id
     notes = 'no notes at the moment, #TODO'
