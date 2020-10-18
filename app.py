@@ -86,6 +86,10 @@ def admin():
 def privacy():
     return render_template("privacy.html")
 
+@app.route('/latemeals')
+def latemeals():
+    meals = models.LateMeal.select()
+    return render_template('latemeals.html', meals=meals)
 
 @app.route("/update", methods=["POST", "GET"])
 def update():

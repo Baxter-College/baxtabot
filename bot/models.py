@@ -39,6 +39,13 @@ class Meal(Model):
     class Meta:
         database = db
 
+class LateMeal(Model):
+    meal = ForeignKeyField(Meal)
+    ressie = ForeignKeyField(Ressie)
+    notes = TextField()
+
+    class Meta:
+        database = db
 
 class Sender(Model):
     psid = BigIntegerField()
@@ -126,5 +133,5 @@ class Ressie(Model):
 
 def goGoPowerRangers():
     db.connect()
-    db.create_tables([Meal, Sender, WeekCal, Ressie, Crush, MealImg], safe=True)
+    db.create_tables([Meal, Sender, WeekCal, Ressie, Crush, MealImg, LateMeal], safe=True)
     db.close()
