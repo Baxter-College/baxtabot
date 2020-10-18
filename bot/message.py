@@ -360,6 +360,7 @@ def handleConversation(sender_psid, received_msg, conversation):
             Response(sender_psid, "What a stunning shot!").send()
         else:
             Response(sender_psid, "You need to send me an image!").send()
+            
 
     # End the conversation
     me.conversation = None
