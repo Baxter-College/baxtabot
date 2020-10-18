@@ -88,7 +88,7 @@ def privacy():
 
 @app.route('/latemeals')
 def latemeals():
-    meals = models.LateMeal.select(Ressie.first_name + ' ' + Ressie.last_name, Meal.description, LateMeal.notes).join(Ressie).join(Meal)
+    meals = models.LateMeal.select(models.Ressie.first_name + ' ' + models.Ressie.last_name, models.Meal.description, models.LateMeal.notes).join(models.Ressie).join(models.Meal)
 
     return render_template('latemeals.html', meals=meals)
 
