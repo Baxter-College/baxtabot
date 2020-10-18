@@ -196,7 +196,12 @@ def getCurrentDino():
 # ======== Late Meals ======= #
 
 def orderLateMeal(message, sender_psid):
-    meal = getCurrentDino().id
+    meal = getCurrentDino()
+
+    if meal is None:
+        raise Exception('Meal does not exist - dino menu needs updating')
+    meal = meal.id
+
     ressie = getRessieBySender(message.sender_psid).id
     notes = 'no notes at the moment, #TODO'
 
