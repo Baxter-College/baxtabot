@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% block title %}Dino{% endblock %}
+{% block title %}Late Meals{% endblock %}
 
 {% block content %}
 
@@ -27,6 +27,7 @@
                     <td><a href='{{ url_for("deleteMeal", meal_id=meal.id) }}'>Delete</a></td>
                 </tr>
                 {% endfor %}
+            </tbody>
         </table>
 
 		<hr>
