@@ -123,8 +123,15 @@ class Ressie(Model):
         print("fuzzy output ", outp)
         return outp
 
+class GoHome(Model):
+    sender = ForeignKeyField(Sender)
+    time = DateTimeField()
+
+    class Meta:
+        database = db
+
 
 def goGoPowerRangers():
     db.connect()
-    db.create_tables([Meal, Sender, WeekCal, Ressie, Crush, MealImg], safe=True)
+    db.create_tables([Meal, Sender, WeekCal, Ressie, Crush, MealImg, GoHome], safe=True)
     db.close()

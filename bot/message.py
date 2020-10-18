@@ -243,6 +243,21 @@ def handleMessage(sender_psid, received_message):
 
         response.add_reply(Reply("Add Crush", payload="ADDCRUSH"))
 
+    elif (
+        "home" in received_message
+        or "leave" in received_message
+    ):
+        sender = models.Sender.select().where(models.Sender.psid == sender_psid)
+        # data = humanisePSID(sender_psid)
+        models.GoHome.create(sender=sender,time=datetime.datetime.now())
+        homers = models.GoHome.select()
+        output = "Other people who want to go home: "
+        for person in homers:
+            output += person.sender.first_name + " " + person.sender.last_name + ", "
+        output.rstrip(", ")
+        response.text = output
+
+
     else:
         reply = bot.reply(str(sender_psid), received_message)
         response.text = str(reply)
