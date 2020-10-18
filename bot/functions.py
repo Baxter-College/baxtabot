@@ -193,6 +193,30 @@ def getCurrentDino():
     except:
         return None
 
+# ======== Late Meals ======= #
+
+def orderLateMeal(message):
+    meal = getCurrentDino().id
+    ressie = getRessieBySender(message.sender_psid).id
+    notes = 'no notes at the moment, #TODO'
+
+    models.LateMeal.create(meal=meal, ressie=ressie, notes=notes)
+
+def getRessieBySender(sender_psid):
+    data = humanisePSID(sender_psid)
+
+    if not data:
+        print("received message from ghost!")
+        return
+
+    name = data['first_name'] + ' ' + data['last_name']
+
+    try:
+        _, confidence, ressie = models.Ressie.fuzzySearch(name)
+        if confidence <= 70:
+            raise Exception('Ressie not found')
+        else:
+            return ressie
 
 # ======== J&D ========== #
 
@@ -420,10 +444,33 @@ def extractRessieFromCSV(row):
 
     return first_name, last_name, room_number[:3]
 
+
+def humanisePSID(PSID):
+    url = "https://graph.facebook.com/" + str(PSID)
+    print("url\n", url)
+    print(PAGE_ACCESS_TOKEN)
+    r = requests.get(
+        url,
+        params={
+            "fields": "first_name,last_name,profile_pic",
+            "access_token": PAGE_ACCESS_TOKEN,
+        },
+    )
+
+    if r.status_code == 200:
+        data = r.json()
+        print("Worked!")
+        return data
+    else:
+        print("response")
+        print(r.content)
+        print(r.status_code)
+        print("FUCKED! PSID was: {}".format(str(PSID)))
+
 def createRessie(first_name, last_name, room_number):
     models.Ressie.create(
         first_name = first_name,
         last_name = last_name,
         room_number = room_number,
         floor = int(str(room_number)[:1])
-        ),  # get the first digit of the room number and set that as floor
+        )  # get the first digit of the room number and set that as floor
