@@ -24,9 +24,9 @@
                     <td>{{ meal.description }}</td>
                     <td>{{ meal.notes }}</td>
                     <td>
-                        <input type='checkbox' value='{{ meal.id }}' name='delete'>
+                        <input type='checkbox' value='{{meal.id}}' name='delete'>
                     </td>
-					<td><a href='{{url_for("deleteMeal", meal_id=meal.id)}}'>Delete</a></td>
+					<td><a href='{{ "/latemeals/delete/" + meal.id }}'>Delete</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
