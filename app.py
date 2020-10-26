@@ -88,8 +88,8 @@ def privacy():
 
 @app.route('/latemeals')
 def latemeals():
-    outstandingMeals = models.LateMeal.select(models.LateMeal.id, models.LateMeal.notes, models.Ressie.first_name, models.Ressie.last_name, models.Meal.date, models.Meal.type, models.Meal.description).join(models.Ressie).switch(models.LateMeal).join(models.Meal).where(not models.Meal.completed).dicts()
-    completedMeals = models.LateMeal.select(models.LateMeal.id, models.LateMeal.notes, models.Ressie.first_name, models.Ressie.last_name, models.Meal.date, models.Meal.type, models.Meal.description).join(models.Ressie).switch(models.LateMeal).join(models.Meal).where(models.Meal.completed).dicts()
+    outstandingMeals = models.LateMeal.select(models.LateMeal.id, models.LateMeal.notes, models.Ressie.first_name, models.Ressie.last_name, models.Meal.date, models.Meal.type, models.Meal.description).join(models.Ressie).switch(models.LateMeal).join(models.Meal).where(not models.LateMeal.completed).dicts()
+    completedMeals = models.LateMeal.select(models.LateMeal.id, models.LateMeal.notes, models.Ressie.first_name, models.Ressie.last_name, models.Meal.date, models.Meal.type, models.Meal.description).join(models.Ressie).switch(models.LateMeal).join(models.Meal).where(models.LateMeal.completed).dicts()
 
     return render_template('latemeals.html', outstandingMeals=outstandingMeals, completedMeals=completedMeals)
 
