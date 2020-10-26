@@ -127,6 +127,7 @@ class LateMeal(Model):
     meal = ForeignKeyField(Meal)
     ressie = ForeignKeyField(Ressie)
     notes = TextField()
+    completed = BooleanField()
 
     class Meta:
         database = db

@@ -205,7 +205,7 @@ def orderLateMeal(message, sender_psid):
     ressie = getRessieBySender(sender_psid).id
     notes = 'no notes at the moment, #TODO'
 
-    models.LateMeal.create(meal=meal, ressie=ressie, notes=notes)
+    models.LateMeal.create(meal=meal, ressie=ressie, notes=notes, completed=False)
 
 def getRessieBySender(sender_psid):
     data = humanisePSID(sender_psid)

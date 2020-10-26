@@ -7,6 +7,7 @@
 		<h2>Late Meals</h2>
 		<hr>
 
+		<h3>Outstanding Meals</h3>
         <table class='pure-table'>
             <thead>
                 <th>Ressie</th>
@@ -16,7 +17,7 @@
                 <th>Notes</th>
             </thead>
             <tbody>
-                {% for meal in meals %}
+                {% for meal in outstandingMeals %}
                 <tr>
                     <td>{{ meal.first_name }} {{ meal.last_name }}</td>
 					<td>{{ meal.date }}</td>
@@ -26,6 +27,29 @@
                     <td>
                         <input type='checkbox' value='{{meal.id}}' name='delete'>
                     </td>
+					<td><a href='/latemeals/delete/{{meal.id}}'>Delete</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+		<h3>Completed Meals</h3>
+		<table class='pure-table'>
+            <thead>
+                <th>Ressie</th>
+				<th>Date</th>
+				<th>Type</th>
+                <th>Meal</th>
+                <th>Notes</th>
+            </thead>
+            <tbody>
+                {% for meal in completedMeals %}
+                <tr>
+                    <td>{{ meal.first_name }} {{ meal.last_name }}</td>
+					<td>{{ meal.date }}</td>
+					<td>{{ meal.type }}</td>
+                    <td>{{ meal.description }}</td>
+                    <td>{{ meal.notes }}</td>
 					<td><a href='/latemeals/delete/{{meal.id}}'>Delete</a></td>
                 </tr>
                 {% endfor %}
