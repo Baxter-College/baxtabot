@@ -90,7 +90,9 @@ def privacy():
 def latemeals():
     outstandingMeals = models.LateMeal.select(models.LateMeal.id, models.LateMeal.notes, models.Ressie.first_name, models.Ressie.last_name, models.Meal.date, models.Meal.type, models.Meal.description).join(models.Ressie).switch(models.LateMeal).join(models.Meal).where(not models.LateMeal.completed).dicts()
     completedMeals = models.LateMeal.select(models.LateMeal.id, models.LateMeal.notes, models.Ressie.first_name, models.Ressie.last_name, models.Meal.date, models.Meal.type, models.Meal.description).join(models.Ressie).switch(models.LateMeal).join(models.Meal).where(models.LateMeal.completed).dicts()
-
+    print(outstandingMeals)
+    print(completedMeals)
+    
     return render_template('latemeals.html', outstandingMeals=outstandingMeals, completedMeals=completedMeals)
 
 @app.route("/update", methods=["POST", "GET"])
@@ -303,6 +305,12 @@ def deleteBatchMeals():
         meal.delete_instance()
     return redirect(url_for("dino"))
 
+@app.route('/latemeal/batchcompleted', methods=['POST'])
+def completeBatchLateMeals():
+    form = request.form
+
+    for id in form.getlist('complete'):
+        functions.setMealCompleted(int(id))
 
 @app.route("/dino/fileadd", methods=["GET", "POST"])
 def upload_file():
