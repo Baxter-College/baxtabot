@@ -313,6 +313,8 @@ def completeBatchLateMeals():
     for id in form.getlist('complete'):
         functions.setMealCompleted(int(id))
 
+    return redirect(url_for('latemeals'))
+
 @app.route("/dino/fileadd", methods=["GET", "POST"])
 def upload_file():
     if request.method == "POST":
