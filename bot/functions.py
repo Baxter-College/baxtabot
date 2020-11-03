@@ -203,7 +203,7 @@ def orderLateMeal(message, sender_psid):
     meal = meal.id
 
     ressie = getRessieBySender(sender_psid).id
-    notes = 'no notes at the moment, #TODO'
+    notes = 'See dietary requirement records'
 
     models.LateMeal.create(meal=meal, ressie=ressie, notes=notes, completed=False)
 
