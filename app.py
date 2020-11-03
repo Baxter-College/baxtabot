@@ -306,7 +306,7 @@ def deleteBatchMeals():
         meal.delete_instance()
     return redirect(url_for("dino"))
 
-@app.route('/latemeal/batchcompleted', methods=['POST'])
+@app.route('/latemeals/batchcompleted', methods=['POST'])
 def completeBatchLateMeals():
     form = request.form
 
