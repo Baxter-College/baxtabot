@@ -97,7 +97,7 @@ def register():
     except:
         return redirect(url_for('/'))
     else:
-        return redirct(url_for('/admin'))
+        return redirect(url_for('/admin'))
 
 @app.route("/privacy")
 def privacy():
