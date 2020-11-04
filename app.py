@@ -41,7 +41,7 @@ from bot.Response import Response
 import bot.models as models
 import bot.message as message
 import bot.functions as functions
-import both.auth as auth
+import bot.auth as auth
 
 SIGN_TOKEN = secrets.token_hex(16)
 
