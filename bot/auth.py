@@ -1,4 +1,4 @@
-import models
+import bot.models as models
 import hashlib
 from uuid import uuid4
 
