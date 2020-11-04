@@ -88,6 +88,7 @@ def register():
     form = request.form
     email = form['email']
     password = form['password']
+    print('registering', email, password)
 
     try:
         result = auth.auth_register(email, password)
@@ -95,7 +96,7 @@ def register():
     except:
         return render_template('index.html')
     else:
-        return render_template('admin.html')
+        return render_template('homepage.html')
 
 @app.route("/privacy")
 def privacy():

@@ -14,16 +14,15 @@ def auth_register(email, password):
     Registers a new user. ####Returns their id and token.
     """
 
-    if not isinstance(email, str) or not isinstance(password, str) \
-    or not isinstance(first, str) or not isinstance(last, str):
+    if not isinstance(email, str) or not isinstance(password, str):
         raise AuthException(description="Input error: invalid arguments")
 
     if not email_valid(email):
         raise AuthException(description="Input error: email is not valid")
 
-    check_length(password, "password", 6, 64)
-    check_length(first, "first name", 1, 50)
-    check_length(last, "last name", 1, 50)
+    # check_length(password, "password", 6, 64)
+    # check_length(first, "first name", 1, 50)
+    # check_length(last, "last name", 1, 50)
 
     # if database.Exception(email):
     #     raise AuthException(description="Input error: email is already in use")
