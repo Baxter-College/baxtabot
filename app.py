@@ -41,6 +41,7 @@ from bot.Response import Response
 import bot.models as models
 import bot.message as message
 import bot.functions as functions
+import both.auth as auth
 
 SIGN_TOKEN = secrets.token_hex(16)
 
@@ -81,6 +82,20 @@ def index():
 @app.route('/admin')
 def admin():
     return render_template('homepage.html')
+
+@app.route('/register', methods=['POST'])
+def register():
+    form = request.form
+    email = form['email']
+    password = form['password']
+
+    try:
+        result = auth.auth_register(email, password)
+        # Set token into local storage
+    except:
+        return render_template('index.html')
+    else:
+        return render_template('admin.html')
 
 @app.route("/privacy")
 def privacy():

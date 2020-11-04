@@ -132,6 +132,14 @@ class LateMeal(Model):
     class Meta:
         database = db
 
+class User(Model):
+    email = TextField()
+    password = TextField()
+
+class ActiveUsers(Model):
+    user = ForeignKeyField(User)
+    token = TextField()
+
 def goGoPowerRangers():
     db.connect()
     db.create_tables([Meal, Sender, WeekCal, Ressie, Crush, MealImg, LateMeal], safe=True)
