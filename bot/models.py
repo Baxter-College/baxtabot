@@ -136,11 +136,19 @@ class User(Model):
     email = TextField()
     password = TextField()
 
-class ActiveUsers(Model):
+    class Meta:
+        database = db
+
+
+class ActiveTokens(Model):
     user = ForeignKeyField(User)
     token = TextField()
 
+    class Meta:
+        database = db
+
+
 def goGoPowerRangers():
     db.connect()
-    db.create_tables([Meal, Sender, WeekCal, Ressie, Crush, MealImg, LateMeal, User, ActiveUsers], safe=True)
+    db.create_tables([Meal, Sender, WeekCal, Ressie, Crush, MealImg, LateMeal, User, ActiveTokens], safe=True)
     db.close()

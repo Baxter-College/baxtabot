@@ -34,7 +34,7 @@ def auth_register(email, password):
     user_id = models.User.create(email=email, password=password)
 
     token = generate_token(id)
-    models.ActiveUsers.create(user=user_id, token=token)
+    models.ActiveTokens.create(user=user_id, token=token)
 
     return {"u_id": new_user.user_id, "token": token}
 
@@ -60,7 +60,7 @@ def auth_login(email, password):
         raise Exception(description="Input error: email/password is not correct")
 
     token = generate_token(user.id)
-    models.ActiveUsers.create(user=user_id, token=token)
+    models.ActiveTokens.create(user=user_id, token=token)
 
     # return {"u_id": user.id, "token": token}
 
