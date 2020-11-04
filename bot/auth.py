@@ -146,7 +146,6 @@ def generate_token(user_id):
     Generates an auth token
     """
     token = str(uuid4())
-    database.active_tokens[token] = user_id
     return token
 
 def generate_reset_code(user_id):
