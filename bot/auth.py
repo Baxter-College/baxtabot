@@ -1,6 +1,7 @@
 import bot.models as models
 import hashlib
 from uuid import uuid4
+import re
 
 class AuthException(Exception):
     pass
@@ -115,6 +116,7 @@ def auth_passwordreset_reset(reset_code, new_password):
     del database.password_reset_codes[reset_code]
 
     return {}
+'''
 
 ### Helper Functions ###
 
@@ -137,7 +139,7 @@ def check_length(string, name, min_len, max_len):
 
     if len(string) > max_len:
         raise InputError(description="Input error: " + name + " must contain " \
-                                                     + str(max_len) + " or less characters")'''
+                                                     + str(max_len) + " or less characters")
 
 def generate_token(user_id):
     """
