@@ -94,9 +94,9 @@ def register():
         result = auth.auth_register(email, password)
         # Set token into local storage
     except:
-        return render_template('index.html')
+        return redirect(url_for('/'))
     else:
-        return render_template('homepage.html')
+        return redirct(url_for('/admin'))
 
 @app.route("/privacy")
 def privacy():
