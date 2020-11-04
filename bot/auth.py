@@ -138,8 +138,7 @@ def check_length(string, name, min_len, max_len):
 
     if len(string) > max_len:
         raise InputError(description="Input error: " + name + " must contain " \
-
-'''                                                     + str(max_len) + " or less characters")
+                                                     + str(max_len) + " or less characters")'''
 
 def generate_token(user_id):
     """
