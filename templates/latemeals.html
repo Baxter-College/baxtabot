@@ -10,6 +10,7 @@
 		<h3>Outstanding Meals</h3>
 
 		<form action='/latemeals/batchcompleted' method='post'>
+			<input type='text' style='display: none' value={{token}}/>
 			<input type='submit' value='Mark Complete' class='pure-button pure-button-primary'>
 	        <table class='pure-table'>
 	            <thead>
@@ -30,7 +31,7 @@
 	                    <td>
 	                        <input type='checkbox' value='{{meal.id}}' name='complete'>
 	                    </td>
-						<td><a href='/latemeals/delete/{{meal.id}}'>Delete</a></td>
+						<td><a href='/latemeals/delete/{{meal.id}}?token={{token}}'>Delete</a></td>
 	                </tr>
 	                {% endfor %}
 	            </tbody>

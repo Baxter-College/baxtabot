@@ -336,9 +336,10 @@ def deleteMeal(meal_id):
 
 @app.route('/latemeals/delete/<int:meal_id>', methods=['GET'])
 def deleteLatemeal(meal_id):
+    token = request.args.get('token')
     meal = models.LateMeal.select().where(models.LateMeal.id == meal_id).get()
     meal.delete_instance()
-    return redirect(url_for('latemeals'))
+    return redirect(url_for('latemeals') + '?token=' + token)
 
 @app.route("/dino/batchdelete", methods=["POST"])
 def deleteBatchMeals():
@@ -352,11 +353,12 @@ def deleteBatchMeals():
 @app.route('/latemeals/batchcompleted', methods=['POST'])
 def completeBatchLateMeals():
     form = request.form
+    token = form['token']
 
     for id in form.getlist('complete'):
         functions.setMealCompleted(int(id))
 
-    return redirect(url_for('latemeals'))
+    return redirect(url_for('latemeals') + '?token=' + token)
 
 @app.route("/dino/fileadd", methods=["GET", "POST"])
 def upload_file():
