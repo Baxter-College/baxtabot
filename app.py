@@ -129,13 +129,15 @@ def privacy():
 
 @app.route('/latemeals')
 def latemeals():
-    print(models.LateMeal.select(models.LateMeal.completed))
-    outstandingMeals = models.LateMeal.select(models.LateMeal.id, models.LateMeal.notes, models.Ressie.first_name, models.Ressie.last_name, models.Meal.date, models.Meal.type, models.Meal.description).join(models.Ressie).switch(models.LateMeal).join(models.Meal).where(models.LateMeal.completed == 0).dicts()
-    completedMeals = models.LateMeal.select(models.LateMeal.id, models.LateMeal.notes, models.Ressie.first_name, models.Ressie.last_name, models.Meal.date, models.Meal.type, models.Meal.description).join(models.Ressie).switch(models.LateMeal).join(models.Meal).where(models.LateMeal.completed == 1).dicts()
-    print(outstandingMeals)
-    print(completedMeals)
+    token = request.args.get('token')
 
-    return render_template('latemeals.html', outstandingMeals=outstandingMeals, completedMeals=completedMeals)
+    if token is None:
+        return render_template('index.html')
+    else:
+        outstandingMeals = models.LateMeal.select(models.LateMeal.id, models.LateMeal.notes, models.Ressie.first_name, models.Ressie.last_name, models.Meal.date, models.Meal.type, models.Meal.description).join(models.Ressie).switch(models.LateMeal).join(models.Meal).where(models.LateMeal.completed == 0).dicts()
+        completedMeals = models.LateMeal.select(models.LateMeal.id, models.LateMeal.notes, models.Ressie.first_name, models.Ressie.last_name, models.Meal.date, models.Meal.type, models.Meal.description).join(models.Ressie).switch(models.LateMeal).join(models.Meal).where(models.LateMeal.completed == 1).dicts()
+
+        return render_template('latemeals.html', outstandingMeals=outstandingMeals, completedMeals=completedMeals)
 
 @app.route("/update", methods=["POST", "GET"])
 def update():
