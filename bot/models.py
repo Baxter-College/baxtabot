@@ -141,7 +141,7 @@ class Admin(Model):
 
 
 class ActiveTokens(Model):
-    user = ForeignKeyField(User)
+    user = ForeignKeyField(Admin)
     token = TextField()
 
     class Meta:
