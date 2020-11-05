@@ -83,21 +83,24 @@ def index():
 def admin():
     return render_template('homepage.html')
 
-@app.route('/register', methods=['POST'])
+@app.route('/register', methods=['POST', 'GET'])
 def register():
-    form = request.form
-    # form = request.json
-    email = form['email']
-    password = form['password']
-    print('registering', email, password)
+    if request.method == 'POST':
+        form = request.form
+        # form = request.json
+        email = form['email']
+        password = form['password']
+        print('registering', email, password)
 
-    try:
-        result = auth.auth_register(email, password)
-        # Set token into local storage
-    except:
-        return redirect(url_for(''))
+        try:
+            result = auth.auth_register(email, password)
+            # Set token into local storage
+        except:
+            return redirect(url_for(''))
+        else:
+            return redirect(url_for('admin'))
     else:
-        return redirect(url_for('admin'))
+        return render_template('register.html')
 
 @app.route("/privacy")
 def privacy():
