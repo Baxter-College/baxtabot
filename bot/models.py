@@ -132,7 +132,7 @@ class LateMeal(Model):
     class Meta:
         database = db
 
-class User(Model):
+class Admin(Model):
     email = TextField()
     password = TextField()
 
@@ -150,5 +150,5 @@ class ActiveTokens(Model):
 
 def goGoPowerRangers():
     db.connect()
-    db.create_tables([Meal, Sender, WeekCal, Ressie, Crush, MealImg, LateMeal, User, ActiveTokens], safe=True)
+    db.create_tables([Meal, Sender, WeekCal, Ressie, Crush, MealImg, LateMeal, Admin, ActiveTokens], safe=True)
     db.close()
