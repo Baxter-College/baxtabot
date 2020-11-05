@@ -334,9 +334,11 @@ def deleteMeal(meal_id):
     meal.delete_instance()
     return redirect(url_for("dino"))
 
-@app.route('/latemeals/delete/<int:meal_id>', methods=['GET'])
-def deleteLatemeal(meal_id):
+@app.route('/latemeals/delete', methods=['GET'])
+def deleteLatemeal():
     token = request.args.get('token')
+    meal_id = request.args.get('meal_id')
+    
     meal = models.LateMeal.select().where(models.LateMeal.id == meal_id).get()
     meal.delete_instance()
     return redirect(url_for('latemeals') + '?token=' + token)
