@@ -103,7 +103,8 @@ def register():
         except auth.AuthException:
             return redirect(url_for(''))
         else:
-            return redirect(url_for('admin') + f'?token={result['token']}')
+            url = url_for('admin') + f'?token={result['token']}'
+            return redirect(url)
     else:
         return render_template('register.html')
 
@@ -119,7 +120,8 @@ def login():
     except auth.AuthException:
         return redirect(url_for(''))
     else:
-        return redirect(url_for('admin') + f'?token={result['token']}')
+        url = url_for('admin') + f'?token={result['token']}'
+        return redirect(url)
 
 @app.route("/privacy")
 def privacy():
