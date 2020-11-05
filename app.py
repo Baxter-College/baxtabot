@@ -85,8 +85,8 @@ def admin():
 
 @app.route('/register', methods=['POST'])
 def register():
-    # form = request.form
-    form = request.json
+    form = request.form
+    # form = request.json
     email = form['email']
     password = form['password']
     print('registering', email, password)
