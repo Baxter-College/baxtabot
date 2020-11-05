@@ -32,7 +32,7 @@ def auth_register(email, password):
     encoder.update(password.encode('utf-8'))
     hashed_password = encoder.hexdigest()
 
-    user = models.Admin.create(email=email, password=password)
+    user = models.Admin.create(email=email, password=hashed_password)
 
     token = generate_token(user.id)
     models.ActiveTokens.create(user=user.id, token=token)
