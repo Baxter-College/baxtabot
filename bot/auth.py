@@ -55,7 +55,7 @@ def auth_login(email, password):
     encoder.update(password.encode('utf-8'))
     hashed_password = encoder.hexdigest()
 
-    user = models.Admin.select().where(email == email and password == hashed_password).get()
+    user = models.Admin.select().where(models.Admin.email == email and models.Admin.password == hashed_password).get()
 
     if user is None:
         raise Exception(description="Input error: email/password is not correct")
