@@ -84,7 +84,7 @@ def admin():
     token = request.args.get('token')
 
     if token and auth.authenticate_token(token):
-        return render_template('homepage.html')
+        return render_template('homepage.html', token=token)
     else:
         return render_template('index.html')
 
