@@ -81,7 +81,12 @@ def index():
 
 @app.route('/admin')
 def admin():
-    return render_template('homepage.html')
+    token = request.args.get('token')
+
+    if token and auth.authenticate_token(token):
+        return render_template('homepage.html')
+    else:
+        return render_template('index.html')
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
@@ -98,7 +103,7 @@ def register():
         except auth.AuthException:
             return redirect(url_for(''))
         else:
-            return redirect(url_for('admin'))
+            return redirect(url_for('admin') + f'?token={result['token']}')
     else:
         return render_template('register.html')
 
@@ -114,7 +119,7 @@ def login():
     except auth.AuthException:
         return redirect(url_for(''))
     else:
-        return redirect(url_for('admin'))
+        return redirect(url_for('admin') + f'?token={result['token']}')
 
 @app.route("/privacy")
 def privacy():

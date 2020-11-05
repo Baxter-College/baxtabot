@@ -37,7 +37,7 @@ def auth_register(email, password):
     token = generate_token(user.id)
     models.ActiveTokens.create(user=user.id, token=token)
 
-    # return {"u_id": new_user.user_id, "token": token}
+    return {"u_id": user.id, "token": token}
 
 def auth_login(email, password):
     """
@@ -63,7 +63,7 @@ def auth_login(email, password):
     token = generate_token(user.id)
     models.ActiveTokens.create(user=user.id, token=token)
 
-    # return {"u_id": user.id, "token": token}
+    return {"u_id": user.id, "token": token}
 
 
 def auth_logout(token):
