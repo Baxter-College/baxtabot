@@ -95,12 +95,26 @@ def register():
         try:
             result = auth.auth_register(email, password)
             # Set token into local storage
-        except:
+        except auth.AuthException:
             return redirect(url_for(''))
         else:
             return redirect(url_for('admin'))
     else:
         return render_template('register.html')
+
+@app.route('/login', methods=['POST'])
+def login():
+    form = request.form
+    email = form['email']
+    password = form['password']
+    print('logging in as', email, password)
+
+    try:
+        result = auth.auth_login(email, password)
+    except auth.AuthException:
+        return redirect(url_for(''))
+    else:
+        return redirect(url_for('admin'))
 
 @app.route("/privacy")
 def privacy():
