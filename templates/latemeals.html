@@ -10,7 +10,7 @@
 		<h3>Outstanding Meals</h3>
 
 		<form action='/latemeals/batchcompleted' method='post'>
-			<input type='text' style='display: none' value={{token}}/>
+			<input type='text' style='display: none' value='{{token}}' name='token'/>
 			<input type='submit' value='Mark Complete' class='pure-button pure-button-primary'>
 	        <table class='pure-table'>
 	            <thead>
