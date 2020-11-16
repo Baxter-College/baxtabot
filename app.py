@@ -84,7 +84,7 @@ def admin():
     token = request.args.get('token')
 
     if token and auth.authenticate_token(token):
-        return render_template('homepage.html', token=token)
+        return render_template('homepage.html', token=token, permission_denied=False)
     else:
         return render_template('index.html')
 
@@ -133,6 +133,8 @@ def latemeals():
 
     if token is None:
         return render_template('index.html')
+    elif not functions.validateTokenPermissions(token):
+        return render_template('homepage.html', permission_denied = True)
     else:
         outstandingMeals = models.LateMeal.select(models.LateMeal.id, models.LateMeal.notes, models.Ressie.first_name, models.Ressie.last_name, models.Meal.date, models.Meal.type, models.Meal.description).join(models.Ressie).switch(models.LateMeal).join(models.Meal).where(models.LateMeal.completed == 0).dicts()
         completedMeals = models.LateMeal.select(models.LateMeal.id, models.LateMeal.notes, models.Ressie.first_name, models.Ressie.last_name, models.Meal.date, models.Meal.type, models.Meal.description).join(models.Ressie).switch(models.LateMeal).join(models.Meal).where(models.LateMeal.completed == 1).dicts()
@@ -279,6 +281,12 @@ def love():
 
 @app.route("/upload", methods=["GET", "POST"])
 def upload():
+    token = request.args.get('token')
+
+    if token is None:
+        return render_template('index.html')
+    elif not functions.validateTokenPermissions(token):
+        return render_template('homepage.html', permission_denied = True)
 
     if request.method == "POST":
         # do image upload
@@ -297,7 +305,7 @@ def upload():
 
     assets = models.WeekCal.select()
 
-    return render_template("upload.html", assets=assets)
+    return render_template("upload.html", assets=assets, token=token)
 
 
 # ====== Add a meal ====== #
@@ -305,8 +313,15 @@ def upload():
 
 @app.route("/dino")
 def dino():
+    token = request.args.get('token')
+
+    if token is None:
+        return render_template('index.html')
+    elif not functions.validateTokenPermissions(token):
+        return render_template('homepage.html', permission_denied = True)
+
     meals = models.Meal.select().order_by(models.Meal.date.desc())
-    return render_template("dino.html", meals=meals)
+    return render_template("dino.html", meals=meals, token=token)
 
 
 @app.route("/dino/add", methods=["POST"])
@@ -413,6 +428,12 @@ def confirm_file():
 # ======= Resident Information ======= #
 @app.route("/ressie", methods=["POST", "GET"])
 def resident():
+    token = request.args.get('token')
+
+    if token is None:
+        return render_template('index.html')
+    elif not functions.validateTokenPermissions(token):
+        return render_template('homepage.html', permission_denied = True)
 
     if request.method == "POST":
         # do resident creation
@@ -424,7 +445,7 @@ def resident():
 
     ressies = models.Ressie.select()
 
-    return render_template("ressie.html", ressies=ressies)
+    return render_template("ressie.html", ressies=ressies, token=token)
 
 @app.route('/ressie/fileadd', methods=['GET', 'POST'])
 def upload_residents():

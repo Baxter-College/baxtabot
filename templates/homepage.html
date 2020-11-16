@@ -5,14 +5,16 @@
 {% block content %}
     <h1>Welcome to Baxtabot - Admin</h1>
 
+    <div style='display: {{ permission_denied ? "block" : "none" }}'>You do not have permission to access that page</div> 
+
     <div>
-        <h3><a href='/dino'>Dino</a></h3>
+        <h3><a href='/dino?token={{token}}'>Dino</a></h3>
     </div>
     <div>
-        <h3><a href='/ressie'>Ressies</a></h3>
+        <h3><a href='/ressie?token={{token}}'>Ressies</a></h3>
     </div>
     <div>
-        <h3><a href='/upload'>Calendar</a></h3>
+        <h3><a href='/upload?token={{token}}'>Calendar</a></h3>
     </div>
     <div>
         <h3><a href='/latemeals?token={{token}}'>Late Meals</a></h3>
