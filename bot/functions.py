@@ -484,5 +484,5 @@ def createRessie(first_name, last_name, room_number):
         floor = int(str(room_number)[:1])
         )  # get the first digit of the room number and set that as floor
 
-def validateTokenPermissions():
+def validateTokenPermissions(token):
     return True
