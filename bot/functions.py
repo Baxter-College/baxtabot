@@ -488,5 +488,5 @@ def validateTokenPermissions(token):
     return True
 
 def deleteActiveToken(token):
-    instance = models.ActiveTokens.select().where(models.ActiveTokens.token == token)
+    instance = models.ActiveTokens.select().where(models.ActiveTokens.token == token).get()
     instance.delete_instance()
