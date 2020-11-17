@@ -5,7 +5,7 @@
 {% block content %}
     <h1>Welcome to Baxtabot - Admin</h1>
 
-    <div style='display: {{ "block" if permission_denied else "none" }}'>You do not have permission to access that page</div> 
+    <div style='display: {{ "block" if permission_denied else "none" }}'>You do not have permission to access that page</div>
 
     <div>
         <h3><a href='/dino?token={{token}}'>Dino</a></h3>
@@ -19,7 +19,7 @@
     <div>
         <h3><a href='/latemeals?token={{token}}'>Late Meals</a></h3>
     <div>
-        <h3><a href='/'>Home</a></h3>
+        <h3><a href='/logout?token={{token}}'>Home</a></h3>
     </div>
 
 {% endblock %}

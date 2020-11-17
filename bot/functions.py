@@ -486,3 +486,7 @@ def createRessie(first_name, last_name, room_number):
 
 def validateTokenPermissions(token):
     return True
+
+def deleteActiveToken(token):
+    instance = models.ActiveTokens.select().where(models.ActiveTokens.token == token)
+    instance.delete_instance()

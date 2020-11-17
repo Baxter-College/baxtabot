@@ -88,6 +88,15 @@ def admin():
     else:
         return render_template('index.html')
 
+@app.route('/logout')
+def logout():
+    token = request.args.get('token')
+
+    if token and auth.authenticate_token(token):
+        functions.deleteActiveToken(token)
+
+    return render_template('index.html')
+
 @app.route('/register', methods=['POST', 'GET'])
 def register():
     if request.method == 'POST':
