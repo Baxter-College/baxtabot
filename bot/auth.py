@@ -7,7 +7,9 @@ class AuthException(Exception):
     pass
 
 def authenticate_token(token):
-    return models.ActiveTokens.select().where(models.ActiveTokens.token == token).get()
+    found = models.ActiveTokens.select().where(models.ActiveTokens.token == token)
+    if found:
+        return found.get()
 
 
 def auth_register(email, password):
