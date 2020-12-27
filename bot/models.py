@@ -135,7 +135,7 @@ class LateMeal(Model):
 class Client(Model):
     email = TextField()
     password = TextField()
-    position = TextField()
+    position = TextField(default='')
     name = TextField()
 
     class Meta:
