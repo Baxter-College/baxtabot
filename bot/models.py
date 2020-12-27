@@ -139,7 +139,7 @@ class Client(Model):
     class Meta:
         database = db
 
-'''
+
 class ClientPermissions(Model):
     client = ForeignKeyField(Client)
     dinoread = BooleanField()
@@ -152,7 +152,7 @@ class ClientPermissions(Model):
 
     class Meta:
         database = db
-'''
+
 class ActiveTokens(Model):
     client = ForeignKeyField(Client)
     token = TextField()
