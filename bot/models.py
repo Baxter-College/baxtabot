@@ -163,5 +163,5 @@ class ActiveTokens(Model):
 
 def goGoPowerRangers():
     db.connect()
-    db.create_tables([Meal, Sender, WeekCal, Ressie, Crush, MealImg, LateMeal, Client, ActiveTokens], safe=True)
+    db.create_tables([Meal, Sender, WeekCal, Ressie, Crush, MealImg, LateMeal, Client, ClientPermissions, ActiveTokens], safe=True)
     db.close()
