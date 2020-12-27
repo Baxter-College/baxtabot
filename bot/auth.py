@@ -35,7 +35,7 @@ def auth_register(email, password):
     hashed_password = encoder.hexdigest()
 
     user = models.Client.create(email=email, password=hashed_password)
-
+    print(user.id)
     token = generate_token(user.id)
     models.ActiveTokens.create(user=user.id, token=token)
 
