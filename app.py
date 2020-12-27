@@ -104,10 +104,11 @@ def register():
         # form = request.json
         email = form['email']
         password = form['password']
+        name = form['name']
         print('registering', email, password)
 
         try:
-            result = auth.auth_register(email, password)
+            result = auth.auth_register(email, password, name)
             # Set token into local storage
         except auth.AuthException:
             return redirect(url_for(''))

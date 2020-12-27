@@ -12,7 +12,7 @@ def authenticate_token(token):
         return found.get()
 
 
-def auth_register(email, password):
+def auth_register(email, password, name):
     """
     Registers a new user. ####Returns their id and token.
     """
@@ -34,7 +34,7 @@ def auth_register(email, password):
     encoder.update(password.encode('utf-8'))
     hashed_password = encoder.hexdigest()
 
-    user = models.Client.create(email=email, password=hashed_password)
+    user = models.Client.create(email=email, password=hashed_password, name=name)
     models.ClientPermissions.create(client=user.id)
 
     print(user.id)
