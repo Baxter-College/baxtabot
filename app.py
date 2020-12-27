@@ -161,8 +161,8 @@ def users():
         return render_template('homepage.html', permission_denied=True)
     else:
         users = models.Client.select().join(models.ClientPermissions).dicts()
-        print(users)
-        
+        print(users[0])
+
         return render_template('users.html', users=users)
 
 @app.route('/user/delete')

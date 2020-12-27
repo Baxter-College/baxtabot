@@ -25,6 +25,7 @@
 				<tr>
 					<td>{{ user.name }}</td>
 					<td>{{ user.email }}</td>
+                    <td><input type="text" defaultValue="{{ user.position }}" name="position" /></td>
 					<td><input type="checkbox" checked="{{ user.dinoread }}" /></td>
 					<td><input type="checkbox" checked="{{ user.dinowrite }}" /></td>
 					<td><input type="checkbox" checked="{{ user.calendar }}" /></td>
