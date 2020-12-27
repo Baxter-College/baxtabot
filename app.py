@@ -163,6 +163,10 @@ def users():
 
         return render_template('users.html', users=users)
 
+@app.route('/user/delete')
+def user_delete():
+    pass
+
 @app.route("/update", methods=["POST", "GET"])
 def update():
     if request.method == "POST":

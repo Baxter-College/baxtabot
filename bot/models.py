@@ -135,6 +135,8 @@ class LateMeal(Model):
 class Client(Model):
     email = TextField()
     password = TextField()
+    position = TextField()
+    name = TextField()
 
     class Meta:
         database = db
@@ -142,13 +144,13 @@ class Client(Model):
 
 class ClientPermissions(Model):
     client = ForeignKeyField(Client)
-    dinoread = BooleanField()
-    dinowrite = BooleanField()
-    calendar = BooleanField()
-    ressies = BooleanField()
-    latemeals = BooleanField()
-    sport = BooleanField()
-    users = BooleanField()
+    dinoread = BooleanField(default=True)
+    dinowrite = BooleanField(default=False)
+    calendar = BooleanField(default=False)
+    ressies = BooleanField(default=False)
+    latemeals = BooleanField(default=False)
+    sport = BooleanField(default=False)
+    users = BooleanField(default=False)
 
     class Meta:
         database = db
