@@ -6,6 +6,7 @@
 		<h2>Upload Weekly Calendar</h2>
 		<hr>
 		<form action="/upload" method="post">
+			<input name='token' value='{{token}}' style='display: none' />
 			<p>Week starting:</p>
 			<input type="date" name="date"><br>
 			<p>Asset URL:</p>

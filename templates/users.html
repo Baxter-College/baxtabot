@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block title %}Users{% endblock %}
+
+{% block content %}
+
+		<h2>Users</h2>
+		<hr>
+
+		<table class="pure-table">
+			<thead>
+				<th>Name</th>
+                <th>Email</th>
+                <th>Position</th>
+                <th>Dino Menu - Read</th>
+                <th>Dino Menu - Write</th>
+                <th>Calendar</th>
+                <th>Late Meals</th>
+                <th>Ressies</th>
+                <th>Sport</th>
+                <th>Users</th>
+			</thead>
+			<tbody>
+				{% for user in users %}
+				<tr>
+					<td>{{ user.name }}</td>
+					<td>{{ user.email }}</td>
+					<!--td><input type="checkbox" checked="{{ user.dinoread }}" /></td>
+					<td><input type="checkbox" checked="{{ user.dinowrite }}" /></td>
+					<td><input type="checkbox" checked="{{ user.calendar }}" /></td>
+                    <td><input type="checkbox" checked="{{ user.latemeals }}" /></td>
+                    <td><input type="checkbox" checked="{{ user.ressies }}" /></td>
+                    <td><input type="checkbox" checked="{{ user.sport }}" /></td>
+                    <td><input type="checkbox" checked="{{ user.users }}" /></td>
+					<td>
+						<input type="checkbox" value="{{meal.id}}" name="delete">
+					</td-->
+					<td><a href="{{url_for('deleteMeal', meal_id=user.id, token=token)}}">Delete</a></td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		</form>
+
+		<hr>
+		<a href='/admin?token={{token}}'>Back</a>
+{% endblock %}

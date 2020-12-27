@@ -140,7 +140,7 @@ def privacy():
 def latemeals():
     token = request.args.get('token')
 
-    if token is None:
+    if token is None or not auth.authenticate_token(token):
         return render_template('index.html')
     elif not functions.validateTokenPermissions(token):
         return render_template('homepage.html', permission_denied = True)
@@ -149,6 +149,19 @@ def latemeals():
         completedMeals = models.LateMeal.select(models.LateMeal.id, models.LateMeal.notes, models.Ressie.first_name, models.Ressie.last_name, models.Meal.date, models.Meal.type, models.Meal.description).join(models.Ressie).switch(models.LateMeal).join(models.Meal).where(models.LateMeal.completed == 1).dicts()
 
         return render_template('latemeals.html', outstandingMeals=outstandingMeals, completedMeals=completedMeals, token=token)
+
+@app.route('/users')
+def users():
+    token = request.args.get('token')
+
+    if token is none or not auth.authenticate_token(token):
+        return render_template('index.html')
+    elif not functions.validateTokenPermissions(token):
+        return render_template('homepage.html', permission_denied=True)
+    else:
+        users = models.User.select()
+
+        return render_template('users.html', users=users)
 
 @app.route("/update", methods=["POST", "GET"])
 def update():
@@ -292,7 +305,7 @@ def love():
 def upload():
     token = request.args.get('token')
 
-    if token is None:
+    if token is None or not auth.authenticate_token(token):
         return render_template('index.html')
     elif not functions.validateTokenPermissions(token):
         return render_template('homepage.html', permission_denied = True)
@@ -324,7 +337,7 @@ def upload():
 def dino():
     token = request.args.get('token')
 
-    if token is None:
+    if token is None or not auth.authenticate_token(token):
         return render_template('index.html')
     elif not functions.validateTokenPermissions(token):
         return render_template('homepage.html', permission_denied = True)
@@ -336,27 +349,34 @@ def dino():
 @app.route("/dino/add", methods=["POST"])
 def addMeal():
     form = request.form
+    token = form['token']
+
     models.Meal.create(
         date=form["date"], description=form["description"], type=form["type"]
     )
-    return redirect(url_for("dino"))
+    return redirect(url_for("dino") + '?token=' + token)
 
 
 @app.route("/dino/batch/add", methods=["POST"])
 def batchAddMeal():
     form = request.form
+    token = form['token']
+
     for meal in ["breakfast", "lunch", "dinner"]:
         models.Meal.create(
             date=form["date"], description=form[meal + "_description"], type=meal
         )
-    return redirect(url_for("dino"))
+
+    return redirect(url_for("dino") + '?token=token')
 
 
-@app.route("/dino/delete/<int:meal_id>", methods=["GET"])
+@app.route("/dino/delete", methods=["GET"])
 def deleteMeal(meal_id):
+    token = request.args.get(token)
     meal = models.Meal.select().where(models.Meal.id == meal_id).get()
     meal.delete_instance()
-    return redirect(url_for("dino"))
+
+    return redirect(url_for("dino") + '?token=token')
 
 @app.route('/latemeals/delete', methods=['GET'])
 def deleteLatemeal():
@@ -370,11 +390,13 @@ def deleteLatemeal():
 @app.route("/dino/batchdelete", methods=["POST"])
 def deleteBatchMeals():
     form = request.form
+    token = form['token']
+
     for strId in form.getlist("delete"):
         mealId = int(strId)
         meal = models.Meal.select().where(models.Meal.id == mealId).get()
         meal.delete_instance()
-    return redirect(url_for("dino"))
+    return redirect(url_for("dino") + '?token=' + token)
 
 @app.route('/latemeals/batchcompleted', methods=['POST'])
 def completeBatchLateMeals():
@@ -439,7 +461,7 @@ def confirm_file():
 def resident():
     token = request.args.get('token')
 
-    if token is None:
+    if token is None or not auth.authenticate_token(token):
         return render_template('index.html')
     elif not functions.validateTokenPermissions(token):
         return render_template('homepage.html', permission_denied = True)

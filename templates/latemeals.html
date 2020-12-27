@@ -55,7 +55,7 @@
 					<td>{{ meal.type }}</td>
                     <td>{{ meal.description }}</td>
                     <td>{{ meal.notes }}</td>
-					<td><a href='/latemeals/delete/{{meal.id}}'>Delete</a></td>
+					<td><a href='/latemeals/delete?meal={{meal.id}}&token={{token}}'>Delete</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
