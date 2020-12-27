@@ -25,13 +25,13 @@
 				<tr>
 					<td>{{ user.name }}</td>
 					<td>{{ user.email }}</td>
-                    <td><input type="text" defaultValue="{{ user.position == 'True' ? true : false}}" name="position" /></td>
-					<td><input type="checkbox" checked="{{ user.dinowrite == 'True' ? true : false}}" /></td>
-					<td><input type="checkbox" checked="{{ user.calendar == 'True' ? true : false}}" /></td>
-                    <td><input type="checkbox" checked="{{ user.latemeals == 'True' ? true : false}}" /></td>
-                    <td><input type="checkbox" checked="{{ user.ressies == 'True' ? true : false}}" /></td>
-                    <td><input type="checkbox" checked="{{ user.sport == 'True' ? true : false}}" /></td>
-                    <td><input type="checkbox" checked="{{ user.users == 'True' ? true : false}}" /></td>
+                    <td><input type="text" defaultValue="{{pyBooltoJS(user.position)}}" name="position" /></td>
+					<td><input type="checkbox" checked="{{pyBooltoJS(user.dinowrite)}}" /></td>
+					<td><input type="checkbox" checked="{{pyBooltoJS(user.calendar)}}" /></td>
+                    <td><input type="checkbox" checked="{{pyBooltoJS(user.latemeals)}}" /></td>
+                    <td><input type="checkbox" checked="{{pyBooltoJS(user.ressies)}}" /></td>
+                    <td><input type="checkbox" checked="{{pyBooltoJS(user.sport)}}" /></td>
+                    <td><input type="checkbox" checked="{{pyBooltoJS(user.users)}}" /></td>
 					<td><a href="{{url_for('deleteUser', client_id=user.id, token=token)}}">Delete</a></td>
 				</tr>
 				{% endfor %}
