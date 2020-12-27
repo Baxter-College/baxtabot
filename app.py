@@ -165,7 +165,7 @@ def users():
         return render_template('users.html', users=users)
 
 @app.route('/user/delete')
-def user_delete():
+def deleteUser():
     pass
 
 @app.route("/update", methods=["POST", "GET"])
