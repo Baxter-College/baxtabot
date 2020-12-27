@@ -139,6 +139,7 @@ class Client(Model):
     class Meta:
         database = db
 
+'''
 class ClientPermissions(Model):
     client = ForeignKeyField(Client)
     dinoread = BooleanField()
@@ -151,7 +152,7 @@ class ClientPermissions(Model):
 
     class Meta:
         database = db
-
+'''
 class ActiveTokens(Model):
     client = ForeignKeyField(Client)
     token = TextField()
@@ -162,5 +163,5 @@ class ActiveTokens(Model):
 
 def goGoPowerRangers():
     db.connect()
-    db.create_tables([Meal, Sender, WeekCal, Ressie, Crush, MealImg, LateMeal, Client, ClientPermissions, ActiveTokens], safe=True)
+    db.create_tables([Meal, Sender, WeekCal, Ressie, Crush, MealImg, LateMeal, Client, ActiveTokens], safe=True)
     db.close()
