@@ -132,16 +132,28 @@ class LateMeal(Model):
     class Meta:
         database = db
 
-class Admin(Model):
+class Client(Model):
     email = TextField()
     password = TextField()
 
     class Meta:
         database = db
 
+class ClientPermissions(Model):
+    client = ForeignKeyField(Client)
+    dinoread = BooleanField()
+    dinowrite = BooleanField()
+    calendar = BooleanField()
+    ressies = BooleanField()
+    latemeals = BooleanField()
+    sport = BooleanField()
+    users = BooleanField()
+
+    class Meta:
+        database = db
 
 class ActiveTokens(Model):
-    user = ForeignKeyField(Admin)
+    client = ForeignKeyField(Client)
     token = TextField()
 
     class Meta:
@@ -150,5 +162,5 @@ class ActiveTokens(Model):
 
 def goGoPowerRangers():
     db.connect()
-    db.create_tables([Meal, Sender, WeekCal, Ressie, Crush, MealImg, LateMeal, Admin, ActiveTokens], safe=True)
+    db.create_tables([Meal, Sender, WeekCal, Ressie, Crush, MealImg, LateMeal, Client, ClientPermissions, ActiveTokens], safe=True)
     db.close()

@@ -159,7 +159,7 @@ def users():
     elif not functions.validateTokenPermissions(token):
         return render_template('homepage.html', permission_denied=True)
     else:
-        users = models.User.select()
+        users = models.Client.select()
 
         return render_template('users.html', users=users)
 

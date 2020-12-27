@@ -34,7 +34,7 @@ def auth_register(email, password):
     encoder.update(password.encode('utf-8'))
     hashed_password = encoder.hexdigest()
 
-    user = models.Admin.create(email=email, password=hashed_password)
+    user = models.Client.create(email=email, password=hashed_password)
 
     token = generate_token(user.id)
     models.ActiveTokens.create(user=user.id, token=token)
@@ -57,7 +57,7 @@ def auth_login(email, password):
     encoder.update(password.encode('utf-8'))
     hashed_password = encoder.hexdigest()
 
-    user = models.Admin.select().where(models.Admin.email == email and models.Admin.password == hashed_password).get()
+    user = models.Client.select().where(models.Client.email == email and models.Client.password == hashed_password).get()
 
     if user is None:
         raise Exception(description="Input error: email/password is not correct")
