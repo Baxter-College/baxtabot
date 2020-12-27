@@ -154,7 +154,7 @@ def latemeals():
 def users():
     token = request.args.get('token')
 
-    if token is none or not auth.authenticate_token(token):
+    if token is None or not auth.authenticate_token(token):
         return render_template('index.html')
     elif not functions.validateTokenPermissions(token):
         return render_template('homepage.html', permission_denied=True)
