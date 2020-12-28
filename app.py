@@ -206,9 +206,16 @@ def updateUser():
     elif not functions.validateTokenPermissions(token):
         return render_template('homepage.html', permission_denied=True)
     else:
-        models.Client.update(models.Client.position=position, models.Client.dinoread=dinoread, models.Client.dinowrite=dinowrite,
-                            models.Client.calendar=calendar, models.Client.sport=sport, models.Client.latemeals=latemeals,
-                            models.Client.ressies=ressies, models.Client.users=users).where(models.Client.id == client_id)
+        user = models.Client.update().where(models.Client.id == client_id).get()
+        user.position = position
+        user.dinoread = dinoread
+        user.dinowrite = dinowrite
+        user.calendar = calendar
+        user.latemeals = latemeals
+        user.sport = sport
+        user.ressies = ressies
+        user.users = users
+        user.save()
 
         users = models.Client.select(models.Client.name, models.Client.email, models.Client.position, models.ClientPermissions.dinoread,
                                     models.ClientPermissions.dinowrite, models.ClientPermissions.calendar, models.ClientPermissions.latemeals,
