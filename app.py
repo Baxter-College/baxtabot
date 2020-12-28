@@ -192,14 +192,14 @@ def updateUser():
 
     client_id = form['client_id']
     position = form['position']
-    dinoread = form['dinoread']
-    dinowrite = form['dinowrite']
-    calendar = form['calendar']
-    sport = form['sport']
-    latemeals = form['latemeals']
-    ressies = form['ressies']
-    users = form['users']
-    token = form['token']
+    dinoread = form.get('dinoread')
+    dinowrite = form.get('dinowrite')
+    calendar = form.get('calendar')
+    sport = form.get('sport')
+    latemeals = form.get('latemeals')
+    ressies = form.get('ressies')
+    users = form.get('users')
+    token = form.get('token')
     print(client_id, token)
 
     if token is None or not auth.authenticate_token(token):
