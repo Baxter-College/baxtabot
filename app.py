@@ -209,13 +209,13 @@ def updateUser():
     else:
         user = models.ClientPermissions.select().where(models.ClientPermissions.client == client_id).get()
         user.position = position
-        user.dinoread = dinoread
-        user.dinowrite = dinowrite
-        user.calendar = calendar
-        user.latemeals = latemeals
-        user.sport = sport
-        user.ressies = ressies
-        user.users = users
+        user.dinoread = dinoread if dinoread else False
+        user.dinowrite = dinowrite if dinowrite else False
+        user.calendar = calendar if calendar else False
+        user.latemeals = latemeals if latemeals else False
+        user.sport = sport if sport else False
+        user.ressies = ressies if ressies else False
+        user.users = users if users else False
         user.save()
 
         users = models.Client.select(models.Client.name, models.Client.email, models.Client.position, models.ClientPermissions.dinoread,
