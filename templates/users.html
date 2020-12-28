@@ -19,55 +19,62 @@
                 <th>Ressies</th>
                 <th>Sport</th>
                 <th>Users</th>
+                <th>Actions</th>
 			</thead>
 			<tbody>
 				{% for user in users %}
 				<tr>
-					<td>{{ user.name }}</td>
-					<td>{{ user.email }}</td>
-                    <td><input type="text" defaultValue="{{ user.position }}" name="position" /></td>
-					<td>{% if user.dinoread %}
-                            <input type='checkbox' name='dinoread' checked/>
-                        {% else %}
-                            <input type='checkbox' name='dinoread'/>}}
-                        {% endif %}</td>
-                        <td>{% if user.dinowrite %}
-                                <input type='checkbox' name='dinowrite' checked/>
+                    <form name='user_details' action='/user/update'>
+    					<td>{{ user.name }}</td>
+    					<td>{{ user.email }}</td>
+                        <td><input type="text" defaultValue="{{ user.position }}" name="position" /></td>
+    					<td>{% if user.dinoread %}
+                                <input type='checkbox' name='dinoread' checked/>
                             {% else %}
-                                <input type='checkbox' name='dinowrite'/>
+                                <input type='checkbox' name='dinoread'/>}}
                             {% endif %}</td>
+                            <td>{% if user.dinowrite %}
+                                    <input type='checkbox' name='dinowrite' checked/>
+                                {% else %}
+                                    <input type='checkbox' name='dinowrite'/>
+                                {% endif %}</td>
 
-                        <td>{% if user.calendar %}
-                                <input type='checkbox' name='calendar' checked/>
-                            {% else %}
-                                <input type='checkbox' name='calendar'/>
-                            {% endif %}</td>
+                            <td>{% if user.calendar %}
+                                    <input type='checkbox' name='calendar' checked/>
+                                {% else %}
+                                    <input type='checkbox' name='calendar'/>
+                                {% endif %}</td>
 
-                        <td>{% if user.latemeals %}
-                                <input type='checkbox' name='latemeals' checked/>
-                            {% else %}
-                                <input type='checkbox' name='latemeals'/>
-                            {% endif %}</td>
+                            <td>{% if user.latemeals %}
+                                    <input type='checkbox' name='latemeals' checked/>
+                                {% else %}
+                                    <input type='checkbox' name='latemeals'/>
+                                {% endif %}</td>
 
-                        <td>{% if user.dinowrite %}
-                                <input type='checkbox' name='dinowrite' checked/>
-                            {% else %}
-                                <input type='checkbox' name='dinowrite'/>
-                            {% endif %}</td>
+                            <td>{% if user.ressies %}
+                                    <input type='checkbox' name='ressies' checked/>
+                                {% else %}
+                                    <input type='checkbox' name='ressies'/>
+                                {% endif %}</td>
 
-                        <td>{% if user.dinowrite %}
-                                <input type='checkbox' name='dinowrite' checked/>
-                            {% else %}
-                                <input type='checkbox' name='dinowrite'/>
-                            {% endif %}</td>
+                            <td>{% if user.sport %}
+                                    <input type='checkbox' name='sport' checked/>
+                                {% else %}
+                                    <input type='checkbox' name='sport'/>
+                                {% endif %}</td>
 
-                        <td>{% if user.dinowrite %}
-                                <input type='checkbox' name='dinowrite' checked/>
-                            {% else %}
-                                <input type='checkbox' name='dinowrite'/>
-                            {% endif %}</td>
+                            <td>{% if user.users %}
+                                    <input type='checkbox' name='users' checked/>
+                                {% else %}
+                                    <input type='checkbox' name='users'/>
+                                {% endif %}</td>
+                            <input style='display: none' value="{{token}}" name='token'/>
 
-					<td><a href="{{url_for('deleteUser', client_id=user.id, token=token)}}">Delete</a></td>
+    					<td>
+                            <input type='submit' value='Update' class="pure-button pure-button-primary" />
+                            <a href="{{url_for('deleteUser', client_id=user.id, token=token)}}">Delete</a>
+                        </td>
+                    </form>
 				</tr>
 				{% endfor %}
 			</tbody>

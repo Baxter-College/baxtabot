@@ -165,11 +165,57 @@ def users():
                                     models.ClientPermissions.ressies, models.ClientPermissions.sport, models.ClientPermissions.users).join(models.ClientPermissions).dicts()
         print(users[0])
 
-        return render_template('users.html', users=users)
+        return render_template('users.html', users=users, token=token)
 
-@app.route('/user/delete')
+@app.route('/user/delete', methods=['GET'])
 def deleteUser():
-    pass
+    token = request.args.get('token')
+    client_id = request.args.get('client_id')
+
+    if token is None or not auth.authenticate_token(token):
+        return render_template('index.html')
+    elif not functions.validateTokenPermissions(token):
+        return render_template('homepage.html', permission_denied=True)
+    else:
+        models.Client.delete().where(models.Client.id == client_id)
+
+        users = models.Client.select(models.Client.name, models.Client.email, models.Client.position, models.ClientPermissions.dinoread,
+                                    models.ClientPermissions.dinowrite, models.ClientPermissions.calendar, models.ClientPermissions.latemeals,
+                                    models.ClientPermissions.ressies, models.ClientPermissions.sport, models.ClientPermissions.users).join(models.ClientPermissions).dicts()
+        print(users[0])
+
+        return render_template('users.html', users=users, token=token)
+
+@app.route('/user/update', methods=['POST'])
+def updateUser():
+    form = request.form
+
+    client_id = form['client_id']
+    position = form['position']
+    dinoread = form['dinoread']
+    dinowrite = form['dinowrite']
+    calendar = form['calendar']
+    sport = form['sport']
+    latemeals = form['latemeals']
+    ressies = form['ressies']
+    users = form['users']
+    token = form['token']
+
+    if token is None or not auth.authenticate_token(token):
+        return render_template('index.html')
+    elif not functions.validateTokenPermissions(token):
+        return render_template('homepage.html', permission_denied=True)
+    else:
+        models.Client.update(models.Client.position=position, models.Client.dinoread=dinoread, models.Client.dinowrite=dinowrite,
+                            models.Client.calendar=calendar, models.Client.sport=sport, models.Client.latemeals=latemeals,
+                            models.Client.ressies=ressies, models.Client.users=users).where(models.Client.id == client_id)
+
+        users = models.Client.select(models.Client.name, models.Client.email, models.Client.position, models.ClientPermissions.dinoread,
+                                    models.ClientPermissions.dinowrite, models.ClientPermissions.calendar, models.ClientPermissions.latemeals,
+                                    models.ClientPermissions.ressies, models.ClientPermissions.sport, models.ClientPermissions.users).join(models.ClientPermissions).dicts()
+        print(users[0])
+
+        return render_template('users.html', users=users, token=token)
 
 @app.route("/update", methods=["POST", "GET"])
 def update():
