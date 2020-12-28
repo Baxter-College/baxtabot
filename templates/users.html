@@ -26,8 +26,8 @@
 					<td>{{ user.name }}</td>
 					<td>{{ user.email }}</td>
                     <td><input type="text" defaultValue="{{ user.position }}" name="position" /></td>
-					<td>{{ "<input type='checkbox' name='dinoread' checked/>" if user.dinoread else "<input type='checkbox' name='dinoread'/>"}}</td>
-					<td>{{ "<input type='checkbox' name='dinowrite' checked/>" if user.dinowrite else "<input type='checkbox' name='dinowrite'/>"}}</td>
+					<td>{{ <input type='checkbox' name='dinoread' checked/> if user.dinoread else <input type='checkbox' name='dinoread'/>}}</td>
+					<td>{{ <input type='checkbox' name='dinowrite' checked/> if user.dinowrite else <input type='checkbox' name='dinowrite'/>}}</td>
 					<td><input type="checkbox" checked="{{ user.calendar }}" /></td>
                     <td><input type="checkbox" checked="{{ user.latemeals }}" /></td>
                     <td><input type="checkbox" checked="{{ user.ressies }}" /></td>
