@@ -24,7 +24,7 @@
 			<tbody>
 				{% for user in users %}
 				<tr>
-                    <form name='user_details' action='/user/update'>
+                    <form name='user_details' action='/user/update' method='post'>
     					<td>{{ user.name }}</td>
     					<td>{{ user.email }}</td>
                         <td><input type="text" defaultValue="{{ user.position }}" name="position" /></td>
