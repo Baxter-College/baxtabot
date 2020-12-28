@@ -207,7 +207,7 @@ def updateUser():
     elif not functions.validateTokenPermissions(token):
         return render_template('homepage.html', permission_denied=True)
     else:
-        user = models.Client.select().where(models.Client.id == client_id).get()
+        user = models.ClientPermissions.select().where(models.ClientPermissions.client == client_id).get()
         user.position = position
         user.dinoread = dinoread
         user.dinowrite = dinowrite
