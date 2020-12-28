@@ -200,6 +200,7 @@ def updateUser():
     ressies = form['ressies']
     users = form['users']
     token = form['token']
+    print(client_id, token)
 
     if token is None or not auth.authenticate_token(token):
         return render_template('index.html')
