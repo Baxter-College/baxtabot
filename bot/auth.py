@@ -59,13 +59,15 @@ def auth_login(email, password):
     encoder.update(password.encode('utf-8'))
     hashed_password = encoder.hexdigest()
 
-    user = models.Client.select().where(models.Client.email == email and models.Client.password == hashed_password).get()
+    user = models.Client.select().where(models.Client.email == email and models.Client.password == hashed_password)
 
     if user is None:
         raise Exception(description="Input error: email/password is not correct")
 
+    user = user.get()
+
     token = generate_token(user.id)
-    models.ActiveTokens.create(user=user.id, token=token)
+    models.ActiveTokens.create(client=user.id, token=token)
 
     return {"u_id": user.id, "token": token}
 
