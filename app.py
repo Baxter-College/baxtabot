@@ -226,7 +226,7 @@ def updateUser():
         users = models.Client.select(models.Client.id, models.Client.name, models.Client.email, models.Client.position, models.ClientPermissions.dinoread,
                                     models.ClientPermissions.dinowrite, models.ClientPermissions.calendar, models.ClientPermissions.latemeals,
                                     models.ClientPermissions.ressies, models.ClientPermissions.sport, models.ClientPermissions.users).join(models.ClientPermissions).dicts()
-        print(users[0])
+        print(users[0], users[1])
 
         return render_template('users.html', users=users, token=token)
 
