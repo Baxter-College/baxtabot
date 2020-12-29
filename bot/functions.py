@@ -493,19 +493,19 @@ def validateTokenPermissions(token, page):
 
     userperms = userperms.get()
 
-    if page == 'dinoread' and userperms.dinoread:
+    if page == 'dinoread' and userperms['dinoread']:
         return True
-    elif page == 'dinowrite' and userperms.dinowrite:
+    elif page == 'dinowrite' and userperms['dinowrite']:
         return True
-    elif page == 'ressies' and userperms.ressies:
+    elif page == 'ressies' and userperms['ressies']:
         return True
-    elif page == 'calendar' and userperms.calendar:
+    elif page == 'calendar' and userperms['calendar']:
         return True
-    elif page == 'sport' and userperms.sport:
+    elif page == 'sport' and userperms['sport']:
         return True
-    elif page == 'latemeals' and userperms.latemeals:
+    elif page == 'latemeals' and userperms['latemeals']:
         return True
-    elif page == 'users' and userperms.users:
+    elif page == 'users' and userperms['users']:
         return True
 
     return False
