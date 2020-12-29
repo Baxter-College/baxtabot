@@ -484,8 +484,30 @@ def createRessie(first_name, last_name, room_number):
         floor = int(str(room_number)[:1])
         )  # get the first digit of the room number and set that as floor
 
-def validateTokenPermissions(token):
-    return True
+def validateTokenPermissions(token, page):
+    userperms = models.Client.select().join(models.ActiveTokens).join(models.ClientPermissions).switch(models.ActiveTokens).where(models.ActiveTokens.token == token)
+
+    if userperms is None:
+        return False
+
+    userperms = userperms.get()
+
+    if page == 'dinoread' and userperms.dinoread:
+        return True
+    elif page == 'dinowrite' and userperms.dinowrite:
+        return True
+    elif page == 'ressies' and userperms.ressies:
+        return True
+    elif page == 'calendar' and userperms.calendar:
+        return True
+    elif page == 'sport' and userperms.sport:
+        return True
+    elif page == 'latemeals' and userperms.latemeals:
+        return True
+    elif page == 'users' and userperms.users:
+        return True
+
+    return False
 
 def deleteActiveToken(token):
     instance = models.ActiveTokens.select().where(models.ActiveTokens.token == token).get()

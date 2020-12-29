@@ -143,7 +143,7 @@ def latemeals():
 
     if token is None or not auth.authenticate_token(token):
         return render_template('index.html')
-    elif not functions.validateTokenPermissions(token):
+    elif not functions.validateTokenPermissions(token, 'latemeals'):
         return render_template('homepage.html', permission_denied = True)
     else:
         outstandingMeals = models.LateMeal.select(models.LateMeal.id, models.LateMeal.notes, models.Ressie.first_name, models.Ressie.last_name, models.Meal.date, models.Meal.type, models.Meal.description).join(models.Ressie).switch(models.LateMeal).join(models.Meal).where(models.LateMeal.completed == 0).dicts()
@@ -157,7 +157,7 @@ def users():
 
     if token is None or not auth.authenticate_token(token):
         return render_template('index.html')
-    elif not functions.validateTokenPermissions(token):
+    elif not functions.validateTokenPermissions(token, 'users'):
         return render_template('homepage.html', permission_denied=True)
     else:
         users = models.Client.select(models.Client.id, models.Client.name, models.Client.email, models.Client.position, models.ClientPermissions.dinoread,
@@ -174,7 +174,7 @@ def deleteUser():
 
     if token is None or not auth.authenticate_token(token):
         return render_template('index.html')
-    elif not functions.validateTokenPermissions(token):
+    elif not functions.validateTokenPermissions(token, 'users'):
         return render_template('homepage.html', permission_denied=True)
     else:
         models.Client.delete().where(models.Client.id == client_id)
@@ -206,7 +206,7 @@ def updateUser():
 
     if token is None or not auth.authenticate_token(token):
         return render_template('index.html')
-    elif not functions.validateTokenPermissions(token):
+    elif not functions.validateTokenPermissions(token, 'users'):
         return render_template('homepage.html', permission_denied=True)
     else:
         userperms = models.ClientPermissions.select().where(models.ClientPermissions.client == client_id).get()
@@ -374,7 +374,7 @@ def upload():
 
     if token is None or not auth.authenticate_token(token):
         return render_template('index.html')
-    elif not functions.validateTokenPermissions(token):
+    elif not functions.validateTokenPermissions(token, 'calendar'):
         return render_template('homepage.html', permission_denied = True)
 
     if request.method == "POST":
@@ -406,7 +406,7 @@ def dino():
 
     if token is None or not auth.authenticate_token(token):
         return render_template('index.html')
-    elif not functions.validateTokenPermissions(token):
+    elif not functions.validateTokenPermissions(token, 'dinowrite'):
         return render_template('homepage.html', permission_denied = True)
 
     meals = models.Meal.select().order_by(models.Meal.date.desc())
@@ -530,7 +530,7 @@ def resident():
 
     if token is None or not auth.authenticate_token(token):
         return render_template('index.html')
-    elif not functions.validateTokenPermissions(token):
+    elif not functions.validateTokenPermissions(token, 'ressies'):
         return render_template('homepage.html', permission_denied = True)
 
     if request.method == "POST":
