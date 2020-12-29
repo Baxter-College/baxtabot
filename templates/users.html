@@ -27,7 +27,7 @@
                     <form name='user_details' action='/user/update' method='post' class="pure-form pure-form-stacked">
     					<td>{{ user.name }}</td>
     					<td>{{ user.email }}</td>
-                        <td><input type="text" defaultValue="{{ user.position }}" name="position" /></td>
+                        <td><input type="text" value="{{ user.position }}" name="position" /></td>
     					<td>{% if user.dinoread %}
                                 <input type='checkbox' name='dinoread' checked/>
                             {% else %}
