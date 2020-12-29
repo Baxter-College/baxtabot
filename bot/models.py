@@ -137,6 +137,7 @@ class Client(Model):
     password = TextField()
     position = TextField(default='')
     name = TextField()
+    ressie = ForeignKeyField(Ressie)
 
     class Meta:
         database = db

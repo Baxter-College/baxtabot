@@ -33,8 +33,12 @@ def auth_register(email, password, name):
     encoder = hashlib.sha224()
     encoder.update(password.encode('utf-8'))
     hashed_password = encoder.hexdigest()
+    ressie = models.Ressie.fuzzySearch(name)
 
-    user = models.Client.create(email=email, password=hashed_password, name=name)
+    if ressie:
+        ressie = ressie.id
+
+    user = models.Client.create(email=email, password=hashed_password, name=name, ressie=ressie)
     models.ClientPermissions.create(client=user.id)
 
     print(user.id)
