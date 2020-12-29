@@ -193,7 +193,7 @@ def updateUser():
     client_id = form['client_id']
     position = form['position']
     print(position)
-    
+
     dinoread = form.get('dinoread')
     dinowrite = form.get('dinowrite')
     calendar = form.get('calendar')
@@ -211,6 +211,7 @@ def updateUser():
     else:
         user = models.ClientPermissions.select().where(models.ClientPermissions.client == client_id).get()
         user.position = position
+        print(user.position, position)
         user.dinoread = dinoread if dinoread else False
         user.dinowrite = dinowrite if dinowrite else False
         user.calendar = calendar if calendar else False
