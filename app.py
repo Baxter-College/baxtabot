@@ -211,7 +211,7 @@ def updateUser():
     else:
         userperms = models.ClientPermissions.select().where(models.ClientPermissions.client == client_id).get()
         user = models.Client.select().where(models.Client.id == client_id).get()
-
+        user.position = position
         print(user.position, position)
         userperms.dinoread = dinoread if dinoread else False
         userperms.dinowrite = dinowrite if dinowrite else False
@@ -221,6 +221,7 @@ def updateUser():
         userperms.ressies = ressies if ressies else False
         userperms.users = users if users else False
         userperms.save()
+        user.save()
 
         users = models.Client.select(models.Client.id, models.Client.name, models.Client.email, models.Client.position, models.ClientPermissions.dinoread,
                                     models.ClientPermissions.dinowrite, models.ClientPermissions.calendar, models.ClientPermissions.latemeals,
