@@ -485,7 +485,7 @@ def createRessie(first_name, last_name, room_number):
         )  # get the first digit of the room number and set that as floor
 
 def validateTokenPermissions(token, page):
-    userperms = models.Client.select(models.ClientPermissions.dinoread, models.Client.dinowrite, models.ClientPermissions.ressies,
+    userperms = models.Client.select(models.ClientPermissions.dinoread, models.ClientPermissions.dinowrite, models.ClientPermissions.ressies,
                                     models.ClientPermissions.calendar, models.ClientPermissions.sport, models.ClientPermissions.latemeals, models.ClientPermissions.users).join(models.ActiveTokens).switch(models.Client).join(models.ClientPermissions).where(models.ActiveTokens.token == token)
 
     if userperms is None:
