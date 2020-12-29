@@ -191,7 +191,7 @@ def updateUser():
     form = request.form
 
     client_id = form['client_id']
-    position = form['position']
+    position = form.get('position')
     dinoread = form.get('dinoread')
     dinowrite = form.get('dinowrite')
     calendar = form.get('calendar')
