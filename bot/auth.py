@@ -33,10 +33,11 @@ def auth_register(email, password, name):
     encoder = hashlib.sha224()
     encoder.update(password.encode('utf-8'))
     hashed_password = encoder.hexdigest()
-    name, confidence, ressie = models.Ressie.fuzzySearch(name)
+    ressie_name, confidence, ressie = models.Ressie.fuzzySearch(name)
 
     if confidence > 85:
         ressie = ressie.id
+        name = ressie_name
     else:
         ressie = None
 
