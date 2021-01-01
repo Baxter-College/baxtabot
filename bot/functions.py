@@ -196,11 +196,11 @@ def getCurrentDino():
 # ======== Late Meals ======= #
 
 def orderLateMeal(message, sender_psid):
-    meal = findMeal(received_message)
+    meal = findMeal(message)
     if not meal:
         meal = getCurrentDino()
     else:
-        addTime = findTime(received_message)
+        addTime = findTime(message)
         meal = dinoRequestObj(meal, addTime)
 
     if meal is None:
