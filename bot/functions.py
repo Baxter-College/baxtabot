@@ -90,9 +90,7 @@ def dinoRequest(meal, addTime):
 
     return "{} at dino is:\n{}".format(meal, dino.description)
 
-def dinoRequestObj(meal, addTime):
-    # meal is "dinner", "lunch" or "breakfast"
-
+def getTimeFromAddTime(addTime):
     ten_hours = datetime.timedelta(hours=11)
 
     today = datetime.datetime.now()
@@ -101,6 +99,11 @@ def dinoRequestObj(meal, addTime):
 
     today_AEST += addTime  # if no add time, timedelta will be 0 hours so no effect
 
+    return today_AEST
+
+def dinoRequestObj(meal, addTime):
+    # meal is "dinner", "lunch" or "breakfast"
+    today_AEST = getTimeFromAddTime(addTime)
     print("Date is: {}".format(today_AEST.date().strftime("%Y-%m-%d")))
 
     try:
@@ -212,7 +215,7 @@ def orderLateMeal(message, sender_psid):
 
     models.LateMeal.create(meal=meal_id, ressie=ressie, notes=notes, completed=False)
 
-    return meal, addTime.strftime('%d/%m/%Y')
+    return meal, getTimeFromAddTime(addTime).date().strftime('%d/%m/%Y')
 
 def setMealCompleted(latemealid):
     query = models.LateMeal.update(completed=True).where(models.LateMeal.id == latemealid)
