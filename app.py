@@ -238,6 +238,7 @@ def updateUser():
                                     models.ClientPermissions.dinowrite, models.ClientPermissions.calendar, models.ClientPermissions.latemeals,
                                     models.ClientPermissions.ressies, models.ClientPermissions.sport, models.ClientPermissions.users).join(models.ClientPermissions).dicts()
 
+
         return render_template('users.html', users=users, token=token)
 
 @app.route('/user/profile', methods=['POST', 'GET'])
