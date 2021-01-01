@@ -170,19 +170,22 @@ def users():
 @app.route('/user/delete', methods=['GET'])
 def deleteUser():
     token = request.args.get('token')
-    client_id = request.args.get('client_id')
+    client_id = int(request.args.get('client_id'))
 
     if token is None or not auth.authenticate_token(token):
         return render_template('index.html')
     elif not functions.validateTokenPermissions(token, 'users'):
         return render_template('homepage.html', permission_denied=True, token=token)
     else:
+        models.ActiveTokens.delete().where(models.ActiveTokens.client = client_id)
+        models.ClientPermissions.delete().where(models.ClientPermissions.client == client_id)
         models.Client.delete().where(models.Client.id == client_id)
 
         users = models.Client.select(models.Client.name, models.Client.email, models.Client.position, models.ClientPermissions.dinoread,
                                     models.ClientPermissions.dinowrite, models.ClientPermissions.calendar, models.ClientPermissions.latemeals,
                                     models.ClientPermissions.ressies, models.ClientPermissions.sport, models.ClientPermissions.users).join(models.ClientPermissions).dicts()
-        
+
+
         return render_template('users.html', users=users, token=token)
 
 @app.route('/user/update', methods=['POST'])
