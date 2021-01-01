@@ -177,7 +177,7 @@ def deleteUser():
     elif not functions.validateTokenPermissions(token, 'users'):
         return render_template('homepage.html', permission_denied=True, token=token)
     else:
-        models.ActiveTokens.delete().where(models.ActiveTokens.client = client_id)
+        models.ActiveTokens.delete().where(models.ActiveTokens.client == client_id)
         models.ClientPermissions.delete().where(models.ClientPermissions.client == client_id)
         models.Client.delete().where(models.Client.id == client_id)
 
