@@ -258,7 +258,7 @@ def profile():
         user.roomshown = roomshown
         user.save()
 
-    client = models.Client.select(models.Client.name, models.Client.email, models.Client.position, models.Client.dietaries).join(models.ActiveTokens).where(models.ActiveTokens.token == token).get()
+    client = models.Client.select(models.Client.name, models.Client.email, models.Client.position, models.Client.dietaries, models.Client.roomshown).join(models.ActiveTokens).where(models.ActiveTokens.token == token).get()
 
     return render_template('profile.html', user=client, token=token)
 
