@@ -163,7 +163,7 @@ def users():
         users = models.Client.select(models.Client.id, models.Client.ressie, models.Client.name, models.Client.email, models.Client.position, models.ClientPermissions.dinoread,
                                     models.ClientPermissions.dinowrite, models.ClientPermissions.calendar, models.ClientPermissions.latemeals,
                                     models.ClientPermissions.ressies, models.ClientPermissions.sport, models.ClientPermissions.users).join(models.ClientPermissions).dicts()
-        print(users[0])
+
 
         return render_template('users.html', users=users, token=token)
 
@@ -182,8 +182,7 @@ def deleteUser():
         users = models.Client.select(models.Client.name, models.Client.email, models.Client.position, models.ClientPermissions.dinoread,
                                     models.ClientPermissions.dinowrite, models.ClientPermissions.calendar, models.ClientPermissions.latemeals,
                                     models.ClientPermissions.ressies, models.ClientPermissions.sport, models.ClientPermissions.users).join(models.ClientPermissions).dicts()
-        print(users[0])
-
+        
         return render_template('users.html', users=users, token=token)
 
 @app.route('/user/update', methods=['POST'])
