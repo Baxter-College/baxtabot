@@ -249,7 +249,7 @@ def profile():
 
         email = form['email']
         dietaries = form['dietaries']
-        roomshown = False if form.get('roomshown') is None else True
+        roomshown = bool(form.get('roomshown'))
 
         user = models.Client.select().join(models.ActiveTokens).where(models.ActiveTokens.token == token).get()
         user.email = email
