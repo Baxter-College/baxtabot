@@ -88,7 +88,7 @@ def handleMessage(sender_psid, received_message):
         "dinner" in received_message
         or "lunch" in received_message
         or "breakfast" in received_message
-    ):
+    ) and 'late meal' not in received_message:
         meal = functions.findMeal(received_message)
         addTime = functions.findTime(received_message)
 
