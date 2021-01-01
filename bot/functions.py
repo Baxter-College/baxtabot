@@ -27,7 +27,8 @@ def findMeal(message):
         meal = "lunch"
     elif "breakfast" in message:
         meal = "breakfast"
-
+    else:
+        return False
     return meal
 
 
