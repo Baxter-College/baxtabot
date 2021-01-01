@@ -415,6 +415,10 @@ def getRoomNumber(name):
 
     try:
         gotName, confidence, ressie = models.Ressie.fuzzySearch(name)
+        client = models.Client.select().join(models.Ressie).where(models.Ressie.id == ressie.id)
+        if not client.roomshown:
+            return '{} is in baxter and has turned room sharing off'.format(gotName)
+
         if confidence < 85:
             return "{} is in room {} (I'm {} percent sure I know who you're talking about)".format(
                 gotName, ressie.room_number, confidence
