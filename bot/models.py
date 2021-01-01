@@ -138,6 +138,7 @@ class Client(Model):
     position = TextField(default='')
     name = TextField()
     ressie = ForeignKeyField(Ressie, null=True)
+    dietaries = TextField(default='None')
 
     class Meta:
         database = db

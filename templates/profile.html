@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block title %}Users{% endblock %}
+
+{% block content %}
+
+		<h2>My Profile</h2>
+		<hr>
+
+        <form name='userprofile' onaction='/user/profile' method='post'>
+            <h3>{{ user.name }}</h3>
+            <input type='email' name='email' defaultValue="{{ user.email }}" /><br/>
+            <textarea name='dietaries' defaultValue="{{ user.dietaries }}"></textarea><br/>
+            Reset password
+            <input type='submit' value='Update' />
+        </form>
+
+		<hr>
+		<a href='/admin?token={{token}}'>Back</a>
+{% endblock %}

@@ -241,6 +241,16 @@ def updateUser():
 
         return render_template('users.html', users=users, token=token)
 
+@app.route('/user/profile', methods=['POST', 'GET'])
+def profile():
+    token = request.args.get('token')
+    if request.method == 'POST':
+        pass
+        
+    client = models.Client.select(models.Client.name, models.Client.email, models.Client.position, models.Client.dietaries).join(models.ActiveTokens).where(models.ActiveTokens.token == token).dicts()
+
+    return render_template('profile.html', user=client, token=token)
+
 @app.route("/update", methods=["POST", "GET"])
 def update():
     if request.method == "POST":
