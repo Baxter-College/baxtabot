@@ -202,7 +202,7 @@ def getCurrentDino():
 def orderLateMeal(message, sender_psid):
     meal_name = findMeal(message)
     if not meal_name:
-        addTime = datetime.timedelta(hour=0)
+        addTime = datetime.timedelta(hours=0)
         meal = getCurrentDino()
     else:
         addTime = findTime(message)
