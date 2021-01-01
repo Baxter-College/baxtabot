@@ -139,6 +139,7 @@ class Client(Model):
     name = TextField()
     ressie = ForeignKeyField(Ressie, null=True)
     dietaries = TextField(default='None')
+    roomshown = TextField(default=True)
 
     class Meta:
         database = db
