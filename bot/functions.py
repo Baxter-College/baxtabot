@@ -205,14 +205,14 @@ def orderLateMeal(message, sender_psid):
 
     if meal is None:
         raise Exception('Meal does not exist - dino menu needs updating')
-    meal = meal.id
+    meal_id = meal.id
 
     ressie = getRessieBySender(sender_psid).id
     notes = 'See dietary requirement records'
 
-    models.LateMeal.create(meal=meal, ressie=ressie, notes=notes, completed=False)
+    models.LateMeal.create(meal=meal_id, ressie=ressie, notes=notes, completed=False)
 
-    return meal, addTime
+    return meal, addTime.strftime('%d/%m/%Y')
 
 def setMealCompleted(latemealid):
     query = models.LateMeal.update(completed=True).where(models.LateMeal.id == latemealid)
