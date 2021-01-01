@@ -4,7 +4,7 @@
 
 {% block content %}
 
-		<h2>DINO</h2>
+		<div><h2>Dino Portal</h2></div>
 		<hr>
 		<h3>Upload dino File</h3>
 		<form action="/dino/fileadd" method=post enctype=multipart/form-data>
@@ -44,7 +44,7 @@
 		<form action="/dino/batchdelete" method="post">
 		<input type="submit" value="Delete Selected" class="pure-button pure-button-primary">
 		<input name='token' value='{{token}}' style='display: none' />
-		
+
 		<table class="pure-table">
 			<thead>
 				<th>Date</th>
