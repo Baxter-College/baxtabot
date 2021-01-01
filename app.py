@@ -249,13 +249,13 @@ def profile():
 
         email = form['email']
         dietaries = form['dietaries']
-        roomshown = bool(form.get('roomshown'))
+        roomshown = form.get('roomshown')
         print(roomshown)
 
         user = models.Client.select().join(models.ActiveTokens).where(models.ActiveTokens.token == token).get()
         user.email = email
         user.dietaries = dietaries
-        user.roomshown = roomshown
+        user.roomshown = roomshown if roomshown else False
         user.save()
 
     client = models.Client.select(models.Client.name, models.Client.email, models.Client.position, models.Client.dietaries, models.Client.roomshown).join(models.ActiveTokens).where(models.ActiveTokens.token == token).dicts()[0]
