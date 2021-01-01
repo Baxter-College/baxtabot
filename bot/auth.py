@@ -37,6 +37,8 @@ def auth_register(email, password, name):
 
     if confidence > 85:
         ressie = ressie.id
+    else:
+        ressie = None
 
     user = models.Client.create(email=email, password=hashed_password, name=name, ressie=ressie)
     models.ClientPermissions.create(client=user.id)
