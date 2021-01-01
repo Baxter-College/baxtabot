@@ -146,8 +146,8 @@ def latemeals():
     elif not functions.validateTokenPermissions(token, 'latemeals'):
         return render_template('homepage.html', permission_denied = True, token=token)
     else:
-        outstandingMeals = models.LateMeal.select(models.LateMeal.id, models.LateMeal.notes, models.Ressie.first_name, models.Ressie.last_name, models.Meal.date, models.Meal.type, models.Meal.description, models.Client.dietaries).join(models.Ressie).join(models.Client).switch(models.LateMeal).join(models.Meal).where(models.LateMeal.completed == 0).dicts()
-        completedMeals = models.LateMeal.select(models.LateMeal.id, models.LateMeal.notes, models.Ressie.first_name, models.Ressie.last_name, models.Meal.date, models.Meal.type, models.Meal.description, models.Client.dietaries).join(models.Ressie).join(models.Client).switch(models.LateMeal).join(models.Meal).where(models.LateMeal.completed == 1).dicts()
+        outstandingMeals = models.LateMeal.select(models.LateMeal.id, models.Ressie.first_name, models.Ressie.last_name, models.Meal.date, models.Meal.type, models.Meal.description, models.Client.dietaries).join(models.Ressie).join(models.Client).switch(models.LateMeal).join(models.Meal).where(models.LateMeal.completed == 0).dicts()
+        completedMeals = models.LateMeal.select(models.LateMeal.id, models.Ressie.first_name, models.Ressie.last_name, models.Meal.date, models.Meal.type, models.Meal.description, models.Client.dietaries).join(models.Ressie).join(models.Client).switch(models.LateMeal).join(models.Meal).where(models.LateMeal.completed == 1).dicts()
 
         return render_template('latemeals.html', outstandingMeals=outstandingMeals, completedMeals=completedMeals, token=token)
 

@@ -226,8 +226,8 @@ def handleMessage(sender_psid, received_message):
 
     elif 'order me a late meal' in received_message:
         try:
-            functions.orderLateMeal(received_message, sender_psid)
-            response.text = 'Late meal ordered!'
+            meal, time = functions.orderLateMeal(received_message, sender_psid)
+            response.text = f'Late meal ordered for {meal} at time {time}!'
         except Exception as e:
             response.text = 'Uh oh! Something went wrong: ' + str(e)
 
@@ -360,7 +360,7 @@ def handleConversation(sender_psid, received_msg, conversation):
             Response(sender_psid, "What a stunning shot!").send()
         else:
             Response(sender_psid, "You need to send me an image!").send()
-            
+
 
     # End the conversation
     me.conversation = None
