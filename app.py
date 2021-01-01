@@ -237,7 +237,6 @@ def updateUser():
         users = models.Client.select(models.Client.id, models.Client.name, models.Client.email, models.Client.position, models.ClientPermissions.dinoread,
                                     models.ClientPermissions.dinowrite, models.ClientPermissions.calendar, models.ClientPermissions.latemeals,
                                     models.ClientPermissions.ressies, models.ClientPermissions.sport, models.ClientPermissions.users).join(models.ClientPermissions).dicts()
-        print(users[0], users[1])
 
         return render_template('users.html', users=users, token=token)
 
@@ -245,7 +244,17 @@ def updateUser():
 def profile():
     token = request.args.get('token')
     if request.method == 'POST':
-        pass
+        form = request.form
+
+        email = form['email']
+        dietaries = form['dietaries']
+        roomshown = form['roomshown']
+
+        user = models.Client.select().join(models.ActiveTokens).where(models.ActiveTokens.token == token).get()
+        user.email = email
+        user.dietaries = dietaries
+        user.roomshown = roomshown
+        user.save()
 
     client = models.Client.select(models.Client.name, models.Client.email, models.Client.position, models.Client.dietaries).join(models.ActiveTokens).where(models.ActiveTokens.token == token).get()
 
