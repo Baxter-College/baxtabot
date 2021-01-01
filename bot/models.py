@@ -155,7 +155,6 @@ class ClientPermissions(Model):
     sport = BooleanField(default=False)
     users = BooleanField(default=False)
 
-
     class Meta:
         database = db
 
