@@ -177,13 +177,19 @@ def deleteUser():
     elif not functions.validateTokenPermissions(token, 'users'):
         return render_template('homepage.html', permission_denied=True, token=token)
     else:
-        models.ActiveTokens.delete().where(models.ActiveTokens.client == client_id)
-        models.ClientPermissions.delete().where(models.ClientPermissions.client == client_id)
-        models.Client.delete().where(models.Client.id == client_id)
+        token = models.ActiveTokens.select().where(models.ActiveTokens.client == client_id).get()
+        token.delete_instance()
 
-        users = models.Client.select(models.Client.name, models.Client.email, models.Client.position, models.ClientPermissions.dinoread,
+        perms = models.ClientPermissions.select().where(models.ClientPermissions.client == client_id).get()
+        perms.delete_instance()
+
+        client = models.Client.select().where(models.Client.id == client_id).get()
+        client.delete_instance()
+
+        users = models.Client.select(models.Client.id, models.Client.ressie, models.Client.name, models.Client.email, models.Client.position, models.ClientPermissions.dinoread,
                                     models.ClientPermissions.dinowrite, models.ClientPermissions.calendar, models.ClientPermissions.latemeals,
                                     models.ClientPermissions.ressies, models.ClientPermissions.sport, models.ClientPermissions.users).join(models.ClientPermissions).dicts()
+
 
 
         return render_template('users.html', users=users, token=token)
