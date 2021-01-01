@@ -12,6 +12,7 @@
 				<th>Name</th>
                 <th>Email</th>
                 <th>Position</th>
+				<th>Baxter Ressie ID</th>
                 <th>Dino Menu - Read</th>
                 <th>Dino Menu - Write</th>
                 <th>Calendar</th>
@@ -28,6 +29,7 @@
     					<td>{{ user.name }}</td>
     					<td>{{ user.email }}</td>
                         <td><input type="text" value="{{ user.position }}" name="position" /></td>
+						<td><input type="text" value="{{ user.ressie }}" name="ressie" /></td>
     					<td>{% if user.dinoread %}
                                 <input type='checkbox' name='dinoread' checked/>
                             {% else %}
