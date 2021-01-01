@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
 	<head>
 		<meta charset="utf-8">
-		<title>🤖 | {% block title %}{% endblock %}</title>
+		<title>{% block title %}{% endblock %}</title>
 
 		<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
@@ -64,7 +64,7 @@
 		</style>
 	</head>
 	<body>
-		<h1><a href="/" style="text-decoration:none;">🤖</a></h1>
+		<h1><a href="/" style="text-decoration:none;"><img src='https://scontent.fper5-1.fna.fbcdn.net/v/t1.0-9/65908266_354446311900238_3670064887465246720_n.png?_nc_cat=105&ccb=2&_nc_sid=09cbfe&_nc_ohc=Z_v5Oy-KVf8AX8sNzWq&_nc_ht=scontent.fper5-1.fna&oh=ff1c75ac605f5c0c82736bfd3cf1f9c8&oe=60138D9A' /></a></h1>
 
 		{% block content %}
 
