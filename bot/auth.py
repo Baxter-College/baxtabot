@@ -67,7 +67,6 @@ def auth_login(email, password):
     hashed_password = encoder.hexdigest()
     print(email)
     user = models.Client.select().where((models.Client.email == email) & (models.Client.password == hashed_password))
-    print(user.get().email, email)
 
     try:
         user = user.get()
