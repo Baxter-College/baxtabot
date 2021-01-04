@@ -4,7 +4,7 @@ from uuid import uuid4
 import re
 
 class AuthException(Exception):
-    pass
+    description = 'No description given'
 
 def authenticate_token(token):
     found = models.ActiveTokens.select().where(models.ActiveTokens.token == token)
