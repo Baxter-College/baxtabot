@@ -111,7 +111,7 @@ def register():
             result = auth.auth_register(email, password, name)
             # Set token into local storage
         except auth.AuthException:
-            return redirect(url_for(''))
+            return redirect(url_for('/'))
         else:
             url = url_for('admin') + '?token=' + result['token']
             return redirect(url)
@@ -128,7 +128,7 @@ def login():
     try:
         result = auth.auth_login(email, password)
     except auth.AuthException:
-        return redirect(url_for(''))
+        return redirect(url_for('/'))
     else:
         url = url_for('admin') + '?token=' + result['token']
         return redirect(url)
