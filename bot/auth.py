@@ -65,7 +65,7 @@ def auth_login(email, password):
     encoder = hashlib.sha224()
     encoder.update(password.encode('utf-8'))
     hashed_password = encoder.hexdigest()
-
+    print(email)
     user = models.Client.select().where(models.Client.email == email and models.Client.password == hashed_password)
     print(user.get().email, email)
 
