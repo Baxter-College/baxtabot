@@ -7,7 +7,7 @@
         <h1>Welcome to Baxtabot!</h1>
     </div>
 
-    <div style='display: {{ "block" if permission_denied else "none" }}'>You do not have permission to access that page.</div>
+    <div class='home' style='display: {{ "block" if permission_denied else "none" }}'>You do not have permission to access that page.</div>
 
     <div>
         <h3><a href='/dino?token={{token}}'>Dino Portal</a></h3>
@@ -30,7 +30,7 @@
     <div>
         <h3><a href='/logout?token={{token}}'>Logout</a></h3>
     </div>
-    <div>
+    <div class='home'>
         <p>Baxtabot Version 2.0 - 1 January 2021</p>
     </div>
 
