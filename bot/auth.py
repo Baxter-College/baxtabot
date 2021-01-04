@@ -18,10 +18,10 @@ def auth_register(email, password, name):
     """
 
     if not isinstance(email, str) or not isinstance(password, str):
-        raise AuthException(description="Input error: invalid arguments")
+        raise Exception(description="Input error: invalid arguments")
 
     if not email_valid(email):
-        raise AuthException(description="Input error: email is not valid")
+        raise Exception(description="Input error: email is not valid")
 
     # check_length(password, "password", 6, 64)
     # check_length(first, "first name", 1, 50)
@@ -56,10 +56,10 @@ def auth_login(email, password):
     """
 
     if not isinstance(email, str) or not isinstance(password, str):
-        raise AuthException(description="Input error: invalid arguments")
+        raise Exception(description="Input error: invalid arguments")
 
     if not email_valid(email):
-        raise AuthException(description="Input error: email is not valid")
+        raise Exception(description="Input error: email is not valid")
 
 
     encoder = hashlib.sha224()
