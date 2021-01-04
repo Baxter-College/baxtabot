@@ -50,24 +50,24 @@ def auth_register(email, password, name):
 
     return {"u_id": user.id, "token": token}
 
-def auth_login(in_email, password):
+def auth_login(email, password):
     """
     Logs an existing user in. Returns their id and token.
     """
 
-    if not isinstance(in_email, str) or not isinstance(password, str):
+    if not isinstance(email, str) or not isinstance(password, str):
         raise AuthException("Input error: invalid arguments")
 
-    if not email_valid(in_email):
+    if not email_valid(email):
         raise AuthException("Input error: email is not valid")
 
 
     encoder = hashlib.sha224()
     encoder.update(password.encode('utf-8'))
     hashed_password = encoder.hexdigest()
-    print(in_email)
-    user = models.Client.select().where(models.Client.email == in_email and models.Client.password == hashed_password)
-    print(user.get().email, in_email)
+    print(email)
+    user = models.Client.select().where((models.Client.email == email) & (models.Client.password == hashed_password))
+    print(user.get().email, email)
 
     try:
         user = user.get()
