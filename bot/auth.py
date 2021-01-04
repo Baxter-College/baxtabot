@@ -67,9 +67,11 @@ def auth_login(email, password):
     hashed_password = encoder.hexdigest()
 
     user = models.Client.select().where(models.Client.email == email and models.Client.password == hashed_password)
+    print(user)
 
     if user is None:
         raise AuthException("Input error: email/password is not correct")
+        return
 
     user = user.get()
 
