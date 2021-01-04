@@ -18,10 +18,10 @@ def auth_register(email, password, name):
     """
 
     if not isinstance(email, str) or not isinstance(password, str):
-        raise Exception("Input error: invalid arguments")
+        raise AuthException("Input error: invalid arguments")
 
     if not email_valid(email):
-        raise Exception("Input error: email is not valid")
+        raise AuthException("Input error: email is not valid")
 
     # check_length(password, "password", 6, 64)
     # check_length(first, "first name", 1, 50)
@@ -56,10 +56,10 @@ def auth_login(email, password):
     """
 
     if not isinstance(email, str) or not isinstance(password, str):
-        raise Exception("Input error: invalid arguments")
+        raise AuthException("Input error: invalid arguments")
 
     if not email_valid(email):
-        raise Exception("Input error: email is not valid")
+        raise AuthException("Input error: email is not valid")
 
 
     encoder = hashlib.sha224()
@@ -69,7 +69,7 @@ def auth_login(email, password):
     user = models.Client.select().where(models.Client.email == email and models.Client.password == hashed_password)
 
     if user is None:
-        raise Exception("Input error: email/password is not correct")
+        raise AuthException("Input error: email/password is not correct")
 
     user = user.get()
 
