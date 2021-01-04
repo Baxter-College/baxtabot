@@ -69,11 +69,11 @@ def auth_login(email, password):
     user = models.Client.select().where(models.Client.email == email and models.Client.password == hashed_password)
     print(user)
 
-    if user is None:
+    try:
+        user = user.get()
+    except:
         raise AuthException("Input error: email/password is not correct")
-        return
 
-    user = user.get()
 
     token = generate_token(user.id)
     models.ActiveTokens.create(client=user.id, token=token)
