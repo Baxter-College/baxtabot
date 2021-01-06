@@ -78,11 +78,18 @@ def after_request(response):
 def index():
     return render_template("index.html")
 
+@app.route('/admin')
+def admin():
+    return render_template('homepage.html')
 
 @app.route("/privacy")
 def privacy():
     return render_template("privacy.html")
 
+@app.route('/latemeals')
+def latemeals():
+    meals = models.LateMeal.select()
+    return render_template('latemeals.html', meals=meals)
 
 @app.route("/update", methods=["POST", "GET"])
 def update():

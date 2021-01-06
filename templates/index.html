@@ -8,12 +8,55 @@
 			h1,h2,h3,h4,h5,h6,p,a {
 				font-family: monospace;
 			}
+
+			img {
+				margin-top: 100px;
+				border-radius: 10px;
+			}
+
+			a {
+				text-decoration: none;
+				color: blue;
+			}
+
+			#login {
+				background-color: #2e85f7;
+				width: 20%;
+				border-radius: 5px;
+				padding: 10px;
+			}
+
+			input[type='text'], input[type='password'] {
+				font-size: 16px;
+				border-radius: 5px;
+				border: 1px solid lightgray;
+				padding: 5px;
+				margin-bottom: 5px;
+			}
+
+			input[type='submit'] {
+				border: 0px;
+				background-color: blue;
+				color: white;
+				padding: 5px;
+				width: 50%;
+				border-radius: 5px;
+				font-size: 16px;
+			}
 		</style>
 	</head>
 	<body>
 		<center>
-			<h1 style="font-size:200px;">🤖</h1>
+			<!--h1 style="font-size:200px;">🤖</h1--->
+			<img src='https://scontent.fcbr1-1.fna.fbcdn.net/v/t1.0-9/65908266_354446311900238_3670064887465246720_n.png?_nc_cat=105&_nc_sid=09cbfe&_nc_ohc=Je7YhaRDB6cAX9pioNB&_nc_ht=scontent.fcbr1-1.fna&oh=fac890f48ecafcb8d127a3bef092229e&oe=5FACB89A' />
 			<h3><a href="https://facebook.com/baxtabot">BaxtaBot</a></h3>
+			<div id='login'>
+				<form name='loginForm'>
+					<input type='text' name='username' /><br/>
+					<input type='password' name='password' /><br/>
+					<input type='submit' value='Login'/>
+				</form>
+			</div>
 			<p>Baxter's offical malevolent sentient A.I.</p>
 			<p><a href="/privacy">privacy policy</a> <span style='font-size:6px'>as required by facebook...</span></p>
 		</center>
