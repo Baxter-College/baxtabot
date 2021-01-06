@@ -4,7 +4,36 @@
 
 You can message it at: [m.me/baxtabot](https://m.me/baxtabot)
 
-## Setup
+## Current Functions
+
+- simple discussions (via rivescript)
+- baxter related simple discussions (via rivescript)
+- ask what is for dinner/lunch/breakfast at dino
+- ask to call the duty tutor/UNSW security/lifeline
+- dino voting
+- ask what the week's events are
+- ask what room someone is in
+- is J&D on right now?
+
+## Baxtabot Website
+
+- View/upload dino menu
+- Upload weekly calendar
+- Send a message to all users (needs reviewing)
+- View/upload ressie list
+
+## Coming Soon...
+
+- order a late meal
+- register and log in to a web interface with homepage
+- view my profile and add special dietary requirements/room sharing/email
+- users portal to manage all registered users and permissions
+- late meal portal to view all late meals ordered and mark as completed
+- sport portal to upload weekly sport events
+- coffee night portal to upload weekly coffee night links
+- Return of is J&D on and is shopen
+
+## Setup - Old
 
 - Set up a [virtual environment](https://docs.python-guide.org/dev/virtualenvs/) **using pipenv** (see [pipenv docs](https://docs.pipenv.org/))
 
@@ -24,15 +53,6 @@ Go to **webhooks section** in facebook apps dashboard and click "edit subscripti
 You may need to create `PAGE_ACCESS_TOKEN` in your `.env` file. You can get this also from the facebook apps dashboard under the dev bot.
 
 To add a test user, go to: developers.facebook.com/requests
-
-## Current Functions
-
-- simple discussions (via rivescript)
-- baxter related simple discussions (via rivescript)
-- ask what is for dinner/lunch/breakfast at dino
-- ask to call the duty tutor
-- dino voting
-- is J&D on right now?
 
 ## Future
 
