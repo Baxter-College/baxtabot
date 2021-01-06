@@ -88,7 +88,7 @@ def handleMessage(sender_psid, received_message):
         "dinner" in received_message
         or "lunch" in received_message
         or "breakfast" in received_message
-    ):
+    ) and 'late meal' not in received_message:
         meal = functions.findMeal(received_message)
         addTime = functions.findTime(received_message)
 
@@ -224,6 +224,13 @@ def handleMessage(sender_psid, received_message):
             response.text = 'Nah, we don\'t have you down as being a ressie here. Soz'
         '''
 
+    elif 'order me a late meal' in received_message:
+        try:
+            meal, date = functions.orderLateMeal(received_message, sender_psid)
+            response.text = f'Late meal ordered for {meal} on {date}!'
+        except Exception as e:
+            response.text = 'Uh oh! Something went wrong: ' + str(e)
+
     elif "room is" in received_message:
         name = functions.extractName(received_message)
         print("trying find room for", name)
@@ -354,6 +361,7 @@ def handleConversation(sender_psid, received_msg, conversation):
         else:
             Response(sender_psid, "You need to send me an image!").send()
 
+
     # End the conversation
     me.conversation = None
     me.save()
@@ -408,7 +416,7 @@ def sendAsset(sender_psid, assetID, type):
 def check_user_exists(sender_psid):
     print("check_user_exists")
     sender = models.Sender.select().where(models.Sender.psid == sender_psid)
-    data = humanisePSID(sender_psid)
+    data = functions.humanisePSID(sender_psid)
 
     if not data:
         print("received message from ghost!")
@@ -480,27 +488,6 @@ def check_user_exists(sender_psid):
 
     return sender
 
-def humanisePSID(PSID):
-    url = "https://graph.facebook.com/" + str(PSID)
-    print("url\n", url)
-    print(PAGE_ACCESS_TOKEN)
-    r = requests.get(
-        url,
-        params={
-            "fields": "first_name,last_name,profile_pic",
-            "access_token": PAGE_ACCESS_TOKEN,
-        },
-    )
-
-    if r.status_code == 200:
-        data = r.json()
-        print("Worked!")
-        return data
-    else:
-        print("response")
-        print(r.content)
-        print(r.status_code)
-        print("FUCKED! PSID was: {}".format(str(PSID)))
 
 
 # ==== Reset Bot ==== #

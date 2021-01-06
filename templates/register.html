@@ -3,7 +3,7 @@
 <html lang="en" dir="ltr">
 	<head>
 		<meta charset="utf-8">
-		<title>Baxtabot</title>
+		<title>🤖</title>
 		<style media="screen">
 			h1,h2,h3,h4,h5,h6,p,a {
 				font-family: monospace;
@@ -26,7 +26,7 @@
 				padding: 10px;
 			}
 
-			input[type='text'], input[type='password'] {
+			input[type='text'], input[type='email'], input[type='password'] {
 				font-size: 16px;
 				border-radius: 5px;
 				border: 1px solid lightgray;
@@ -48,18 +48,15 @@
 	<body>
 		<center>
 			<!--h1 style="font-size:200px;">🤖</h1--->
-			<img src='https://scontent.fper5-1.fna.fbcdn.net/v/t1.0-9/65908266_354446311900238_3670064887465246720_n.png?_nc_cat=105&ccb=2&_nc_sid=09cbfe&_nc_ohc=Z_v5Oy-KVf8AX8sNzWq&_nc_ht=scontent.fper5-1.fna&oh=ff1c75ac605f5c0c82736bfd3cf1f9c8&oe=60138D9A' />
-			<h3><a href="https://facebook.com/baxtabot">BaxtaBot</a></h3>
+			<h3>Baxtabot - Register</h3>
 			<div id='login'>
-				<form name='loginForm' action='/login' method='post'>
-					<input type='text' name='email' /><br/>
-					<input type='password' name='password' /><br/>
-					<input type='submit' value='Login'/>
+				<form name='registerForm' action='/register' method='post'>
+					<input type='text' name='name' placeholder='Name'/></br>
+					<input type='email' name='email' placeholder='Email'/><br/>
+					<input type='password' name='password' placeholder='Password' /><br/>
+					<input type='submit' value='Register'/>
 				</form>
-				<p><a href='/register'>Haven't registered yet?</a></p>
 			</div>
-			<p>Baxter's offical malevolent sentient A.I.</p>
-			<p><a href="/privacy">privacy policy</a> <span style='font-size:6px'>as required by facebook...</span></p>
 		</center>
 	</body>
 </html>

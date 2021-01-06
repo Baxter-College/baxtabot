@@ -3,9 +3,10 @@
 {% block title %}Upload Calendar{% endblock %}
 
 {% block content %}
-		<h2>Upload Weekly Calendar</h2>
+		<div><h2>Calendar Portal</h2></div>
 		<hr>
 		<form action="/upload" method="post">
+			<input name='token' value='{{token}}' style='display: none' />
 			<p>Week starting:</p>
 			<input type="date" name="date"><br>
 			<p>Asset URL:</p>
@@ -26,4 +27,5 @@
 		{% endfor %}
 
 		<hr>
+		<a href='/admin?token={{token}}'>Back</a>
 {% endblock %}

@@ -39,7 +39,6 @@ class Meal(Model):
     class Meta:
         database = db
 
-
 class Sender(Model):
     psid = BigIntegerField()
     first_name = CharField()
@@ -124,7 +123,50 @@ class Ressie(Model):
         return outp
 
 
+class LateMeal(Model):
+    meal = ForeignKeyField(Meal)
+    ressie = ForeignKeyField(Ressie)
+    notes = TextField()
+    completed = BooleanField()
+
+    class Meta:
+        database = db
+
+class Client(Model):
+    email = TextField()
+    password = TextField()
+    position = TextField(default='')
+    name = TextField()
+    ressie = ForeignKeyField(Ressie, null=True)
+    dietaries = TextField(default='None')
+    roomshown = BooleanField(default=True)
+
+    class Meta:
+        database = db
+
+
+class ClientPermissions(Model):
+    client = ForeignKeyField(Client)
+    dinoread = BooleanField(default=True)
+    dinowrite = BooleanField(default=False)
+    calendar = BooleanField(default=False)
+    ressies = BooleanField(default=False)
+    latemeals = BooleanField(default=False)
+    sport = BooleanField(default=False)
+    users = BooleanField(default=False)
+
+    class Meta:
+        database = db
+
+class ActiveTokens(Model):
+    client = ForeignKeyField(Client)
+    token = TextField()
+
+    class Meta:
+        database = db
+
+
 def goGoPowerRangers():
     db.connect()
-    db.create_tables([Meal, Sender, WeekCal, Ressie, Crush, MealImg], safe=True)
+    db.create_tables([Meal, Sender, WeekCal, Ressie, Crush, MealImg, LateMeal, Client, ClientPermissions, ActiveTokens], safe=True)
     db.close()

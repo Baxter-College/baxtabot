@@ -13,7 +13,7 @@ if "HEROKU" in os.environ:
         2054639917988805, # Rohan
         2991096094285006, # Josh
         3973058702707960 # Nick
-    ]  
+    ]
     BROKER_URL = os.environ.get("REDIS_URL")
 else:
     from dotenv import load_dotenv, find_dotenv

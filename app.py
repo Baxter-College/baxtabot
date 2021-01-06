@@ -41,6 +41,7 @@ from bot.Response import Response
 import bot.models as models
 import bot.message as message
 import bot.functions as functions
+import bot.auth as auth
 
 SIGN_TOKEN = secrets.token_hex(16)
 
@@ -78,11 +79,188 @@ def after_request(response):
 def index():
     return render_template("index.html")
 
+@app.route('/admin')
+def admin():
+    token = request.args.get('token')
+
+    if token and auth.authenticate_token(token):
+        return render_template('homepage.html', token=token, permission_denied=False)
+    else:
+        return render_template('index.html')
+
+@app.route('/logout')
+def logout():
+    token = request.args.get('token')
+
+    if token and auth.authenticate_token(token):
+        functions.deleteActiveToken(token)
+
+    return render_template('index.html')
+
+@app.route('/register', methods=['POST', 'GET'])
+def register():
+    if request.method == 'POST':
+        form = request.form
+        # form = request.json
+        email = form['email']
+        password = form['password']
+        name = form['name']
+        print('registering', email, password)
+
+        try:
+            result = auth.auth_register(email, password, name)
+            # Set token into local storage
+        except auth.AuthException:
+            return render_template('index.html')
+        else:
+            url = url_for('admin') + '?token=' + result['token']
+            return redirect(url)
+    else:
+        return render_template('register.html')
+
+@app.route('/login', methods=['POST'])
+def login():
+    form = request.form
+    email = form['email']
+    password = form['password']
+    print('logging in as', email, password)
+
+    try:
+        result = auth.auth_login(email, password)
+    except auth.AuthException:
+        return render_template('index.html')
+    else:
+        url = url_for('admin') + '?token=' + result['token']
+        return redirect(url)
 
 @app.route("/privacy")
 def privacy():
     return render_template("privacy.html")
 
+@app.route('/latemeals')
+def latemeals():
+    token = request.args.get('token')
+
+    if token is None or not auth.authenticate_token(token):
+        return render_template('index.html')
+    elif not functions.validateTokenPermissions(token, 'latemeals'):
+        return render_template('homepage.html', permission_denied = True, token=token)
+    else:
+        outstandingMeals = models.LateMeal.select(models.LateMeal.id, models.Ressie.first_name, models.Ressie.last_name, models.Meal.date, models.Meal.type, models.Meal.description, models.Client.dietaries).join(models.Ressie).join(models.Client).switch(models.LateMeal).join(models.Meal).where(models.LateMeal.completed == 0).dicts()
+        completedMeals = models.LateMeal.select(models.LateMeal.id, models.Ressie.first_name, models.Ressie.last_name, models.Meal.date, models.Meal.type, models.Meal.description, models.Client.dietaries).join(models.Ressie).join(models.Client).switch(models.LateMeal).join(models.Meal).where(models.LateMeal.completed == 1).dicts()
+
+        return render_template('latemeals.html', outstandingMeals=outstandingMeals, completedMeals=completedMeals, token=token)
+
+@app.route('/users')
+def users():
+    token = request.args.get('token')
+
+    if token is None or not auth.authenticate_token(token):
+        return render_template('index.html')
+    elif not functions.validateTokenPermissions(token, 'users'):
+        return render_template('homepage.html', permission_denied=True, token=token)
+    else:
+        users = models.Client.select(models.Client.id, models.Client.ressie, models.Client.name, models.Client.email, models.Client.position, models.ClientPermissions.dinoread,
+                                    models.ClientPermissions.dinowrite, models.ClientPermissions.calendar, models.ClientPermissions.latemeals,
+                                    models.ClientPermissions.ressies, models.ClientPermissions.sport, models.ClientPermissions.users).join(models.ClientPermissions).dicts()
+
+
+        return render_template('users.html', users=users, token=token)
+
+@app.route('/user/delete', methods=['GET'])
+def deleteUser():
+    token = request.args.get('token')
+    client_id = int(request.args.get('client_id'))
+
+    if token is None or not auth.authenticate_token(token):
+        return render_template('index.html')
+    elif not functions.validateTokenPermissions(token, 'users'):
+        return render_template('homepage.html', permission_denied=True, token=token)
+    else:
+
+        token = models.ActiveTokens.select().where(models.ActiveTokens.client == client_id)
+        if token:
+            token = token.get()
+            token.delete_instance()
+
+        perms = models.ClientPermissions.select().where(models.ClientPermissions.client == client_id).get()
+        perms.delete_instance()
+
+        client = models.Client.select().where(models.Client.id == client_id).get()
+        client.delete_instance()
+
+        users = models.Client.select(models.Client.id, models.Client.ressie, models.Client.name, models.Client.email, models.Client.position, models.ClientPermissions.dinoread,
+                                    models.ClientPermissions.dinowrite, models.ClientPermissions.calendar, models.ClientPermissions.latemeals,
+                                    models.ClientPermissions.ressies, models.ClientPermissions.sport, models.ClientPermissions.users).join(models.ClientPermissions).dicts()
+
+
+
+        return render_template('users.html', users=users, token=token)
+
+@app.route('/user/update', methods=['POST'])
+def updateUser():
+    form = request.form
+
+    client_id = form['client_id']
+    position = form['position']
+    print(position)
+
+    dinoread = form.get('dinoread')
+    dinowrite = form.get('dinowrite')
+    calendar = form.get('calendar')
+    sport = form.get('sport')
+    latemeals = form.get('latemeals')
+    ressies = form.get('ressies')
+    users = form.get('users')
+    token = form.get('token')
+    print(client_id, token)
+
+    if token is None or not auth.authenticate_token(token):
+        return render_template('index.html')
+    elif not functions.validateTokenPermissions(token, 'users'):
+        return render_template('homepage.html', permission_denied=True, token=token)
+    else:
+        userperms = models.ClientPermissions.select().where(models.ClientPermissions.client == client_id).get()
+        user = models.Client.select().where(models.Client.id == client_id).get()
+        user.position = position
+        print(user.position, position)
+        userperms.dinoread = dinoread if dinoread else False
+        userperms.dinowrite = dinowrite if dinowrite else False
+        userperms.calendar = calendar if calendar else False
+        userperms.latemeals = latemeals if latemeals else False
+        userperms.sport = sport if sport else False
+        userperms.ressies = ressies if ressies else False
+        userperms.users = users if users else False
+        userperms.save()
+        user.save()
+
+        users = models.Client.select(models.Client.id, models.Client.name, models.Client.email, models.Client.position, models.ClientPermissions.dinoread,
+                                    models.ClientPermissions.dinowrite, models.ClientPermissions.calendar, models.ClientPermissions.latemeals,
+                                    models.ClientPermissions.ressies, models.ClientPermissions.sport, models.ClientPermissions.users).join(models.ClientPermissions).dicts()
+
+
+        return render_template('users.html', users=users, token=token)
+
+@app.route('/user/profile', methods=['POST', 'GET'])
+def profile():
+    token = request.args.get('token')
+    if request.method == 'POST':
+        form = request.form
+
+        email = form['email']
+        dietaries = form['dietaries']
+        roomshown = form.get('roomshown')
+        print(roomshown)
+
+        user = models.Client.select().join(models.ActiveTokens).where(models.ActiveTokens.token == token).get()
+        user.email = email
+        user.dietaries = dietaries
+        user.roomshown = roomshown if roomshown else False
+        user.save()
+
+    client = models.Client.select(models.Client.name, models.Client.email, models.Client.position, models.Client.dietaries, models.Client.roomshown).join(models.ActiveTokens).where(models.ActiveTokens.token == token).dicts()[0]
+
+    return render_template('profile.html', user=client, token=token)
 
 @app.route("/update", methods=["POST", "GET"])
 def update():
@@ -224,6 +402,12 @@ def love():
 
 @app.route("/upload", methods=["GET", "POST"])
 def upload():
+    token = request.args.get('token')
+
+    if token is None or not auth.authenticate_token(token):
+        return render_template('index.html')
+    elif not functions.validateTokenPermissions(token, 'calendar'):
+        return render_template('homepage.html', permission_denied = True, token=token)
 
     if request.method == "POST":
         # do image upload
@@ -242,7 +426,7 @@ def upload():
 
     assets = models.WeekCal.select()
 
-    return render_template("upload.html", assets=assets)
+    return render_template("upload.html", assets=assets, token=token)
 
 
 # ====== Add a meal ====== #
@@ -250,44 +434,78 @@ def upload():
 
 @app.route("/dino")
 def dino():
+    token = request.args.get('token')
+
+    if token is None or not auth.authenticate_token(token):
+        return render_template('index.html')
+    elif not functions.validateTokenPermissions(token, 'dinowrite'):
+        return render_template('homepage.html', permission_denied = True, token=token)
+
     meals = models.Meal.select().order_by(models.Meal.date.desc())
-    return render_template("dino.html", meals=meals)
+    return render_template("dino.html", meals=meals, token=token)
 
 
 @app.route("/dino/add", methods=["POST"])
 def addMeal():
     form = request.form
+    token = form['token']
+
     models.Meal.create(
         date=form["date"], description=form["description"], type=form["type"]
     )
-    return redirect(url_for("dino"))
+    return redirect(url_for("dino") + '?token=' + token)
 
 
 @app.route("/dino/batch/add", methods=["POST"])
 def batchAddMeal():
     form = request.form
+    token = form['token']
+
     for meal in ["breakfast", "lunch", "dinner"]:
         models.Meal.create(
             date=form["date"], description=form[meal + "_description"], type=meal
         )
-    return redirect(url_for("dino"))
+
+    return redirect(url_for("dino") + '?token=token')
 
 
-@app.route("/dino/delete/<int:meal_id>", methods=["GET"])
+@app.route("/dino/delete", methods=["GET"])
 def deleteMeal(meal_id):
+    token = request.args.get(token)
     meal = models.Meal.select().where(models.Meal.id == meal_id).get()
     meal.delete_instance()
-    return redirect(url_for("dino"))
+
+    return redirect(url_for("dino") + '?token=token')
+
+@app.route('/latemeals/delete', methods=['GET'])
+def deleteLatemeal():
+    token = request.args.get('token')
+    meal_id = request.args.get('meal')
+
+    meal = models.LateMeal.select().where(models.LateMeal.id == meal_id).get()
+    meal.delete_instance()
+    return redirect(url_for('latemeals') + '?token=' + token)
 
 @app.route("/dino/batchdelete", methods=["POST"])
 def deleteBatchMeals():
     form = request.form
+    token = form['token']
+
     for strId in form.getlist("delete"):
         mealId = int(strId)
         meal = models.Meal.select().where(models.Meal.id == mealId).get()
         meal.delete_instance()
-    return redirect(url_for("dino"))
+    return redirect(url_for("dino") + '?token=' + token)
 
+@app.route('/latemeals/batchcompleted', methods=['POST'])
+def completeBatchLateMeals():
+    form = request.form
+    token = form['token']
+
+    for id in form.getlist('complete'):
+        functions.setMealCompleted(int(id))
+
+    return redirect(url_for('latemeals') + '?token=' + token)
 
 @app.route("/dino/fileadd", methods=["GET", "POST"])
 def upload_file():
@@ -340,6 +558,12 @@ def confirm_file():
 # ======= Resident Information ======= #
 @app.route("/ressie", methods=["POST", "GET"])
 def resident():
+    token = request.args.get('token')
+
+    if token is None or not auth.authenticate_token(token):
+        return render_template('index.html')
+    elif not functions.validateTokenPermissions(token, 'ressies'):
+        return render_template('homepage.html', permission_denied = True,  token=token)
 
     if request.method == "POST":
         # do resident creation
@@ -351,7 +575,7 @@ def resident():
 
     ressies = models.Ressie.select()
 
-    return render_template("ressie.html", ressies=ressies)
+    return render_template("ressie.html", ressies=ressies, token=token)
 
 @app.route('/ressie/fileadd', methods=['GET', 'POST'])
 def upload_residents():
