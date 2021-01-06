@@ -1,10 +1,10 @@
-# Learn How to Code in Python
+# Learn How to Code
 
 Want to write code for Baxtabot but never learned how? 
 
 ## I've Never Coded Before
 
-If you've never coded before, would recommend going through [this full Python tutorial](https://www.youtube.com/watch?v=rfscVS0vtbw) video: 
+If you've never coded before, and aren't going to as part of your degree any time soon, would recommend going through [this full Python tutorial](https://www.youtube.com/watch?v=rfscVS0vtbw) video: 
 
 ## I'm studying Computer Science / Software Engineering / Data Science / Engineering
 
@@ -103,8 +103,6 @@ All positions change in year 2226
 All positions change in year 2436 
 ```
 
-Feeling confident? Try some more advanced concepts:
-
 ### 3. 16 Bit S/W Only
 
 One day you woke up, finding yourself back in 1992. It would seem that the gypsy wife of the wizened old monk whose voodoo shop you smash up every day after school has cast a spell on you. Early in the production process of the 80386, Intel discovered a fatal bug in the processor, which they of course fixed. The bug involved errors when performing 32-bit multiplication. But by the time they fixed the issue, a number of processors were already produced, and they decided that it would be a shame to throw them all out. It was decided that these processors would be sold at a reduced price with the tag 16 BIT S/W ONLY (16 bit software only). Conversely, the newer processors which don't have the bug instead have two sigmas (ΣΣ) stamped on. We will call them DOUBLE SIGMA processors.
@@ -151,3 +149,15 @@ Sample Input & Output:
 >> scrabble_score(‘informaticsIsAwesome’)
 32
 ```
+
+## Advanced Concepts
+
+Feeling confident? Try some more advanced topics.
+
+* [Continuous Integration](https://www.youtube.com/watch?v=7cfJx088UX0&feature=youtu.be)
+* [How to fake git history](https://www.youtube.com/watch?v=VcSIFTewQ6k)
+* [Property based testing](https://www.youtube.com/watch?v=TcylCeABQlE)
+* [Git Rebasing](https://www.youtube.com/watch?v=BCDCAEU0qSM&feature=youtu.be)
+* [Deployment with heroku](https://www.youtube.com/watch?v=vP-VQErS7_o&feature=youtu.be)
+
+
