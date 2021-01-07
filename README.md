@@ -33,6 +33,63 @@ You can message it at: [m.me/baxtabot](https://m.me/baxtabot)
 - coffee night portal to upload weekly coffee night links
 - Return of is J&D on and is shopen
 
+## Getting Started
+
+Have you learned to code in Python and how to use Git? If not, have a look here.
+
+### Account and Organisation Setup
+
+#### GitHub
+
+You will need to go to the [Github homepage](https://github.com/) and register an account. Once you've done that ask to be invited to the [Philip  Baxter College](https://github.com/Baxter-College/) organisation. GitHub is the platform where we upload and store all of our code. 
+
+#### Heroku
+
+After Github you will need to go to the [Heroku website](https://id.heroku.com/login) and register an account. Then ask to be added to the baxtabot and baxtabot-dev projects. Heroku is what deploys our code and allows people to actually use baxtabot over the internet (either through the website or by messaging the app).
+
+#### Facebook Developers
+
+Register an account at [Facebook Developers](https://developers.facebook.com) and ask to be added to the Baxtabot project. This platform isn't used for much except looking at analytics for people messaging the bot. Make sure you can also access Baxtabot - Dev. Once you've been added you should also be an administrator on the facebook pages themselves (they should appear on your pages).
+
+#### Baxtabot
+
+Make sure you have registered an account on the [Baxtabot system](http://baxtabot.herokuapp.com). 
+
+### Git Repository
+
+Go to the repository homepage (if you're reading this then you're on it) and clone the repo onto your computer. Presto! You're ready to start becoming an xtreme coder.
+
+### Make Your First Feature
+
+Baxtabot has two seperate platforms - the blue one, which is what people use (i.e. the production version) and the pink one, which is what we use to develop and test features (i.e. the test version). The pink one is called Baxtabot - DEV. You should be able to message the blue and the pink ones on Facebook and receive the same response from both. 
+
+Both the Dev and Production bots are connected to the same repository. Whenever you first make a change whatever you do *don't* just `git push`, otherwise you could accidentally break the live version which is bad.
+
+To make your first change switch to a new branch called `yourname_rive` and then go inside `bot/brain` and into `baxter.rive`. At the bottom of the file, create a new entry. Here's an example:
+
+```
++ [*] 2021 [*]
+- 2021, here we come! Let's hope it's a whole lot better than 2020.
+```
+
+Don't include uppercase letters in the part after the + sign.
+
+Once you've done that make sure to git add and commit. Then type:
+
+```
+git push origin yourname_rive:dev --force
+```
+
+What this will do is a *force push* of your changes to the `dev` branch. You need to do a force push otherwise you may need to pull someone else's changes that they are still developing/testing and cause the app to crash. When you push to the `dev` branch, Heroku has been configured to automatically deploy the updated branch to baxtabot-dev. This means that when you text the DEV bot, it will have your change!
+
+After you force push go to the baxtabot-dev panel on Heroku and watch as the new version builds and then deploys. Once it's deployed you can text the DEV bot and it should respond as you've programmed it to!
+
+Got that working? Well done, you've made your first feature!!
+
+### Deploying to Production
+
+When you make a feature and are happy that it is ready to be put into the main bot that everyone uses, you will need to make a pull request on GitHub (under the pull requests tab) where the source branch is `dev` and the target branch is `master`. Someone else will need to peer review your pull request before you can merge it in. When you merge in, `master` will automatically deploy to baxtabot on Heroku - meaning that your new feature will be out there for everyone to use!
+
 ## Setup - Old
 
 - Set up a [virtual environment](https://docs.python-guide.org/dev/virtualenvs/) **using pipenv** (see [pipenv docs](https://docs.pipenv.org/))
