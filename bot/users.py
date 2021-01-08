@@ -7,7 +7,7 @@ def users_all():
 
     return user_list
 
-def user_update(client_id, dinoread, dinowrite, calendar, latemeals, sport, ressies, users):
+def user_update(client_id, position, dinoread, dinowrite, calendar, latemeals, sport, ressies, users):
     userperms = ClientPermissions.select().where(ClientPermissions.client == client_id).get()
     user = Client.select().where(Client.id == client_id).get()
     user.position = position
