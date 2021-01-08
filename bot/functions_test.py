@@ -21,7 +21,7 @@ def test_extractRessieFromCSV():
 
 def test_auth():
     # Testing register and authentication works
-    result = auth.auth_register('nick.p@gmail.com', 'abc123')
+    result = auth.auth_register('nick.p@gmail.com', 'abc123', 'Nick Patrikeos')
     assert result
     assert auth.authenticate_token(result['token']) == result['u_id']
 

@@ -219,9 +219,6 @@ def orderLateMeal(message, sender_psid):
 
     return meal_name, getTimeFromAddTime(addTime).date().strftime('%d/%m/%Y')
 
-def setMealCompleted(latemealid):
-    query = models.LateMeal.update(completed=True).where(models.LateMeal.id == latemealid)
-    query.execute()
 
 def getRessieBySender(sender_psid):
     data = humanisePSID(sender_psid)
