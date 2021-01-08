@@ -64,7 +64,7 @@ def handle_post(request):
             if "postback" in webhook_event:
                 return handle_postback(sender_psid, webhook_event)
             elif "message" in webhook_event:
-                return handle_message(message, sender_psid, webhook_event)
+                return handle_message(sender_psid, webhook_event)
             else:
                 return Response(
                     sender_psid,
