@@ -48,6 +48,7 @@ import bot.user as user
 import bot.users as users
 import bot.webhook as webhook
 import bot.dino as dino
+import bot.ressies as ressies
 
 SIGN_TOKEN = secrets.token_hex(16)
 
@@ -263,7 +264,7 @@ def update():
 
 
 @app.route("/webhook", methods=["POST", "GET"])
-def webhook():
+def webhook_receive():
     return webhook.process(request)
 
 ## THIS CODE NEEDS REVIEWING
