@@ -12,7 +12,7 @@ def latemeals_completed():
 
     return completed_meals
 
-def latemeal_delete():
+def latemeal_delete(meal_id):
     meal = LateMeal.select().where(LateMeal.id == meal_id).get()
     meal.delete_instance()
 
