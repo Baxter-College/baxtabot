@@ -1,5 +1,5 @@
-import message
-from settings import OFFICERS
+import bot.message as message
+from bot.settings import OFFICERS
 
 def handle_postback(sender_psid, webhook_event):
     # handle the postback

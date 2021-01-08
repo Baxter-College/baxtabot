@@ -2,8 +2,8 @@
 Test file for functions in functions.py (that are testable...)
 '''
 
-from functions import findMeal, findTime, extractName
-import auth
+from bot.functions import findMeal, findTime, extractName
+import bot.auth
 
 def test_findMeal():
     assert findMeal('What is for dinner') == 'dinner'
