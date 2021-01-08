@@ -157,7 +157,7 @@ def latemealsList():
     page = authenticate_page(token, 'latemeals')
 
     if not page:
-        oustanding_meals = latemeals.latemeals_oustanding()
+        outstanding_meals = latemeals.latemeals_oustanding()
         completed_meals = latemeals.latemeals_completed()
         return render_template('latemeals.html', outstandingMeals=outstanding_meals, completedMeals=completed_meals, token=token)
 
@@ -459,7 +459,7 @@ def confirm_file():
 @app.route("/ressie", methods=["POST", "GET"])
 def resident():
     token = request.args.get('token')
-    page = authenticate_page(token, 'ressie')
+    page = authenticate_page(token, 'ressies')
 
     if not page:
         if request.method == "POST":
