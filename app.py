@@ -215,13 +215,13 @@ def updateUser():
     sport = form.get('sport')
     latemeals = form.get('latemeals')
     ressies = form.get('ressies')
-    users = form.get('users')
+    _users = form.get('users')
     token = form.get('token')
     page = authenticate_page(token, 'users')
     # print(client_id, token)
 
     if not page:
-        users.user_update(client_id, dinoread, dinowrite, calendar, sport, latemeals, ressies, users)
+        users.user_update(client_id, dinoread, dinowrite, calendar, sport, latemeals, ressies, _users)
         user_list = users.users_all()
         return render_template('users.html', users=user_list, token=token)
 
