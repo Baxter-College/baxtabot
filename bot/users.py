@@ -8,8 +8,8 @@ def users_all():
     return user_list
 
 def user_update(client_id, dinoread, dinowrite, calendar, latemeals, sport, ressies, users):
-    userperms = models.ClientPermissions.select().where(models.ClientPermissions.client == client_id).get()
-    user = models.Client.select().where(models.Client.id == client_id).get()
+    userperms = ClientPermissions.select().where(ClientPermissions.client == client_id).get()
+    user = Client.select().where(Client.id == client_id).get()
     user.position = position
     # print(user.position, position)
     userperms.dinoread = dinoread if dinoread else False
