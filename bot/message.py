@@ -151,7 +151,7 @@ def handle_dinoimage_message(sender_psid, received_message):
         Response(sender_psid, "No snazzy pics :(").send()
 
 # Returns text
-def handle_latemeal_message(received_message):
+def handle_latemeal_message(sender_psid, received_message):
     try:
         meal, date = functions.orderLateMeal(received_message, sender_psid)
         return f'Late meal ordered for {meal} on {date}!'
@@ -252,7 +252,7 @@ def handleMessage(sender_psid, received_message):
         pass
 
     elif 'order me a late meal' in received_message:
-        response.text = handle_latemeal_message(received_message)
+        response.text = handle_latemeal_message(sender_psid, received_message)
 
     elif "room is" in received_message:
         response.text = handle_getroom_message(received_message)
