@@ -46,7 +46,7 @@ import bot.latemeals as latemeals
 import bot.calendar as calendar
 import bot.user as user
 import bot.users as users
-import bot.wehook as webhook
+import bot.webhook as webhook
 import bot.dino as dino
 
 SIGN_TOKEN = secrets.token_hex(16)
