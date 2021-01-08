@@ -152,14 +152,14 @@ def privacy():
     return render_template("privacy.html")
 
 @app.route('/latemeals')
-def latemeals_all():
+def latemealsList():
     token = request.args.get('token')
     page = authenticate_page(token, 'latemeals')
 
     if not page:
         oustanding_meals = latemeals.latemeals_oustanding()
         completed_meals = latemeals.latemeals_completed()
-        return render_template('latemeals.html', outstandingMeals=outstandingMeals, completedMeals=completedMeals, token=token)
+        return render_template('latemeals.html', outstandingMeals=outstanding_meals, completedMeals=completed_meals, token=token)
 
     return page
 
@@ -187,7 +187,7 @@ def users_all():
     return page
 
 @app.route('/user/delete', methods=['GET'])
-def user_delete():
+def deleteUser():
     token = request.args.get('token')
     page = authenticate_page(token, 'users')
     client_id = int(request.args.get('client_id'))
@@ -201,7 +201,7 @@ def user_delete():
 
 
 @app.route('/user/update', methods=['POST'])
-def user_update():
+def updateUser():
     form = request.form
 
     client_id = form['client_id']
@@ -325,7 +325,7 @@ def dino_menu():
 
 
 @app.route("/dino/add", methods=["POST"])
-def add_meal():
+def addMeal():
     form = request.form
     token = form['token']
     date = form['date']
@@ -340,7 +340,7 @@ def add_meal():
     return page
 
 @app.route("/dino/batch/add", methods=["POST"])
-def dino_batchadd():
+def batchAddMeal():
     form = request.form
     token = form['token']
     date = form['date']
@@ -360,7 +360,7 @@ def dino_batchadd():
     return page
 
 @app.route("/dino/delete", methods=["GET"])
-def dino_delete_meal(meal_id):
+def deleteMeal(meal_id):
     token = request.args.get(token)
     page = authenticate_page(token, 'dinowrite')
 
@@ -374,7 +374,7 @@ def dino_delete_meal(meal_id):
     return redirect(url_for("dino") + '?token=token')
 
 @app.route("/dino/batchdelete", methods=["POST"])
-def dino_batchdelete():
+def batchDeleteMeal():
     form = request.form
     token = form['token']
     page = authenticate_page(token, 'dinowrite')
@@ -388,7 +388,7 @@ def dino_batchdelete():
     return page
 
 @app.route('/latemeals/batchcompleted', methods=['POST'])
-def latemeals_batchcomplete():
+def latemealsBatchComplete():
     form = request.form
     token = form['token']
     page = authenticate_page(token, 'dinowrite')
@@ -496,7 +496,7 @@ def upload_residents():
     return render_template("ressie.html", ressies=ressie_list)
 
 @app.route("/ressie/delete/<int:ressie_id>", methods=["GET"])
-def ressie_delete(ressie_id):
+def deleteRessie(ressie_id):
     ressies.ressie_delete(ressie_id)
 
     return redirect(url_for("resident"))
