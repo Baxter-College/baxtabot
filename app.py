@@ -172,7 +172,7 @@ def deleteLatemeal():
 
     if not page:
         latemeals.latemeal_delete(meal_id)
-        return redirect(url_for('latemeals') + '?token=' + token)
+        return redirect(url_for('latemealsList') + '?token=' + token)
 
     return page
 
