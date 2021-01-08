@@ -353,7 +353,7 @@ def batchAddMeal():
             return render_template('homepage.html', permission_denied = True, token=token)
 
         for meal in ["breakfast", "lunch", "dinner"]:
-            dino.add_meal(date, form[meal + "_description", meal)
+            dino.add_meal(date, form[meal + "_description"], meal)
 
         return redirect(url_for("dino") + '?token=token')
 
@@ -379,7 +379,7 @@ def deleteBatchMeals():
     token = form['token']
     page = authenticate_page(token, 'dinowrite')
 
-    if not page
+    if not page:
         for meal in form.getlist("delete"):
             meal_id = int(meal)
             dino.meals_delete(meal_id)
