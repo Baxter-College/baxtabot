@@ -361,8 +361,9 @@ def batchAddMeal():
     return page
 
 @app.route("/dino/delete", methods=["GET"])
-def deleteMeal(meal_id):
-    token = request.args.get(token)
+def deleteMeal():
+    token = request.args.get('token')
+    meal_id = request.args.get('meal_id')
     page = authenticate_page(token, 'dinowrite')
 
     if token is None or not auth.authenticate_token(token):
