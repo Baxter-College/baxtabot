@@ -1,4 +1,4 @@
-from models import Ressie
+from bot.models import Ressie
 import csv
 from io import StringIO
 

@@ -1,4 +1,4 @@
-from models import Meal
+from bot.models import Meal
 
 def meals_all():
     return Meal.select().order_by(Meal.date.desc())

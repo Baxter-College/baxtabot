@@ -1,4 +1,4 @@
-from models import LateMeal, Ressie, Meal, Client
+from bot.models import LateMeal, Ressie, Meal, Client
 
 def latemeals_oustanding():
     oustanding_meals = LateMeal.select(LateMeal.id, Ressie.first_name, Ressie.last_name,

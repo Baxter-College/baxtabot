@@ -1,4 +1,4 @@
-from models import Client, ActiveTokens
+from bot.models import Client, ActiveTokens
 
 def user_update(token, email, dietaries, roomshown):
     user = Client.select().join(ActiveTokens).where(ActiveTokens.token == token).get()

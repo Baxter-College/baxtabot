@@ -1,4 +1,4 @@
-from models import WeekCal
+from bot.models import WeekCal
 
 def calendar_upload(url):
     # do image upload
