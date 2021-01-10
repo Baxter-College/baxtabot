@@ -1,4 +1,52 @@
-# Todo
+# To Do - 2021
+
+## 2.0.0 (New Release)
+
+### Functionality
+
+[ ] Late meal ordering
+[ ] Token system
+[ ] Login / log out
+[ ] Register a new user
+[ ] Homepage with portals
+[ ] My profile (SDRs + turn room sharing on/off)
+[ ] Password reset
+[ ] Get rid of active tokens daily
+[ ] Sport portal and ask for sport
+[ ] Coffee Night portal and ask for coffee night + permissions
+[ ] Remove outdated semester response code
+[ ] Update 'what can you do?'
+[ ] Send a message to officers every time there's a 500
+
+### Refactor
+
+[ ] Split into files grouping functionality
+[ ] Continue finding bugs in refactored code
+[ ] Move functions from functions.py into their new files
+[ ] Fix hashbrowns
+[ ] Fix J&D
+[ ] Fix the update and loveorla routes
+[ ] Look at the sonnet code
+[ ] Pydoc for all functions
+[ ] Make sure functions are modularised so tests can be written
+[ ] Fix error raising and handling to work properly/standardised
+
+### Testing / Continuous Integration Framework
+
+[ ] Figure out how to setup a local db to run tests on
+[ ] Figure out how to get pytest to work with the folders
+[ ] Setup CI & runner to run tests every time dev/master is pushed to (+pylint)
+[ ] Write comprehensive tests for all functions
+
+### Functionality - Future
+
+[ ] Blast notifications
+[ ] Get Dino times
+[ ] Vactrack
+[ ] Finish 'I want to go home'
+[ ] Reverse room number - get name by room number (if allowed)
+
+# Todo - 2019
 
 ## 1.0.0 (Release)
 - [x] dino menus
