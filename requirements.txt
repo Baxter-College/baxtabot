@@ -14,11 +14,11 @@ Flask==1.0.2
 Jinja2==2.10.1
 MarkupSafe==1.1.1
 Werkzeug==0.15.5
-rq*
-python-dotenv*
-mammoth*
-fuzzywuzzy*
-python-levenshtein*
+rq
+python-dotenv
+mammoth
+fuzzywuzzy
+python-levenshtein
 beautifulsoup4==4.8.0
 python-dateutil
 psycopg2
