@@ -9,7 +9,7 @@ class AuthException(Exception):
 def authenticate_token(token):
     found = models.ActiveTokens.select().where(models.ActiveTokens.token == token)
     if found:
-        return found.get()
+        return found.get().client.id
 
 
 def auth_register(email, password, name):
@@ -24,17 +24,19 @@ def auth_register(email, password, name):
         raise AuthException("Input error: email is not valid")
 
     check_length(password, "password", 6, 64)
-    check_length(first, "first name", 1, 50)
-    check_length(last, "last name", 1, 50)
+    check_length(name, "first name", 1, 200)
 
     encoder = hashlib.sha224()
     encoder.update(password.encode('utf-8'))
     hashed_password = encoder.hexdigest()
-    ressie_name, confidence, ressie = models.Ressie.fuzzySearch(name)
-
-    if confidence > 85:
-        ressie = ressie.id
-        name = ressie_name
+    result = models.Ressie.fuzzySearch(name)
+    if result is not None:
+        ressie_name, confidence, ressie = result
+        if confidence > 85:
+            ressie = ressie.id
+            name = ressie_name
+        else:
+            ressie = None
     else:
         ressie = None
 
@@ -86,7 +88,8 @@ def auth_logout(token):
         return {"is_success": False}
 
     if authenticate_token(token):
-        models.ActiveTokens.delete().where(models.ActiveTokens.token == token)
+        entry = models.ActiveTokens.select().where(models.ActiveTokens.token == token).get()
+        entry.delete_instance()
         return {"is_success": True}
 
     return {"is_success": False}

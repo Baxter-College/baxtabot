@@ -51,12 +51,12 @@ import bot.dino as dino
 import bot.ressies as ressies
 
 SIGN_TOKEN = secrets.token_hex(16)
-
+'''
 if DEBUG:
     print(
         "\n\n\nTHIS IS A LOCAL VERSION\n-> Ensure you set ngrok webhook URL in fb\n-> Ensure PAGE_ACCESS_TOKEN is set\n-> Make sure POSTGRES is Running!!!\n\n"
     )
-
+'''
 # import logging
 # import http.client as http_client
 
