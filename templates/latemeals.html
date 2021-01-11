@@ -4,32 +4,64 @@
 
 {% block content %}
 
-		<h2>Late Meals</h2>
+		<div><h2>Late Meals Portal</h2></div>
 		<hr>
 
-        <table class='pure-table'>
+		<h3>Outstanding Meals</h3>
+
+		<form action='/latemeals/batchcompleted' method='post'>
+			<input type='text' style='display: none' value='{{token}}' name='token'/>
+			<input type='submit' value='Mark Complete' class='pure-button pure-button-primary'>
+	        <table class='pure-table'>
+	            <thead>
+	                <th>Ressie</th>
+					<th>Date</th>
+					<th>Type</th>
+	                <th>Meal</th>
+	                <th>Notes</th>
+					<th>Actions</th>
+	            </thead>
+	            <tbody>
+	                {% for meal in outstandingMeals %}
+	                <tr>
+	                    <td>{{ meal.first_name }} {{ meal.last_name }}</td>
+						<td>{{ meal.date }}</td>
+						<td>{{ meal.type }}</td>
+	                    <td>{{ meal.description }}</td>
+	                    <td>{{ meal.dietaries }}</td>
+	                    <td>
+	                        <input type='checkbox' value='{{meal.id}}' name='complete'>
+	                    </td>
+						<td><a href='/latemeals/delete?meal={{meal.id}}&token={{token}}'>Delete</a></td>
+	                </tr>
+	                {% endfor %}
+	            </tbody>
+	        </table>
+		</form>
+
+		<h3>Completed Meals</h3>
+		<table class='pure-table'>
             <thead>
                 <th>Ressie</th>
-                <th>Date</th>
+				<th>Date</th>
+				<th>Type</th>
                 <th>Meal</th>
                 <th>Notes</th>
             </thead>
             <tbody>
-                {% for meal in meals %}
+                {% for meal in completedMeals %}
                 <tr>
-                    <td>{{ meal.ressie }}</td>
-                    <!--td>{{ meal.date }}</td-->
-                    <td>{{ meal.meal }}</td>
+                    <td>{{ meal.first_name }} {{ meal.last_name }}</td>
+					<td>{{ meal.date }}</td>
+					<td>{{ meal.type }}</td>
+                    <td>{{ meal.description }}</td>
                     <td>{{ meal.notes }}</td>
-                    <td>
-                        <input type='checkbox' value='{{ meal.id }}' name='delete'>
-                    </td>
-                    <!--td><a href='{{ url_for("deleteMeal", meal_id=meal.id) }}'>Delete</a></td-->
+					<td><a href='/latemeals/delete?meal={{meal.id}}&token={{token}}'>Delete</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
 
 		<hr>
-		<a href='/admin'>Back</a>
+		<a href='/admin?token={{token}}'>Back</a>
 {% endblock %}

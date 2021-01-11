@@ -88,7 +88,7 @@ def handleMessage(sender_psid, received_message):
         "dinner" in received_message
         or "lunch" in received_message
         or "breakfast" in received_message
-    ):
+    ) and 'late meal' not in received_message:
         meal = functions.findMeal(received_message)
         addTime = functions.findTime(received_message)
 
@@ -226,8 +226,8 @@ def handleMessage(sender_psid, received_message):
 
     elif 'order me a late meal' in received_message:
         try:
-            functions.orderLateMeal(received_message, sender_psid)
-            response.text = 'Late meal ordered!'
+            meal, date = functions.orderLateMeal(received_message, sender_psid)
+            response.text = f'Late meal ordered for {meal} on {date}!'
         except Exception as e:
             response.text = 'Uh oh! Something went wrong: ' + str(e)
 
@@ -360,6 +360,7 @@ def handleConversation(sender_psid, received_msg, conversation):
             Response(sender_psid, "What a stunning shot!").send()
         else:
             Response(sender_psid, "You need to send me an image!").send()
+
 
     # End the conversation
     me.conversation = None

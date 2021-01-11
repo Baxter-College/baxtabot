@@ -4,16 +4,18 @@
 
 {% block content %}
 
-		<h2>DINO</h2>
+		<div><h2>Dino Portal</h2></div>
 		<hr>
 		<h3>Upload dino File</h3>
 		<form action="/dino/fileadd" method=post enctype=multipart/form-data>
+		  <input name='token' value='{{token}}' style='display: none' />
 		  <input type=file name=file>
 		  <input type=submit value=Upload>
 		</form>
 		<hr>
 		<h3>Add a Meal 🌮</h3>
 		<form action="/dino/add" method="post" class="pure-form pure-form-stacked">
+			<input name='token' value='{{token}}' style='display: none' />
 			<input name="date" type="date"><br/>
 			<select name="type">
 			  	<option value="breakfast">Breakfast</option>
@@ -26,6 +28,7 @@
 		<hr>
 		<h3>Batch Upload 🎂</h3>
 		<form action="/dino/batch/add" method="post" class="pure-form pure-form-stacked">
+			<input name='token' value='{{token}}' style='display: none' />
 			<input name="date" type="date"><br/>
 			<h4>Breakfast:</h4>
 			<textarea name="breakfast_description" rows="8" cols="80" placeholder="what are you eating?"></textarea><br>
@@ -40,6 +43,8 @@
 
 		<form action="/dino/batchdelete" method="post">
 		<input type="submit" value="Delete Selected" class="pure-button pure-button-primary">
+		<input name='token' value='{{token}}' style='display: none' />
+
 		<table class="pure-table">
 			<thead>
 				<th>Date</th>
@@ -61,7 +66,7 @@
 					<td>
 						<input type="checkbox" value="{{meal.id}}" name="delete">
 					</td>
-					<td><a href="{{url_for('deleteMeal', meal_id=meal.id)}}">Delete</a></td>
+					<td><a href="{{url_for('deleteMeal', meal_id=meal.id, token=token)}}">Delete</a></td>
 				</tr>
 				{% endfor %}
 			</tbody>
@@ -69,5 +74,5 @@
 		</form>
 
 		<hr>
-		<a href='/admin'>Back</a>
+		<a href='/admin?token={{token}}'>Back</a>
 {% endblock %}

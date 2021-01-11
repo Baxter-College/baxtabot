@@ -3,7 +3,7 @@
 {% block title %}Ressies{% endblock %}
 
 {% block content %}
-		<h2>Ressies</h2>
+		<div><h2>Ressies Portal</h2></div>
 		<hr>
 		<h3>Upload Resident File</h3>
 		<form action="/ressie/fileadd" method=post enctype=multipart/form-data>
@@ -42,5 +42,5 @@
 				</tbody>
 			</table>
 		<hr>
-		<a href='/admin'>Back</a>
+		<a href='/admin?token={{token}}'>Back</a>
 {% endblock %}

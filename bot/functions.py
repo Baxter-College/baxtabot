@@ -27,7 +27,8 @@ def findMeal(message):
         meal = "lunch"
     elif "breakfast" in message:
         meal = "breakfast"
-
+    else:
+        return False
     return meal
 
 
@@ -90,9 +91,7 @@ def dinoRequest(meal, addTime):
 
     return "{} at dino is:\n{}".format(meal, dino.description)
 
-def dinoRequestObj(meal, addTime):
-    # meal is "dinner", "lunch" or "breakfast"
-
+def getTimeFromAddTime(addTime):
     ten_hours = datetime.timedelta(hours=11)
 
     today = datetime.datetime.now()
@@ -101,6 +100,11 @@ def dinoRequestObj(meal, addTime):
 
     today_AEST += addTime  # if no add time, timedelta will be 0 hours so no effect
 
+    return today_AEST
+
+def dinoRequestObj(meal, addTime):
+    # meal is "dinner", "lunch" or "breakfast"
+    today_AEST = getTimeFromAddTime(addTime)
     print("Date is: {}".format(today_AEST.date().strftime("%Y-%m-%d")))
 
     try:
@@ -196,16 +200,28 @@ def getCurrentDino():
 # ======== Late Meals ======= #
 
 def orderLateMeal(message, sender_psid):
-    meal = getCurrentDino()
+    meal_name = findMeal(message)
+    if not meal_name:
+        addTime = datetime.timedelta(hours=0)
+        meal = getCurrentDino()
+    else:
+        addTime = findTime(message)
+        meal = dinoRequestObj(meal_name, addTime)
 
     if meal is None:
         raise Exception('Meal does not exist - dino menu needs updating')
-    meal = meal.id
+    meal_id = meal.id
 
     ressie = getRessieBySender(sender_psid).id
-    notes = 'no notes at the moment, #TODO'
+    notes = 'See dietary requirement records'
 
-    models.LateMeal.create(meal=meal, ressie=ressie, notes=notes)
+    models.LateMeal.create(meal=meal_id, ressie=ressie, notes=notes, completed=False)
+
+    return meal_name, getTimeFromAddTime(addTime).date().strftime('%d/%m/%Y')
+
+def setMealCompleted(latemealid):
+    query = models.LateMeal.update(completed=True).where(models.LateMeal.id == latemealid)
+    query.execute()
 
 def getRessieBySender(sender_psid):
     data = humanisePSID(sender_psid)
@@ -411,6 +427,10 @@ def getRoomNumber(name):
 
     try:
         gotName, confidence, ressie = models.Ressie.fuzzySearch(name)
+        client = models.Client.select().join(models.Ressie).where(models.Ressie.id == ressie.id).get()
+        if not client.roomshown:
+            return '{} is in baxter and has turned room sharing off'.format(gotName)
+
         if confidence < 85:
             return "{} is in room {} (I'm {} percent sure I know who you're talking about)".format(
                 gotName, ressie.room_number, confidence
@@ -479,3 +499,33 @@ def createRessie(first_name, last_name, room_number):
         room_number = room_number,
         floor = int(str(room_number)[:1])
         )  # get the first digit of the room number and set that as floor
+
+def validateTokenPermissions(token, page):
+    userperms = models.Client.select(models.ClientPermissions.dinoread, models.ClientPermissions.dinowrite, models.ClientPermissions.ressies,
+                                    models.ClientPermissions.calendar, models.ClientPermissions.sport, models.ClientPermissions.latemeals, models.ClientPermissions.users).join(models.ActiveTokens).switch(models.Client).join(models.ClientPermissions).where(models.ActiveTokens.token == token).dicts()
+
+    if userperms is None:
+        return False
+
+    userperms = userperms.get()
+
+    if page == 'dinoread' and userperms['dinoread']:
+        return True
+    elif page == 'dinowrite' and userperms['dinowrite']:
+        return True
+    elif page == 'ressies' and userperms['ressies']:
+        return True
+    elif page == 'calendar' and userperms['calendar']:
+        return True
+    elif page == 'sport' and userperms['sport']:
+        return True
+    elif page == 'latemeals' and userperms['latemeals']:
+        return True
+    elif page == 'users' and userperms['users']:
+        return True
+
+    return False
+
+def deleteActiveToken(token):
+    instance = models.ActiveTokens.select().where(models.ActiveTokens.token == token).get()
+    instance.delete_instance()

@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}Users{% endblock %}
+
+{% block content %}
+
+		<div><h2>My Profile</h2></div>
+		<hr>
+
+        <form name='userprofile' onaction='/user/profile' method='post'>
+            <h3>{{ user.name }}</h3>
+			<h5>{{ user.position }}</h5>
+            <input type='email' name='email' value="{{ user.email }}" /><br/>
+            Are you OK with people being able to find your room number by asking Baxtabot?
+            {% if user.roomshown %}
+                <input type='checkbox' name='roomshown' checked/>
+            {% else %}
+                <input type='checkbox' name='roomshown'/>
+            {% endif %}
+                <h4>Special Dietary Requirements</h4>
+            <textarea name='dietaries'>{{ user.dietaries }}</textarea><br/>
+
+            Reset password<br/>
+
+            <input type='submit' value='Update' />
+        </form>
+
+		<hr>
+		<a href='/admin?token={{token}}'>Back</a>
+{% endblock %}
