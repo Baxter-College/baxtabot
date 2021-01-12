@@ -43,3 +43,4 @@ def test_auth():
     login_result = auth.auth_login('nick.p@gmail.com', 'abc123')
     assert login_result
     assert auth.authenticate_token(login_result['token']) == result['u_id']
+    assert False
