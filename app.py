@@ -299,6 +299,7 @@ def love():
 def upload():
     token = request.args.get('token')
     page = authenticate_page(token, 'calendar')
+    print(page)
 
     if not page:
         if request.method == "POST":
