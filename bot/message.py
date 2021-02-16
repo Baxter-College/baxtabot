@@ -179,7 +179,7 @@ def handleMessage(sender_psid, received_message):
         or "for dino" in received_message
         or "whats dino" in received_message
         or "dino" in received_message
-    ):
+    ) and 'time' not in received_message:
         meal = functions.getCurrentDino()
 
         if not meal or meal is None:
