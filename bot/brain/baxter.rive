@@ -124,6 +124,9 @@
 + [*] go out [*]
 - You absolutely should!
 
++ dino times
+- Dino times are: 7-10 Breakfast, 12:15-2:15 Lunch, 5-7:30 Dinner
+
 // ==== j & d ==== //
 + setjd *
 - <call>set_jd <star1></call>
