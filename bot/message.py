@@ -240,6 +240,10 @@ def handleMessage(sender_psid, received_message):
             response.text = 'Uh oh! Something went wrong: ' + str(e)
 
     elif "room is" in received_message:
+        try:
+            ressie = getRessieBySender(sender_psid)
+        except:
+            response.text = 'Sorry, we don\'t have you down as a resident of Baxter. If you think there\'s a mistake then contact Nick!'
         name = functions.extractName(received_message)
         print("trying find room for", name)
         response.text = functions.getRoomNumber(name)
