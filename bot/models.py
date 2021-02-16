@@ -139,7 +139,7 @@ class Client(Model):
     name = TextField()
     ressie = ForeignKeyField(Ressie, null=True)
     dietaries = TextField(default='None')
-    roomshown = BooleanField(default=True)
+    roomshown = BooleanField(default=False)
 
     class Meta:
         database = db
