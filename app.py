@@ -402,7 +402,7 @@ def love():
 
 @app.route("/upload", methods=["GET", "POST"])
 def upload():
-    token = request.args.get('token')
+    token = request.args.get('token') if request.method == 'GET' else request.form['token']
 
     if token is None or not auth.authenticate_token(token):
         print('Token not found', token)
@@ -413,7 +413,6 @@ def upload():
 
     if request.method == "POST":
         # do image upload
-        token = request.form['token']
         print('This is working')
         url = request.form["assetURL"]
         response = functions.uploadAsset(url)
