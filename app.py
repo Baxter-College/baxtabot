@@ -413,6 +413,7 @@ def upload():
 
     if request.method == "POST":
         # do image upload
+        token = request.form['token']
         print('This is working')
         url = request.form["assetURL"]
         response = functions.uploadAsset(url)
