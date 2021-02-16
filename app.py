@@ -411,6 +411,7 @@ def upload():
 
     if request.method == "POST":
         # do image upload
+        print('This is working')
         url = request.form["assetURL"]
         response = functions.uploadAsset(url)
 
