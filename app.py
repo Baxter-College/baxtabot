@@ -405,7 +405,7 @@ def upload():
     token = request.args.get('token')
 
     if token is None or not auth.authenticate_token(token):
-        print('Token not found')
+        print('Token not found', token)
         return render_template('index.html')
     elif not functions.validateTokenPermissions(token, 'calendar'):
         print('Permissions not authenticated')
