@@ -90,7 +90,7 @@ def handleMessage(sender_psid, received_message):
         or "breakfast" in received_message
         or 'dino' in received_message):
         url = 'https://l.facebook.com/l.php?u=https%3A%2F%2Flookaside.fbsbx.com%2Ffile%2Fmenu%252015%2520-21%2520feb%25202021.pdf%3Ftoken%3DAWy5rD_kYfFf0Y9KNUaPmQaQjMqlWh4YfkU5AzbqN3vhFNJu9RHAqJr6UtEPUDHu8ocarTdDtMnXfLM0NdvKawACjVBnsLma1wCYbLlgOiLaTjo3VXsGy06UDBoO70S4MjixlzVrUf5VopgVbsOjWYIxcbRpoh5fV24rysT-L_J3Fn4TFEgn760VVfzacZzjN_94Jbamy3ZRmq9w4cNreu3-FqKb89dbLH0NxaEgJkGY5xlybtIeuAyyqi2euEQU8jDDK3SI7wxIDj74j4GqH0LsJfsRC9k6CgJfSJrj_F-IWEnhxufvwivUj0SSCNLWjyAMqbHuPl6TOyIV4D7fGq1dReTzJcwtTs5gfoqRABzK0kQHSrMpq8wDPL6NX41HaIKr0jCxERto3jUvqAjiXWLtwka7MIgouRkOxHzU0_WJB2X7JXyX6fY0fPSRR2NtKUhjLjbQlVx32aVxHuhvT90Ae_jFlkaGZ63Ltlz8pxRZx5CRRn9Qf2Bs7_FnucaLbBMWfhzwZqarmjaf4cjU6yzvZWZbBwppH95pX6_xk9LzdcoB9SftrzzIUp9_lrdtRgC_93L7MtO871AkQE6GsvHvCU7-qSpgAdo14mWQHjhIuyXVUrChC0vm12GvAZsgWeQKzM2-_JPPvmT3fuveVWR6X1j-6ZiQ8gnsjRIe2o_NAWDdJ7TE_yYUWYkMbRe3Y-Zh8r1nKYi-dC3A-naAVWuinqCwXt2OPZOocPNNYkiynJmuxH6fuEsFZ6gxvQ1HJv8&h=AT0JMF2N8uFFWbrW1FI-dM22z16Qzixujho-fypO9CIBB3J93fuTO74sTtyWx9-ItoN6cjrX-QdURxTgBi-pb8imH3TI5zsYKW_UWzXC_IZ66Xv111R8nFQqMBN-KJBFPctnFYFNIFdrUIyS5YTUXvrFqKFAIiajOGfUtw&__tn__=H-R&c[0]=AT06F55jl8ZifYwSuBvXub0cwirWDhhsOyr2bqXWyWOmNAdt7BAZn8dFsgWJBxwKlfJhS3XcKrvUVyB3kP4eRyC8VZw__SFJjZh6X5zx_cnMPzfRPr8O7HkyD8BE8uIgIlbHZTFyVihzSdfk6P6X53TcKcnqaAb5PUCiebLY6TUAHP6Eq0tH6Z8Avw044DO_gBzALhEqUPGAYhmPYNH_SG_O4_jSBg'
-        Response(sender_psid, image=url).send()
+        Response(sender_psid, text=url).send()
 
     elif (
         "dinner" in received_message
