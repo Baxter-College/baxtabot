@@ -244,6 +244,7 @@ def handleMessage(sender_psid, received_message):
             ressie = getRessieBySender(sender_psid)
         except:
             response.text = 'Sorry, we don\'t have you down as a resident of Baxter. If you think there\'s a mistake then contact Nick!'
+            raise Exception
         else:
             name = functions.extractName(received_message)
             print("trying find room for", name)
