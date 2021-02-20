@@ -489,7 +489,7 @@ def deleteLatemeal():
 
     meal = models.LateMeal.select().where(models.LateMeal.id == meal_id).get()
     meal.delete_instance()
-    if from is None:
+    if from_page is None:
         return redirect(url_for('latemeals') + '?token=' + token)
     else:
         return redirect(url_for('users') = '?token=token')
