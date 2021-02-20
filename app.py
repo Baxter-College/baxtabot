@@ -259,8 +259,9 @@ def profile():
         user.save()
 
     client = models.Client.select(models.Client.name, models.Client.email, models.Client.position, models.Client.dietaries, models.Client.roomshown).join(models.ActiveTokens).where(models.ActiveTokens.token == token).dicts()[0]
+    outstandingMeals = models.LateMeal.select(models.LateMeal.id, models.Meal.date, models.Meal.type, models.Meal.description).join(models.Client).switch(models.LateMeal).join(models.Meal).where(models.LateMeal.completed == 0 & models.Client.id == user.id).dicts()
 
-    return render_template('profile.html', user=client, token=token)
+    return render_template('profile.html', user=client, token=token, outstandingMeals=outstandingMeals)
 
 @app.route("/update", methods=["POST", "GET"])
 def update():
