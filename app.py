@@ -492,7 +492,7 @@ def deleteLatemeal():
     if from_page is None:
         return redirect(url_for('latemeals') + '?token=' + token)
     else:
-        return redirect(url_for('users') + '?token=token')
+        return redirect(url_for('user/profile') + '?token=token')
 
 @app.route("/dino/batchdelete", methods=["POST"])
 def deleteBatchMeals():
