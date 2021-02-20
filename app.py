@@ -485,10 +485,14 @@ def deleteMeal(meal_id):
 def deleteLatemeal():
     token = request.args.get('token')
     meal_id = request.args.get('meal')
+    from_page = requests.args.get('from')
 
     meal = models.LateMeal.select().where(models.LateMeal.id == meal_id).get()
     meal.delete_instance()
-    return redirect(url_for('latemeals') + '?token=' + token)
+    if from is None:
+        return redirect(url_for('latemeals') + '?token=' + token)
+    else:
+        return redirect(url_for('users') = '?token=token')
 
 @app.route("/dino/batchdelete", methods=["POST"])
 def deleteBatchMeals():
