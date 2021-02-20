@@ -562,7 +562,8 @@ def confirm_file():
 @app.route("/ressie", methods=["POST", "GET"])
 def resident():
     token = request.args.get('token') if request.method == 'GET' else request.form['token']
-
+    print(token)
+    
     if token is None or not auth.authenticate_token(token):
         return render_template('index.html')
     elif not functions.validateTokenPermissions(token, 'ressies'):
