@@ -563,7 +563,7 @@ def confirm_file():
 def resident():
     token = request.args.get('token') if request.method == 'GET' else request.form['token']
     print(token)
-    
+
     if token is None or not auth.authenticate_token(token):
         return render_template('index.html')
     elif not functions.validateTokenPermissions(token, 'ressies'):
@@ -618,7 +618,8 @@ def upload_residents():
 def deleteRessie(ressie_id):
     ressie = models.Ressie.select().where(models.Ressie.id == ressie_id).get()
     ressie.delete_instance()
-    return redirect(url_for("resident"))
+    ressies = models.Ressie.select()
+    return render_template('ressie.html', ressies=ressies)
 
 
 if __name__ == "__main__":
