@@ -244,6 +244,8 @@ def updateUser():
 @app.route('/user/profile', methods=['POST', 'GET'])
 def profile():
     token = request.args.get('token')
+    user = models.Client.select().join(models.ActiveTokens).where(models.ActiveTokens.token == token).get()
+
     if request.method == 'POST':
         form = request.form
 
@@ -251,8 +253,6 @@ def profile():
         dietaries = form['dietaries']
         roomshown = form.get('roomshown')
         print(roomshown)
-
-        user = models.Client.select().join(models.ActiveTokens).where(models.ActiveTokens.token == token).get()
         user.email = email
         user.dietaries = dietaries
         user.roomshown = roomshown if roomshown else False
