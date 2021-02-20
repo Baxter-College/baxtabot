@@ -38,9 +38,6 @@
 					<td>{{ meal.date }}</td>
 					<td>{{ meal.type }}</td>
 					<td>{{ meal.description }}</td>
-					<td>
-						<input type='checkbox' value='{{meal.id}}' name='complete'>
-					</td>
 					<td><a href='/latemeals/delete?meal={{meal.id}}&token={{token}}&from=profile'>Delete</a></td>
 				</tr>
 				{% endfor %}
