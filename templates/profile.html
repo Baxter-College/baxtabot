@@ -24,6 +24,25 @@
 
             <input type='submit' value='Update' />
         </form>
+		<h3>Upcoming Late Meals</h3>
+		<table class='pure-table'>
+			<thead>
+				<th>Date</th>
+				<th>Type</th>
+				<th>Meal</th>
+				<th>Actions</th>
+			</thead>
+			<tbody>
+				{% for meal in outstandingMeals %}
+				<tr>
+					<td>{{ meal.date }}</td>
+					<td>{{ meal.type }}</td>
+					<td>{{ meal.description }}</td>
+					<td><a href='/latemeals/delete?meal={{meal.id}}&token={{token}}&from=profile'>Delete</a></td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 
 		<hr>
 		<a href='/admin?token={{token}}'>Back</a>

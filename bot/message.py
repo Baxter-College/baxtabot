@@ -88,12 +88,6 @@ def handleMessage(sender_psid, received_message):
         "dinner" in received_message
         or "lunch" in received_message
         or "breakfast" in received_message
-        or 'dino' in received_message) and 'time' not in received_message and 'late meal' not in received_message:
-        Response(sender_psid, text='Dino menu coming Monday Week 2!').send()
-    elif (
-        "dinner" in received_message
-        or "lunch" in received_message
-        or "breakfast" in received_message
     ) and 'late meal' not in received_message and 'time' not in received_message:
         meal = functions.findMeal(received_message)
         addTime = functions.findTime(received_message)
