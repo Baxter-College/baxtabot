@@ -489,6 +489,18 @@ def deleteLatemeal():
     meal.delete_instance()
     return redirect(url_for('latemeals') + '?token=' + token)
 
+@app.route('/latemeals/generatestickers', methods=['GET'])
+def generateLatemealStickers():
+    token = request.args.get('token')
+
+    if token is None or not auth.authenticate_token(token):
+        return render_template('index.html')
+    elif not functions.validateTokenPermissions(token, 'dinowrite'):
+        return render_template('homepage.html', permission_denied = True, token=token)
+
+    functions.generateLateMealStickers()
+    return redirect(url_for('latemeals') + '?token=' + token)
+
 @app.route("/dino/batchdelete", methods=["POST"])
 def deleteBatchMeals():
     form = request.form

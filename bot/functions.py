@@ -223,6 +223,9 @@ def setMealCompleted(latemealid):
     query = models.LateMeal.update(completed=True).where(models.LateMeal.id == latemealid)
     query.execute()
 
+def generateLateMealStickers():
+    pass
+
 def getRessieBySender(sender_psid):
     data = humanisePSID(sender_psid)
 
