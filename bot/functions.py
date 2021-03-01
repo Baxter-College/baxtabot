@@ -11,7 +11,11 @@ import requests
 import math
 import mammoth
 import re
+import yagmail
 from bs4 import BeautifulSoup
+from docx import document
+from docx.shared import Pt, Cm
+from docx.enum.text import WD_ALIGN_PARAGRAPH
 
 from bot.settings import *
 
@@ -223,8 +227,41 @@ def setMealCompleted(latemealid):
     query = models.LateMeal.update(completed=True).where(models.LateMeal.id == latemealid)
     query.execute()
 
-def generateLateMealStickers():
-    pass
+def generateStickersDocument(oustanding_meals):
+    document = Document()
+
+    while meals_processed < len(outstandingMeals):
+        table = document.add_table(rows=7, cols=2)
+
+        for row in table.rows:
+            row.height = Cm(3.76)
+            for col in row.cells:
+                meal = oustanding_meals[meals_processed]
+                cell.text = f'\n{meal.id} {meal.first_name} {meal.last_name}\n{meal.college}\n{meal.date}\n{meal.dietaries}'
+                cell.paragraphs[0].paragraph_format.alignment = WD_ALIGN_PARAGRAPH
+
+                meals_processed += 1
+
+    document.save('LatemealStickers/LateMealStickers.docx')
+
+    sections = document.sections
+    for section in sections:
+        section.top_margin = Cm(1.5)
+        section.bottom_margin = Cm(0)
+        section.left_margin = Cm(0.46)
+        section.right_margin = Cm(0.46)
+
+    meals_processed = 0
+
+def sendLateMealStickersEmail():
+    email = yagmail.SMTP('baxtabot21@gmail.com', 'meqdeh-5Jysve-xewtuc')
+    email.send('n.patrikeos@student.unsw.edu.au', 'Late meals', contents='LateMealStickers/LateMealStickers.docx')
+
+def generateLateMealStickers(meals):
+
+    oustanding_meals = models.LateMeal.select(models.LateMeal.id, models.Ressie.first_name, models.Ressie.last_name, models.Ressie.college, models.Meal.date, models.Meal.type, models.Client.dietaries).join(models.Ressie).join(models.Client).switch(models.LateMeal).join(models.Meal).where(models.LateMeal.id in meals).dicts()
+    generateStickersDocument(oustanding_meals)
+    sendLateMealStickersEmail()
 
 def getRessieBySender(sender_psid):
     data = humanisePSID(sender_psid)
