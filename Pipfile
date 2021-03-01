@@ -31,6 +31,8 @@ psycopg2 = "*"
 pycryptodome = "*"
 redis = "*"
 celery = "*"
+python-docx = "*"
+yagmail = '*'
 
 [dev-packages]
 rope = "*"
