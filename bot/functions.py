@@ -247,7 +247,7 @@ def generateStickersDocument(oustanding_meals):
             row.height = Cm(3.76)
             for col in row.cells:
                 meal = oustanding_meals[meals_processed]
-                cell.text = f'\n{meal.id} {meal.first_name} {meal.last_name}\n{meal.college}\n{meal.date}\n{meal.dietaries}'
+                cell.text = f'\n{meal['id']} {meal['first_name']} {meal['last_name']}\n{meal['college']}\n{meal['date']}\n{meal['dietaries']}'
                 cell.paragraphs[0].paragraph_format.alignment = WD_ALIGN_PARAGRAPH
 
                 meals_processed += 1
