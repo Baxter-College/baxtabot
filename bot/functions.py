@@ -240,7 +240,7 @@ def generateStickersDocument(oustanding_meals):
 
     meals_processed = 0
     print(oustanding_meals)
-    
+
     while oustanding_meals:
         table = document.add_table(rows=7, cols=2)
 
@@ -252,11 +252,13 @@ def generateStickersDocument(oustanding_meals):
                     break
 
                 meal = oustanding_meals[meals_processed]
+                print(meal)
                 cell.text = f"\n{meal['id']} {meal['first_name']} {meal['last_name']}\n{meal['college']}\n{meal['date']}\n{meal['dietaries']}"
                 cell.paragraphs[0].paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
                 meals_processed += 1
 
+    print('Meal processing completed')
     document.save('LatemealStickers/LateMealStickers.docx')
 
 
