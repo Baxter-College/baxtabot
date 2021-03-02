@@ -89,7 +89,7 @@ class Crush(Model):
 
 
 class WeekCal(Model):
-    assetID = CharField()
+    assetID = TextField()
     week_start = DateField()
 
     class Meta:

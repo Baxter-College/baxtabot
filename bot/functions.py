@@ -208,6 +208,7 @@ def orderLateMeal(message, sender_psid):
     if not meal_name:
         addTime = datetime.timedelta(hours=0)
         meal = getCurrentDino()
+        meal_name = meal.type
     else:
         addTime = findTime(message)
         meal = dinoRequestObj(meal_name, addTime)

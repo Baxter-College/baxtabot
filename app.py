@@ -244,6 +244,8 @@ def updateUser():
 @app.route('/user/profile', methods=['POST', 'GET'])
 def profile():
     token = request.args.get('token')
+    user = models.Client.select().join(models.ActiveTokens).where(models.ActiveTokens.token == token).get()
+
     if request.method == 'POST':
         form = request.form
 
@@ -251,16 +253,15 @@ def profile():
         dietaries = form['dietaries']
         roomshown = form.get('roomshown')
         print(roomshown)
-
-        user = models.Client.select().join(models.ActiveTokens).where(models.ActiveTokens.token == token).get()
         user.email = email
         user.dietaries = dietaries
         user.roomshown = roomshown if roomshown else False
         user.save()
 
     client = models.Client.select(models.Client.name, models.Client.email, models.Client.position, models.Client.dietaries, models.Client.roomshown).join(models.ActiveTokens).where(models.ActiveTokens.token == token).dicts()[0]
+    outstandingMeals = models.LateMeal.select(models.LateMeal.id, models.Meal.date, models.Meal.type, models.Meal.description).join(models.Ressie).join(models.Client).switch(models.LateMeal).join(models.Meal).where((models.LateMeal.completed == 0) & (models.Client.id == user.id)).dicts()
 
-    return render_template('profile.html', user=client, token=token)
+    return render_template('profile.html', user=client, token=token, outstandingMeals=outstandingMeals)
 
 @app.route("/update", methods=["POST", "GET"])
 def update():
@@ -484,10 +485,14 @@ def deleteMeal(meal_id):
 def deleteLatemeal():
     token = request.args.get('token')
     meal_id = request.args.get('meal')
+    from_page = request.args.get('from')
 
     meal = models.LateMeal.select().where(models.LateMeal.id == meal_id).get()
     meal.delete_instance()
-    return redirect(url_for('latemeals') + '?token=' + token)
+    if from_page is None:
+        return redirect(url_for('latemeals') + '?token=' + token)
+    else:
+        return render_template('homepage.html', token=token, permission_denied=False)
 
 @app.route("/dino/batchdelete", methods=["POST"])
 def deleteBatchMeals():
@@ -568,7 +573,8 @@ def confirm_file():
 # ======= Resident Information ======= #
 @app.route("/ressie", methods=["POST", "GET"])
 def resident():
-    token = request.args.get('token')
+    token = request.args.get('token') if request.method == 'GET' else request.form['token']
+    print(token)
 
     if token is None or not auth.authenticate_token(token):
         return render_template('index.html')
@@ -624,7 +630,8 @@ def upload_residents():
 def deleteRessie(ressie_id):
     ressie = models.Ressie.select().where(models.Ressie.id == ressie_id).get()
     ressie.delete_instance()
-    return redirect(url_for("resident"))
+    ressies = models.Ressie.select()
+    return render_template('ressie.html', ressies=ressies)
 
 
 if __name__ == "__main__":
