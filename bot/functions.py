@@ -248,7 +248,7 @@ def generateStickersDocument(oustanding_meals):
             for cell in row.cells:
                 meal = oustanding_meals[meals_processed]
                 cell.text = f"\n{meal['id']} {meal['first_name']} {meal['last_name']}\n{meal['college']}\n{meal['date']}\n{meal['dietaries']}"
-                cell.paragraphs[0].paragraph_format.alignment = WD_ALIGN_PARAGRAPH
+                cell.paragraphs[0].paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
                 meals_processed += 1
 
