@@ -239,13 +239,18 @@ def generateStickersDocument(oustanding_meals):
         section.right_margin = Cm(0.46)
 
     meals_processed = 0
-
-    while meals_processed < len(oustanding_meals):
+    print(oustanding_meals)
+    
+    while oustanding_meals:
         table = document.add_table(rows=7, cols=2)
 
         for row in table.rows:
             row.height = Cm(3.76)
             for cell in row.cells:
+
+                if meals_processed >= len(oustanding_meals):
+                    break
+
                 meal = oustanding_meals[meals_processed]
                 cell.text = f"\n{meal['id']} {meal['first_name']} {meal['last_name']}\n{meal['college']}\n{meal['date']}\n{meal['dietaries']}"
                 cell.paragraphs[0].paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
