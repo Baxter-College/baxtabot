@@ -239,7 +239,7 @@ def generateStickersDocument(oustanding_meals):
 
     meals_processed = 0
 
-    while meals_processed < len(outstandingMeals):
+    while meals_processed < len(oustanding_meals):
         table = document.add_table(rows=7, cols=2)
 
         for row in table.rows:
