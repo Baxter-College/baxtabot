@@ -230,6 +230,15 @@ def setMealCompleted(latemealid):
 def generateStickersDocument(oustanding_meals):
     document = Document()
 
+    sections = document.sections
+    for section in sections:
+        section.top_margin = Cm(1.5)
+        section.bottom_margin = Cm(0)
+        section.left_margin = Cm(0.46)
+        section.right_margin = Cm(0.46)
+
+    meals_processed = 0
+
     while meals_processed < len(outstandingMeals):
         table = document.add_table(rows=7, cols=2)
 
@@ -244,14 +253,6 @@ def generateStickersDocument(oustanding_meals):
 
     document.save('LatemealStickers/LateMealStickers.docx')
 
-    sections = document.sections
-    for section in sections:
-        section.top_margin = Cm(1.5)
-        section.bottom_margin = Cm(0)
-        section.left_margin = Cm(0.46)
-        section.right_margin = Cm(0.46)
-
-    meals_processed = 0
 
 def sendLateMealStickersEmail():
     email = yagmail.SMTP('baxtabot21@gmail.com', 'meqdeh-5Jysve-xewtuc')
