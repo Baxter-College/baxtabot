@@ -244,7 +244,7 @@ def generateStickersDocument(oustanding_meals):
     while True:
         if meals_processed >= len(oustanding_meals):
             break
-            
+
         table = document.add_table(rows=7, cols=2)
 
         for row in table.rows:
@@ -262,7 +262,7 @@ def generateStickersDocument(oustanding_meals):
                 meals_processed += 1
 
     print('Meal processing completed')
-    document.save('LatemealStickers/LateMealStickers.docx')
+    document.save('LateMealStickers/LateMealStickers.docx')
 
 
 def sendLateMealStickersEmail():
