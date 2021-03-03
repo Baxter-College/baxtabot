@@ -262,12 +262,12 @@ def generateStickersDocument(oustanding_meals):
                 meals_processed += 1
 
     print('Meal processing completed')
-    document.save('LateMealStickers/LateMealStickers.docx')
+    document.save('LatemealStickers/LatemealStickers.docx')
 
 
 def sendLateMealStickersEmail():
     email = yagmail.SMTP('baxtabot21@gmail.com', 'meqdeh-5Jysve-xewtuc')
-    email.send('n.patrikeos@student.unsw.edu.au', 'Late meals', contents='LateMealStickers/LateMealStickers.docx')
+    email.send('n.patrikeos@student.unsw.edu.au', 'Late meals', contents='LatemealStickers/LatemealStickers.docx')
 
 def generateLateMealStickers(meals):
 
