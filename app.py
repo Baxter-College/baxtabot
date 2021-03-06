@@ -297,7 +297,6 @@ def love():
 
 @app.route("/upload", methods=["GET", "POST"])
 def upload():
-<<<<<<< HEAD
     token = request.args.get('token') if request.method == 'GET' else request.form['token']
 
     page = authenticate_page(token, 'calendar')
