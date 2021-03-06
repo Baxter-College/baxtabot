@@ -197,7 +197,7 @@ def handleMessage(sender_psid, received_message):
         "dinner" in received_message
         or "lunch" in received_message
         or "breakfast" in received_message
-    ) and 'late meal' not in received_message:
+    ) and 'late meal' not in received_message and 'time' not in received_message:
         response.text = handle_dino_message(sender_psid, received_message)
     elif (
         "dinopoll" in received_message
@@ -239,7 +239,7 @@ def handleMessage(sender_psid, received_message):
         or "for dino" in received_message
         or "whats dino" in received_message
         or "dino" in received_message
-    ):
+    ) and 'time' not in received_message:
         response.text = handle_dino_message(sender_psid, received_message)
     # Testing adding a new feature
     elif "snazzy pic" in received_message:
@@ -255,7 +255,13 @@ def handleMessage(sender_psid, received_message):
         response.text = handle_latemeal_message(sender_psid, received_message)
 
     elif "room is" in received_message:
-        response.text = handle_getroom_message(received_message)
+        try:
+            ressie = functions.getRessieBySender(sender_psid)
+        except:
+            response.text = 'Sorry, we don\'t have you down as a resident of Baxter. If you think there\'s a mistake then contact Nick!'
+        else:
+            response.text = handle_getroom_message(received_message)
+            
     elif "crush list" in received_message:
         response.text = handle_crushlist_message(sender_psid, received_message)
     else:

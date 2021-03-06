@@ -19,3 +19,7 @@ def latemeal_delete(meal_id):
 def latemeals_setcompleted(latemealid):
     query = models.LateMeal.update(completed=True).where(models.LateMeal.id == latemealid)
     query.execute()
+
+def latemeals_oustanding_resident(client_id):
+    oustanding_meals = models.LateMeal.select(models.LateMeal.id, models.Meal.date, models.Meal.type, models.Meal.description).join(models.Ressie).join(models.Client).switch(models.LateMeal).join(models.Meal).where((models.LateMeal.completed == 0) & (models.Client.id == client_id)).dicts()
+    return oustanding_meals

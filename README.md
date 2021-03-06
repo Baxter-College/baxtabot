@@ -35,7 +35,7 @@ You can message it at: [m.me/baxtabot](https://m.me/baxtabot)
 
 ## Getting Started
 
-Have you learned to code in Python and how to use Git? If not, have a look here.
+Have you learned to code in Python and how to use Git? If not, have a look [here](python_tutorial.md).
 
 ### Account and Organisation Setup
 

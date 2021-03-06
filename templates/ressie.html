@@ -13,6 +13,7 @@
 		<hr>
 		<h3>Add a Resident</h3>
 		<form action="/ressie" method="post" class="pure-form pure-form-stacked">
+			<input name='token' value='{{token}}' style='display: none' />
 			<label for="first_name">First Name:</label><input name="first_name" type="text"><br/>
 			<label for="last_name">Last Name:</label><input name="last_name" type="text"><br/>
 			<label for="room_number">Room Number:</label><input name="room_number" type="number"><br/>

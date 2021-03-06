@@ -240,12 +240,12 @@ def profile():
         email = form['email']
         dietaries = form['dietaries']
         roomshown = form.get('roomshown')
-        # print(roomshown)
         user.user_update()
 
     client = user.user_profile(token)
+    outstanding_meals = latemeals.outstanding_meals_resident(client.id)
 
-    return render_template('profile.html', user=client, token=token)
+    return render_template('profile.html', user=client, token=token, outstandingMeals=outstandingMeals)
 
 ## This code needs reviewing
 
@@ -297,7 +297,9 @@ def love():
 
 @app.route("/upload", methods=["GET", "POST"])
 def upload():
-    token = request.args.get('token')
+<<<<<<< HEAD
+    token = request.args.get('token') if request.method == 'GET' else request.form['token']
+
     page = authenticate_page(token, 'calendar')
     print(page)
 
@@ -367,14 +369,30 @@ def deleteMeal():
     meal_id = request.args.get('meal_id')
     page = authenticate_page(token, 'dinowrite')
 
-    if token is None or not auth.authenticate_token(token):
-        return render_template('index.html')
-    elif not functions.validateTokenPermissions(token, 'dinowrite'):
-        return render_template('homepage.html', permission_denied = True, token=token)
+    if not page:
+        dino.meals_delete(meal_id)
+        return redirect(url_for("dino") + '?token=token')
+    return page
 
-    dino.meals_delete(meal_id)
+@app.route('/latemeals/delete', methods=['GET'])
+def deleteLatemeal():
+    token = request.args.get('token')
+    meal_id = request.args.get('meal')
+    from_page = request.args.get('from')
+    if from_page is None:
+        page = authenticate_page(token, 'dinowrite')
+    else:
+        page = False
 
-    return redirect(url_for("dino") + '?token=token')
+    if not page:
+        latemeals.latemeal_delete(meal_id)
+
+        if from_page is None:
+            return redirect(url_for('latemeals') + '?token=' + token)
+        else:
+            return render_template('homepage.html', token=token, permission_denied=False)
+
+    return page
 
 @app.route("/dino/batchdelete", methods=["POST"])
 def batchDeleteMeal():
@@ -461,7 +479,7 @@ def confirm_file():
 # ======= Resident Information ======= #
 @app.route("/ressie", methods=["POST", "GET"])
 def resident():
-    token = request.args.get('token')
+    token = request.args.get('token') if request.method == 'GET' else request.form['token']
     page = authenticate_page(token, 'ressies')
 
     if not page:
@@ -500,10 +518,13 @@ def upload_residents():
 
 @app.route("/ressie/delete/<int:ressie_id>", methods=["GET"])
 def deleteRessie(ressie_id):
-    ressies.ressie_delete(ressie_id)
+    token = request.args.get('token')
 
-    return redirect(url_for("resident"))
-
+    page = authenticate_page(token, 'ressies')
+    if not page:
+        ressies.ressie_delete(ressie_id)
+        return redirect(url_for("resident"))
+    return page
 
 if __name__ == "__main__":
 

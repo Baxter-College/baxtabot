@@ -120,7 +120,7 @@ class Client(BaxtabotEntity):
     name = TextField()
     ressie = ForeignKeyField(Ressie, null=True)
     dietaries = TextField(default='None')
-    roomshown = BooleanField(default=True)
+    roomshown = BooleanField(default=False)
 
 class ClientPermissions(BaxtabotEntity):
     client = ForeignKeyField(Client)
