@@ -1,5 +1,6 @@
-import mammoth 
+import mammoth
 from bot.models import Meal
+import bot.functions as functions
 
 def meals_all():
     return Meal.select().order_by(Meal.date.desc())
