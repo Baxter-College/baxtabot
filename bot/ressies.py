@@ -17,7 +17,7 @@ def ressie_delete(ressie_id):
 def ressies_all():
     return Ressie.select()
 
-def file_upload():
+def file_upload(file):
     # Delete all ressie currently in the DB
     ressies = Ressie.select()
     for ressie in ressies:
