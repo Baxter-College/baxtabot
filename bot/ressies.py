@@ -11,7 +11,7 @@ def ressie_create(first_name, last_name, room_number):
         )  # get the first digit of the room number and set that as floor
 
 def ressie_delete(ressie_id):
-    ressie = models.Ressie.select().where(models.Ressie.id == ressie_id).get()
+    ressie = Ressie.select().where(Ressie.id == ressie_id).get()
     ressie.delete_instance()
 
 def ressies_all():
@@ -19,7 +19,7 @@ def ressies_all():
 
 def file_upload():
     # Delete all ressie currently in the DB
-    ressies = models.Ressie.select()
+    ressies = Ressie.select()
     for ressie in ressies:
         ressie.delete_instance()
 

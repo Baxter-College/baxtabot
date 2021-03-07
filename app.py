@@ -307,7 +307,7 @@ def upload():
 @app.route("/dino")
 def dino_menu():
     token = request.args.get('token')
-    page = authenticate_page(token, 'dinoread')
+    page = authenticate_page(token, 'dinowrite')
 
     if not page:
         meals = dino.meals_all()
