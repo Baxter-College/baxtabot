@@ -294,7 +294,7 @@ def upload():
     if not page:
         if request.method == "POST":
             url = request.form["assetURL"]
-            calendar.calendar_upload()
+            calendar.calendar_upload(url)
 
         assets = calendar.calendars_all()
         return render_template("upload.html", assets=assets, token=token)
@@ -511,7 +511,7 @@ def deleteRessie(ressie_id):
         ressies.ressie_delete(ressie_id)
         ressie_list = ressies.ressies_all()
         return render_template("ressie.html", ressies=ressie_list, token=token)
-        
+
     return page
 
 if __name__ == "__main__":
