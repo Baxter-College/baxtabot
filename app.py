@@ -232,7 +232,7 @@ def profile():
         user.user_update()
 
     client = user.user_profile(token)
-    outstanding_meals = latemeals.outstanding_meals_resident(client.id)
+    outstanding_meals = latemeals.latemeals_oustanding_resident(client.id)
 
     return render_template('profile.html', user=client, token=token, outstandingMeals=outstandingMeals)
 
@@ -295,7 +295,7 @@ def upload():
         if request.method == "POST":
             url = request.form["assetURL"]
             date = request.form['date']
-            
+
             calendar.calendar_upload(url, date)
 
         assets = calendar.calendars_all()
