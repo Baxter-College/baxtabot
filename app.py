@@ -378,7 +378,7 @@ def deleteLatemeal():
         latemeals.latemeal_delete(meal_id)
 
         if from_page is None:
-            return redirect(url_for('latemeals') + '?token=' + token)
+            return redirect(url_for('latemealsList') + '?token=' + token)
         else:
             return render_template('homepage.html', token=token, permission_denied=False)
 
@@ -408,7 +408,7 @@ def latemealsBatchComplete():
         for id in form.getlist('complete'):
             latemeals.latemeals_setcompleted(int(id))
 
-        return redirect(url_for('latemeals') + '?token=' + token)
+        return redirect(url_for('latemealsList') + '?token=' + token)
     return page
 
 @app.route("/dino/fileadd", methods=["GET", "POST"])
