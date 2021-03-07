@@ -1,3 +1,4 @@
+import mammoth 
 from bot.models import Meal
 
 def meals_all():
