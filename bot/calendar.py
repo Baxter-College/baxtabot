@@ -1,6 +1,6 @@
 from bot.models import WeekCal
 
-def calendar_upload(url):
+def calendar_upload(url, date):
     # do image upload
     # response = functions.uploadAsset(url)
 
@@ -11,7 +11,7 @@ def calendar_upload(url):
         cal.delete_instance()
 
     WeekCal.create(
-        assetID=url, week_start=request.form["date"]
+        assetID=url, week_start=date
     )
 
 def calendars_all():

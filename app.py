@@ -294,7 +294,9 @@ def upload():
     if not page:
         if request.method == "POST":
             url = request.form["assetURL"]
-            calendar.calendar_upload(url)
+            date = request.form['date']
+            
+            calendar.calendar_upload(url, date)
 
         assets = calendar.calendars_all()
         return render_template("upload.html", assets=assets, token=token)
