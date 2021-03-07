@@ -463,7 +463,7 @@ def confirm_file():
 
             dino.meals_add(date, description, meals[meal - 1])
 
-    return redirect(url_for("dino"))
+    return redirect(url_for("admin"))
 
 
 # ======= Resident Information ======= #
