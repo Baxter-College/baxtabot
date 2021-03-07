@@ -234,7 +234,7 @@ def profile():
     client = user.user_profile(token)
     outstanding_meals = latemeals.latemeals_oustanding_resident(client['id'])
 
-    return render_template('profile.html', user=client, token=token, outstandingMeals=outstandingMeals)
+    return render_template('profile.html', user=client, token=token, outstandingMeals=outstanding_meals)
 
 ## This code needs reviewing
 
