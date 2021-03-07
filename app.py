@@ -232,7 +232,7 @@ def profile():
         user.user_update()
 
     client = user.user_profile(token)
-    outstanding_meals = latemeals.latemeals_oustanding_resident(client.id)
+    outstanding_meals = latemeals.latemeals_oustanding_resident(client['id'])
 
     return render_template('profile.html', user=client, token=token, outstandingMeals=outstandingMeals)
 
