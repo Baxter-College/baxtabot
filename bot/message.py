@@ -165,7 +165,7 @@ def handle_getroom_message(received_message):
     return functions.getRoomNumber(name)
 
 # Sends own response
-def handle_crushlist_message(sender_psid, received_message, me):
+def handle_crushlist_message(sender_psid, received_message):
     me = models.Sender.select().where(models.Sender.psid == sender_psid).get()
 
     response = Response(sender_psid)
@@ -263,7 +263,7 @@ def handleMessage(sender_psid, received_message):
             response.text = handle_getroom_message(received_message)
 
     elif "crush list" in received_message:
-        response.text = handle_crushlist_message(sender_psid, received_message, me)
+        response.text = handle_crushlist_message(sender_psid, received_message)
     else:
         reply = bot.reply(str(sender_psid), received_message)
         response.text = str(reply)
