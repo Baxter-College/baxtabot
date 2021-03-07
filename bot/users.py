@@ -1,4 +1,4 @@
-from bot.models import Client, ClientPermissions
+from bot.models import Client, ClientPermissions, ActiveTokens
 
 def users_all():
     user_list = Client.select(Client.id, Client.ressie, Client.name, Client.email, Client.position, ClientPermissions.dinoread,
