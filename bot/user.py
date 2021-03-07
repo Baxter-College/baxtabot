@@ -8,5 +8,5 @@ def user_update(token, email, dietaries, roomshown):
     user.save()
 
 def user_profile(token):
-    return Client.select(Client.name, Client.email, Client.position,
+    return Client.select(Client.id, Client.name, Client.email, Client.position,
                         Client.dietaries, Client.roomshown).join(ActiveTokens).where(ActiveTokens.token == token).dicts()[0]
