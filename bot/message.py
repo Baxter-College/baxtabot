@@ -78,13 +78,12 @@ def massMessage(text):
 def handle_dino_message(sender_psid, received_message):
     response = Response(sender_psid)
     meal = functions.findMeal(received_message)
-    if not meal:
-        theMeal = functions.getCurrentDino()
-
     addTime = functions.findTime(received_message)
 
-    theMeal = functions.dinoRequestObj(meal, addTime)
-
+    if not meal:
+        theMeal = functions.getCurrentDino()
+    else:
+        theMeal = functions.dinoRequestObj(meal, addTime)
     if not theMeal:
         text = (
             f"Someone hasn't updated the menu 🤦‍♀️... yell at {OFFICERS}"
