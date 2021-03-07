@@ -325,6 +325,7 @@ def handle_addcrush(sender_psid, received_message, conversation, me):
         me.save()
         return "OK"
 
+    msg_text = received_message['text']
     _, confidence, myCrush = models.Sender.fuzzySearch(msg_text)
 
     me.add_crush(myCrush)
@@ -340,6 +341,7 @@ def handle_addcrush(sender_psid, received_message, conversation, me):
         Response(myCrush.psid, msg).send()
 
 def handle_removecrush(sender_psid, received_message, conversation, me):
+    msg_text = received_message['text']
     _, confidence, myCrush = models.Sender.fuzzySearch(msg_text)
 
     for aCrush in me.crushes:
