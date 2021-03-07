@@ -165,7 +165,7 @@ def handle_getroom_message(received_message):
     return functions.getRoomNumber(name)
 
 # Sends own response
-def handle_crushlist_message(sender_psid, received_message):
+def handle_crushlist_message(sender_psid, received_message, me):
     me = models.Sender.select().where(models.Sender.psid == sender_psid).get()
 
     response = Response(sender_psid)
@@ -263,7 +263,7 @@ def handleMessage(sender_psid, received_message):
             response.text = handle_getroom_message(received_message)
 
     elif "crush list" in received_message:
-        response.text = handle_crushlist_message(sender_psid, received_message)
+        response.text = handle_crushlist_message(sender_psid, received_message, me)
     else:
         reply = bot.reply(str(sender_psid), received_message)
         response.text = str(reply)
@@ -339,7 +339,7 @@ def handle_addcrush(sender_psid, received_message, conversation, me):
         Response(sender_psid, msg).send()
         Response(myCrush.psid, msg).send()
 
-def handle_removecrush(sender_psid, received_message, conversation):
+def handle_removecrush(sender_psid, received_message, conversation, me):
     _, confidence, myCrush = models.Sender.fuzzySearch(msg_text)
 
     for aCrush in me.crushes:
@@ -379,7 +379,7 @@ def handleConversation(sender_psid, received_msg, conversation):
         handle_addcrush(sender_psid, received_msg, conversation, me)
 
     elif conversation == "REMOVECRUSH":
-        handle_removecrush(sender_psid, received_msg, conversation)
+        handle_removecrush(sender_psid, received_msg, conversation, me)
 
     elif conversation == "DINOIMAGE":
         handle_dinoimage(sender_psid, received_msg, conversation)
