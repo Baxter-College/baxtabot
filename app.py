@@ -480,7 +480,6 @@ def resident():
             ressies.ressie_create(first_name, last_name, room_number)
 
         ressie_list = ressies.ressies_all()
-
         return render_template("ressie.html", ressies=ressie_list, token=token)
     return page
 
@@ -501,8 +500,7 @@ def upload_residents():
         ressies.file_upload(file)
 
     ressie_list = ressies.ressies_all()
-
-    return render_template("ressie.html", ressies=ressie_list)
+    return render_template("ressie.html", ressies=ressie_list, token=token)
 
 @app.route("/ressie/delete/<int:ressie_id>", methods=["GET"])
 def deleteRessie(ressie_id):
@@ -511,7 +509,9 @@ def deleteRessie(ressie_id):
     page = authenticate_page(token, 'ressies')
     if not page:
         ressies.ressie_delete(ressie_id)
-        return redirect(url_for("resident"))
+        ressie_list = ressies.ressies_all()
+        return render_template("ressie.html", ressies=ressie_list, token=token)
+        
     return page
 
 if __name__ == "__main__":
