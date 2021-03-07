@@ -210,7 +210,7 @@ def updateUser():
     # print(client_id, token)
 
     if not page:
-        users.user_update(client_id, position, dinoread, dinowrite, calendar, sport, latemeals, ressies, _users)
+        users.user_update(client_id, position, dinoread, dinowrite, calendar, latemeals, sport, ressies, _users)
         user_list = users.users_all()
         return render_template('users.html', users=user_list, token=token)
 

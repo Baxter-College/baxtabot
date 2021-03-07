@@ -23,7 +23,7 @@ def user_update(client_id, position, dinoread, dinowrite, calendar, latemeals, s
     user.save()
 
 
-def user_delete():
+def user_delete(client_id):
     token = ActiveTokens.select().where(ActiveTokens.client == client_id)
 
     if token:
