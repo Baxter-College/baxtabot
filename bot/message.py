@@ -261,7 +261,7 @@ def handleMessage(sender_psid, received_message):
             response.text = 'Sorry, we don\'t have you down as a resident of Baxter. If you think there\'s a mistake then contact Nick!'
         else:
             response.text = handle_getroom_message(received_message)
-            
+
     elif "crush list" in received_message:
         response.text = handle_crushlist_message(sender_psid, received_message)
     else:
@@ -316,7 +316,7 @@ def handlePostback(sender_psid, received_postback, msg):
     response.send()
     return "OK"
 
-def handle_addcrush(sender_psid, received_message, conversation):
+def handle_addcrush(sender_psid, received_message, conversation, me):
     # Check if we have more than 5 crushes already
     if len(me.crushes) >= 5:
         Response(sender_psid, "You can't have more than 5 crushes!").send()
@@ -376,7 +376,7 @@ def handleConversation(sender_psid, received_msg, conversation):
     me = models.Sender.select().where(models.Sender.psid == sender_psid).get()
 
     if conversation == "ADDCRUSH":
-        handle_addcrush(sender_psid, received_msg, conversation)
+        handle_addcrush(sender_psid, received_msg, conversation, me)
 
     elif conversation == "REMOVECRUSH":
         handle_removecrush(sender_psid, received_msg, conversation)
