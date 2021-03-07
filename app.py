@@ -229,7 +229,7 @@ def profile():
         email = form['email']
         dietaries = form['dietaries']
         roomshown = form.get('roomshown')
-        user.user_update()
+        user.user_update(token, email, dietaries, roomshown)
 
     client = user.user_profile(token)
     outstanding_meals = latemeals.latemeals_oustanding_resident(client['id'])
