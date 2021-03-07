@@ -164,17 +164,6 @@ def latemealsList():
 
     return page
 
-@app.route('/latemeals/delete', methods=['GET'])
-def deleteLatemeal():
-    token = request.args.get('token')
-    meal_id = request.args.get('meal')
-    page = authenticate_page(token, 'latemeals')
-
-    if not page:
-        latemeals.latemeal_delete(meal_id)
-        return redirect(url_for('latemealsList') + '?token=' + token)
-
-    return page
 
 @app.route('/users')
 def users_all():
