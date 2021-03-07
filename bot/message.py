@@ -78,13 +78,12 @@ def massMessage(text):
 def handle_dino_message(sender_psid, received_message):
     response = Response(sender_psid)
     meal = functions.findMeal(received_message)
-    if not meal:
-        meal = functions.getCurrentDino()
-
     addTime = functions.findTime(received_message)
 
-    theMeal = functions.dinoRequestObj(meal, addTime)
-
+    if not meal:
+        theMeal = functions.getCurrentDino()
+    else:
+        theMeal = functions.dinoRequestObj(meal, addTime)
     if not theMeal:
         text = (
             f"Someone hasn't updated the menu 🤦‍♀️... yell at {OFFICERS}"
@@ -95,7 +94,7 @@ def handle_dino_message(sender_psid, received_message):
 
     else:
         text = (
-            functions.dinoRequest(meal, addTime)
+            functions.dinoRequest(theMeal.type, addTime)
             # + f"\n\n💕==========💕\nThis dino update brought to you by my undying and eternal love for Jacinta Wright.\n Here is a generated love sonnet:\n {sonnetGen()}"
         )
         response.add_reply(Reply("Add Image", payload="DINOIMAGE"))
