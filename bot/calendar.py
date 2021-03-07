@@ -5,7 +5,7 @@ def calendar_upload(url, date):
     # response = functions.uploadAsset(url)
 
     # Delete any existing calendars for the same week
-    existingCal = WeekCal.select().where(WeekCal.week_start == request.form['date'])
+    existingCal = WeekCal.select().where(WeekCal.week_start == date)
     if existingCal:
         cal = existingCal.get()
         cal.delete_instance()
