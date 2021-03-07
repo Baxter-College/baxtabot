@@ -6,12 +6,12 @@ def meals_all():
     return Meal.select().order_by(Meal.date.desc())
 
 def meals_add(date, description, type):
-    models.Meal.create(
+    Meal.create(
         date=date, description=description, type=type
     )
 
 def meals_delete(meal_id):
-    meal = models.Meal.select().where(models.Meal.id == meal_id).get()
+    meal = Meal.select().where(Meal.id == meal_id).get()
     meal.delete_instance()
 
 def file_extract_docx(file):
