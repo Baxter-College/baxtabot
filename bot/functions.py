@@ -220,9 +220,6 @@ def orderLateMeal(message, sender_psid):
 
     return meal_name, getTimeFromAddTime(addTime).date().strftime('%d/%m/%Y')
 
-def setMealCompleted(latemealid):
-    query = models.LateMeal.update(completed=True).where(models.LateMeal.id == latemealid)
-    query.execute()
 
 def getRessieBySender(sender_psid):
     data = humanisePSID(sender_psid)
@@ -428,9 +425,12 @@ def getRoomNumber(name):
 
     try:
         gotName, confidence, ressie = models.Ressie.fuzzySearch(name)
-        client = models.Client.select().join(models.Ressie).where(models.Ressie.id == ressie.id).get()
-        if not client.roomshown:
-            return '{} is in baxter and has room sharing turned off'.format(gotName)
+        client = models.Client.select().join(models.Ressie).where(models.Ressie.id == ressie.id)
+        if client:
+            client = client.get()
+
+            if not client.roomshown:
+                return '{} is in baxter and has turned room sharing off'.format(gotName)
 
         if confidence < 85:
             return "{} is in room {} (I'm {} percent sure I know who you're talking about)".format(

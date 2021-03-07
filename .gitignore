@@ -1,6 +1,9 @@
 # Other Stuff
 venv/
 
+# Test database
+test.db
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
