@@ -51,6 +51,10 @@ After Github you will need to go to the [Heroku website](https://id.heroku.com/l
 
 Register an account at [Facebook Developers](https://developers.facebook.com) and ask to be added to the Baxtabot project. This platform isn't used for much except looking at analytics for people messaging the bot. Make sure you can also access Baxtabot - Dev. Once you've been added you should also be an administrator on the facebook pages themselves (they should appear on your pages).
 
+#### Facebook
+
+Ask to be added to the Baxtabot and Baxtabot - DEV facebook pages as an editor. You'll be able to see what messages people send 😈 !!
+
 #### Baxtabot
 
 Make sure you have registered an account on the [Baxtabot system](http://baxtabot.herokuapp.com). 
@@ -110,6 +114,16 @@ Go to **webhooks section** in facebook apps dashboard and click "edit subscripti
 You may need to create `PAGE_ACCESS_TOKEN` in your `.env` file. You can get this also from the facebook apps dashboard under the dev bot.
 
 To add a test user, go to: developers.facebook.com/requests
+
+### Make sure Nick adds you to all of these
+
+* [ ] GitHub Philip Baxter College Organisation
+* [ ] Baxtabot Facebook Page
+* [ ] Baxtabot - Dev Facebook Page
+* [ ] Baxtabot Facebook for Developers
+* [ ] Baxtabot - Dev Facebook for Developers
+* [ ] Heroku 
+* [ ] Heroku-Dev 
 
 ## Future
 
