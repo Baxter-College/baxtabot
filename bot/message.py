@@ -78,6 +78,20 @@ def massMessage(text):
     psids = [x.psid for x in senders]
     groupMessage(psids, text)
 
+def is_dino_message(message):
+    return ("dinner" in received_message
+    or "lunch" in received_message
+    or "breakfast" in received_message
+    or "what's dino" in received_message
+    or "what’s dino" in received_message
+    or "what is dino" in received_message
+    or "what's for dino" in received_message
+    or "for dino" in received_message
+    or "whats dino" in received_message
+    or "dino" in received_message) and (
+        'late meal' not in received_message
+    ) and ('time' not in received_message)
+
 def handle_dino_message(sender_psid, response, received_message):
     '''
     Handles a message related to dino.
@@ -242,11 +256,7 @@ def handleMessage(sender_psid, received_message):
 
     if "psid" in received_message:
         Response(sender_psid, text=str(sender_psid)).send()
-    elif (
-        "dinner" in received_message
-        or "lunch" in received_message
-        or "breakfast" in received_message
-    ) and 'late meal' not in received_message and 'time' not in received_message:
+    elif is_dino_message(received_message):
         response.text = handle_dino_message(sender_psid, response, received_message)
     elif (
         "dinopoll" in received_message
@@ -275,17 +285,7 @@ def handleMessage(sender_psid, received_message):
         or "vote" in received_message
     ):
         response.text = handle_dinovote_message(response, received_message)
-    elif (
-        "what's dino" in received_message
-        or "what’s dino" in received_message
-        or "what is dino" in received_message
-        or "what's for dino" in received_message
-        or "for dino" in received_message
-        or "whats dino" in received_message
-        or "dino" in received_message
-    ) and 'time' not in received_message:
-        response.text = handle_dino_message(sender_psid, received_message)
-    # Testing adding a new feature
+
     elif "snazzy pic" in received_message:
         response.text = handle_dinovote_message(sender_psid, received_message)
 
