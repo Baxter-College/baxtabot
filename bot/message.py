@@ -256,8 +256,6 @@ def handleMessage(sender_psid, received_message):
 
     if "psid" in received_message:
         Response(sender_psid, text=str(sender_psid)).send()
-    elif is_dino_message(received_message):
-        response.text = handle_dino_message(sender_psid, response, received_message)
     elif (
         "dinopoll" in received_message
         or "dino like" in received_message
@@ -285,7 +283,8 @@ def handleMessage(sender_psid, received_message):
         or "vote" in received_message
     ):
         response.text = handle_dinovote_message(response, received_message)
-
+    elif is_dino_message(received_message):
+        response.text = handle_dino_message(sender_psid, response, received_message)
     elif "snazzy pic" in received_message:
         response.text = handle_dinovote_message(sender_psid, received_message)
 
