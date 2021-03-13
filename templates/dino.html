@@ -14,34 +14,9 @@
 		</form>
 		<a href='/admin?token={{token}}'>Back</a>
 		<hr>
-		<h3>Add a Meal 🌮</h3>
-		<form action="/dino/add" method="post" class="pure-form pure-form-stacked">
-			<input name='token' value='{{token}}' style='display: none' />
-			<input name="date" type="date"><br/>
-			<select name="type">
-			  	<option value="breakfast">Breakfast</option>
-			  	<option value="lunch">Lunch</option>
-			  	<option value="dinner">Dinner</option>
-			</select><br>
-			<textarea name="description" rows="8" cols="80" placeholder="what are you eating?"></textarea><br>
-			<input type="submit" value="Add Meal" class="pure-button pure-button-primary">
-		</form>
-		<hr>
-		<h3>Batch Upload 🎂</h3>
-		<form action="/dino/batch/add" method="post" class="pure-form pure-form-stacked">
-			<input name='token' value='{{token}}' style='display: none' />
-			<input name="date" type="date"><br/>
-			<h4>Breakfast:</h4>
-			<textarea name="breakfast_description" rows="8" cols="80" placeholder="what are you eating?"></textarea><br>
-			<h4>Lunch:</h4>
-			<textarea name="lunch_description" rows="8" cols="80" placeholder="what are you eating?"></textarea><br>
-			<h4>Dinner:</h4>
-			<textarea name="dinner_description" rows="8" cols="80" placeholder="what are you eating?"></textarea><br>
-			<input type="submit" value="Add Meals" class="pure-button pure-button-primary">
-		</form>
-		<hr>
+		
 		<h3>All Meals</h3>
-
+		
 		<form action="/dino/batchdelete" method="post">
 		<input type="submit" value="Delete Selected" class="pure-button pure-button-primary">
 		<input name='token' value='{{token}}' style='display: none' />
