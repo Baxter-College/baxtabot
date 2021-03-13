@@ -1,15 +1,15 @@
 {% extends "layout.html" %}
 
-{% block title %}Upload Calendar{% endblock %}
+{% block title %}Calendar{% endblock %}
 
 {% block content %}
 		<div><h2>Calendar Portal</h2></div>
 		<hr>
-		<form action="/upload" method="post">
+		<form action="/calendar/upload" method="post">
 			<input name='token' value='{{token}}' style='display: none' />
 			<p>Week starting:</p>
 			<input type="date" name="date"><br>
-			<p>Asset URL:</p>
+			<p>Calendar URL:</p>
 			<input type="text" name="assetURL"><br>
 			<input type="submit" value="SEND">
 		</form>
@@ -20,7 +20,7 @@
 		{% for asset in assets %}
 
 			<div class="cal">
-				<p>Attatchment ID: {{asset.assetID}}</p>
+				<p>Calendar URL: {{asset.assetID}}</p>
 				<p>For Week Starting: {{asset.week_start}}</p>
 			</div>
 
