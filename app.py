@@ -333,25 +333,6 @@ def addMeal():
 
     return page
 
-@app.route("/dino/batch/add", methods=["POST"])
-def batchAddMeal():
-    form = request.form
-    token = form['token']
-    date = form['date']
-    page = authenticate_page(token, 'dinowrite')
-
-    if not page:
-        if token is None or not auth.authenticate_token(token):
-            return render_template('index.html')
-        elif not functions.validateTokenPermissions(token, 'dinowrite'):
-            return render_template('homepage.html', permission_denied = True, token=token)
-
-        for meal in ["breakfast", "lunch", "dinner"]:
-            dino.add_meal(date, form[meal + "_description"], meal)
-
-        return redirect(url_for("dino") + '?token=token')
-
-    return page
 
 @app.route("/dino/delete", methods=["GET"])
 def deleteMeal():
