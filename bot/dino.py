@@ -42,6 +42,15 @@ def meals_delete(meal_id):
     meal.delete_instance()
 
 def file_extract_docx(file):
+    '''
+    Extracts the dino menu from a .docx file
+
+    Parameters:
+    - file: a file object
+
+    Return value:
+    - Parsed dino menu
+    '''
     result = mammoth.convert_to_html(file)
     html = result.value  # The generated HTML
     messages = (
@@ -52,4 +61,13 @@ def file_extract_docx(file):
     return extracted
 
 def file_extract_html(file):
+    '''
+    Extracts the dino menu from a .html file
+
+    Parameters:
+    - File: an open file object
+
+    Return value:
+    - Parsed dino menu
+    '''
     mealsByDay = functions.dinoparse(file.readlines())

@@ -78,18 +78,19 @@ def massMessage(text):
     psids = [x.psid for x in senders]
     groupMessage(psids, text)
 
-def handle_dino_message(sender_psid, received_message):
+def handle_dino_message(sender_psid, received_message, response):
     '''
     Handles a message related to dino.
 
     Parameters:
     - sender_psid: int
     - received_message: string
+    - response: Response object
 
     Return value: response message
 
     Side effects:
-    - Sends an image
+    - Sends an image of dino if exists
     '''
     meal = functions.findMeal(received_message)
     addTime = functions.findTime(received_message)
