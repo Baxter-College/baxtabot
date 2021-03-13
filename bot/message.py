@@ -299,7 +299,7 @@ def handleMessage(sender_psid, received_message):
         response.text = handle_latemeal_message(sender_psid, received_message)
 
     elif "room is" in received_message:
-        response.text = handle_getroom_message(received_message)
+        response.text = handle_getroom_message(sender_psid, received_message)
 
     elif "crush list" in received_message:
         response.text = handle_crushlist_message(sender_psid, response, received_message)
