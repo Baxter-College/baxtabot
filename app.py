@@ -317,22 +317,6 @@ def dino_menu():
     return page
 
 
-@app.route("/dino/add", methods=["POST"])
-def addMeal():
-    form = request.form
-    token = form['token']
-    date = form['date']
-    description = form['description']
-    type = form['type']
-    page = authenticate_page(token, 'dinowrite')
-
-    if not page:
-        dino.add_meal(date, description, type)
-        return redirect(url_for("dino") + '?token=' + token)
-
-    return page
-
-
 @app.route("/dino/delete", methods=["GET"])
 def deleteMeal():
     token = request.args.get('token')
