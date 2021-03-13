@@ -399,7 +399,7 @@ def handle_dinoimage(sender_psid, received_message, conversation):
         )
         img = models.MealImg.create(
             meal=dino.id,
-            url=received_msg["attachments"][0]["payload"]["url"],
+            url=received_message["attachments"][0]["payload"]["url"],
             sender=sender.id,
         )
         Response(sender_psid, image=img.url).send()
