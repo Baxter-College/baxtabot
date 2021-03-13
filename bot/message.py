@@ -474,8 +474,6 @@ def sendAsset(sender_psid, assetID, type):
 # ====== User functionality ===== #
 
 # TODO: move these into functions module
-
-
 def check_user_exists(sender_psid):
     print("check_user_exists")
     sender = models.Sender.select().where(models.Sender.psid == sender_psid)
