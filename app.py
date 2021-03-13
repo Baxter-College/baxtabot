@@ -285,7 +285,7 @@ def love():
 
 
 @app.route("/calendar", methods=["GET"])
-def calendar():
+def calendar_page():
     token = request.args.get('token')
 
     page = authenticate_page(token, 'calendar')
@@ -311,7 +311,7 @@ def upload():
 
         calendar.calendar_upload(url, date)
 
-        return redirect(url_for('calendar') + '?token=' + token)
+        return redirect(url_for('calendar_page') + '?token=' + token)
 
     return page
 
