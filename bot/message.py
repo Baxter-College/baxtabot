@@ -219,7 +219,7 @@ def handle_getroom_message(sender_psid, received_message):
         return functions.getRoomNumber(name)
 
 # Sends own response
-def handle_crushlist_message(response, sender_psid, received_message):
+def handle_crushlist_message(sender_psid, response, received_message):
     '''
     Handles message to ask for crushlist
 
