@@ -284,7 +284,7 @@ def love():
 # ====== Upload Asset ====== #
 
 
-@app.route("/upload", methods=["GET", "POST"])
+@app.route("/calendar/upload", methods=["GET", "POST"])
 def upload():
     token = request.args.get('token') if request.method == 'GET' else request.form['token']
 
@@ -299,7 +299,7 @@ def upload():
             calendar.calendar_upload(url, date)
 
         assets = calendar.calendars_all()
-        return render_template("upload.html", assets=assets, token=token)
+        return render_template("calendar.html", assets=assets, token=token)
 
     return page
 
