@@ -78,7 +78,7 @@ def massMessage(text):
     psids = [x.psid for x in senders]
     groupMessage(psids, text)
 
-def is_dino_message(message):
+def is_dino_message(received_message):
     return ("dinner" in received_message
     or "lunch" in received_message
     or "breakfast" in received_message
