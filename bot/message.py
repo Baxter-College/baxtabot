@@ -137,8 +137,8 @@ def handle_dinopoll_message(response, received_message):
     Side effects:
     - Adds a reply option to the response
     '''
-    response.text = functions.dinoPoll()
     response.add_reply(Reply("Dinovote"))
+    return functions.dinoPoll()
 
 # Sends own response + returns response
 def handle_calendar_message(sender_psid, received_message):
