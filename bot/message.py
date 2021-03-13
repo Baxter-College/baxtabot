@@ -49,6 +49,9 @@ bot.set_subroutine("get_hashbrowns", functions.get_hashbrowns)
 
 # ==== message handling ==== #
 def groupMessage(psids, text):
+    '''
+    Sends a message to a group of people
+    '''
     print("GROUP MESSAGE", "'" + text + "'")
     for psid in psids:
         print("    psid:", psid)
@@ -59,6 +62,7 @@ def groupMessage(psids, text):
 
 @celery.task(bind=True)
 def celeryTest(self):
+    ## What does this code do?? NP
     import time
     print(BROKER_URL)
     print("start celery")
@@ -74,9 +78,19 @@ def massMessage(text):
     psids = [x.psid for x in senders]
     groupMessage(psids, text)
 
-# Sends own response + returns text
 def handle_dino_message(sender_psid, received_message):
-    response = Response(sender_psid)
+    '''
+    Handles a message related to dino.
+
+    Parameters:
+    - sender_psid: int
+    - received_message: string
+
+    Return value: response message
+
+    Side effects:
+    - Sends an image
+    '''
     meal = functions.findMeal(received_message)
     addTime = functions.findTime(received_message)
 
@@ -197,7 +211,7 @@ def handleMessage(sender_psid, received_message):
         or "lunch" in received_message
         or "breakfast" in received_message
     ) and 'late meal' not in received_message and 'time' not in received_message:
-        response.text = handle_dino_message(sender_psid, received_message)
+        response.text = handle_dino_message(sender_psid, received_message, response)
     elif (
         "dinopoll" in received_message
         or "dino like" in received_message
