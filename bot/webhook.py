@@ -19,7 +19,7 @@ def handle_postback(sender_psid, webhook_event):
             webhook_event["message"]["text"],
         )
     except KeyError:
-        print('Can\'t send images')
+        return message.handlePostback(sender_psid, None, webhook_event['message']['text'])
 
 def handle_message(sender_psid, webhook_event):
     # handle the message
