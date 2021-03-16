@@ -3,6 +3,19 @@ import csv
 from io import StringIO
 
 def ressie_create(first_name, last_name, room_number):
+    '''
+    Creates a new resident
+
+    Parameters:
+    - first_name
+    - last_name
+    - room_number
+
+    Exceptions:
+    - InputError: len(first_name) < 2 or len(first_name) > 20
+    - InputError: len(last_name) < 2 or len(last_name) > 20
+    - InputError: room number < 0
+    '''
     Ressie.create(
         first_name = first_name,
         last_name = last_name,
@@ -11,10 +24,19 @@ def ressie_create(first_name, last_name, room_number):
         )  # get the first digit of the room number and set that as floor
 
 def ressie_delete(ressie_id):
+    '''
+    Deletes the resident with the specified id
+
+    Exceptions:
+    - InputError: no ressie exists with that id
+    '''
     ressie = Ressie.select().where(Ressie.id == ressie_id).get()
     ressie.delete_instance()
 
 def ressies_all():
+    '''
+    Returns a list of all ressies
+    '''
     return Ressie.select()
 
 def file_upload(file):
