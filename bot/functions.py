@@ -161,9 +161,10 @@ def dinoPoll():
     return message
 
 
-def getCurrentDino():
+def getCurrentDino(time=None):
 
-    time = datetime.datetime.now() + datetime.timedelta(hours=11)  # to make it aest
+    if time is None:
+        time = datetime.datetime.now() + datetime.timedelta(hours=11)  # to make it aest
 
     today = datetime.datetime.today() + datetime.timedelta(hours=11)
     breakfast = today.replace(hour=7, minute=0)

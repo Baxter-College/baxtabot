@@ -1,5 +1,6 @@
 # Other Stuff
 venv/
+.DS_Store
 
 # Test database
 test.db

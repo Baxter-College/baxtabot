@@ -5,14 +5,7 @@ Test file for functions in functions.py (that are testable...)
 from bot.functions import findMeal, findTime, extractName
 import bot.auth as auth
 import bot.models as models
-
-def clear():
-    q1 = models.ActiveTokens.delete()
-    q2 = models.ClientPermissions.delete()
-    q3 = models.Client.delete()
-    q1.execute()
-    q2.execute()
-    q3.execute()
+from bot.testutils import clear
 
 def test_findMeal():
     assert findMeal('What is for dinner') == 'dinner'
@@ -27,19 +20,3 @@ def test_extractName():
 
 def test_extractRessieFromCSV():
     pass
-
-def test_auth():
-    clear()
-    # Testing register and authentication works
-    result = auth.auth_register('nick.p@gmail.com', 'abc123', 'Nick Patrikeos')
-    assert result
-    assert auth.authenticate_token(result['token']) == result['u_id']
-
-    # Test logout works
-    assert auth.auth_logout(result['token']) == {'is_success': True}
-    assert not auth.authenticate_token(result['token'])
-
-    # Test logging back in works
-    login_result = auth.auth_login('nick.p@gmail.com', 'abc123')
-    assert login_result
-    assert auth.authenticate_token(login_result['token']) == result['u_id']
