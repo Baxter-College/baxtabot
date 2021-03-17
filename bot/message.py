@@ -456,7 +456,7 @@ def sendBubbles(sender_psid):
         print("It's all gone to shit! -> ", r.status_code)
         return "It's all gone to shit", r.status_code
 
-
+'''
 def sendAsset(sender_psid, assetID, type):
     """
 	Sends an asset to sender
@@ -470,7 +470,7 @@ def sendAsset(sender_psid, assetID, type):
     message = {"attachment": {"type": type, "payload": {"attachment_id": str(assetID)}}}
 
     callSendAPI(sender_psid, message)
-
+'''
 
 # ====== User functionality ===== #
 
