@@ -38,7 +38,7 @@
 						<td>{{ ressie.last_name }}</td>
 						<td>{{ ressie.room_number }}</td>
 						<td>{{ ressie.floor }}</td>
-						<td><a href="{{url_for('deleteRessie', ressie_id=ressie.id)}}?token={{token}}">Delete</a></td>
+						<td><a href="{{url_for('ressie_delete', ressie_id=ressie.id)}}?token={{token}}">Delete</a></td>
 					</tr>
 					{% endfor %}
 				</tbody>

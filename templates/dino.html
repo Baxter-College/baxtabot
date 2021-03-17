@@ -14,9 +14,9 @@
 		</form>
 		<a href='/admin?token={{token}}'>Back</a>
 		<hr>
-		
+
 		<h3>All Meals</h3>
-		
+
 		<form action="/dino/batchdelete" method="post">
 		<input type="submit" value="Delete Selected" class="pure-button pure-button-primary">
 		<input name='token' value='{{token}}' style='display: none' />
@@ -42,7 +42,7 @@
 					<td>
 						<input type="checkbox" value="{{meal.id}}" name="delete">
 					</td>
-					<td><a href="{{url_for('deleteMeal', meal_id=meal.id, token=token)}}">Delete</a></td>
+					<td><a href="{{url_for('meal_delete', meal_id=meal.id, token=token)}}">Delete</a></td>
 				</tr>
 				{% endfor %}
 			</tbody>
