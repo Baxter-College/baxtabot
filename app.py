@@ -319,7 +319,7 @@ def meal_delete():
 
     if not page:
         dino.meals_delete(meal_id)
-        return redirect(url_for("dino") + '?token=token')
+        return redirect(url_for("dino_menu") + '?token=token')
     return page
 
 @app.route('/latemeals/delete', methods=['GET'])
@@ -397,7 +397,7 @@ def upload_file():
                 return render_template("checkParser.html", mealsByDay=meals_by_day)
 
         else:
-            return redirect(url_for("dino"))
+            return redirect(url_for("dino_menu") + '?token=' + token)
     return page
 
 @app.route("/dino/file/confirm", methods=["POST"])
