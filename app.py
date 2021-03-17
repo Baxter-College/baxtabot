@@ -276,27 +276,38 @@ def love():
 # ====== Upload Asset ====== #
 
 
-@app.route("/upload", methods=["GET", "POST"])
-def upload():
-    token = request.args.get('token') if request.method == 'GET' else request.form['token']
+@app.route("/calendar", methods=["GET"])
+def calendar_page():
+    token = request.args.get('token')
 
     page = authenticate_page(token, 'calendar')
     print(page)
 
     if not page:
-        if request.method == "POST":
-            url = request.form["assetURL"]
-            date = request.form['date']
-
-            calendar.calendar_upload(url, date)
-
         assets = calendar.calendars_all()
-        return render_template("upload.html", assets=assets, token=token)
+        return render_template("calendar.html", assets=assets, token=token)
+
+    return page
+
+
+@app.route("/calendar/upload", methods=["POST"])
+def upload():
+    token = request.form['token']
+
+    page = authenticate_page(token, 'calendar')
+    print(page)
+
+    if not page:
+        url = request.form["assetURL"]
+        date = request.form['date']
+
+        calendar.calendar_upload(url, date)
+
+        return redirect(url_for('calendar_page') + '?token=' + token)
 
     return page
 
 # ====== Add a meal ====== #
-
 
 @app.route("/dino")
 def dino_menu():
@@ -309,41 +320,6 @@ def dino_menu():
 
     return page
 
-
-@app.route("/dino/add", methods=["POST"])
-def addMeal():
-    form = request.form
-    token = form['token']
-    date = form['date']
-    description = form['description']
-    type = form['type']
-    page = authenticate_page(token, 'dinowrite')
-
-    if not page:
-        dino.add_meal(date, description, type)
-        return redirect(url_for("dino") + '?token=' + token)
-
-    return page
-
-@app.route("/dino/batch/add", methods=["POST"])
-def batchAddMeal():
-    form = request.form
-    token = form['token']
-    date = form['date']
-    page = authenticate_page(token, 'dinowrite')
-
-    if not page:
-        if token is None or not auth.authenticate_token(token):
-            return render_template('index.html')
-        elif not functions.validateTokenPermissions(token, 'dinowrite'):
-            return render_template('homepage.html', permission_denied = True, token=token)
-
-        for meal in ["breakfast", "lunch", "dinner"]:
-            dino.add_meal(date, form[meal + "_description"], meal)
-
-        return redirect(url_for("dino") + '?token=token')
-
-    return page
 
 @app.route("/dino/delete", methods=["GET"])
 def deleteMeal():
