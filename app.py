@@ -3,41 +3,25 @@
 # Runs and handles all connections to the web server
 # trying to fix probs
 
+
+import secrets
+import re
+import argparse
+
+from binascii import unhexlify
+from Crypto.Hash import SHA256
+from Crypto.Signature import pkcs1_15
+from Crypto.PublicKey import RSA
+
 from flask import (
     Flask,
     request,
     render_template,
     redirect,
     url_for,
-    send_from_directory,
-)
-import os
-import json
-import csv
-import requests
-import datetime
-import secrets
-import mammoth
-import re
-from werkzeug.utils import secure_filename
-from bs4 import BeautifulSoup
-from io import StringIO
-
-from base64 import (
-    b64encode,
-    b64decode,
 )
 
-from Crypto.Hash import SHA256
-from Crypto.Signature import pkcs1_15
-from Crypto.PublicKey import RSA
-from binascii import hexlify, unhexlify
-
-import argparse
-
-from bot.settings import *
-
-from bot.Response import Response
+from bot.settings import DEBUG, PORT
 import bot.models as models
 import bot.message as message
 import bot.functions as functions
@@ -54,7 +38,8 @@ SIGN_TOKEN = secrets.token_hex(16)
 '''
 if DEBUG:
     print(
-        "\n\n\nTHIS IS A LOCAL VERSION\n-> Ensure you set ngrok webhook URL in fb\n-> Ensure PAGE_ACCESS_TOKEN is set\n-> Make sure POSTGRES is Running!!!\n\n"
+        "\n\n\nTHIS IS A LOCAL VERSION\n-> Ensure you set ngrok webhook URL in fb\n->
+        Ensure PAGE_ACCESS_TOKEN is set\n-> Make sure POSTGRES is Running!!!\n\n"
     )
 '''
 # import logging
@@ -160,7 +145,10 @@ def latemealsList():
     if not page:
         outstanding_meals = latemeals.latemeals_oustanding()
         completed_meals = latemeals.latemeals_completed()
-        return render_template('latemeals.html', outstandingMeals=outstanding_meals, completedMeals=completed_meals, token=token)
+        return render_template(
+            'latemeals.html', outstandingMeals=outstanding_meals,
+            completedMeals=completed_meals, token=token
+        )
 
     return page
 
@@ -210,7 +198,10 @@ def updateUser():
     # print(client_id, token)
 
     if not page:
-        users.user_update(client_id, position, dinoread, dinowrite, calendar, latemeals, sport, ressies, _users)
+        users.user_update(client_id, position, dinoread,
+                        dinowrite, calendar, latemeals,
+                        sport, ressies, _users)
+
         user_list = users.users_all()
         return render_template('users.html', users=user_list, token=token)
 
@@ -234,7 +225,8 @@ def profile():
     client = user.user_profile(token)
     outstanding_meals = latemeals.latemeals_oustanding_resident(client['id'])
 
-    return render_template('profile.html', user=client, token=token, outstandingMeals=outstanding_meals)
+    return render_template('profile.html', user=client,
+                            token=token, outstandingMeals=outstanding_meals)
 
 ## This code needs reviewing
 
@@ -455,7 +447,11 @@ def confirm_file():
             things = form.getlist(str(day) + "/" + str(meal))
             description = "\n\n".join(things)
 
-            subs = {"&amp;": "&", "\\x96": "-", "\\x92": "'", "\\u2019":"'", "\\u2018":"'", "\\u2013": "-"}
+            subs = {
+                "&amp;": "&", "\\x96": "-",
+                "\\x92": "'", "\\u2019":"'",
+                "\\u2018":"'", "\\u2013": "-"
+            }
 
             for sub, repl in subs.items():
                 description = re.sub(sub, repl, description)
@@ -487,6 +483,8 @@ def resident():
 
 @app.route('/ressie/fileadd', methods=['GET', 'POST'])
 def upload_residents():
+    payload = request.form
+    token = payload['token']
 
     if request.method == 'POST':
         if 'file' not in request.files:

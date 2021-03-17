@@ -212,10 +212,11 @@ def handle_getroom_message(sender_psid, received_message):
 
     try:
         ressie = functions.getRessieBySender(sender_psid)
-    except:
-        return 'Sorry, we don\'t have you down as a resident of Baxter. If you think there\'s a mistake then contact Nick!'
+    except Exception as e:
+        return f' {e} Sorry, we don\'t have you down as a resident of Baxter. If you think there\'s a mistake then contact Nick!'
     else:
         name = functions.extractName(received_message)
+        print('name is', name)
         return functions.getRoomNumber(name)
 
 # Sends own response
@@ -253,6 +254,7 @@ def handleMessage(sender_psid, received_message):
 
     received_message = received_message.lower()
     response = Response(sender_psid)
+    print(sender_psid)
 
     if "psid" in received_message:
         Response(sender_psid, text=str(sender_psid)).send()

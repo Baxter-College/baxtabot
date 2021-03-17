@@ -8,6 +8,7 @@
 		<h3>Upload Resident File</h3>
 		<form action="/ressie/fileadd" method=post enctype=multipart/form-data>
 		  <input type=file name=file>
+		  <input name="token" value="{{token}}" style="display: none" />
 		  <input type=submit value=Upload>
 		</form>
 		<hr>

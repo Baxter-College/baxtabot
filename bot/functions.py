@@ -275,7 +275,7 @@ def generateLateMealStickers(meals):
 
 def getRessieBySender(sender_psid):
     data = humanisePSID(sender_psid)
-
+    print(data)
     if not data:
         print("received message from ghost!")
         return
@@ -284,7 +284,9 @@ def getRessieBySender(sender_psid):
 
     _, confidence, ressie = models.Ressie.fuzzySearch(name)
     if confidence <= 70:
-        raise Exception('Ressie not found')
+        print(sender_psid)
+        if sender_psid != 'cmd':
+            raise Exception('Ressie not found')
     else:
         return ressie
 
@@ -490,11 +492,11 @@ def getRoomNumber(name):
             )
         return "{} is in room {}".format(gotName, ressie.room_number)
     except Exception as e:
-        print(Exception, e)
         traceback.print_exc()
-        return """I could not find a room number for '{}' ... are you sure they go to Baxter?
+        return """I could not find a room number for '{}' ... are you sure they go to Baxter?\n
+        They may not have registered an account at baxtabot.herokuapp.com !! So go nag them to do that xD\n
           \nPlease make sure you spell their full name correctly.\n\n (Fun fact: Some people use names that are not in fact their names. Nicknames won't work)""".format(
-            " ".join(name).title()
+            "".join(name).title()
         )
 
 def dinoparse(lines):
