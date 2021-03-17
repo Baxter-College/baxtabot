@@ -352,7 +352,7 @@ def batch_delete_meal():
             meal_id = int(meal)
             dino.meals_delete(meal_id)
 
-        return redirect(url_for("dino") + '?token=' + token)
+        return redirect(url_for("dino_menu") + '?token=' + token)
     return page
 
 @app.route('/latemeals/batchcompleted', methods=['POST'])
