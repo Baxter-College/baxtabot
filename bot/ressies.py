@@ -41,9 +41,11 @@ def ressies_all():
 
 def file_upload(file):
     # Delete all ressie currently in the DB
+    '''
     ressies = Ressie.select()
     for ressie in ressies:
         ressie.delete_instance()
+    '''
 
     # Read through the CSV and create new Ressie entries
     FILE = StringIO(file.read().decode('utf-8'))
