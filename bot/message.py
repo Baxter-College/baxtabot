@@ -286,10 +286,15 @@ def handleMessage(sender_psid, received_message):
     elif is_dino_message(received_message):
         response.text = handle_dino_message(sender_psid, response, received_message)
     elif "snazzy pic" in received_message:
-        response.text = handle_dinovote_message(sender_psid, received_message)
 
-    elif "days left" in received_message or "semester" in received_message:
-        response.text = functions.semesterResponse()
+        meal = functions.getCurrentDino()
+        if meal is not None and meal.images:
+            image = random.choice([image for image in meal.images])
+            Response(sender_psid, image=image.url).send()
+            Response(sender_psid, f"Photo by: {image.sender.full_name}").send()
+        else:
+            Response(sender_psid, "No snazzy pics :(").send()
+            
 
     elif 'am i a ressiexd' in received_message:
         pass
