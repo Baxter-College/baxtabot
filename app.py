@@ -446,7 +446,7 @@ def dino():
         return render_template('homepage.html', permission_denied = True, token=token)
 
     meals = models.Meal.select().order_by(models.Meal.date.desc())
-    return render_template("dino.html", meals=meals, token=token)
+    return render_template("dinowrite.html", meals=meals, token=token)
 
 
 @app.route("/dino/add", methods=["POST"])
