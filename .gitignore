@@ -1,5 +1,9 @@
 # Other Stuff
 venv/
+.DS_Store
+
+# Test database
+test.db
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

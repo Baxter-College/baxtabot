@@ -11,7 +11,11 @@ import requests
 import math
 import mammoth
 import re
+import yagmail
 from bs4 import BeautifulSoup
+from docx import Document
+from docx.shared import Pt, Cm
+from docx.enum.text import WD_ALIGN_PARAGRAPH
 
 from bot.settings import *
 
@@ -157,9 +161,10 @@ def dinoPoll():
     return message
 
 
-def getCurrentDino():
+def getCurrentDino(time=None):
 
-    time = datetime.datetime.now() + datetime.timedelta(hours=11)  # to make it aest
+    if time is None:
+        time = datetime.datetime.now() + datetime.timedelta(hours=11)  # to make it aest
 
     today = datetime.datetime.today() + datetime.timedelta(hours=11)
     breakfast = today.replace(hour=7, minute=0)
@@ -220,9 +225,53 @@ def orderLateMeal(message, sender_psid):
 
     return meal_name, getTimeFromAddTime(addTime).date().strftime('%d/%m/%Y')
 
-def setMealCompleted(latemealid):
-    query = models.LateMeal.update(completed=True).where(models.LateMeal.id == latemealid)
-    query.execute()
+
+def generateStickersDocument(oustanding_meals):
+    document = Document()
+
+    sections = document.sections
+    for section in sections:
+        section.top_margin = Cm(1.5)
+        section.bottom_margin = Cm(0)
+        section.left_margin = Cm(0.46)
+        section.right_margin = Cm(0.46)
+
+    meals_processed = 0
+    print(oustanding_meals)
+
+    while True:
+        if meals_processed >= len(oustanding_meals):
+            break
+
+        table = document.add_table(rows=7, cols=2)
+
+        for row in table.rows:
+            row.height = Cm(3.76)
+            for cell in row.cells:
+
+                if meals_processed >= len(oustanding_meals):
+                    break
+
+                meal = oustanding_meals[meals_processed]
+                print(meal)
+                cell.text = f"\n{meal['id']} {meal['first_name']} {meal['last_name']}\n{meal['college']}\n{meal['date']}\n{meal['dietaries']}"
+                cell.paragraphs[0].paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
+
+                meals_processed += 1
+
+    print('Meal processing completed')
+    document.save('LatemealStickers/LatemealStickers.docx')
+
+
+def sendLateMealStickersEmail():
+    email = yagmail.SMTP('baxtabot21@gmail.com', 'meqdeh-5Jysve-xewtuc')
+    email.send('n.patrikeos@student.unsw.edu.au', 'Late meals', contents='LatemealStickers/LatemealStickers.docx')
+
+def generateLateMealStickers(meals):
+
+    oustanding_meals = models.LateMeal.select(models.LateMeal.id, models.Ressie.first_name, models.Ressie.last_name, models.Ressie.college, models.Meal.date, models.Meal.type, models.Client.dietaries).join(models.Ressie).join(models.Client).switch(models.LateMeal).join(models.Meal).where(models.LateMeal.id << meals).dicts()
+    generateStickersDocument(oustanding_meals)
+    sendLateMealStickersEmail()
 
 def getRessieBySender(sender_psid):
     data = humanisePSID(sender_psid)
@@ -376,9 +425,12 @@ def getRoomNumber(name):
 
     try:
         gotName, confidence, ressie = models.Ressie.fuzzySearch(name)
-        client = models.Client.select().join(models.Ressie).where(models.Ressie.id == ressie.id).get()
-        if not client.roomshown:
-            return '{} is in baxter and has room sharing turned off'.format(gotName)
+        client = models.Client.select().join(models.Ressie).where(models.Ressie.id == ressie.id)
+        if client:
+            client = client.get()
+
+            if not client.roomshown:
+                return '{} is in baxter and has turned room sharing off'.format(gotName)
 
         if confidence < 85:
             return "{} is in room {} (I'm {} percent sure I know who you're talking about)".format(
