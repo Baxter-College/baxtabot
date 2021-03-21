@@ -50,6 +50,8 @@ import bot.webhook as webhook
 import bot.dino as dino
 import bot.ressies as ressies
 
+from bot.error import InputError
+
 SIGN_TOKEN = secrets.token_hex(16)
 '''
 if DEBUG:
@@ -125,7 +127,7 @@ def register():
         try:
             result = auth.auth_register(email, password, name)
             # Set token into local storage
-        except auth.AuthException:
+        except InputError:
             return render_template('index.html')
         else:
             url = url_for('admin') + '?token=' + result['token']
@@ -142,7 +144,7 @@ def login():
 
     try:
         result = auth.auth_login(email, password)
-    except auth.AuthException:
+    except InputError:
         return render_template('index.html')
     else:
         url = url_for('admin') + '?token=' + result['token']

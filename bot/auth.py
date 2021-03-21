@@ -77,10 +77,10 @@ def auth_login(email, password):
     '''
 
     if not isinstance(email, str) or not isinstance(password, str):
-        raise AuthException("Input error: invalid arguments")
+        raise InputError("Input error: invalid arguments")
 
     if not email_valid(email):
-        raise AuthException("Input error: email is not valid")
+        raise InputError("Input error: email is not valid")
 
     encoder = hashlib.sha224()
     encoder.update(password.encode('utf-8'))
