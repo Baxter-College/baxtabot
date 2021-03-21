@@ -210,10 +210,7 @@ def handleMessage(sender_psid, received_message):
             Response(sender_psid, f"Photo by: {image.sender.full_name}").send()
         else:
             Response(sender_psid, "No snazzy pics :(").send()
-
-    elif "days left" in received_message or "semester" in received_message:
-        response.text = functions.semesterResponse()
-
+            
     elif 'am i a ressiexd' in received_message:
         pass
         '''
