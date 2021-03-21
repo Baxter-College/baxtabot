@@ -50,6 +50,8 @@ import bot.webhook as webhook
 import bot.dino as dino
 import bot.ressies as ressies
 
+from bot.error import InputError
+
 SIGN_TOKEN = secrets.token_hex(16)
 '''
 if DEBUG:
