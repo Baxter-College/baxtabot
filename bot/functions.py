@@ -398,58 +398,6 @@ def get_hashbrowns(rs, args):
         return "Nobody's been game to find out yet 🤔 Type 'sethashbrowns on' or 'sethashbrowns off' if you happen to get out of bed"
 
 
-# ======= Semester In Progress ======= #
-def semesterResponse():
-
-    # is this hardcoded? yes.
-    # do i give a shit? no. fuck you for judging me.
-    semStart = datetime.date(2019, 5, 31)
-    semEnd = datetime.date(2019, 9, 2)
-
-    response = "{}\n\nThere are {} days left until the semester ends".format(
-        progressBar(timeProgress(semStart, semEnd)), daysLeft(semEnd)
-    )
-
-    return response
-
-
-def yearProgress():
-    today = datetime.datetime.today() + datetime.timedelta(hours=11)  # to make it aest
-
-    percentage = math.floor((today.timetuple().tm_yday / 365) * 100)
-
-    return percentage
-
-
-def timeProgress(start, end):
-    today = datetime.datetime.today() + datetime.timedelta(hours=11)  # to make it aest
-
-    totalDays = (end - start).days
-    elapsedDays = (today.date() - start).days
-
-    percentage = math.floor((elapsedDays / totalDays) * 100)
-
-    return percentage
-
-
-def daysLeft(end):
-    today = datetime.datetime.today() + datetime.timedelta(hours=11)  # to make it aest
-
-    return (end - today.date()).days
-
-
-def progressBar(percentage):
-
-    percBar = "0% "
-
-    for i in range(10, 100, 10):
-        percBar += "▓" if (i < percentage) else "░"
-
-    percBar += " {}%".format(percentage)
-
-    return percBar
-
-
 # ===== Week Events ===== #
 def getWeekEvents():
 

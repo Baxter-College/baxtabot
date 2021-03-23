@@ -39,6 +39,8 @@ import bot.webhook as webhook
 import bot.dino as dino
 import bot.ressies as ressies
 
+from bot.error import InputError
+
 SIGN_TOKEN = secrets.token_hex(16)
 
 app = Flask(__name__)
@@ -302,11 +304,15 @@ def upload():
 @app.route("/dino")
 def dino_menu():
     token = request.args.get('token')
-    page = authenticate_page(token, 'dinowrite')
+    writepage = authenticate_page(token, 'dinowrite')
+    readpage = authenticate_page(token, 'dinoread')
+    meals = dino.meals_all()
 
-    if not page:
-        meals = dino.meals_all()
-        return render_template("dino.html", meals=meals, token=token)
+    if not writepage:
+        return render_template("dinowrite.html", meals=meals, token=token)
+        
+    elif not readpage:    
+        return render_template("dinoread.html", meals=meals, token=token)
 
     return page
 
