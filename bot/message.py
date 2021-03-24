@@ -387,7 +387,7 @@ def handle_addcrush(sender_psid, received_message, me):
     if int(sender_psid) in [crush.crushee.psid for crush in myCrush.crushes]:
         # You are the crush of your crush. It's a match!
         msg = (f"Congrats! {myCrush.full_name} is crushing on you!" +
-                "Matchmaker Baxtabot is here to match! You now have a date at" +
+                " Matchmaker Baxtabot is here to match! You now have a date at" +
                 f" {random.choice(DATE_LOCATIONS)} at {random.choice(range(1, 6))}pm tomorrow." +
                 " Clear you calendar - this is your chance 😉😘😜")
         Response(sender_psid, msg).send()
