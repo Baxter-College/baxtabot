@@ -25,7 +25,7 @@ else:
     # DEBUG = os.environ["DEBUG"]
     # PORT = os.environ["PORT"]
     PAGE_ACCESS_TOKEN = None
-    # OFFICER_PSIDS = [os.environ["DEBUG_PSID"]]  # current developer's psid
+    OFFICER_PSIDS =  [] #[os.environ["DEBUG_PSID"]]  # current developer's psid
 
     BROKER_URL = "redis://"
 
