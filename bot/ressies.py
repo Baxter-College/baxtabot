@@ -1,5 +1,6 @@
 from bot.models import Ressie
 import csv
+import bot.functions as functions
 from io import StringIO
 
 def ressie_create(first_name, last_name, room_number):

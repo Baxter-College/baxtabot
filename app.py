@@ -310,11 +310,11 @@ def dino_menu():
 
     if not writepage:
         return render_template("dinowrite.html", meals=meals, token=token)
-        
-    elif not readpage:    
+
+    elif not readpage:
         return render_template("dinoread.html", meals=meals, token=token)
 
-    return page
+    return readpage
 
 
 @app.route("/dino/delete", methods=["GET"])
