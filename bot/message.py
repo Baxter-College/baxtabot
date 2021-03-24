@@ -1,29 +1,33 @@
+'''
 # Message.py
 #
 # Functionality that involves connecting and sending messages to
 # the facebook Send API
+'''
 import traceback
-from celery import Celery
 
 import random
-import json
-import requests
+import time
 import datetime
-from bot.sonnets import sonnetGen
 from pprint import pprint
 
-
+import requests
+from celery import Celery
 from rivescript import RiveScript
 
-from bot.settings import *
-
+# from bot.settings import *
+from bot.settings import (
+    BROKER_URL, OFFICERS, OFFICER_PSIDS,
+    PAGE_ACCESS_TOKEN, DATE_LOCATIONS
+)
+# from bot.sonnets import sonnetGen
 from bot.Response import (
     Response,
-    Button,
-    URLButton,
+    # Button,
+    # URLButton,
     PostbackButton,
-    CallButton,
-    Message_Tag,
+    # CallButton,
+    # Message_Tag,
     Reply,
 )
 import bot.functions as functions
@@ -61,9 +65,8 @@ def groupMessage(psids, text):
             pass
 
 @celery.task(bind=True)
-def celeryTest(self):
+def celeryTest(self): # pylint: disable=unused-argument
     ## What does this code do?? NP
-    import time
     print(BROKER_URL)
     print("start celery")
     time.sleep(5)
@@ -72,7 +75,6 @@ def celeryTest(self):
 
 # @celery.task(bind=True)
 def massMessage(text):
-    import time
     time.sleep(5)
     senders = models.Sender.select()
     psids = [x.psid for x in senders]
@@ -119,7 +121,9 @@ def handle_dino_message(sender_psid, response, received_message):
     else:
         text = (
             functions.dinoRequest(theMeal.type, addTime)
-            # + f"\n\n💕==========💕\nThis dino update brought to you by my undying and eternal love for Jacinta Wright.\n Here is a generated love sonnet:\n {sonnetGen()}"
+            # + f"\n\n💕==========💕\nThis dino update brought to you
+            # by my undying and eternal love for Jacinta Wright.\n
+            # Here is a generated love sonnet:\n {sonnetGen()}"
         )
         response.add_reply(Reply("Add Image", payload="DINOIMAGE"))
         response.add_reply(Reply("Whats dino like?"))
@@ -130,7 +134,7 @@ def handle_dino_message(sender_psid, response, received_message):
     return text
 
 # Sends own response
-def handle_dinopoll_message(response, received_message):
+def handle_dinopoll_message(response):
     '''
     Responds to request to poll for dino
 
@@ -141,7 +145,7 @@ def handle_dinopoll_message(response, received_message):
     return functions.dinoPoll()
 
 # Sends own response + returns response
-def handle_calendar_message(sender_psid, received_message):
+def handle_calendar_message(sender_psid):
     '''
     Sends the calendar
 
@@ -156,15 +160,14 @@ def handle_calendar_message(sender_psid, received_message):
     if eventAsset:
         Response(sender_psid, image=eventAsset).send()
         return "Here is this week's calendar!"
-    else:
-        text="I couldn't send the weekly calendar! Please update me!!"
-        groupMessage(OFFICER_PSIDS, text)
+    text="I couldn't send the weekly calendar! Please update me!!"
+    groupMessage(OFFICER_PSIDS, text)
 
-        return "Here is this week's calendar!"
+    return "Here is this week's calendar!"
 
 
 # Sends own response
-def handle_dinovote_message(response, received_message):
+def handle_dinovote_message(response):
     '''
     Creates a poll for dino
 
@@ -180,7 +183,8 @@ def handle_dinovote_message(response, received_message):
 # Sends own response
 def send_dinoimages(sender_psid, meal):
     if meal.images:
-        image = random.choice([image for image in meal.images])
+        # image = random.choice([image for image in meal.images])
+        image = random.choice(list(meal.images))
         Response(sender_psid, image=image.url).send()
         Response(sender_psid, f"Photo by: {image.sender.full_name}").send()
     else:
@@ -197,8 +201,8 @@ def handle_latemeal_message(sender_psid, received_message):
     try:
         meal, date = functions.orderLateMeal(received_message, sender_psid)
         return f'Late meal ordered for {meal} on {date}!'
-    except Exception as e:
-        return 'Uh oh! Something went wrong: ' + str(e)
+    except Exception as excp: # pylint: disable=broad-except
+        return 'Uh oh! Something went wrong: ' + str(excp)
 
 # Returns text
 def handle_getroom_message(sender_psid, received_message):
@@ -211,16 +215,17 @@ def handle_getroom_message(sender_psid, received_message):
     '''
 
     try:
-        ressie = functions.getRessieBySender(sender_psid)
-    except Exception as e:
-        return f' {e} Sorry, we don\'t have you down as a resident of Baxter. If you think there\'s a mistake then contact Nick!'
+        functions.getRessieBySender(sender_psid)
+    except Exception as excp: # pylint: disable=broad-except
+        return (f'{excp} Sorry, we don\'t have you down as a resident of Baxter. ' +
+        'If you think there\'s a mistake then contact Nick!')
     else:
         name = functions.extractName(received_message)
         print('name is', name)
         return functions.getRoomNumber(name)
 
 # Sends own response
-def handle_crushlist_message(sender_psid, response, received_message):
+def handle_crushlist_message(sender_psid, response):
     '''
     Handles message to ask for crushlist
 
@@ -233,19 +238,19 @@ def handle_crushlist_message(sender_psid, response, received_message):
     '''
     me = models.Sender.select().where(models.Sender.psid == sender_psid).get()
 
-    if not len(me.crushes):
-        response.text = "You have no crushes"
+    if not len(me.crushes): # pylint: disable=len-as-condition
+        text = "You have no crushes"
     else:
         crushList = "Your crush list:\n"
         for crush in me.crushes:
             crushList += crush.crushee.full_name + "\n"
-        response.text = crushList
+        text = crushList
         response.add_reply(Reply("Remove Crush", payload="REMOVECRUSH"))
 
     response.add_reply(Reply("Add Crush", payload="ADDCRUSH"))
-    response.send()
+    return text
 
-
+# pylint: disable=too-many-branches
 def handleMessage(sender_psid, received_message):
     """
 	Handles a plain message request and determines what to do with it
@@ -263,7 +268,7 @@ def handleMessage(sender_psid, received_message):
         or "dino like" in received_message
         or "dino good" in received_message
     ):
-        response.text = handle_dinopoll_message(response, received_message)
+        response.text = handle_dinopoll_message(response)
     elif (
         "what's on" in received_message
         or "what’s on" in received_message
@@ -271,7 +276,7 @@ def handleMessage(sender_psid, received_message):
         or "event" in received_message
         or "calendar" in received_message
     ):
-        response.text = handle_calendar_message(sender_psid, received_message)
+        response.text = handle_calendar_message(sender_psid)
 
     elif "nudes" in received_message or "noods" in received_message:
         # response.asset = "270145943837548"
@@ -284,19 +289,19 @@ def handleMessage(sender_psid, received_message):
         or "dinovote" in received_message
         or "vote" in received_message
     ):
-        response.text = handle_dinovote_message(response, received_message)
+        response.text = handle_dinovote_message(response)
     elif is_dino_message(received_message):
         response.text = handle_dino_message(sender_psid, response, received_message)
     elif "snazzy pic" in received_message:
 
         meal = functions.getCurrentDino()
         if meal is not None and meal.images:
-            image = random.choice([image for image in meal.images])
+            image = random.choice(list(meal.images))
             Response(sender_psid, image=image.url).send()
             Response(sender_psid, f"Photo by: {image.sender.full_name}").send()
         else:
             Response(sender_psid, "No snazzy pics :(").send()
-            
+
 
     elif 'am i a ressiexd' in received_message:
         pass
@@ -308,19 +313,19 @@ def handleMessage(sender_psid, received_message):
         response.text = handle_getroom_message(sender_psid, received_message)
 
     elif "crush list" in received_message:
-        response.text = handle_crushlist_message(sender_psid, response, received_message)
+        response.text = handle_crushlist_message(sender_psid, response)
     else:
         reply = bot.reply(str(sender_psid), received_message)
         response.text = str(reply)
 
     if sender_psid == "cmd":
         return response.payload
-    else:
-        print("sent back:")
-        pprint(response.payload)
-        response.send()
 
-        return "OK"
+    print("sent back:")
+    pprint(response.payload)
+    response.send()
+
+    return "OK"
 
 
 def handlePostback(sender_psid, received_postback, msg):
@@ -361,7 +366,7 @@ def handlePostback(sender_psid, received_postback, msg):
     response.send()
     return "OK"
 
-def handle_addcrush(sender_psid, received_message, conversation, me):
+def handle_addcrush(sender_psid, received_message, me):
     # Check if we have more than 5 crushes already
     if len(me.crushes) >= 5:
         Response(sender_psid, "You can't have more than 5 crushes!").send()
@@ -371,7 +376,7 @@ def handle_addcrush(sender_psid, received_message, conversation, me):
         return "OK"
 
     msg_text = received_message['text']
-    _, confidence, myCrush = models.Sender.fuzzySearch(msg_text)
+    _, confidence, myCrush = models.Sender.fuzzySearch(msg_text) # pylint: disable=unused-variable
 
     me.add_crush(myCrush)
 
@@ -381,13 +386,17 @@ def handle_addcrush(sender_psid, received_message, conversation, me):
 
     if int(sender_psid) in [crush.crushee.psid for crush in myCrush.crushes]:
         # You are the crush of your crush. It's a match!
-        msg = f"Congrats! {myCrush.full_name} is crushing on you! Matchmaker Baxtabot is here to match! You now have a date at {random.choice(DATE_LOCATIONS)} at {random.choice(range(6))}pm tomorrow. Clear you calendar - this is your chance 😉😘😜"
+        msg = (f"Congrats! {myCrush.full_name} is crushing on you!" +
+                "Matchmaker Baxtabot is here to match! You now have a date at" +
+                f" {random.choice(DATE_LOCATIONS)} at {random.choice(range(1, 6))}pm tomorrow." +
+                " Clear you calendar - this is your chance 😉😘😜")
         Response(sender_psid, msg).send()
         Response(myCrush.psid, msg).send()
+    return 'OK'
 
-def handle_removecrush(sender_psid, received_message, conversation, me):
+def handle_removecrush(sender_psid, received_message, me):
     msg_text = received_message['text']
-    _, confidence, myCrush = models.Sender.fuzzySearch(msg_text)
+    _, confidence, myCrush = models.Sender.fuzzySearch(msg_text) # pylint: disable=unused-variable
 
     for aCrush in me.crushes:
         if aCrush.crushee.psid == myCrush.psid:
@@ -398,7 +407,7 @@ def handle_removecrush(sender_psid, received_message, conversation, me):
 
     Response(sender_psid, "Done!").send()
 
-def handle_dinoimage(sender_psid, received_message, conversation):
+def handle_dinoimage(sender_psid, received_message):
     if "attachments" in received_message and received_message["attachments"][0]:
         dino = functions.getCurrentDino()
         sender = (
@@ -417,19 +426,19 @@ def handle_dinoimage(sender_psid, received_message, conversation):
 
 def handleConversation(sender_psid, received_msg, conversation):
 
-    if "text" in received_msg:
-        msg_text = received_msg["text"]
+    # if "text" in received_msg:
+    #    msg_text = received_msg["text"]
 
     me = models.Sender.select().where(models.Sender.psid == sender_psid).get()
 
     if conversation == "ADDCRUSH":
-        handle_addcrush(sender_psid, received_msg, conversation, me)
+        handle_addcrush(sender_psid, received_msg, me)
 
     elif conversation == "REMOVECRUSH":
-        handle_removecrush(sender_psid, received_msg, conversation, me)
+        handle_removecrush(sender_psid, received_msg, me)
 
     elif conversation == "DINOIMAGE":
-        handle_dinoimage(sender_psid, received_msg, conversation)
+        handle_dinoimage(sender_psid, received_msg)
 
     # End the conversation
     me.conversation = None
@@ -457,10 +466,11 @@ def sendBubbles(sender_psid):
 
     if r.status_code == 200:
         return "OK"
-    else:
-        print("It's all gone to shit! -> ", r.status_code)
-        return "It's all gone to shit", r.status_code
 
+    print("It's all gone to shit! -> ", r.status_code)
+    return "It's all gone to shit", r.status_code
+
+# pylint: disable=pointless-string-statement
 '''
 def sendAsset(sender_psid, assetID, type):
     """
@@ -487,24 +497,25 @@ def check_user_exists(sender_psid):
 
     if not data:
         print("received message from ghost!")
-        return
+        return None
 
     # Link them to the Ressie table if they are a Ressie
     name = data['first_name'] + ' ' + data['last_name']
     try:
-        _, confidence, ressie = models.Ressie.fuzzySearch(name)
+        _, confidence, ressie = models.Ressie.fuzzySearch(name) # pylint: disable=unused-variable
         if confidence <= 70:
             raise Exception
 
+        # pylint: disable=pointless-string-statement
         '''
         if not ressie.facebook_psid:
             ressie.facebook_psid = sender_psid
             ressie.save()
         '''
-    except Exception as e:
-        print(Exception, e)
+    except Exception as excp: # pylint: disable=broad-except
+        print(Exception, excp)
         traceback.print_exc()
-        pass
+
         # The FB user probably isn't from Baxter
 
     print(sender)
