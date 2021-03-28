@@ -15,7 +15,7 @@ def ressie_delete(ressie_id):
     ressie.delete_instance()
 
 def ressies_all():
-    ressies = Ressie.select(Ressie.first_name, Ressie.last_name, Ressie.room_number, Ressie.floor, Ressie.college,
+    ressies = Ressie.select(Ressie.id, Ressie.first_name, Ressie.last_name, Ressie.room_number, Ressie.floor, Ressie.college,
                         Client.dietaries).join(Client).dicts()
 
     return ressies
