@@ -188,12 +188,3 @@ def generate_token(user_id):
     """
     token = str(uuid4())
     return token
-
-def generate_reset_code(user_id):
-    """
-    Generates a reset code
-    """
-    reset_code = "".join(random.choices(string.ascii_uppercase + \
-            string.ascii_lowercase + string.digits, k=RESET_CODE_LEN))
-    database.password_reset_codes[reset_code] = user_id
-    return reset_code

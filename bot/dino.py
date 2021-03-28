@@ -71,3 +71,4 @@ def file_extract_html(file):
     - Parsed dino menu
     '''
     mealsByDay = functions.dinoparse(file.readlines())
+    return mealsByDay

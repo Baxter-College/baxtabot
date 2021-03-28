@@ -1,5 +1,6 @@
 from bot.models import Ressie
 import csv
+import bot.functions as functions
 from io import StringIO
 
 def ressie_create(first_name, last_name, room_number):
@@ -41,9 +42,11 @@ def ressies_all():
 
 def file_upload(file):
     # Delete all ressie currently in the DB
+    '''
     ressies = Ressie.select()
     for ressie in ressies:
         ressie.delete_instance()
+    '''
 
     # Read through the CSV and create new Ressie entries
     FILE = StringIO(file.read().decode('utf-8'))

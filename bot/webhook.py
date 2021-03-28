@@ -1,5 +1,5 @@
 import bot.message as message
-from bot.settings import OFFICERS
+from bot.settings import OFFICERS, VERIFY_TOKEN
 from bot.Response import (
     Response,
     Button,
