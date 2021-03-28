@@ -161,9 +161,10 @@ def dinoPoll():
     return message
 
 
-def getCurrentDino():
+def getCurrentDino(time=None):
 
-    time = datetime.datetime.now() + datetime.timedelta(hours=11)  # to make it aest
+    if time is None:
+        time = datetime.datetime.now() + datetime.timedelta(hours=11)  # to make it aest
 
     today = datetime.datetime.today() + datetime.timedelta(hours=11)
     breakfast = today.replace(hour=7, minute=0)
@@ -274,7 +275,7 @@ def generateLateMealStickers(meals):
 
 def getRessieBySender(sender_psid):
     data = humanisePSID(sender_psid)
-
+    print(data)
     if not data:
         print("received message from ghost!")
         return
@@ -283,7 +284,9 @@ def getRessieBySender(sender_psid):
 
     _, confidence, ressie = models.Ressie.fuzzySearch(name)
     if confidence <= 70:
-        raise Exception('Ressie not found')
+        print(sender_psid)
+        if sender_psid != 'cmd':
+            raise Exception('Ressie not found')
     else:
         return ressie
 
@@ -395,58 +398,6 @@ def get_hashbrowns(rs, args):
         return "Nobody's been game to find out yet 🤔 Type 'sethashbrowns on' or 'sethashbrowns off' if you happen to get out of bed"
 
 
-# ======= Semester In Progress ======= #
-def semesterResponse():
-
-    # is this hardcoded? yes.
-    # do i give a shit? no. fuck you for judging me.
-    semStart = datetime.date(2019, 5, 31)
-    semEnd = datetime.date(2019, 9, 2)
-
-    response = "{}\n\nThere are {} days left until the semester ends".format(
-        progressBar(timeProgress(semStart, semEnd)), daysLeft(semEnd)
-    )
-
-    return response
-
-
-def yearProgress():
-    today = datetime.datetime.today() + datetime.timedelta(hours=11)  # to make it aest
-
-    percentage = math.floor((today.timetuple().tm_yday / 365) * 100)
-
-    return percentage
-
-
-def timeProgress(start, end):
-    today = datetime.datetime.today() + datetime.timedelta(hours=11)  # to make it aest
-
-    totalDays = (end - start).days
-    elapsedDays = (today.date() - start).days
-
-    percentage = math.floor((elapsedDays / totalDays) * 100)
-
-    return percentage
-
-
-def daysLeft(end):
-    today = datetime.datetime.today() + datetime.timedelta(hours=11)  # to make it aest
-
-    return (end - today.date()).days
-
-
-def progressBar(percentage):
-
-    percBar = "0% "
-
-    for i in range(10, 100, 10):
-        percBar += "▓" if (i < percentage) else "░"
-
-    percBar += " {}%".format(percentage)
-
-    return percBar
-
-
 # ===== Week Events ===== #
 def getWeekEvents():
 
@@ -489,11 +440,11 @@ def getRoomNumber(name):
             )
         return "{} is in room {}".format(gotName, ressie.room_number)
     except Exception as e:
-        print(Exception, e)
         traceback.print_exc()
-        return """I could not find a room number for '{}' ... are you sure they go to Baxter?
+        return """I could not find a room number for '{}' ... are you sure they go to Baxter?\n
+        They may not have registered an account at baxtabot.herokuapp.com !! So go nag them to do that xD\n
           \nPlease make sure you spell their full name correctly.\n\n (Fun fact: Some people use names that are not in fact their names. Nicknames won't work)""".format(
-            " ".join(name).title()
+            "".join(name).title()
         )
 
 def dinoparse(lines):

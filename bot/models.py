@@ -1,13 +1,26 @@
-# Models.py
-#
-# Defines all database models that are used elsewhere
+'''
+Models.py
 
-import datetime
+Defines all database models that are used elsewhere
+'''
+
 import os
 from urllib.parse import urlparse
 
-from peewee import *
-from fuzzywuzzy import fuzz, process
+from peewee import (
+    PostgresqlDatabase,
+    SqliteDatabase,
+    DateField,
+    CharField,
+    TextField,
+    IntegerField,
+    BigIntegerField,
+    BooleanField,
+    ForeignKeyField,
+    DateTimeField,
+    Model
+)
+from fuzzywuzzy import process
 
 if "HEROKU" in os.environ:
     url = urlparse(os.environ["DATABASE_URL"])
@@ -29,10 +42,10 @@ else:
         }
     )
 
+# pylint: disable=too-few-public-methods
 class BaxtabotEntity(Model):
     class Meta:
         database = db
-
 
 class Meal(BaxtabotEntity):
     date = DateField()
@@ -97,7 +110,9 @@ class Ressie(BaxtabotEntity):
 
     @staticmethod
     def fuzzySearch(name):
-        """ Matches search by closest string, returns string match, confidence, record """
+        """
+        Matches search by closest string, returns string match, confidence, record
+        """
         dic = {ressie: ressie.full_name for ressie in Ressie.select()}
         print("fuxxdic", dic)
         outp = process.extractOne(
@@ -138,5 +153,7 @@ class ActiveTokens(BaxtabotEntity):
 
 def goGoPowerRangers():
     db.connect()
-    db.create_tables([Meal, Sender, WeekCal, Ressie, Crush, MealImg, LateMeal, Client, ClientPermissions, ActiveTokens], safe=True)
+    db.create_tables([Meal, Sender, WeekCal, Ressie, Crush,
+                      MealImg, LateMeal, Client, ClientPermissions, ActiveTokens],
+                      safe=True)
     db.close()

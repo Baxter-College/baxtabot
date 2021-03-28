@@ -1,10 +1,9 @@
-import bot.models as models
 import hashlib
 from uuid import uuid4
 import re
 
-class AuthException(Exception):
-    description = 'No description given'
+import bot.models as models
+from bot.error import InputError, AccessError
 
 def authenticate_token(token):
     found = models.ActiveTokens.select().where(models.ActiveTokens.token == token)
@@ -13,15 +12,29 @@ def authenticate_token(token):
 
 
 def auth_register(email, password, name):
-    """
-    Registers a new user. ####Returns their id and token.
-    """
+    '''
+    Registers a new user. If they are an existing resident,
+    links their registration to their residency.
+
+    Parameters:
+    - email
+    - password
+    - name
+
+    Exceptions:
+    - InputError: email is not valid
+    - InputError: email is already in use
+    - InputError: len(name) < 3 or len(name) > 100
+    - InputError: password is an empty string
+
+    Return value: {u_id, token}
+    '''
 
     if not isinstance(email, str) or not isinstance(password, str):
-        raise AuthException("Input error: invalid arguments")
+        raise InputError("Input error: invalid arguments")
 
     if not email_valid(email):
-        raise AuthException("Input error: email is not valid")
+        raise InputError("Input error: email is not valid")
 
     check_length(password, "password", 6, 64)
     check_length(name, "first name", 1, 200)
@@ -50,16 +63,24 @@ def auth_register(email, password, name):
     return {"u_id": user.id, "token": token}
 
 def auth_login(email, password):
-    """
-    Logs an existing user in. Returns their id and token.
-    """
+    '''
+    Logs an existing user in.
+
+    Parameters:
+    - email
+    - password
+
+    Exceptions:
+    - InputError: Email or password does not match the user's email and password in the database
+
+    Return value: {u_id, token}
+    '''
 
     if not isinstance(email, str) or not isinstance(password, str):
-        raise AuthException("Input error: invalid arguments")
+        raise InputError("Input error: invalid arguments")
 
     if not email_valid(email):
-        raise AuthException("Input error: email is not valid")
-
+        raise InputError("Input error: email is not valid")
 
     encoder = hashlib.sha224()
     encoder.update(password.encode('utf-8'))
@@ -70,7 +91,7 @@ def auth_login(email, password):
     try:
         user = user.get()
     except:
-        raise AuthException("Input error: email/password is not correct")
+        raise InputError("Input error: email/password is not correct")
 
 
     token = generate_token(user.id)
@@ -80,9 +101,14 @@ def auth_login(email, password):
 
 
 def auth_logout(token):
-    """
-    Logs an existing user out. Returns an indication of success.
-    """
+    '''
+    Logs an existing user out.
+
+    Parameters:
+    - token
+
+    Return value: {is_success}
+    '''
 
     if not isinstance(token, str):
         return {"is_success": False}
@@ -162,12 +188,3 @@ def generate_token(user_id):
     """
     token = str(uuid4())
     return token
-
-def generate_reset_code(user_id):
-    """
-    Generates a reset code
-    """
-    reset_code = "".join(random.choices(string.ascii_uppercase + \
-            string.ascii_lowercase + string.digits, k=RESET_CODE_LEN))
-    database.password_reset_codes[reset_code] = user_id
-    return reset_code

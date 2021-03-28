@@ -1,7 +1,21 @@
-# app.py
-#
-# Runs and handles all connections to the web server
-# trying to fix probs
+'''
+app.py
+
+Where the magic happens
+HTTP layer + server for Baxtabot
+
+Contributors: Tom Hill, Rohan Maloney, Nick Patrikeos
+'''
+
+
+import secrets
+import re
+import argparse
+
+# from binascii import unhexlify
+# from Crypto.Hash import SHA256
+# from Crypto.Signature import pkcs1_15
+# from Crypto.PublicKey import RSA
 
 from flask import (
     Flask,
@@ -9,35 +23,10 @@ from flask import (
     render_template,
     redirect,
     url_for,
-    send_from_directory,
-)
-import os
-import json
-import csv
-import requests
-import datetime
-import secrets
-import mammoth
-import re
-from werkzeug.utils import secure_filename
-from bs4 import BeautifulSoup
-from io import StringIO
-
-from base64 import (
-    b64encode,
-    b64decode,
 )
 
-from Crypto.Hash import SHA256
-from Crypto.Signature import pkcs1_15
-from Crypto.PublicKey import RSA
-from binascii import hexlify, unhexlify
-
-import argparse
-
-from bot.settings import *
-
-from bot.Response import Response
+from bot.settings import DEBUG, PORT
+from bot.error import InputError
 import bot.models as models
 import bot.message as message
 import bot.functions as functions
@@ -50,31 +39,16 @@ import bot.webhook as webhook
 import bot.dino as dino
 import bot.ressies as ressies
 
+from bot.error import InputError
+
 SIGN_TOKEN = secrets.token_hex(16)
-'''
-if DEBUG:
-    print(
-        "\n\n\nTHIS IS A LOCAL VERSION\n-> Ensure you set ngrok webhook URL in fb\n-> Ensure PAGE_ACCESS_TOKEN is set\n-> Make sure POSTGRES is Running!!!\n\n"
-    )
-'''
-# import logging
-# import http.client as http_client
-
-# http_client.HTTPConnection.debuglevel = 1
-
-# logging.basicConfig()
-# logging.getLogger().setLevel(logging.DEBUG)
-# requests_log = logging.getLogger("requests.packages.urllib3")
-# requests_log.setLevel(logging.DEBUG)
-# requests_log.propagate = True
 
 app = Flask(__name__)
-
 
 def authenticate_page(token, page):
     if token is None or not auth.authenticate_token(token):
         return render_template('index.html')
-    elif not functions.validateTokenPermissions(token, page):
+    if not functions.validateTokenPermissions(token, page):
         return render_template('homepage.html', permission_denied = True, token=token)
 
     return False
@@ -100,8 +74,8 @@ def admin():
 
     if token and auth.authenticate_token(token):
         return render_template('homepage.html', token=token, permission_denied=False)
-    else:
-        return render_template('index.html')
+
+    return render_template('index.html')
 
 @app.route('/logout')
 def logout():
@@ -125,7 +99,7 @@ def register():
         try:
             result = auth.auth_register(email, password, name)
             # Set token into local storage
-        except auth.AuthException:
+        except InputError:
             return render_template('index.html')
         else:
             url = url_for('admin') + '?token=' + result['token']
@@ -142,7 +116,7 @@ def login():
 
     try:
         result = auth.auth_login(email, password)
-    except auth.AuthException:
+    except InputError:
         return render_template('index.html')
     else:
         url = url_for('admin') + '?token=' + result['token']
@@ -153,14 +127,17 @@ def privacy():
     return render_template("privacy.html")
 
 @app.route('/latemeals')
-def latemealsList():
+def latemeals_all():
     token = request.args.get('token')
     page = authenticate_page(token, 'latemeals')
 
     if not page:
         outstanding_meals = latemeals.latemeals_oustanding()
         completed_meals = latemeals.latemeals_completed()
-        return render_template('latemeals.html', outstandingMeals=outstanding_meals, completedMeals=completed_meals, token=token)
+        return render_template(
+            'latemeals.html', outstandingMeals=outstanding_meals,
+            completedMeals=completed_meals, token=token
+        )
 
     return page
 
@@ -177,7 +154,7 @@ def users_all():
     return page
 
 @app.route('/user/delete', methods=['GET'])
-def deleteUser():
+def user_delete():
     token = request.args.get('token')
     page = authenticate_page(token, 'users')
     client_id = int(request.args.get('client_id'))
@@ -191,7 +168,7 @@ def deleteUser():
 
 
 @app.route('/user/update', methods=['POST'])
-def updateUser():
+def user_update():
     form = request.form
 
     client_id = form['client_id']
@@ -200,17 +177,20 @@ def updateUser():
 
     dinoread = form.get('dinoread')
     dinowrite = form.get('dinowrite')
-    calendar = form.get('calendar')
-    sport = form.get('sport')
-    latemeals = form.get('latemeals')
-    ressies = form.get('ressies')
+    _calendar = form.get('calendar')
+    _sport = form.get('sport')
+    _latemeals = form.get('latemeals')
+    _ressies = form.get('ressies')
     _users = form.get('users')
     token = form.get('token')
     page = authenticate_page(token, 'users')
     # print(client_id, token)
 
     if not page:
-        users.user_update(client_id, position, dinoread, dinowrite, calendar, latemeals, sport, ressies, _users)
+        users.user_update(client_id, position, dinoread,
+                        dinowrite, _calendar, _latemeals,
+                        _sport, _ressies, _users)
+
         user_list = users.users_all()
         return render_template('users.html', users=user_list, token=token)
 
@@ -234,10 +214,12 @@ def profile():
     client = user.user_profile(token)
     outstanding_meals = latemeals.latemeals_oustanding_resident(client['id'])
 
-    return render_template('profile.html', user=client, token=token, outstandingMeals=outstanding_meals)
+    return render_template('profile.html', user=client,
+                            token=token, outstandingMeals=outstanding_meals)
 
 ## This code needs reviewing
-
+# pylint: disable=pointless-string-statement
+'''
 @app.route("/update", methods=["POST", "GET"])
 def update():
     if request.method == "POST":
@@ -248,9 +230,8 @@ def update():
             message.callSendAPI(user.psid, response)
 
         return render_template("update.html")
-    else:
-        return render_template("update.html")
-
+    return render_template("update.html")
+'''
 
 @app.route("/webhook", methods=["POST", "GET"])
 def webhook_receive():
@@ -258,6 +239,8 @@ def webhook_receive():
 
 ## THIS CODE NEEDS REVIEWING
 
+# pylint: disable=pointless-string-statement
+'''
 @app.route("/loveorla", methods=["GET","POST"])
 def love():
     if request.method == "GET":
@@ -280,6 +263,7 @@ def love():
         except Exception as e:
             print(e)
             return "Invalid signature"
+'''
 
 # ====== Upload Asset ====== #
 
@@ -317,67 +301,35 @@ def upload():
 
 # ====== Add a meal ====== #
 
-
 @app.route("/dino")
 def dino_menu():
     token = request.args.get('token')
-    page = authenticate_page(token, 'dinowrite')
+    writepage = authenticate_page(token, 'dinowrite')
+    readpage = authenticate_page(token, 'dinoread')
+    meals = dino.meals_all()
 
-    if not page:
-        meals = dino.meals_all()
-        return render_template("dino.html", meals=meals, token=token)
+    if not writepage:
+        return render_template("dinowrite.html", meals=meals, token=token)
 
-    return page
+    elif not readpage:
+        return render_template("dinoread.html", meals=meals, token=token)
 
+    return readpage
 
-@app.route("/dino/add", methods=["POST"])
-def addMeal():
-    form = request.form
-    token = form['token']
-    date = form['date']
-    description = form['description']
-    type = form['type']
-    page = authenticate_page(token, 'dinowrite')
-
-    if not page:
-        dino.add_meal(date, description, type)
-        return redirect(url_for("dino") + '?token=' + token)
-
-    return page
-
-@app.route("/dino/batch/add", methods=["POST"])
-def batchAddMeal():
-    form = request.form
-    token = form['token']
-    date = form['date']
-    page = authenticate_page(token, 'dinowrite')
-
-    if not page:
-        if token is None or not auth.authenticate_token(token):
-            return render_template('index.html')
-        elif not functions.validateTokenPermissions(token, 'dinowrite'):
-            return render_template('homepage.html', permission_denied = True, token=token)
-
-        for meal in ["breakfast", "lunch", "dinner"]:
-            dino.add_meal(date, form[meal + "_description"], meal)
-
-        return redirect(url_for("dino") + '?token=token')
-
-    return page
 
 @app.route("/dino/delete", methods=["GET"])
-def deleteMeal():
+def meal_delete():
     token = request.args.get('token')
     meal_id = request.args.get('meal_id')
     page = authenticate_page(token, 'dinowrite')
 
     if not page:
         dino.meals_delete(meal_id)
-        return redirect(url_for("dino") + '?token=token')
+        return redirect(url_for("dino_menu") + '?token=token')
     return page
 
 @app.route('/latemeals/delete', methods=['GET'])
-def deleteLatemeal():
+def latemeal_delete():
     token = request.args.get('token')
     meal_id = request.args.get('meal')
     from_page = request.args.get('from')
@@ -390,14 +342,13 @@ def deleteLatemeal():
         latemeals.latemeal_delete(meal_id)
 
         if from_page is None:
-            return redirect(url_for('latemealsList') + '?token=' + token)
-        else:
-            return render_template('homepage.html', token=token, permission_denied=False)
+            return redirect(url_for('latemeals_all') + '?token=' + token)
+        return render_template('homepage.html', token=token, permission_denied=False)
 
     return page
 
 @app.route("/dino/batchdelete", methods=["POST"])
-def batchDeleteMeal():
+def batch_delete_meal():
     form = request.form
     token = form['token']
     page = authenticate_page(token, 'dinowrite')
@@ -407,20 +358,20 @@ def batchDeleteMeal():
             meal_id = int(meal)
             dino.meals_delete(meal_id)
 
-        return redirect(url_for("dino") + '?token=' + token)
+        return redirect(url_for("dino_menu") + '?token=' + token)
     return page
 
 @app.route('/latemeals/batchcompleted', methods=['POST'])
-def latemealsBatchComplete():
+def latemeals_batch_complete():
     form = request.form
     token = form['token']
     page = authenticate_page(token, 'dinowrite')
 
     if not page:
-        for id in form.getlist('complete'):
-            latemeals.latemeals_setcompleted(int(id))
+        for meal_id in form.getlist('complete'):
+            latemeals.latemeals_setcompleted(int(meal_id))
 
-        return redirect(url_for('latemealsList') + '?token=' + token)
+        return redirect(url_for('latemeals_all') + '?token=' + token)
     return page
 
 @app.route("/dino/fileadd", methods=["GET", "POST"])
@@ -452,7 +403,7 @@ def upload_file():
                 return render_template("checkParser.html", mealsByDay=meals_by_day)
 
         else:
-            return redirect(url_for("dino"))
+            return redirect(url_for("dino_menu") + '?token=' + token)
     return page
 
 @app.route("/dino/file/confirm", methods=["POST"])
@@ -467,7 +418,11 @@ def confirm_file():
             things = form.getlist(str(day) + "/" + str(meal))
             description = "\n\n".join(things)
 
-            subs = {"&amp;": "&", "\\x96": "-", "\\x92": "'", "\\u2019":"'", "\\u2018":"'", "\\u2013": "-"}
+            subs = {
+                "&amp;": "&", "\\x96": "-",
+                "\\x92": "'", "\\u2019":"'",
+                "\\u2018":"'", "\\u2013": "-"
+            }
 
             for sub, repl in subs.items():
                 description = re.sub(sub, repl, description)
@@ -499,6 +454,8 @@ def resident():
 
 @app.route('/ressie/fileadd', methods=['GET', 'POST'])
 def upload_residents():
+    payload = request.form
+    token = payload['token']
 
     if request.method == 'POST':
         if 'file' not in request.files:
@@ -513,11 +470,10 @@ def upload_residents():
 
         ressies.file_upload(file)
 
-    ressie_list = ressies.ressies_all()
-    return render_template("ressie.html", ressies=ressie_list, token=token)
+    return redirect(url_for('resident') + '?token=' + token)
 
 @app.route("/ressie/delete/<int:ressie_id>", methods=["GET"])
-def deleteRessie(ressie_id):
+def ressie_delete(ressie_id):
     token = request.args.get('token')
 
     page = authenticate_page(token, 'ressies')
@@ -541,7 +497,7 @@ if __name__ == "__main__":
 
     if args.terminal:
         while True:
-            msg = str(input("> "))
+            msg = str(input("> ")) # pylint: disable=invalid-name
             print("BAXTABOT: ", message.handleMessage("cmd", msg)["message"]["text"])
     else:
         app.run(debug=DEBUG, port=PORT, host="0.0.0.0")
