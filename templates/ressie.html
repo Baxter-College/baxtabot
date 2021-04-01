@@ -29,6 +29,8 @@
 					<th>Last Name</th>
 					<th>Room Number</th>
 					<th>Floor</th>
+					<th>Dietary Requirements</th>
+					<th>College</th>
 					<th>Delete</th>
 				</thead>
 				<tbody>
@@ -38,6 +40,8 @@
 						<td>{{ ressie.last_name }}</td>
 						<td>{{ ressie.room_number }}</td>
 						<td>{{ ressie.floor }}</td>
+						<td>{{ ressie.dietaries }}</td>
+						<td>{{ ressie.college }}</td>
 						<td><a href="{{url_for('ressie_delete', ressie_id=ressie.id)}}?token={{token}}">Delete</a></td>
 					</tr>
 					{% endfor %}
