@@ -11,7 +11,6 @@ from bot.Response import (
 )
 
 def handle_postback(sender_psid, webhook_event):
-    # handle the postback
     try:
         return message.handlePostback(
             sender_psid,
@@ -22,7 +21,6 @@ def handle_postback(sender_psid, webhook_event):
         return message.handlePostback(sender_psid, webhook_event["postback"], None)
 
 def handle_message(sender_psid, webhook_event):
-    # handle the message
     if (
         "quick_reply" in webhook_event["message"]
         and "payload" in webhook_event["message"]["quick_reply"]
