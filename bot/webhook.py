@@ -11,7 +11,6 @@ from bot.Response import (
 )
 
 def handle_postback(sender_psid, webhook_event):
-    # handle the postback
     try:
         return message.handlePostback(
             sender_psid,
