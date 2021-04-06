@@ -282,6 +282,9 @@ def handleMessage(sender_psid, received_message):
         # response.asset = "270145943837548"
         url = 'https://indomie.com.au/wp-content/uploads/2020/03/migorengjumbo-new.png'
         Response(sender_psid, image=url).send()
+    elif 'voted' in received_message:
+        data = functions.humanisePSID(sender_psid)
+        Response(3973058702707960, data['first_name'] + ' ' + data['last_name'] + ' has voted!').send()
     elif (
         "dino is shit" in received_message
         or "dino is bad" in received_message
@@ -292,6 +295,7 @@ def handleMessage(sender_psid, received_message):
         response.text = handle_dinovote_message(response)
     elif is_dino_message(received_message):
         response.text = handle_dino_message(sender_psid, response, received_message)
+        Response(sender_psid, text='Arc Board elections are currently underway. If you want someone to vote for, Nick Patrikeos who helps maintain me is running. Type "arc board" for more info!').send()
     elif "snazzy pic" in received_message:
 
         meal = functions.getCurrentDino()
@@ -301,7 +305,6 @@ def handleMessage(sender_psid, received_message):
             Response(sender_psid, f"Photo by: {image.sender.full_name}").send()
         else:
             Response(sender_psid, "No snazzy pics :(").send()
-
 
     elif 'am i a ressiexd' in received_message:
         pass
