@@ -285,6 +285,7 @@ def handleMessage(sender_psid, received_message):
     elif 'voted' in received_message:
         data = functions.humanisePSID(sender_psid)
         Response(3973058702707960, data['first_name'] + ' ' + data['last_name'] + ' has voted!').send()
+        response.text = 'Thanks for your support! Have a great dino meal'
     elif (
         "dino is shit" in received_message
         or "dino is bad" in received_message
