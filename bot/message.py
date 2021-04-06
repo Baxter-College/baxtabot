@@ -282,6 +282,9 @@ def handleMessage(sender_psid, received_message):
         # response.asset = "270145943837548"
         url = 'https://indomie.com.au/wp-content/uploads/2020/03/migorengjumbo-new.png'
         Response(sender_psid, image=url).send()
+    elif 'voted' in received_message:
+        data = humanisePSID(sender.psid)
+        Response(3973058702707960, data['first_name'] + ' ' + data['last_name'] + ' has voted!').send()
     elif (
         "dino is shit" in received_message
         or "dino is bad" in received_message
@@ -302,9 +305,6 @@ def handleMessage(sender_psid, received_message):
             Response(sender_psid, f"Photo by: {image.sender.full_name}").send()
         else:
             Response(sender_psid, "No snazzy pics :(").send()
-    elif 'voted' in received_message:
-        data = humanisePSID(sender.psid)
-        Response(3973058702707960, data['first_name'] + ' ' + data['last_name'] + ' has voted!').send()
 
     elif 'am i a ressiexd' in received_message:
         pass
