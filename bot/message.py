@@ -283,7 +283,7 @@ def handleMessage(sender_psid, received_message):
         url = 'https://indomie.com.au/wp-content/uploads/2020/03/migorengjumbo-new.png'
         Response(sender_psid, image=url).send()
     elif 'voted' in received_message:
-        data = functions.humanisePSID(sender.psid)
+        data = functions.humanisePSID(sender_psid)
         Response(3973058702707960, data['first_name'] + ' ' + data['last_name'] + ' has voted!').send()
     elif (
         "dino is shit" in received_message
