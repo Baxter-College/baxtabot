@@ -21,11 +21,11 @@ else:
     load_dotenv(dotenv_path=find_dotenv(), override=True)
 
     print("In a local environment!")
-
-    DEBUG = os.environ["DEBUG"]
-    PORT = os.environ["PORT"]
-    PAGE_ACCESS_TOKEN = os.environ["PAGE_ACCESS_TOKEN"]
-    OFFICER_PSIDS = [os.environ["DEBUG_PSID"]]  # current developer's psid
+    DEBUG, PORT = None, None
+    # DEBUG = os.environ["DEBUG"]
+    # PORT = os.environ["PORT"]
+    PAGE_ACCESS_TOKEN = None
+    OFFICER_PSIDS =  [] #[os.environ["DEBUG_PSID"]]  # current developer's psid
 
     BROKER_URL = "redis://"
 

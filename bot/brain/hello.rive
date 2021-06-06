@@ -54,10 +54,14 @@
 ^ - "dinner Saturday" \n
 ^ - "Is dino good?" \n
 ^ - "What's on?" / "calendar" \n
+^ - "What room is [your friends name] in" \n
+^ - "Add crush" ❤ \n
+^ - "I need the Duty Tutor!" / "I'm locked out" \n
+^ - "Tell me a joke" \n
+^ - "Add a Picture of Dino" \n
 ^ - and more \n
 ^ \n
 ^ Coming and returning soon: \n
-^ - Ressie room number search \n
 ^ - J&D and Shop status \n
 ^ - Vacuum tracker \n
 ^ - Late meals fast ordering \n
@@ -126,6 +130,9 @@
 + (omg)
 - 😮
 
++ [*] hey sexy [*]
+  -hey bitch ;)
+
 // Understand complements
 + [*] (love you|like you) [*]
 - Why thank you!
@@ -187,3 +194,13 @@
 
 + [*] (bitch|cunt|whore|skank|slut|hooker|your mom|idiot) [*]
 @ fuck you
+
++ arc board
+- My name is Nick Patrikeos, I'm a coder who helps maintain Baxtabot. I've decided to nominate for a position on the Arc Board to and it would be absolutely incredible to have your support! Voting only takes a couple of seconds, all you need to do is:\n
+^ \n
+^ 1. Click on the email sent to you by Arc (it will be sent to the email address you signed up to Arc with\n
+^ 2. Open the voting link\n
+^ 3. Vote[1] Nick Patrikeos\n
+^ 4. Click Submit\n
+^ \n
+^ Once you have done this please type "voted". Thanks so much!

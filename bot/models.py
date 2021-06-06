@@ -1,13 +1,26 @@
-# Models.py
-#
-# Defines all database models that are used elsewhere
+'''
+Models.py
 
-import datetime
+Defines all database models that are used elsewhere
+'''
+
 import os
 from urllib.parse import urlparse
 
-from peewee import *
-from fuzzywuzzy import fuzz, process
+from peewee import (
+    PostgresqlDatabase,
+    SqliteDatabase,
+    DateField,
+    CharField,
+    TextField,
+    IntegerField,
+    BigIntegerField,
+    BooleanField,
+    ForeignKeyField,
+    DateTimeField,
+    Model
+)
+from fuzzywuzzy import process
 
 if "HEROKU" in os.environ:
     url = urlparse(os.environ["DATABASE_URL"])
@@ -19,36 +32,35 @@ if "HEROKU" in os.environ:
         port=url.port,
     )
 else:
-    db_name = os.environ["DB_NAME"]
-    db_user = os.environ["DB_USER"]
-    db_pword = os.environ["DB_PASSWORD"]
-    db = PostgresqlDatabase(
-        db_name,
-        user=db_user,
-        password=db_pword,
+    # db_name = os.environ["DB_NAME"]
+    # db_user = os.environ["DB_USER"]
+    # db_pword = os.environ["DB_PASSWORD"]
+    db = SqliteDatabase(
+        'test.db',
+        pragmas={
+            'foreign_keys': 'on'
+        }
     )
 
+# pylint: disable=too-few-public-methods
+class BaxtabotEntity(Model):
+    class Meta:
+        database = db
 
-class Meal(Model):
+class Meal(BaxtabotEntity):
     date = DateField()
     type = CharField()
     description = TextField()
     likes = IntegerField(default=0)
     dislikes = IntegerField(default=0)
 
-    class Meta:
-        database = db
-
-class Sender(Model):
+class Sender(BaxtabotEntity):
     psid = BigIntegerField()
     first_name = CharField()
     last_name = CharField()
     profile_url = CharField()
     last_message = DateTimeField()
     conversation = CharField(null=True, default=None)
-
-    class Meta:
-        database = db
 
     @property
     def full_name(self):
@@ -71,32 +83,20 @@ class Sender(Model):
             name, {sender: sender.full_name for sender in Sender.select()}
         )
 
-class MealImg(Model):
+class MealImg(BaxtabotEntity):
     meal = ForeignKeyField(Meal, backref="images")
     url = TextField()
     sender = ForeignKeyField(Sender)
 
-    class Meta:
-        database = db
-
-
-class Crush(Model):
+class Crush(BaxtabotEntity):
     crushee = ForeignKeyField(Sender, backref="crushOf")
     crusher = ForeignKeyField(Sender, backref="crushes")
 
-    class Meta:
-        database = db
-
-
-class WeekCal(Model):
-    assetID = TextField()
+class WeekCal(BaxtabotEntity):
+    assetID = CharField()
     week_start = DateField()
 
-    class Meta:
-        database = db
-
-
-class Ressie(Model):
+class Ressie(BaxtabotEntity):
     first_name = CharField()
     last_name = CharField()
     room_number = IntegerField()
@@ -104,16 +104,15 @@ class Ressie(Model):
     college = CharField(default="baxter")  # Incase we use for the rest of TKC
     # facebook_psid = BigIntegerField()
 
-    class Meta:
-        database = db
-
     @property
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
 
     @staticmethod
     def fuzzySearch(name):
-        """ Matches search by closest string, returns string match, confidence, record """
+        """
+        Matches search by closest string, returns string match, confidence, record
+        """
         dic = {ressie: ressie.full_name for ressie in Ressie.select()}
         print("fuxxdic", dic)
         outp = process.extractOne(
@@ -123,16 +122,13 @@ class Ressie(Model):
         return outp
 
 
-class LateMeal(Model):
+class LateMeal(BaxtabotEntity):
     meal = ForeignKeyField(Meal)
     ressie = ForeignKeyField(Ressie)
     notes = TextField()
     completed = BooleanField()
 
-    class Meta:
-        database = db
-
-class Client(Model):
+class Client(BaxtabotEntity):
     email = TextField()
     password = TextField()
     position = TextField(default='')
@@ -141,11 +137,7 @@ class Client(Model):
     dietaries = TextField(default='None')
     roomshown = BooleanField(default=False)
 
-    class Meta:
-        database = db
-
-
-class ClientPermissions(Model):
+class ClientPermissions(BaxtabotEntity):
     client = ForeignKeyField(Client)
     dinoread = BooleanField(default=True)
     dinowrite = BooleanField(default=False)
@@ -155,18 +147,13 @@ class ClientPermissions(Model):
     sport = BooleanField(default=False)
     users = BooleanField(default=False)
 
-    class Meta:
-        database = db
-
-class ActiveTokens(Model):
+class ActiveTokens(BaxtabotEntity):
     client = ForeignKeyField(Client)
     token = TextField()
 
-    class Meta:
-        database = db
-
-
 def goGoPowerRangers():
     db.connect()
-    db.create_tables([Meal, Sender, WeekCal, Ressie, Crush, MealImg, LateMeal, Client, ClientPermissions, ActiveTokens], safe=True)
+    db.create_tables([Meal, Sender, WeekCal, Ressie, Crush,
+                      MealImg, LateMeal, Client, ClientPermissions, ActiveTokens],
+                      safe=True)
     db.close()
