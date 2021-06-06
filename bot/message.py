@@ -131,7 +131,7 @@ def handle_dino_message(sender_psid, response, received_message):
 
         send_dinoimages(sender_psid, theMeal)
     '''
-    text = 'Here is the dino menu: https://drive.google.com/file/d/1sPOCYpQmvxuWcG6CGF6bjNWujLk4QS2J/view?usp=sharing'
+    text = 'Here is the dino menu!!!: https://drive.google.com/file/d/1sPOCYpQmvxuWcG6CGF6bjNWujLk4QS2J/view?usp=sharing'
     return text
 
 # Sends own response
