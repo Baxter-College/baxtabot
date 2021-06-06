@@ -396,11 +396,11 @@ def upload_file():
 
             if file.filename.endswith(".docx"):
                 extracted = dino.file_extract_docx(file)
-                return render_template("checkParser.html", extracted=extracted)
+                return render_template("checkParser.html", extracted=extracted, token=token)
 
             if file.filename.endswith(".html") or file.filename.endswith(".htm"):
                 meals_by_day = dino.file_extract_html(file)
-                return render_template("checkParser.html", mealsByDay=meals_by_day)
+                return render_template("checkParser.html", mealsByDay=meals_by_day, token=token)
 
         else:
             return redirect(url_for("dino_menu") + '?token=' + token)
