@@ -30,7 +30,7 @@ else:
     BROKER_URL = "redis://"
 
 VERIFY_TOKEN = "GoodLordyThomasJHillLooksFineTonight"
-OFFICERS = "Nick or Tash"
+OFFICERS = "Tash or Nick"
 
 DATE_LOCATIONS = [
     "22 Grams Coffee",
