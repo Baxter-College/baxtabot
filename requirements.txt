@@ -9,7 +9,7 @@ requests==2.20.0
 requests-toolbelt==0.8.0
 rivescript==1.14.9
 six==1.11.0
-urllib3==1.24.2
+urllib3>=1.26.5
 Flask==1.0.2
 Jinja2==2.10.1
 MarkupSafe==1.1.1
