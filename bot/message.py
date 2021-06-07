@@ -105,7 +105,7 @@ def handle_dino_message(sender_psid, response, received_message):
     '''
     meal = functions.findMeal(received_message)
     addTime = functions.findTime(received_message)
-    '''
+
     if not meal:
         theMeal = functions.getCurrentDino()
     else:
@@ -130,8 +130,7 @@ def handle_dino_message(sender_psid, response, received_message):
         response.add_reply(Reply("Dinovote"))
 
         send_dinoimages(sender_psid, theMeal)
-    '''
-    text = 'Here is the dino menu!!!: https://drive.google.com/file/d/1sPOCYpQmvxuWcG6CGF6bjNWujLk4QS2J/view?usp=sharing'
+
     return text
 
 # Sends own response
