@@ -24,7 +24,7 @@ from bot.settings import (
 from bot.Response import (
     Response,
     # Button,
-    # URLButton,
+    URLButton,
     PostbackButton,
     # CallButton,
     # Message_Tag,
@@ -359,7 +359,6 @@ def handlePostback(sender_psid, received_postback, msg):
         start_conversation(sender_psid, "DINOIMAGE")
         response.text = "Send me a photo of dino!"
 
-    elif payload == ""
 
     else:
         # response.text = "[DEBUG] Received postback for some reason..."
