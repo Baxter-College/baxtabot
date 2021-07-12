@@ -194,7 +194,7 @@ def send_dinoimages(sender_psid, meal):
 # Returns text
 def handle_latemeal_message(sender_psid, received_message):
     '''
-    Orders a late meal
+    Orders a late dino
 
     Exceptions:
     - General error raising (FIX THIS LATER)
@@ -293,6 +293,7 @@ def handleMessage(sender_psid, received_message):
         response.text = handle_dinovote_message(response)
     elif is_dino_message(received_message):
         response.text = handle_dino_message(sender_psid, response, received_message)
+        # Response(sender_psid, text='Arc Board elections are currently underway. If you want someone to vote for, Nick Patrikeos who helps maintain me is running. Type "arc board" for more info!').send()
     elif "snazzy pic" in received_message:
 
         meal = functions.getCurrentDino()
@@ -302,7 +303,6 @@ def handleMessage(sender_psid, received_message):
             Response(sender_psid, f"Photo by: {image.sender.full_name}").send()
         else:
             Response(sender_psid, "No snazzy pics :(").send()
-
 
     elif 'am i a ressiexd' in received_message:
         pass
