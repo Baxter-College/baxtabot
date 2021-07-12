@@ -128,6 +128,7 @@ def handle_dino_message(sender_psid, response, received_message):
         response.add_reply(Reply("Add Image", payload="DINOIMAGE"))
         response.add_reply(Reply("Whats dino like?"))
         response.add_reply(Reply("Dinovote"))
+        response.add_button(URLButton('Dino Feedback Form!'), 'https://forms.office.com/Pages/ResponsePage.aspx?id=pM_2PxXn20i44Qhnufn7o91DYUQ6lW9MsGLk8aV9AgNUNEJUWlVMOUNFUlRFNk1CSkFIQVJDMEFYTi4u&qrcode=true')
 
         send_dinoimages(sender_psid, theMeal)
 
@@ -357,6 +358,8 @@ def handlePostback(sender_psid, received_postback, msg):
     elif payload == "DINOIMAGE":
         start_conversation(sender_psid, "DINOIMAGE")
         response.text = "Send me a photo of dino!"
+
+    elif payload == ""
 
     else:
         # response.text = "[DEBUG] Received postback for some reason..."
