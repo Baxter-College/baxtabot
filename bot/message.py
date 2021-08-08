@@ -70,6 +70,21 @@ def get_jd(rs, args):
     else:
         return "J&D is OFF 😭 😭 😭"
 
+def set_shop(rs, switch):
+
+    if switch[0].lower() == "on":
+        bot.set_variable("shop", True)
+        return "Shopen!"
+    else:
+        bot.set_variable("shop", None)
+        return "Shclosed 😭"
+
+
+def get_shop(rs, args):
+
+    shop = message.bot.get_variable("shop")
+
+    return "Shopen!!!" if shop else "Shclosed 😭"
 
 celery = Celery('bot', broker=BROKER_URL)
 
@@ -84,8 +99,8 @@ bot.sort_replies()
 # These functions can be used in the rivescript documents
 bot.set_subroutine("set_jd", set_jd)
 bot.set_subroutine("get_jd", get_jd)
-# bot.set_subroutine("set_shop", functions.set_shop)
-# bot.set_subroutine("get_shop", functions.get_shop)
+bot.set_subroutine("set_shop", set_shop)
+bot.set_subroutine("get_shop", get_shop)
 # bot.set_subroutine("set_hashbrowns", functions.set_hashbrowns)
 # bot.set_subroutine("get_hashbrowns", functions.get_hashbrowns)
 
