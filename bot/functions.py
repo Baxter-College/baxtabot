@@ -299,7 +299,7 @@ def getRessieBySender(sender_psid):
 
 # TODO: integrate this toggle action into a function so we are not duplicating functionality
 
-
+'''
 def set_shop(rs, switch):
 
     if switch[0].lower() == "on":
@@ -316,7 +316,7 @@ def get_shop(rs, args):
 
     return "Shopen!!!" if shop else "Shclosed 😭"
 
-
+'''
 # ===== Baxter Events ===== #
 # TODO: Move this into message module
 def uploadAsset(assetUrl):
