@@ -298,7 +298,6 @@ def getRessieBySender(sender_psid):
 # ===== Shopen ===== #
 
 # TODO: integrate this toggle action into a function so we are not duplicating functionality
-
 '''
 def set_shop(rs, switch):
 
