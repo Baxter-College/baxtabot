@@ -57,8 +57,8 @@ def set_jd(rs, switch):
 
 def get_jd(rs, args):
 
-    jd = message.bot.get_variable("jd")
-    jd_loc = message.bot.get_variable("jd_loc")
+    jd = bot.get_variable("jd")
+    jd_loc = bot.get_variable("jd_loc")
 
     jd_desc = ""
 
