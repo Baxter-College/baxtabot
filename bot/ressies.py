@@ -1,4 +1,4 @@
-from bot.models import Ressie
+from bot.models import Ressie, Client
 import csv
 import bot.functions as functions
 from io import StringIO
@@ -35,10 +35,10 @@ def ressie_delete(ressie_id):
     ressie.delete_instance()
 
 def ressies_all():
-    '''
-    Returns a list of all ressies
-    '''
-    return Ressie.select()
+    ressies = Ressie.select(Ressie.id, Ressie.first_name, Ressie.last_name, Ressie.room_number, Ressie.floor, Ressie.college,
+                        Client.dietaries).join(Client).dicts()
+
+    return ressies
 
 def file_upload(file):
     # Delete all ressie currently in the DB

@@ -24,7 +24,7 @@ from bot.settings import (
 from bot.Response import (
     Response,
     # Button,
-    # URLButton,
+    URLButton,
     PostbackButton,
     # CallButton,
     # Message_Tag,
@@ -166,6 +166,7 @@ def handle_dino_message(sender_psid, response, received_message):
         response.add_reply(Reply("Add Image", payload="DINOIMAGE"))
         response.add_reply(Reply("Whats dino like?"))
         response.add_reply(Reply("Dinovote"))
+        response.add_button(URLButton('Dino Feedback Form!', 'https://forms.office.com/Pages/ResponsePage.aspx?id=pM_2PxXn20i44Qhnufn7o91DYUQ6lW9MsGLk8aV9AgNUNEJUWlVMOUNFUlRFNk1CSkFIQVJDMEFYTi4u&qrcode=true'))
 
         send_dinoimages(sender_psid, theMeal)
 
@@ -231,7 +232,7 @@ def send_dinoimages(sender_psid, meal):
 # Returns text
 def handle_latemeal_message(sender_psid, received_message):
     '''
-    Orders a late meal
+    Orders a late dino
 
     Exceptions:
     - General error raising (FIX THIS LATER)
@@ -330,6 +331,7 @@ def handleMessage(sender_psid, received_message):
         response.text = handle_dinovote_message(response)
     elif is_dino_message(received_message):
         response.text = handle_dino_message(sender_psid, response, received_message)
+        # Response(sender_psid, text='Arc Board elections are currently underway. If you want someone to vote for, Nick Patrikeos who helps maintain me is running. Type "arc board" for more info!').send()
     elif "snazzy pic" in received_message:
 
         meal = functions.getCurrentDino()
@@ -339,7 +341,6 @@ def handleMessage(sender_psid, received_message):
             Response(sender_psid, f"Photo by: {image.sender.full_name}").send()
         else:
             Response(sender_psid, "No snazzy pics :(").send()
-
 
     elif 'am i a ressiexd' in received_message:
         pass
@@ -395,6 +396,7 @@ def handlePostback(sender_psid, received_postback, msg):
     elif payload == "DINOIMAGE":
         start_conversation(sender_psid, "DINOIMAGE")
         response.text = "Send me a photo of dino!"
+
 
     else:
         # response.text = "[DEBUG] Received postback for some reason..."
