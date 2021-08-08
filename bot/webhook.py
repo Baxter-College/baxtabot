@@ -63,8 +63,7 @@ def handle_post(request):
             sender = message.check_user_exists(sender_psid)
             if not sender:
                 ### error happened and we could not resolve the identity of the sender
-                # return ""
-                pass
+                return ""
 
             if sender.conversation and "message" in webhook_event:
                 return message.handleConversation(

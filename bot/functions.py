@@ -18,6 +18,7 @@ from docx.shared import Pt, Cm
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 
 from bot.settings import *
+from bot.message import bot
 
 import bot.models as models
 import bot.extract as extract
@@ -300,25 +301,25 @@ def set_jd(rs, switch):
 
     try:
         if switch[1]:
-            message.bot.set_variable("jd_loc", switch[1])
+            bot.set_variable("jd_loc", switch[1])
             jd_desc = " in the {}".format(switch[1])
     except:
-        message.bot.set_variable("jd_loc", None)
+        bot.set_variable("jd_loc", None)
 
     if switch[0].lower() == "on":
-        message.bot.set_variable("jd", True)
+        bot.set_variable("jd", True)
         # jd = True
         return "COFFEE TIME!!! ☕️\nJ&D is ON" + jd_desc
     else:
-        message.bot.set_variable("jd", None)
-        message.bot.set_variable("jd_loc", None)
+        bot.set_variable("jd", None)
+        bot.set_variable("jd_loc", None)
         return "No more coff! 😭"
 
 
 def get_jd(rs, args):
 
-    jd = message.bot.get_variable("jd")
-    jd_loc = message.bot.get_variable("jd_loc")
+    jd = bot.get_variable("jd")
+    jd_loc = bot.get_variable("jd_loc")
 
     jd_desc = ""
 
