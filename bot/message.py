@@ -82,7 +82,7 @@ def set_shop(rs, switch):
 
 def get_shop(rs, args):
 
-    shop = message.bot.get_variable("shop")
+    shop = bot.get_variable("shop")
 
     return "Shopen!!!" if shop else "Shclosed 😭"
 
