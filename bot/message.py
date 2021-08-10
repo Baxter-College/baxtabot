@@ -33,6 +33,59 @@ from bot.Response import (
 import bot.functions as functions
 import bot.models as models
 
+
+def set_jd(rs, switch):
+
+    jd_desc = ""
+
+    try:
+        if switch[1]:
+            bot.set_variable("jd_loc", switch[1])
+            jd_desc = " in the {}".format(switch[1])
+    except:
+        bot.set_variable("jd_loc", None)
+
+    if switch[0].lower() == "on":
+        bot.set_variable("jd", True)
+        # jd = True
+        return "COFFEE TIME!!! ☕️\nJ&D is ON" + jd_desc
+    else:
+        bot.set_variable("jd", None)
+        bot.set_variable("jd_loc", None)
+        return "No more coff! 😭"
+
+
+def get_jd(rs, args):
+
+    jd = bot.get_variable("jd")
+    jd_loc = bot.get_variable("jd_loc")
+
+    jd_desc = ""
+
+    if jd_loc:
+        jd_desc = " in the {}".format(jd_loc)
+
+    if jd:
+        return "J&D is ON" + jd_desc
+    else:
+        return "J&D is OFF 😭 😭 😭"
+
+def set_shop(rs, switch):
+
+    if switch[0].lower() == "on":
+        bot.set_variable("shop", True)
+        return "Shopen!"
+    else:
+        bot.set_variable("shop", None)
+        return "Shclosed 😭"
+
+
+def get_shop(rs, args):
+
+    shop = bot.get_variable("shop")
+
+    return "Shopen!!!" if shop else "Shclosed 😭"
+
 celery = Celery('bot', broker=BROKER_URL)
 
 # ==== rivescript bot setup ==== #
@@ -44,12 +97,12 @@ bot.sort_replies()
 # ==== rivescript subroutines ==== #
 
 # These functions can be used in the rivescript documents
-bot.set_subroutine("set_jd", functions.set_jd)
-bot.set_subroutine("get_jd", functions.get_jd)
-bot.set_subroutine("set_shop", functions.set_shop)
-bot.set_subroutine("get_shop", functions.get_shop)
-bot.set_subroutine("set_hashbrowns", functions.set_hashbrowns)
-bot.set_subroutine("get_hashbrowns", functions.get_hashbrowns)
+bot.set_subroutine("set_jd", set_jd)
+bot.set_subroutine("get_jd", get_jd)
+bot.set_subroutine("set_shop", set_shop)
+bot.set_subroutine("get_shop", get_shop)
+# bot.set_subroutine("set_hashbrowns", functions.set_hashbrowns)
+# bot.set_subroutine("get_hashbrowns", functions.get_hashbrowns)
 
 # ==== message handling ==== #
 def groupMessage(psids, text):
@@ -567,8 +620,6 @@ def check_user_exists(sender_psid):
             sender.save()
 
     return sender
-
-
 
 # ==== Reset Bot ==== #
 def resetBot():

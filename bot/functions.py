@@ -294,48 +294,11 @@ def getRessieBySender(sender_psid):
 # ======== J&D ========== #
 
 
-def set_jd(rs, switch):
-
-    jd_desc = ""
-
-    try:
-        if switch[1]:
-            message.bot.set_variable("jd_loc", switch[1])
-            jd_desc = " in the {}".format(switch[1])
-    except:
-        message.bot.set_variable("jd_loc", None)
-
-    if switch[0].lower() == "on":
-        message.bot.set_variable("jd", True)
-        # jd = True
-        return "COFFEE TIME!!! ☕️\nJ&D is ON" + jd_desc
-    else:
-        message.bot.set_variable("jd", None)
-        message.bot.set_variable("jd_loc", None)
-        return "No more coff! 😭"
-
-
-def get_jd(rs, args):
-
-    jd = message.bot.get_variable("jd")
-    jd_loc = message.bot.get_variable("jd_loc")
-
-    jd_desc = ""
-
-    if jd_loc:
-        jd_desc = " in the {}".format(jd_loc)
-
-    if jd:
-        return "J&D is ON" + jd_desc
-    else:
-        return "J&D is OFF 😭 😭 😭"
-
 
 # ===== Shopen ===== #
 
 # TODO: integrate this toggle action into a function so we are not duplicating functionality
-
-
+'''
 def set_shop(rs, switch):
 
     if switch[0].lower() == "on":
@@ -352,7 +315,7 @@ def get_shop(rs, args):
 
     return "Shopen!!!" if shop else "Shclosed 😭"
 
-
+'''
 # ===== Baxter Events ===== #
 # TODO: Move this into message module
 def uploadAsset(assetUrl):
