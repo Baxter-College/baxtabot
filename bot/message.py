@@ -188,7 +188,7 @@ def handle_dino_message(sender_psid, response, received_message):
     return text
 
 def handle_dinowrong_message(sender_psid, response):
-    response.add_reply(Reply('Dino is wrong?'), payload='DINOWRONG')
+    response.add_reply(Reply('Dino is wrong?', payload='DINOWRONG'))
     return 'Oh no! Is the dino menu wrong??'
 
 # Sends own response
