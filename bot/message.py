@@ -510,7 +510,7 @@ def handleConversation(sender_psid, received_msg, conversation):
         handle_dinoimage(sender_psid, received_msg)
 
     elif conversation == 'DINOWRONG':
-        handle_dinowrong(sender_psid, recsived_msg)
+        handle_dinowrong(sender_psid, received_msg)
 
     # End the conversation
     me.conversation = None
