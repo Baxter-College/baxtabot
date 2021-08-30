@@ -438,7 +438,8 @@ def handle_dinowrong(sender_psid, received_message, me):
     meal.description = received_message
 
     response = Response(sender_psid)
-    response.text = handle_dino_message()
+    response.text = handle_dino_message(sender_psid, response, 'dino')
+    response.send()
 
     return 'Fixed!'
 
