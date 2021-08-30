@@ -187,6 +187,9 @@ def handle_dino_message(sender_psid, response, received_message):
 
     return text
 
+def handle_dinowrong_message(sender_psid, response):
+    response.add_reply(Reply('Dino is wrong?'))
+
 # Sends own response
 def handle_dinopoll_message(response):
     '''
@@ -368,6 +371,10 @@ def handleMessage(sender_psid, received_message):
 
     elif "crush list" in received_message:
         response.text = handle_crushlist_message(sender_psid, response)
+
+    elif 'dino is wrong' in received_message:
+        response.text = handle_dinowrong_message(sender_psid, response)
+
     else:
         reply = bot.reply(str(sender_psid), received_message)
         response.text = str(reply)
