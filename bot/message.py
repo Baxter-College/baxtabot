@@ -188,8 +188,8 @@ def handle_dino_message(sender_psid, response, received_message):
     return text
 
 def handle_dinowrong_message(sender_psid, response):
-    response.add_reply(Reply('Dino is wrong?'))
-    return 'here is a message'
+    response.add_reply(Reply('Dino is wrong?'), payload='DINOWRONG')
+    return 'Oh no! Is the dino menu wrong??'
 
 # Sends own response
 def handle_dinopoll_message(response):
@@ -420,6 +420,9 @@ def handlePostback(sender_psid, received_postback, msg):
         start_conversation(sender_psid, "DINOIMAGE")
         response.text = "Send me a photo of dino!"
 
+    elif payload == 'DINOWRONG':
+        start_conversation(sender_psid, 'DINOWRONG')
+        response.text = 'What is the dino meal actually?'
 
     else:
         # response.text = "[DEBUG] Received postback for some reason..."
@@ -428,6 +431,9 @@ def handlePostback(sender_psid, received_postback, msg):
 
     response.send()
     return "OK"
+
+def handle_dinowrong(sender_psid, received_message, me):
+    print('The dino menu is wrong, should be', received_message)
 
 def handle_addcrush(sender_psid, received_message, me):
     # Check if we have more than 5 crushes already
@@ -502,6 +508,9 @@ def handleConversation(sender_psid, received_msg, conversation):
 
     elif conversation == "DINOIMAGE":
         handle_dinoimage(sender_psid, received_msg)
+
+    elif conversation == 'DINOWRONG':
+        handle_dinowrong(sender_psid, recsived_msg)
 
     # End the conversation
     me.conversation = None
