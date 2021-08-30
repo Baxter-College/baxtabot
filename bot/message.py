@@ -436,6 +436,7 @@ def handle_dinowrong(sender_psid, received_message, me):
     print('The dino menu is wrong, should be', received_message)
     meal = functions.getCurrentDino()
     meal.description = received_message
+    meal.save()
 
     response = Response(sender_psid)
     response.text = handle_dino_message(sender_psid, response, 'dino')
