@@ -335,6 +335,9 @@ def handleMessage(sender_psid, received_message):
     ):
         response.text = handle_calendar_message(sender_psid)
 
+    elif 'dino is wrong' in received_message:
+        response.text = handle_dinowrong_message(sender_psid, response)
+
     elif "nudes" in received_message or "noods" in received_message:
         # response.asset = "270145943837548"
         url = 'https://indomie.com.au/wp-content/uploads/2020/03/migorengjumbo-new.png'
@@ -371,9 +374,6 @@ def handleMessage(sender_psid, received_message):
 
     elif "crush list" in received_message:
         response.text = handle_crushlist_message(sender_psid, response)
-
-    elif 'dino is wrong' in received_message:
-        response.text = handle_dinowrong_message(sender_psid, response)
 
     else:
         reply = bot.reply(str(sender_psid), received_message)
