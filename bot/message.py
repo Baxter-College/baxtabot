@@ -434,6 +434,14 @@ def handlePostback(sender_psid, received_postback, msg):
 
 def handle_dinowrong(sender_psid, received_message, me):
     print('The dino menu is wrong, should be', received_message)
+    meal = functions.getCurrentDino()
+    meal.description = received_message
+
+    response = Response(sender_psid)
+    response.text = handle_dino_message()
+
+    return 'Fixed!'
+
 
 def handle_addcrush(sender_psid, received_message, me):
     # Check if we have more than 5 crushes already
