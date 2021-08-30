@@ -189,7 +189,7 @@ def handle_dino_message(sender_psid, response, received_message):
 
 def handle_dinowrong_message(sender_psid, response):
     response.add_reply(Reply('Dino is wrong?'))
-    return ''
+    return 'here is a message'
 
 # Sends own response
 def handle_dinopoll_message(response):
