@@ -2,7 +2,7 @@
 venv/
 
 # Test database
-test.db
+./test.db
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
