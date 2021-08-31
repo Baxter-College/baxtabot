@@ -1,4 +1,4 @@
-from message import is_dino_message, handle_dino_message, handle_dinopoll_message, handle_calendar_message, handle_dinovote_message, handle_latemeal_message, handle_getroom_message, handle_crushlist_message
+from bot.message import is_dino_message, handle_dino_message, handle_dinopoll_message, handle_calendar_message, handle_dinovote_message, handle_latemeal_message, handle_getroom_message, handle_crushlist_message
 
 def test_is_dino_message():
     pass

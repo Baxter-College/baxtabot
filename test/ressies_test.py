@@ -1,4 +1,4 @@
-from ressies import ressie_create, ressie_delete, ressies_all
+from bot.ressies import ressie_create, ressie_delete, ressies_all
 
 def test_ressie_create_single():
     pass

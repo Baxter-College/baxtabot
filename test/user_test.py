@@ -1,4 +1,4 @@
-from user import user_update
+from bot.user import user_update
 
 def test_user_update_success():
     pass
