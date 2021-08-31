@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}Dino{% endblock %}
+
+{% block content %}
+
+		<div><h2>Dino Portal</h2></div>
+		
+		<h3>All Meals</h3>
+
+		<table class="pure-table">
+			<thead>
+				<th>Date</th>
+				<th>Meal</th>
+				<th>Description</th>
+				<th>Likes</th>
+				<th>Dislikes</th>
+			</thead>
+			<tbody>
+				{% for meal in meals %}
+				<tr>
+					<td>{{ meal.date }}</td>
+					<td>{{ meal.type }}</td>
+					<td>{{ meal.description }}</td>
+					<td>{{ meal.likes }}</td>
+					<td>{{ meal.dislikes }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		</form>
+
+		<hr>
+		<a href='/admin?token={{token}}'>Back</a>
+{% endblock %}

@@ -74,7 +74,7 @@
                             <input style='display: none' value="{{ user.id }}" name='client_id' />
     					<td>
                             <input type='submit' value='Update' class="pure-button pure-button-primary" />
-                            <a href="{{url_for('deleteUser', client_id=user.id, token=token)}}">Delete</a>
+                            <a href="{{url_for('user_delete', client_id=user.id, token=token)}}">Delete</a>
                         </td>
                     </form>
 				</tr>

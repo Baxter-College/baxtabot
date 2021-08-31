@@ -1,5 +1,5 @@
 import bot.message as message
-from bot.settings import OFFICERS
+from bot.settings import OFFICERS, VERIFY_TOKEN
 from bot.Response import (
     Response,
     Button,
@@ -11,7 +11,6 @@ from bot.Response import (
 )
 
 def handle_postback(sender_psid, webhook_event):
-    # handle the postback
     try:
         return message.handlePostback(
             sender_psid,
@@ -19,10 +18,9 @@ def handle_postback(sender_psid, webhook_event):
             webhook_event["message"]["text"],
         )
     except KeyError:
-        print('Can\'t send images')
+        return message.handlePostback(sender_psid, webhook_event["postback"], None)
 
 def handle_message(sender_psid, webhook_event):
-    # handle the message
     if (
         "quick_reply" in webhook_event["message"]
         and "payload" in webhook_event["message"]["quick_reply"]

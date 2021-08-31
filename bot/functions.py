@@ -11,7 +11,11 @@ import requests
 import math
 import mammoth
 import re
+import yagmail
 from bs4 import BeautifulSoup
+from docx import Document
+from docx.shared import Pt, Cm
+from docx.enum.text import WD_ALIGN_PARAGRAPH
 
 from bot.settings import *
 
@@ -157,9 +161,10 @@ def dinoPoll():
     return message
 
 
-def getCurrentDino():
+def getCurrentDino(time=None):
 
-    time = datetime.datetime.now() + datetime.timedelta(hours=11)  # to make it aest
+    if time is None:
+        time = datetime.datetime.now() + datetime.timedelta(hours=11)  # to make it aest
 
     today = datetime.datetime.today() + datetime.timedelta(hours=11)
     breakfast = today.replace(hour=7, minute=0)
@@ -221,9 +226,56 @@ def orderLateMeal(message, sender_psid):
     return meal_name, getTimeFromAddTime(addTime).date().strftime('%d/%m/%Y')
 
 
+def generateStickersDocument(oustanding_meals):
+    document = Document()
+
+    sections = document.sections
+    for section in sections:
+        section.top_margin = Cm(1.5)
+        section.bottom_margin = Cm(0)
+        section.left_margin = Cm(0.46)
+        section.right_margin = Cm(0.46)
+
+    meals_processed = 0
+    print(oustanding_meals)
+
+    while True:
+        if meals_processed >= len(oustanding_meals):
+            break
+
+        table = document.add_table(rows=7, cols=2)
+
+        for row in table.rows:
+            row.height = Cm(3.76)
+            for cell in row.cells:
+
+                if meals_processed >= len(oustanding_meals):
+                    break
+
+                meal = oustanding_meals[meals_processed]
+                print(meal)
+                cell.text = f"\n{meal['id']} {meal['first_name']} {meal['last_name']}\n{meal['college']}\n{meal['date']}\n{meal['dietaries']}"
+                cell.paragraphs[0].paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
+
+                meals_processed += 1
+
+    print('Meal processing completed')
+    document.save('LatemealStickers/LatemealStickers.docx')
+
+
+def sendLateMealStickersEmail():
+    email = yagmail.SMTP('baxtabot21@gmail.com', 'meqdeh-5Jysve-xewtuc')
+    email.send('n.patrikeos@student.unsw.edu.au', 'Late meals', contents='LatemealStickers/LatemealStickers.docx')
+
+def generateLateMealStickers(meals):
+
+    oustanding_meals = models.LateMeal.select(models.LateMeal.id, models.Ressie.first_name, models.Ressie.last_name, models.Ressie.college, models.Meal.date, models.Meal.type, models.Client.dietaries).join(models.Ressie).join(models.Client).switch(models.LateMeal).join(models.Meal).where(models.LateMeal.id << meals).dicts()
+    generateStickersDocument(oustanding_meals)
+    sendLateMealStickersEmail()
+
 def getRessieBySender(sender_psid):
     data = humanisePSID(sender_psid)
-
+    print(data)
     if not data:
         print("received message from ghost!")
         return
@@ -232,7 +284,9 @@ def getRessieBySender(sender_psid):
 
     _, confidence, ressie = models.Ressie.fuzzySearch(name)
     if confidence <= 70:
-        raise Exception('Ressie not found')
+        print(sender_psid)
+        if sender_psid != 'cmd':
+            raise Exception('Ressie not found')
     else:
         return ressie
 
@@ -240,48 +294,11 @@ def getRessieBySender(sender_psid):
 # ======== J&D ========== #
 
 
-def set_jd(rs, switch):
-
-    jd_desc = ""
-
-    try:
-        if switch[1]:
-            message.bot.set_variable("jd_loc", switch[1])
-            jd_desc = " in the {}".format(switch[1])
-    except:
-        message.bot.set_variable("jd_loc", None)
-
-    if switch[0].lower() == "on":
-        message.bot.set_variable("jd", True)
-        # jd = True
-        return "COFFEE TIME!!! ☕️\nJ&D is ON" + jd_desc
-    else:
-        message.bot.set_variable("jd", None)
-        message.bot.set_variable("jd_loc", None)
-        return "No more coff! 😭"
-
-
-def get_jd(rs, args):
-
-    jd = message.bot.get_variable("jd")
-    jd_loc = message.bot.get_variable("jd_loc")
-
-    jd_desc = ""
-
-    if jd_loc:
-        jd_desc = " in the {}".format(jd_loc)
-
-    if jd:
-        return "J&D is ON" + jd_desc
-    else:
-        return "J&D is OFF 😭 😭 😭"
-
 
 # ===== Shopen ===== #
 
 # TODO: integrate this toggle action into a function so we are not duplicating functionality
-
-
+'''
 def set_shop(rs, switch):
 
     if switch[0].lower() == "on":
@@ -298,7 +315,7 @@ def get_shop(rs, args):
 
     return "Shopen!!!" if shop else "Shclosed 😭"
 
-
+'''
 # ===== Baxter Events ===== #
 # TODO: Move this into message module
 def uploadAsset(assetUrl):
@@ -344,58 +361,6 @@ def get_hashbrowns(rs, args):
         return "Nobody's been game to find out yet 🤔 Type 'sethashbrowns on' or 'sethashbrowns off' if you happen to get out of bed"
 
 
-# ======= Semester In Progress ======= #
-def semesterResponse():
-
-    # is this hardcoded? yes.
-    # do i give a shit? no. fuck you for judging me.
-    semStart = datetime.date(2019, 5, 31)
-    semEnd = datetime.date(2019, 9, 2)
-
-    response = "{}\n\nThere are {} days left until the semester ends".format(
-        progressBar(timeProgress(semStart, semEnd)), daysLeft(semEnd)
-    )
-
-    return response
-
-
-def yearProgress():
-    today = datetime.datetime.today() + datetime.timedelta(hours=11)  # to make it aest
-
-    percentage = math.floor((today.timetuple().tm_yday / 365) * 100)
-
-    return percentage
-
-
-def timeProgress(start, end):
-    today = datetime.datetime.today() + datetime.timedelta(hours=11)  # to make it aest
-
-    totalDays = (end - start).days
-    elapsedDays = (today.date() - start).days
-
-    percentage = math.floor((elapsedDays / totalDays) * 100)
-
-    return percentage
-
-
-def daysLeft(end):
-    today = datetime.datetime.today() + datetime.timedelta(hours=11)  # to make it aest
-
-    return (end - today.date()).days
-
-
-def progressBar(percentage):
-
-    percBar = "0% "
-
-    for i in range(10, 100, 10):
-        percBar += "▓" if (i < percentage) else "░"
-
-    percBar += " {}%".format(percentage)
-
-    return percBar
-
-
 # ===== Week Events ===== #
 def getWeekEvents():
 
@@ -438,11 +403,11 @@ def getRoomNumber(name):
             )
         return "{} is in room {}".format(gotName, ressie.room_number)
     except Exception as e:
-        print(Exception, e)
         traceback.print_exc()
-        return """I could not find a room number for '{}' ... are you sure they go to Baxter?
+        return """I could not find a room number for '{}' ... are you sure they go to Baxter?\n
+        They may not have registered an account at baxtabot.herokuapp.com !! So go nag them to do that xD\n
           \nPlease make sure you spell their full name correctly.\n\n (Fun fact: Some people use names that are not in fact their names. Nicknames won't work)""".format(
-            " ".join(name).title()
+            "".join(name).title()
         )
 
 def dinoparse(lines):
