@@ -1,14 +1,17 @@
 from bot.models import Client, ClientPermissions, ActiveTokens
 
+
 def users_all():
     user_list = Client.select(Client.id, Client.ressie, Client.name, Client.email, Client.position, ClientPermissions.dinoread,
-                                ClientPermissions.dinowrite, ClientPermissions.calendar, ClientPermissions.latemeals,
-                                ClientPermissions.ressies, ClientPermissions.sport, ClientPermissions.users).join(ClientPermissions).dicts()
+                              ClientPermissions.dinowrite, ClientPermissions.calendar, ClientPermissions.latemeals,
+                              ClientPermissions.ressies, ClientPermissions.sport, ClientPermissions.users).join(ClientPermissions).dicts()
 
     return user_list
 
+
 def user_update(client_id, position, dinoread, dinowrite, calendar, latemeals, sport, ressies, users):
-    userperms = ClientPermissions.select().where(ClientPermissions.client == client_id).get()
+    userperms = ClientPermissions.select().where(
+        ClientPermissions.client == client_id).get()
     user = Client.select().where(Client.id == client_id).get()
     user.position = position
     # print(user.position, position)
@@ -30,7 +33,8 @@ def user_delete(client_id):
         token = token.get()
         token.delete_instance()
 
-    perms = ClientPermissions.select().where(ClientPermissions.client == client_id).get()
+    perms = ClientPermissions.select().where(
+        ClientPermissions.client == client_id).get()
     perms.delete_instance()
 
     client = Client.select().where(Client.id == client_id).get()

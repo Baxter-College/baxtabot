@@ -56,11 +56,13 @@ def findTime(message):
 
     for day in days:
         if day in message:  # if the day is mentioned
-            dayDiff = days[day] - today.weekday()  # get difference between days
+            # get difference between days
+            dayDiff = days[day] - today.weekday()
             if dayDiff < 0:  # if the day is "behind" current day, make day next week
                 dayDiff += 7
             elif "next" in message:
-                addTime += datetime.timedelta(hours=24 * 7)  # add this day next week
+                # add this day next week
+                addTime += datetime.timedelta(hours=24 * 7)
 
             addTime += datetime.timedelta(hours=24 * dayDiff)
 
@@ -95,6 +97,7 @@ def dinoRequest(meal, addTime):
 
     return "{} at dino is:\n{}".format(meal, dino.description)
 
+
 def getTimeFromAddTime(addTime):
     ten_hours = datetime.timedelta(hours=11)
 
@@ -105,6 +108,7 @@ def getTimeFromAddTime(addTime):
     today_AEST += addTime  # if no add time, timedelta will be 0 hours so no effect
 
     return today_AEST
+
 
 def dinoRequestObj(meal, addTime):
     # meal is "dinner", "lunch" or "breakfast"
@@ -204,6 +208,7 @@ def getCurrentDino(time=None):
 
 # ======== Late Meals ======= #
 
+
 def orderLateMeal(message, sender_psid):
     meal_name = findMeal(message)
     if not meal_name:
@@ -221,7 +226,8 @@ def orderLateMeal(message, sender_psid):
     ressie = getRessieBySender(sender_psid).id
     notes = 'See dietary requirement records'
 
-    models.LateMeal.create(meal=meal_id, ressie=ressie, notes=notes, completed=False)
+    models.LateMeal.create(meal=meal_id, ressie=ressie,
+                           notes=notes, completed=False)
 
     return meal_name, getTimeFromAddTime(addTime).date().strftime('%d/%m/%Y')
 
@@ -265,13 +271,17 @@ def generateStickersDocument(oustanding_meals):
 
 def sendLateMealStickersEmail():
     email = yagmail.SMTP('baxtabot21@gmail.com', 'meqdeh-5Jysve-xewtuc')
-    email.send('n.patrikeos@student.unsw.edu.au', 'Late meals', contents='LatemealStickers/LatemealStickers.docx')
+    email.send('n.patrikeos@student.unsw.edu.au', 'Late meals',
+               contents='LatemealStickers/LatemealStickers.docx')
+
 
 def generateLateMealStickers(meals):
 
-    oustanding_meals = models.LateMeal.select(models.LateMeal.id, models.Ressie.first_name, models.Ressie.last_name, models.Ressie.college, models.Meal.date, models.Meal.type, models.Client.dietaries).join(models.Ressie).join(models.Client).switch(models.LateMeal).join(models.Meal).where(models.LateMeal.id << meals).dicts()
+    oustanding_meals = models.LateMeal.select(models.LateMeal.id, models.Ressie.first_name, models.Ressie.last_name, models.Ressie.college, models.Meal.date, models.Meal.type, models.Client.dietaries).join(
+        models.Ressie).join(models.Client).switch(models.LateMeal).join(models.Meal).where(models.LateMeal.id << meals).dicts()
     generateStickersDocument(oustanding_meals)
     sendLateMealStickersEmail()
+
 
 def getRessieBySender(sender_psid):
     data = humanisePSID(sender_psid)
@@ -294,9 +304,7 @@ def getRessieBySender(sender_psid):
 # ======== J&D ========== #
 
 
-
 # ===== Shopen ===== #
-
 # TODO: integrate this toggle action into a function so we are not duplicating functionality
 '''
 def set_shop(rs, switch):
@@ -318,6 +326,8 @@ def get_shop(rs, args):
 '''
 # ===== Baxter Events ===== #
 # TODO: Move this into message module
+
+
 def uploadAsset(assetUrl):
 
     r = requests.post(
@@ -349,6 +359,7 @@ def set_hashbrowns(rs, switch):
         return "OMG best news ever! 😃 Your friends will arrive shortly..."
     message.bot.set_variable('hashbrowns', None)
     return "N-n-n-noooooooo! 😭 Enjoy a lonely Dino, knowing you took one for the team..."
+
 
 def get_hashbrowns(rs, args):
 
@@ -387,7 +398,8 @@ def getRoomNumber(name):
 
     try:
         gotName, confidence, ressie = models.Ressie.fuzzySearch(name)
-        client = models.Client.select().join(models.Ressie).where(models.Ressie.id == ressie.id)
+        client = models.Client.select().join(
+            models.Ressie).where(models.Ressie.id == ressie.id)
         if client:
             client = client.get()
 
@@ -407,6 +419,7 @@ def getRoomNumber(name):
             "".join(name).title()
         )
 
+
 def dinoparse(lines):
     lines = extract.text_replace(lines)
 
@@ -419,6 +432,7 @@ def dinoparse(lines):
     mealsByDay = extract.get_meals(rows[1:])
     date, sucess = extract.extract_date(soup)
     return [date, sucess, mealsByDay, pretty]
+
 
 def extractRessieFromCSV(row):
     first_name, last_name, room_number = row
@@ -454,17 +468,19 @@ def humanisePSID(PSID):
     print(r.status_code)
     print("FUCKED! PSID was: {}".format(str(PSID)))
 
+
 def createRessie(first_name, last_name, room_number):
     models.Ressie.create(
-        first_name = first_name,
-        last_name = last_name,
-        room_number = room_number,
-        floor = int(str(room_number)[:1])
-        )  # get the first digit of the room number and set that as floor
+        first_name=first_name,
+        last_name=last_name,
+        room_number=room_number,
+        floor=int(str(room_number)[:1])
+    )  # get the first digit of the room number and set that as floor
+
 
 def validateTokenPermissions(token, page):
     userperms = models.Client.select(models.ClientPermissions.dinoread, models.ClientPermissions.dinowrite, models.ClientPermissions.ressies,
-                                    models.ClientPermissions.calendar, models.ClientPermissions.sport, models.ClientPermissions.latemeals, models.ClientPermissions.users).join(models.ActiveTokens).switch(models.Client).join(models.ClientPermissions).where(models.ActiveTokens.token == token).dicts()
+                                     models.ClientPermissions.calendar, models.ClientPermissions.sport, models.ClientPermissions.latemeals, models.ClientPermissions.users).join(models.ActiveTokens).switch(models.Client).join(models.ClientPermissions).where(models.ActiveTokens.token == token).dicts()
 
     if userperms is None:
         return False
@@ -488,6 +504,8 @@ def validateTokenPermissions(token, page):
 
     return False
 
+
 def deleteActiveToken(token):
-    instance = models.ActiveTokens.select().where(models.ActiveTokens.token == token).get()
+    instance = models.ActiveTokens.select().where(
+        models.ActiveTokens.token == token).get()
     instance.delete_instance()

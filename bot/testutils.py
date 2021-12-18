@@ -1,5 +1,6 @@
 import bot.models as models
 
+
 def clear():
     q1 = models.ActiveTokens.delete()
     q2 = models.ClientPermissions.delete()

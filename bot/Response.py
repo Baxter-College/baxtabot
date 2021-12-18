@@ -63,7 +63,8 @@ class Response:
             response["text"] = self.text
 
         if self.image:
-            response["attachment"] = {"type": "image", "payload": {"url": self.image}}
+            response["attachment"] = {
+                "type": "image", "payload": {"url": self.image}}
 
         if self.asset:
             response["attachment"] = {
@@ -176,4 +177,3 @@ class CallButton(Button):
         d = super().rep
         d.update({"payload": self.payload, "type": "phone_number"})
         return d
-

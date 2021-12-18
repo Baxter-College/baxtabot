@@ -5,6 +5,7 @@ import re
 import bot.models as models
 from bot.error import InputError, AccessError
 
+
 def authenticate_token(token):
     found = models.ActiveTokens.select().where(models.ActiveTokens.token == token)
     if found:
@@ -53,7 +54,8 @@ def auth_register(email, password, name):
     else:
         ressie = None
 
-    user = models.Client.create(email=email, password=hashed_password, name=name, ressie=ressie)
+    user = models.Client.create(
+        email=email, password=hashed_password, name=name, ressie=ressie)
     models.ClientPermissions.create(client=user.id)
 
     print(user.id)
@@ -61,6 +63,7 @@ def auth_register(email, password, name):
     models.ActiveTokens.create(client=user.id, token=token)
 
     return {"u_id": user.id, "token": token}
+
 
 def auth_login(email, password):
     '''
@@ -86,13 +89,13 @@ def auth_login(email, password):
     encoder.update(password.encode('utf-8'))
     hashed_password = encoder.hexdigest()
     print(email)
-    user = models.Client.select().where((models.Client.email == email) & (models.Client.password == hashed_password))
+    user = models.Client.select().where((models.Client.email == email) &
+                                        (models.Client.password == hashed_password))
 
     try:
         user = user.get()
     except:
         raise InputError("Input error: email/password is not correct")
-
 
     token = generate_token(user.id)
     models.ActiveTokens.create(client=user.id, token=token)
@@ -114,11 +117,13 @@ def auth_logout(token):
         return {"is_success": False}
 
     if authenticate_token(token):
-        entry = models.ActiveTokens.select().where(models.ActiveTokens.token == token).get()
+        entry = models.ActiveTokens.select().where(
+            models.ActiveTokens.token == token).get()
         entry.delete_instance()
         return {"is_success": True}
 
     return {"is_success": False}
+
 
 '''
 def auth_passwordreset_request(email):
@@ -167,6 +172,7 @@ def email_valid(email):
     """
     return re.match(r"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$", email) is not None
 
+
 def check_length(string, name, min_len, max_len):
     """
     Checks that the length of a string is between `min` and `max`.
@@ -175,12 +181,13 @@ def check_length(string, name, min_len, max_len):
     """
 
     if len(string) < min_len:
-        raise InputError("Input error: " + name + " must contain " \
-                                                     + str(min_len) + " or more characters")
+        raise InputError("Input error: " + name + " must contain "
+                         + str(min_len) + " or more characters")
 
     if len(string) > max_len:
-        raise InputError("Input error: " + name + " must contain " \
-                                                     + str(max_len) + " or less characters")
+        raise InputError("Input error: " + name + " must contain "
+                         + str(max_len) + " or less characters")
+
 
 def generate_token(user_id):
     """

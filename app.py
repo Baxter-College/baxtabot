@@ -45,13 +45,15 @@ SIGN_TOKEN = secrets.token_hex(16)
 
 app = Flask(__name__)
 
+
 def authenticate_page(token, page):
     if token is None or not auth.authenticate_token(token):
         return render_template('index.html')
     if not functions.validateTokenPermissions(token, page):
-        return render_template('homepage.html', permission_denied = True, token=token)
+        return render_template('homepage.html', permission_denied=True, token=token)
 
     return False
+
 
 @app.before_request
 def before_request():
@@ -68,6 +70,7 @@ def after_request(response):
 def index():
     return render_template("index.html")
 
+
 @app.route('/admin')
 def admin():
     token = request.args.get('token')
@@ -77,6 +80,7 @@ def admin():
 
     return render_template('index.html')
 
+
 @app.route('/logout')
 def logout():
     token = request.args.get('token')
@@ -85,6 +89,7 @@ def logout():
         functions.deleteActiveToken(token)
 
     return render_template('index.html')
+
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
@@ -107,6 +112,7 @@ def register():
     else:
         return render_template('register.html')
 
+
 @app.route('/login', methods=['POST'])
 def login():
     form = request.form
@@ -122,9 +128,11 @@ def login():
         url = url_for('admin') + '?token=' + result['token']
         return redirect(url)
 
+
 @app.route("/privacy")
 def privacy():
     return render_template("privacy.html")
+
 
 @app.route('/latemeals')
 def latemeals_all():
@@ -152,6 +160,7 @@ def users_all():
         return render_template('users.html', users=user_list, token=token)
 
     return page
+
 
 @app.route('/user/delete', methods=['GET'])
 def user_delete():
@@ -188,13 +197,14 @@ def user_update():
 
     if not page:
         users.user_update(client_id, position, dinoread,
-                        dinowrite, _calendar, _latemeals,
-                        _sport, _ressies, _users)
+                          dinowrite, _calendar, _latemeals,
+                          _sport, _ressies, _users)
 
         user_list = users.users_all()
         return render_template('users.html', users=user_list, token=token)
 
     return page
+
 
 @app.route('/user/profile', methods=['POST', 'GET'])
 def profile():
@@ -215,9 +225,10 @@ def profile():
     outstanding_meals = latemeals.latemeals_oustanding_resident(client['id'])
 
     return render_template('profile.html', user=client,
-                            token=token, outstandingMeals=outstanding_meals)
+                           token=token, outstandingMeals=outstanding_meals)
 
-## This code needs reviewing
+
+# This code needs reviewing
 # pylint: disable=pointless-string-statement
 '''
 @app.route("/update", methods=["POST", "GET"])
@@ -233,11 +244,13 @@ def update():
     return render_template("update.html")
 '''
 
+
 @app.route("/webhook", methods=["POST", "GET"])
 def webhook_receive():
     return webhook.process(request)
 
-## THIS CODE NEEDS REVIEWING
+# THIS CODE NEEDS REVIEWING
+
 
 # pylint: disable=pointless-string-statement
 '''
@@ -301,6 +314,7 @@ def upload():
 
 # ====== Add a meal ====== #
 
+
 @app.route("/dino")
 def dino_menu():
     token = request.args.get('token')
@@ -328,6 +342,7 @@ def meal_delete():
         return redirect(url_for("dino_menu") + '?token=token')
     return page
 
+
 @app.route('/latemeals/delete', methods=['GET'])
 def latemeal_delete():
     token = request.args.get('token')
@@ -347,6 +362,7 @@ def latemeal_delete():
 
     return page
 
+
 @app.route("/dino/batchdelete", methods=["POST"])
 def batch_delete_meal():
     form = request.form
@@ -361,6 +377,7 @@ def batch_delete_meal():
         return redirect(url_for("dino_menu") + '?token=' + token)
     return page
 
+
 @app.route('/latemeals/batchcompleted', methods=['POST'])
 def latemeals_batch_complete():
     form = request.form
@@ -373,6 +390,7 @@ def latemeals_batch_complete():
 
         return redirect(url_for('latemeals_all') + '?token=' + token)
     return page
+
 
 @app.route("/dino/fileadd", methods=["GET", "POST"])
 def upload_file():
@@ -406,6 +424,7 @@ def upload_file():
             return redirect(url_for("dino_menu") + '?token=' + token)
     return page
 
+
 @app.route("/dino/file/confirm", methods=["POST"])
 def confirm_file():
     form = request.form
@@ -420,13 +439,14 @@ def confirm_file():
 
             subs = {
                 "&amp;": "&", "\\x96": "-",
-                "\\x92": "'", "\\u2019":"'",
-                "\\u2018":"'", "\\u2013": "-"
+                "\\x92": "'", "\\u2019": "'",
+                "\\u2018": "'", "\\u2013": "-"
             }
 
             for sub, repl in subs.items():
                 description = re.sub(sub, repl, description)
-            print("\n\n here we go:", date, "\n\ndescr: ", description, "\n\nmeal", meals[meal - 1])
+            print("\n\n here we go:", date, "\n\ndescr: ",
+                  description, "\n\nmeal", meals[meal - 1])
 
             dino.meals_add(date, description, meals[meal - 1])
 
@@ -436,7 +456,8 @@ def confirm_file():
 # ======= Resident Information ======= #
 @app.route("/ressie", methods=["POST", "GET"])
 def resident():
-    token = request.args.get('token') if request.method == 'GET' else request.form['token']
+    token = request.args.get(
+        'token') if request.method == 'GET' else request.form['token']
     page = authenticate_page(token, 'ressies')
 
     if not page:
@@ -451,6 +472,7 @@ def resident():
         ressie_list = ressies.ressies_all()
         return render_template("ressie.html", ressies=ressie_list, token=token)
     return page
+
 
 @app.route('/ressie/fileadd', methods=['GET', 'POST'])
 def upload_residents():
@@ -472,6 +494,7 @@ def upload_residents():
 
     return redirect(url_for('resident') + '?token=' + token)
 
+
 @app.route("/ressie/delete/<int:ressie_id>", methods=["GET"])
 def ressie_delete(ressie_id):
     token = request.args.get('token')
@@ -483,6 +506,7 @@ def ressie_delete(ressie_id):
         return render_template("ressie.html", ressies=ressie_list, token=token)
 
     return page
+
 
 if __name__ == "__main__":
 
@@ -497,7 +521,8 @@ if __name__ == "__main__":
 
     if args.terminal:
         while True:
-            msg = str(input("> ")) # pylint: disable=invalid-name
-            print("BAXTABOT: ", message.handleMessage("cmd", msg)["message"]["text"])
+            msg = str(input("> "))  # pylint: disable=invalid-name
+            print("BAXTABOT: ", message.handleMessage(
+                "cmd", msg)["message"]["text"])
     else:
         app.run(debug=DEBUG, port=PORT, host="0.0.0.0")

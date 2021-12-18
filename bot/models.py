@@ -43,9 +43,12 @@ else:
     )
 
 # pylint: disable=too-few-public-methods
+
+
 class BaxtabotEntity(Model):
     class Meta:
         database = db
+
 
 class Meal(BaxtabotEntity):
     date = DateField()
@@ -53,6 +56,7 @@ class Meal(BaxtabotEntity):
     description = TextField()
     likes = IntegerField(default=0)
     dislikes = IntegerField(default=0)
+
 
 class Sender(BaxtabotEntity):
     psid = BigIntegerField()
@@ -83,18 +87,22 @@ class Sender(BaxtabotEntity):
             name, {sender: sender.full_name for sender in Sender.select()}
         )
 
+
 class MealImg(BaxtabotEntity):
     meal = ForeignKeyField(Meal, backref="images")
     url = TextField()
     sender = ForeignKeyField(Sender)
 
+
 class Crush(BaxtabotEntity):
     crushee = ForeignKeyField(Sender, backref="crushOf")
     crusher = ForeignKeyField(Sender, backref="crushes")
 
+
 class WeekCal(BaxtabotEntity):
     assetID = CharField()
     week_start = DateField()
+
 
 class Ressie(BaxtabotEntity):
     first_name = CharField()
@@ -128,6 +136,7 @@ class LateMeal(BaxtabotEntity):
     notes = TextField()
     completed = BooleanField()
 
+
 class Client(BaxtabotEntity):
     email = TextField()
     password = TextField()
@@ -136,6 +145,7 @@ class Client(BaxtabotEntity):
     ressie = ForeignKeyField(Ressie, null=True)
     dietaries = TextField(default='None')
     roomshown = BooleanField(default=False)
+
 
 class ClientPermissions(BaxtabotEntity):
     client = ForeignKeyField(Client)
@@ -147,13 +157,15 @@ class ClientPermissions(BaxtabotEntity):
     sport = BooleanField(default=False)
     users = BooleanField(default=False)
 
+
 class ActiveTokens(BaxtabotEntity):
     client = ForeignKeyField(Client)
     token = TextField()
+
 
 def goGoPowerRangers():
     db.connect()
     db.create_tables([Meal, Sender, WeekCal, Ressie, Crush,
                       MealImg, LateMeal, Client, ClientPermissions, ActiveTokens],
-                      safe=True)
+                     safe=True)
     db.close()

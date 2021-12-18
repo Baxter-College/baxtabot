@@ -1,5 +1,6 @@
 from bot.models import WeekCal
 
+
 def calendar_upload(url, date):
     '''
     Uploads a weekly calendar.
@@ -27,6 +28,7 @@ def calendar_upload(url, date):
     WeekCal.create(
         assetID=url, week_start=date
     )
+
 
 def calendars_all():
     '''
