@@ -2,6 +2,7 @@ import bot.auth as auth
 from bot.testutils import clear
 from bot.error import InputError
 
+
 def test_auth():
     clear()
     # Testing register and authentication works
@@ -18,44 +19,58 @@ def test_auth():
     assert login_result
     assert auth.authenticate_token(login_result['token']) == result['u_id']
 
+
 def test_auth_multiple_users():
     pass
+
 
 def test_auth_register_invalid_email():
     pass
 
+
 def test_auth_register_empty_password():
     pass
+
 
 def test_auth_register_short_name():
     pass
 
+
 def test_auth_register_long_name():
     pass
+
 
 def test_auth_register_already_registered():
     pass
 
+
 def test_auth_register_links_to_ressie():
     pass
+
 
 def test_auth_login_success():
     pass
 
+
 def test_auth_login_multiple_users():
     pass
+
 
 def test_auth_login_invalid_email():
     pass
 
+
 def test_auth_login_invalid_password():
     pass
+
 
 def test_auth_login_both_invalid():
     pass
 
+
 def test_auth_logout_success():
     pass
+
 
 def test_auth_logout_invalid_token():
     pass

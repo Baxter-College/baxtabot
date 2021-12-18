@@ -9,10 +9,10 @@ if "HEROKU" in os.environ:
     PORT = int(os.environ.get("PORT"))
     PAGE_ACCESS_TOKEN = os.environ.get("PAGE_ACCESS_TOKEN")
     OFFICER_PSIDS = [
-        2066675683409458, # James
-        2054639917988805, # Rohan
-        2991096094285006, # Josh
-        3973058702707960 # Nick
+        2066675683409458,  # James
+        2054639917988805,  # Rohan
+        2991096094285006,  # Josh
+        3973058702707960  # Nick
     ]
     BROKER_URL = os.environ.get("REDIS_URL")
 else:
@@ -25,7 +25,7 @@ else:
     # DEBUG = os.environ["DEBUG"]
     # PORT = os.environ["PORT"]
     PAGE_ACCESS_TOKEN = None
-    OFFICER_PSIDS =  [] #[os.environ["DEBUG_PSID"]]  # current developer's psid
+    OFFICER_PSIDS = []  # [os.environ["DEBUG_PSID"]]  # current developer's psid
 
     BROKER_URL = "redis://"
 

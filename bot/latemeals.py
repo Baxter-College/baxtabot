@@ -1,5 +1,6 @@
 from bot.models import LateMeal, Ressie, Meal, Client
 
+
 def latemeals_oustanding():
     '''
     Returns a list of all outstanding late meals
@@ -13,9 +14,10 @@ def latemeals_oustanding():
     - dietary requirements of ressie
     '''
     oustanding_meals = LateMeal.select(LateMeal.id, Ressie.first_name, Ressie.last_name,
-                        Meal.date, Meal.type, Meal.description, Client.dietaries).join(Ressie).join(Client).switch(LateMeal).join(Meal).where(LateMeal.completed == 0).dicts()
+                                       Meal.date, Meal.type, Meal.description, Client.dietaries).join(Ressie).join(Client).switch(LateMeal).join(Meal).where(LateMeal.completed == 0).dicts()
 
     return oustanding_meals
+
 
 def latemeals_completed():
     '''
@@ -30,13 +32,15 @@ def latemeals_completed():
     - dietary requirements of ressie
     '''
     completed_meals = LateMeal.select(LateMeal.id, Ressie.first_name, Ressie.last_name,
-                        Meal.date, Meal.type, Meal.description, Client.dietaries).join(Ressie).join(Client).switch(LateMeal).join(Meal).where(LateMeal.completed == 1).dicts()
+                                      Meal.date, Meal.type, Meal.description, Client.dietaries).join(Ressie).join(Client).switch(LateMeal).join(Meal).where(LateMeal.completed == 1).dicts()
 
     return completed_meals
+
 
 def latemeal_delete(meal_id):
     meal = LateMeal.select().where(LateMeal.id == meal_id).get()
     meal.delete_instance()
+
 
 def latemeals_setcompleted(latemealid):
     '''
@@ -49,6 +53,7 @@ def latemeals_setcompleted(latemealid):
     '''
     query = LateMeal.update(completed=True).where(LateMeal.id == latemealid)
     query.execute()
+
 
 def latemeals_oustanding_resident(client_id):
     '''
@@ -65,5 +70,6 @@ def latemeals_oustanding_resident(client_id):
     - meal description
     - dietary requirements of ressie
     '''
-    oustanding_meals = LateMeal.select(LateMeal.id, Meal.date, Meal.type, Meal.description).join(Ressie).join(Client).switch(LateMeal).join(Meal).where((LateMeal.completed == 0) & (Client.id == client_id)).dicts()
+    oustanding_meals = LateMeal.select(LateMeal.id, Meal.date, Meal.type, Meal.description).join(Ressie).join(
+        Client).switch(LateMeal).join(Meal).where((LateMeal.completed == 0) & (Client.id == client_id)).dicts()
     return oustanding_meals

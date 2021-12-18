@@ -3,6 +3,7 @@ import csv
 import bot.functions as functions
 from io import StringIO
 
+
 def ressie_create(first_name, last_name, room_number):
     '''
     Creates a new resident
@@ -18,11 +19,12 @@ def ressie_create(first_name, last_name, room_number):
     - InputError: room number < 0
     '''
     Ressie.create(
-        first_name = first_name,
-        last_name = last_name,
-        room_number = room_number,
-        floor = int(str(room_number)[:1])
-        )  # get the first digit of the room number and set that as floor
+        first_name=first_name,
+        last_name=last_name,
+        room_number=room_number,
+        floor=int(str(room_number)[:1])
+    )  # get the first digit of the room number and set that as floor
+
 
 def ressie_delete(ressie_id):
     '''
@@ -34,11 +36,13 @@ def ressie_delete(ressie_id):
     ressie = Ressie.select().where(Ressie.id == ressie_id).get()
     ressie.delete_instance()
 
+
 def ressies_all():
     ressies = Ressie.select(Ressie.id, Ressie.first_name, Ressie.last_name, Ressie.room_number, Ressie.floor, Ressie.college,
-                        Client.dietaries).join(Client).dicts()
+                            Client.dietaries).join(Client).dicts()
 
     return ressies
+
 
 def file_upload(file):
     # Delete all ressie currently in the DB
@@ -54,5 +58,6 @@ def file_upload(file):
     next(reader, None)
 
     for row in reader:
-        first_name, last_name, room_number = functions.extractRessieFromCSV(row)
+        first_name, last_name, room_number = functions.extractRessieFromCSV(
+            row)
         ressie_create(first_name, last_name, room_number)

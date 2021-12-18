@@ -5,7 +5,8 @@ import sys
 def sonnetGen():
     poems = open("sonnets.txt", "r").read()
     poems = (
-        "".join([i for i in poems if not i.isdigit()]).replace("\n\n", " ").split(" ")
+        "".join([i for i in poems if not i.isdigit()]
+                ).replace("\n\n", " ").split(" ")
     )
     # This process the list of poems. Double line breaks separate poems, so they are removed.
     # Splitting along spaces creates a list of all words.

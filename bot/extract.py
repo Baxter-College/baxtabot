@@ -8,24 +8,28 @@ MEAL_TITLES = [
 ]
 IGNORED_ROWS = ["special", "continental", "fruit"]
 
+
 def text_replace(lines):
     lines = lines.lower()
     subs = {"&amp;": "&", "\\x96": "-", "\n|\r\n|\r|\xa0": "", "\\x92": "'",
-            r"\bsalad\b" : "salad 🥗", r"\bburger\b" : "burger 🍔", 
-            r"\bburgers\b" : "burgers 🍔", r"\begg\b" : "egg 🍳", r"\beggs" : "eggs 🍳",
-            r"\bpizza\b" : "pizza 🍕", r"\bbacon\b" : "bacon 🥓", r"\bcake\b" : "cake 🍰",
-            r"\bice-cream\b" : "ice-cream 🍨", r"\bicecream\b" : "icecream 🍨", r"\bice cream\b" : "ice cream 🍨",
-            r"\bchicken\b" : "chicken 🍗", r"\bsandwich\b" : "sandwich 🥪"}
+            r"\bsalad\b": "salad 🥗", r"\bburger\b": "burger 🍔",
+            r"\bburgers\b": "burgers 🍔", r"\begg\b": "egg 🍳", r"\beggs": "eggs 🍳",
+            r"\bpizza\b": "pizza 🍕", r"\bbacon\b": "bacon 🥓", r"\bcake\b": "cake 🍰",
+            r"\bice-cream\b": "ice-cream 🍨", r"\bicecream\b": "icecream 🍨", r"\bice cream\b": "ice cream 🍨",
+            r"\bchicken\b": "chicken 🍗", r"\bsandwich\b": "sandwich 🥪"}
 
     for sub, repl in subs.items():
         lines = re.sub(sub, repl, lines)
     return lines
+
 
 def spanned_on(rowspans, row, col):
     if str(row) in rowspans and col in rowspans[str(row)]:
         rowspans[str(row)].remove(col)
         return True
     return False
+
+
 def update_spans(rowspans, span, row, col):
     for i in range(1, span):
         later_row = span + i
@@ -33,28 +37,37 @@ def update_spans(rowspans, span, row, col):
             rowspans[later_row].append(col)
         else:
             rowspans[later_row] = [col]
+
+
 def next_meal(string, current_meal):
     if current_meal >= 3:
         return False
     return any([i in string for i in MEAL_TITLES[current_meal]])
+
+
 def ignore_row(string):
     if any([i in string for i in IGNORED_ROWS]):
         return True
     if string[0].isdigit():
         return True
     return False
+
+
 def get_date(first_row):
     date_cell = first_row.find('td')
     date_str = date_cell.get_text()
     first_date = re.split("-|–|—|−", date_str)[0]
     return parse(first_date, fuzzy=True).date()
+
+
 def guess_date():
-    #finds the next monday
+    # finds the next monday
     today = datetime.date.today()
     days_to_monday = 0 - today.weekday()
     if days_to_monday < 0:
         days_to_monday += 7
     return today + datetime.timedelta(days=days_to_monday)
+
 
 def extract_date(soup):
     sucess = True
@@ -65,7 +78,8 @@ def extract_date(soup):
         sucess = False
         date = guess_date()
     return date, sucess
-    
+
+
 def get_rows(soup):
     tables = soup.find_all('table')
     all_rows = []
@@ -73,7 +87,6 @@ def get_rows(soup):
         rows = table.find_all('tr')
         all_rows += rows
     return all_rows
-
 
 
 def get_meals(rows):
@@ -95,11 +108,11 @@ def get_meals(rows):
             string = col.get_text()
             if string == "":
                 continue
-            
+
             if colnum == 0:
                 # first column of a row
                 if ignore_row(string):
-                    #break out of row loop
+                    # break out of row loop
                     break
                 if next_meal(string, cur_meal):
                     cur_meal += 1
@@ -113,5 +126,3 @@ def get_meals(rows):
                 text = row_heading + ":\n" + string
                 mealsByDay[day][cur_meal].append(text)
     return mealsByDay
-
-                

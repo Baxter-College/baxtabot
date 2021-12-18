@@ -10,6 +10,7 @@ from bot.Response import (
     Reply,
 )
 
+
 def handle_postback(sender_psid, webhook_event):
     try:
         return message.handlePostback(
@@ -19,6 +20,7 @@ def handle_postback(sender_psid, webhook_event):
         )
     except KeyError:
         return message.handlePostback(sender_psid, webhook_event["postback"], None)
+
 
 def handle_message(sender_psid, webhook_event):
     if (
@@ -40,6 +42,7 @@ def handle_message(sender_psid, webhook_event):
         text=f"I can't deal with whatever shit you just sent me. Go complain to {OFFICERS} about it",
     ).send()
 
+
 def handle_post(request):
     print("SOMEONE SENT MESSAGE!")
     body = request.json
@@ -59,7 +62,7 @@ def handle_post(request):
 
             sender = message.check_user_exists(sender_psid)
             if not sender:
-                ### error happened and we could not resolve the identity of the sender
+                # error happened and we could not resolve the identity of the sender
                 return ""
 
             if sender.conversation and "message" in webhook_event:
@@ -81,6 +84,7 @@ def handle_post(request):
         print("Something went shit")
         return "Not Okay"
 
+
 def handle_get(request):
     print("SOMEONE IS REQUESTING TOKEN")
     mode = request.args.get("hub.mode")
@@ -96,6 +100,7 @@ def handle_get(request):
             return challenge
         print("403 WEBHOOK NOT VERIFIED")
         return "403"
+
 
 def process(request):
     if request.method == "POST":

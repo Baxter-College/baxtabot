@@ -68,6 +68,7 @@ def get_jd(rs, args):
         return "J&D is ON" + jd_desc
     return "J&D is OFF 😭 😭 😭"
 
+
 def set_shop(rs, switch):
 
     if switch[0].lower() == "on":
@@ -82,6 +83,7 @@ def get_shop(rs, args):
     shop = bot.get_variable("shop")
 
     return "Shopen!!!" if shop else "Shclosed 😭"
+
 
 celery = Celery('bot', broker=BROKER_URL)
 
@@ -102,6 +104,8 @@ bot.set_subroutine("get_shop", get_shop)
 # bot.set_subroutine("get_hashbrowns", functions.get_hashbrowns)
 
 # ==== message handling ==== #
+
+
 def groupMessage(psids, text):
     '''
     Sends a message to a group of people
@@ -114,9 +118,10 @@ def groupMessage(psids, text):
         except requests.exceptions.ReadTimeout:
             pass
 
+
 @celery.task(bind=True)
-def celeryTest(self): # pylint: disable=unused-argument
-    ## What does this code do?? NP
+def celeryTest(self):  # pylint: disable=unused-argument
+    # What does this code do?? NP
     print(BROKER_URL)
     print("start celery")
     time.sleep(5)
@@ -124,25 +129,29 @@ def celeryTest(self): # pylint: disable=unused-argument
     return "hi"
 
 # @celery.task(bind=True)
+
+
 def massMessage(text):
     time.sleep(5)
     senders = models.Sender.select()
     psids = [x.psid for x in senders]
     groupMessage(psids, text)
 
+
 def is_dino_message(received_message):
     return ("dinner" in received_message
-    or "lunch" in received_message
-    or "breakfast" in received_message
-    or "what's dino" in received_message
-    or "what’s dino" in received_message
-    or "what is dino" in received_message
-    or "what's for dino" in received_message
-    or "for dino" in received_message
-    or "whats dino" in received_message
-    or "dino" in received_message) and (
+            or "lunch" in received_message
+            or "breakfast" in received_message
+            or "what's dino" in received_message
+            or "what’s dino" in received_message
+            or "what is dino" in received_message
+            or "what's for dino" in received_message
+            or "for dino" in received_message
+            or "whats dino" in received_message
+            or "dino" in received_message) and (
         'late meal' not in received_message
     ) and ('time' not in received_message)
+
 
 def handle_dino_message(sender_psid, response, received_message):
     '''
@@ -178,17 +187,21 @@ def handle_dino_message(sender_psid, response, received_message):
         response.add_reply(Reply("Add Image", payload="DINOIMAGE"))
         response.add_reply(Reply("Whats dino like?"))
         response.add_reply(Reply("Dinovote"))
-        response.add_button(URLButton('Dino Feedback Form!', 'https://forms.office.com/Pages/ResponsePage.aspx?id=pM_2PxXn20i44Qhnufn7o91DYUQ6lW9MsGLk8aV9AgNUNEJUWlVMOUNFUlRFNk1CSkFIQVJDMEFYTi4u&qrcode=true'))
+        response.add_button(URLButton(
+            'Dino Feedback Form!', 'https://forms.office.com/Pages/ResponsePage.aspx?id=pM_2PxXn20i44Qhnufn7o91DYUQ6lW9MsGLk8aV9AgNUNEJUWlVMOUNFUlRFNk1CSkFIQVJDMEFYTi4u&qrcode=true'))
 
         send_dinoimages(sender_psid, theMeal)
 
     return text
+
 
 def handle_dinowrong_message(sender_psid, response):
     response.add_reply(Reply('Dino is wrong?', payload='DINOWRONG'))
     return 'Oh no! Is the dino menu wrong??'
 
 # Sends own response
+
+
 def handle_dinopoll_message(response):
     '''
     Responds to request to poll for dino
@@ -200,6 +213,8 @@ def handle_dinopoll_message(response):
     return functions.dinoPoll()
 
 # Sends own response + returns response
+
+
 def handle_calendar_message(sender_psid):
     '''
     Sends the calendar
@@ -215,7 +230,7 @@ def handle_calendar_message(sender_psid):
     if eventAsset:
         Response(sender_psid, image=eventAsset).send()
         return "Here is this week's calendar!"
-    text="I couldn't send the weekly calendar! Please update me!!"
+    text = "I couldn't send the weekly calendar! Please update me!!"
     groupMessage(OFFICER_PSIDS, text)
 
     return "Here is this week's calendar!"
@@ -236,6 +251,8 @@ def handle_dinovote_message(response):
     return "What was dino like this time?"
 
 # Sends own response
+
+
 def send_dinoimages(sender_psid, meal):
     if meal.images:
         # image = random.choice([image for image in meal.images])
@@ -246,6 +263,8 @@ def send_dinoimages(sender_psid, meal):
         Response(sender_psid, "No snazzy pics :(").send()
 
 # Returns text
+
+
 def handle_latemeal_message(sender_psid, received_message):
     '''
     Orders a late dino
@@ -256,10 +275,12 @@ def handle_latemeal_message(sender_psid, received_message):
     try:
         meal, date = functions.orderLateMeal(received_message, sender_psid)
         return f'Late meal ordered for {meal} on {date}!'
-    except Exception as excp: # pylint: disable=broad-except
+    except Exception as excp:  # pylint: disable=broad-except
         return 'Uh oh! Something went wrong: ' + str(excp)
 
 # Returns text
+
+
 def handle_getroom_message(sender_psid, received_message):
     '''
     Handles a message asking for a room
@@ -271,15 +292,17 @@ def handle_getroom_message(sender_psid, received_message):
 
     try:
         functions.getRessieBySender(sender_psid)
-    except Exception as excp: # pylint: disable=broad-except
+    except Exception as excp:  # pylint: disable=broad-except
         return (f'{excp} Sorry, we don\'t have you down as a resident of Baxter. ' +
-        'If you think there\'s a mistake then contact Nick!')
+                'If you think there\'s a mistake then contact Nick!')
     else:
         name = functions.extractName(received_message)
         print('name is', name)
         return functions.getRoomNumber(name)
 
 # Sends own response
+
+
 def handle_crushlist_message(sender_psid, response):
     '''
     Handles message to ask for crushlist
@@ -293,7 +316,7 @@ def handle_crushlist_message(sender_psid, response):
     '''
     me = models.Sender.select().where(models.Sender.psid == sender_psid).get()
 
-    if not len(me.crushes): # pylint: disable=len-as-condition
+    if not len(me.crushes):  # pylint: disable=len-as-condition
         text = "You have no crushes"
     else:
         crushList = "Your crush list:\n"
@@ -306,11 +329,13 @@ def handle_crushlist_message(sender_psid, response):
     return text
 
 # pylint: disable=too-many-branches
+
+
 def handleMessage(sender_psid, received_message):
     """
-	Handles a plain message request and determines what to do with it
-	By word matching the content and sender_psid
-	"""
+        Handles a plain message request and determines what to do with it
+        By word matching the content and sender_psid
+        """
 
     received_message = received_message.lower()
     response = Response(sender_psid)
@@ -349,7 +374,8 @@ def handleMessage(sender_psid, received_message):
     ):
         response.text = handle_dinovote_message(response)
     elif is_dino_message(received_message):
-        response.text = handle_dino_message(sender_psid, response, received_message)
+        response.text = handle_dino_message(
+            sender_psid, response, received_message)
         # Response(sender_psid, text='Arc Board elections are currently underway. If you want someone to vote for, Nick Patrikeos who helps maintain me is running. Type "arc board" for more info!').send()
     elif "snazzy pic" in received_message:
 
@@ -389,9 +415,9 @@ def handleMessage(sender_psid, received_message):
 
 def handlePostback(sender_psid, received_postback, msg):
     """
-	Handles a postback request to the webhook and determines what
-	functionality / response to call
-	"""
+        Handles a postback request to the webhook and determines what
+        functionality / response to call
+        """
     payload = received_postback["payload"]
 
     print("RECEIVED POSTBACK: ", received_postback)
@@ -429,6 +455,7 @@ def handlePostback(sender_psid, received_postback, msg):
     response.send()
     return "OK"
 
+
 def handle_dinowrong(sender_psid, received_message, me):
     print('The dino menu is wrong, should be', received_message)
     meal = functions.getCurrentDino()
@@ -452,7 +479,8 @@ def handle_addcrush(sender_psid, received_message, me):
         return "OK"
 
     msg_text = received_message['text']
-    _, confidence, myCrush = models.Sender.fuzzySearch(msg_text) # pylint: disable=unused-variable
+    _, confidence, myCrush = models.Sender.fuzzySearch(
+        msg_text)  # pylint: disable=unused-variable
 
     me.add_crush(myCrush)
 
@@ -463,16 +491,18 @@ def handle_addcrush(sender_psid, received_message, me):
     if int(sender_psid) in [crush.crushee.psid for crush in myCrush.crushes]:
         # You are the crush of your crush. It's a match!
         msg = (f"Congrats! {myCrush.full_name} is crushing on you!" +
-                " Matchmaker Baxtabot is here to match! You now have a date at" +
-                f" {random.choice(DATE_LOCATIONS)} at {random.choice(range(1, 6))}pm tomorrow." +
-                " Clear you calendar - this is your chance 😉😘😜")
+               " Matchmaker Baxtabot is here to match! You now have a date at" +
+               f" {random.choice(DATE_LOCATIONS)} at {random.choice(range(1, 6))}pm tomorrow." +
+               " Clear you calendar - this is your chance 😉😘😜")
         Response(sender_psid, msg).send()
         Response(myCrush.psid, msg).send()
     return 'OK'
 
+
 def handle_removecrush(sender_psid, received_message, me):
     msg_text = received_message['text']
-    _, confidence, myCrush = models.Sender.fuzzySearch(msg_text) # pylint: disable=unused-variable
+    _, confidence, myCrush = models.Sender.fuzzySearch(
+        msg_text)  # pylint: disable=unused-variable
 
     for aCrush in me.crushes:
         if aCrush.crushee.psid == myCrush.psid:
@@ -482,6 +512,7 @@ def handle_removecrush(sender_psid, received_message, me):
             aCrush.delete_instance()
 
     Response(sender_psid, "Done!").send()
+
 
 def handle_dinoimage(sender_psid, received_message):
     if "attachments" in received_message and received_message["attachments"][0]:
@@ -533,9 +564,9 @@ def start_conversation(sender_psid, conversation):
 
 def sendBubbles(sender_psid):
     """
-	Sends bubbles to sender
-	TODO: Include timing so bubbles don't hang around for ages
-	"""
+        Sends bubbles to sender
+        TODO: Include timing so bubbles don't hang around for ages
+        """
 
     r = requests.post(
         "https://graph.facebook.com/v2.6/me/messages",
@@ -548,6 +579,7 @@ def sendBubbles(sender_psid):
 
     print("It's all gone to shit! -> ", r.status_code)
     return "It's all gone to shit", r.status_code
+
 
 # pylint: disable=pointless-string-statement
 '''
@@ -569,6 +601,8 @@ def sendAsset(sender_psid, assetID, type):
 # ====== User functionality ===== #
 
 # TODO: move these into functions module
+
+
 def check_user_exists(sender_psid):
     print("check_user_exists")
     sender = models.Sender.select().where(models.Sender.psid == sender_psid)
@@ -581,7 +615,8 @@ def check_user_exists(sender_psid):
     # Link them to the Ressie table if they are a Ressie
     name = data['first_name'] + ' ' + data['last_name']
     try:
-        _, confidence, ressie = models.Ressie.fuzzySearch(name) # pylint: disable=unused-variable
+        _, confidence, ressie = models.Ressie.fuzzySearch(
+            name)  # pylint: disable=unused-variable
         if confidence <= 70:
             raise Exception
 
@@ -591,7 +626,7 @@ def check_user_exists(sender_psid):
             ressie.facebook_psid = sender_psid
             ressie.save()
         '''
-    except Exception as excp: # pylint: disable=broad-except
+    except Exception as excp:  # pylint: disable=broad-except
         print(Exception, excp)
         traceback.print_exc()
 
@@ -619,7 +654,8 @@ def check_user_exists(sender_psid):
 
         bot.set_uservars(
             str(sender_psid),
-            {"first_name": data["first_name"], "last_name": data["first_name"]},
+            {"first_name": data["first_name"],
+                "last_name": data["first_name"]},
         )
 
     else:
@@ -646,8 +682,11 @@ def check_user_exists(sender_psid):
     return sender
 
 # ==== Reset Bot ==== #
+
+
 def resetBot():
     # Ensure that we are not doing J&D
-    bot.set_variable("jd", None)  # setting to none == delete the variable from bot
+    # setting to none == delete the variable from bot
+    bot.set_variable("jd", None)
     bot.set_variable("jd_loc", None)
     bot.set_variable("shop", None)
