@@ -31,15 +31,14 @@ def handle_message(sender_psid, webhook_event):
             webhook_event["message"]["quick_reply"],
             webhook_event["message"]["text"],
         )
-    elif "text" in webhook_event["message"]:
+    if "text" in webhook_event["message"]:
         return message.handleMessage(
             sender_psid, webhook_event["message"]["text"]
         )
-    else:
-        return Response(
-            sender_psid,
-            text=f"I can't deal with whatever shit you just sent me. Go complain to {OFFICERS} about it",
-        ).send()
+    return Response(
+        sender_psid,
+        text=f"I can't deal with whatever shit you just sent me. Go complain to {OFFICERS} about it",
+    ).send()
 
 def handle_post(request):
     print("SOMEONE SENT MESSAGE!")
@@ -70,13 +69,12 @@ def handle_post(request):
 
             if "postback" in webhook_event:
                 return handle_postback(sender_psid, webhook_event)
-            elif "message" in webhook_event:
+            if "message" in webhook_event:
                 return handle_message(sender_psid, webhook_event)
-            else:
-                return Response(
-                    sender_psid,
-                    text=f"I can't deal with whatever shit you just sent me. Go complain to {OFFICERS} about it",
-                ).send()
+            return Response(
+                sender_psid,
+                text=f"I can't deal with whatever shit you just sent me. Go complain to {OFFICERS} about it",
+            ).send()
 
     else:
         # send error
@@ -96,16 +94,12 @@ def handle_get(request):
             # respond with the challenge token from the request
             print("WEBHOOK VERIFIED")
             return challenge
-
-        else:
-            print("403 WEBHOOK NOT VERIFIED")
-            return "403"
-            # send 403 error
+        print("403 WEBHOOK NOT VERIFIED")
+        return "403"
 
 def process(request):
     if request.method == "POST":
         return handle_post(request)
-    elif request.method == "GET":
+    if request.method == "GET":
         return handle_get(request)
-    else:
-        print("Someone decided to be an idiot.")
+    print("Someone decided to be an idiot.")

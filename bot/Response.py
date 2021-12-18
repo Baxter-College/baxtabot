@@ -115,8 +115,7 @@ class Response:
 
         if r.status_code == 200:
             return "OK"
-        else:
-            return "NOT OKAY"
+        return "NOT OKAY"
 
 
 class Reply:
