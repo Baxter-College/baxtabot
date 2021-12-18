@@ -49,10 +49,9 @@ def set_jd(rs, switch):
         bot.set_variable("jd", True)
         # jd = True
         return "COFFEE TIME!!! ☕️\nJ&D is ON" + jd_desc
-    else:
-        bot.set_variable("jd", None)
-        bot.set_variable("jd_loc", None)
-        return "No more coff! 😭"
+    bot.set_variable("jd", None)
+    bot.set_variable("jd_loc", None)
+    return "No more coff! 😭"
 
 
 def get_jd(rs, args):
@@ -67,17 +66,15 @@ def get_jd(rs, args):
 
     if jd:
         return "J&D is ON" + jd_desc
-    else:
-        return "J&D is OFF 😭 😭 😭"
+    return "J&D is OFF 😭 😭 😭"
 
 def set_shop(rs, switch):
 
     if switch[0].lower() == "on":
         bot.set_variable("shop", True)
         return "Shopen!"
-    else:
-        bot.set_variable("shop", None)
-        return "Shclosed 😭"
+    bot.set_variable("shop", None)
+    return "Shclosed 😭"
 
 
 def get_shop(rs, args):

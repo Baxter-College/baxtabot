@@ -335,9 +335,8 @@ def uploadAsset(assetUrl):
 
     if r.status_code == 200:
         return r.json()
-    else:
-        print("Asset Upload has gone to shit -> ", r.status_code)
-        return None
+    print("Asset Upload has gone to shit -> ", r.status_code)
+    return None
 
 
 # ===== Hashbrowns ===== #
@@ -348,17 +347,15 @@ def set_hashbrowns(rs, switch):
     if switch[0].lower() == 'on':
         message.bot.set_variable('hashbrowns', True)
         return "OMG best news ever! 😃 Your friends will arrive shortly..."
-    else:
-        message.bot.set_variable('hashbrowns', None)
-        return "N-n-n-noooooooo! 😭 Enjoy a lonely Dino, knowing you took one for the team..."
+    message.bot.set_variable('hashbrowns', None)
+    return "N-n-n-noooooooo! 😭 Enjoy a lonely Dino, knowing you took one for the team..."
 
 def get_hashbrowns(rs, args):
 
     if (message.bot.get_variable('hashbrownsday') == datetime.date.today()):
         hashbrowns = message.bot.get_variable('hashbrowns')
         return "Get out of bed! HASHBROWNS TODAY!!! 🥔🥔🎊🎉🎊🎉" if hashbrowns else "Bad news: no hashbrowns... stay in bed 😔"
-    else:
-        return "Nobody's been game to find out yet 🤔 Type 'sethashbrowns on' or 'sethashbrowns off' if you happen to get out of bed"
+    return "Nobody's been game to find out yet 🤔 Type 'sethashbrowns on' or 'sethashbrowns off' if you happen to get out of bed"
 
 
 # ===== Week Events ===== #
@@ -452,11 +449,10 @@ def humanisePSID(PSID):
         data = r.json()
         print("Worked!")
         return data
-    else:
-        print("response")
-        print(r.content)
-        print(r.status_code)
-        print("FUCKED! PSID was: {}".format(str(PSID)))
+    print("response")
+    print(r.content)
+    print(r.status_code)
+    print("FUCKED! PSID was: {}".format(str(PSID)))
 
 def createRessie(first_name, last_name, room_number):
     models.Ressie.create(
@@ -477,17 +473,17 @@ def validateTokenPermissions(token, page):
 
     if page == 'dinoread' and userperms['dinoread']:
         return True
-    elif page == 'dinowrite' and userperms['dinowrite']:
+    if page == 'dinowrite' and userperms['dinowrite']:
         return True
-    elif page == 'ressies' and userperms['ressies']:
+    if page == 'ressies' and userperms['ressies']:
         return True
-    elif page == 'calendar' and userperms['calendar']:
+    if page == 'calendar' and userperms['calendar']:
         return True
-    elif page == 'sport' and userperms['sport']:
+    if page == 'sport' and userperms['sport']:
         return True
-    elif page == 'latemeals' and userperms['latemeals']:
+    if page == 'latemeals' and userperms['latemeals']:
         return True
-    elif page == 'users' and userperms['users']:
+    if page == 'users' and userperms['users']:
         return True
 
     return False
