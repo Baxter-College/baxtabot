@@ -130,5 +130,3 @@ To add a test user, go to: developers.facebook.com/requests
 - see todo.md
 - would like to implement a smarter dialog system (possibly actual machine learning rather than pattern matching?) (dialogflow??)
 - some other ideas: - integrate vac trac - When is the bus leaving?
-
-
