@@ -11,6 +11,7 @@ Contributors: Tom Hill, Rohan Maloney, Nick Patrikeos
 import secrets
 import re
 import argparse
+import os
 
 # from binascii import unhexlify
 # from Crypto.Hash import SHA256
@@ -500,4 +501,5 @@ if __name__ == "__main__":
             msg = str(input("> ")) # pylint: disable=invalid-name
             print("BAXTABOT: ", message.handleMessage("cmd", msg)["message"]["text"])
     else:
+        os.system('NEW_RELIC_CONFIG_FILE=newrelic.ini newrelic-admin run-program')
         app.run(debug=DEBUG, port=PORT, host="0.0.0.0")

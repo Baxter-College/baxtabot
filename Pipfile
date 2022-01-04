@@ -32,6 +32,7 @@ redis = "*"
 celery = "*"
 python-docx = "*"
 yagmail = '*'
+newrelic = "==7.2.4.171"
 
 [dev-packages]
 rope = "*"
